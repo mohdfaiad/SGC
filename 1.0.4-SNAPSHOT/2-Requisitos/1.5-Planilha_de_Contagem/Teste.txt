@@ -1,0 +1,20 @@
+Realizar Rateio
+Lançamentos Contabeis
+Parametros DRE
+Parametros Fcx
+
+-Contagem
+
+Cidade
+Estado
+País
+
+Natureza J.
+CNAE
+
+Busca Cep aie
+consulta
+Busca CNPJ aie
+consulta
+
+
