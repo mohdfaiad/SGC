@@ -1,0 +1,110 @@
+unit Ulogin;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, UBase, Vcl.StdCtrls, Vcl.Buttons,
+  Vcl.Imaging.jpeg, Vcl.ExtCtrls, UDataModule;
+
+type
+  TFLogin = class(TFBase)
+    Image1: TImage;
+    Label1: TLabel;
+    EditLogin: TEdit;
+    EditSenha: TEdit;
+    Label2: TLabel;
+    BotaoCancela: TBitBtn;
+    BotaoConfirma: TBitBtn;
+
+    procedure BotaoCancelaClick(Sender: TObject);
+    procedure BotaoConfirmaClick(Sender: TObject);
+
+    procedure FormShow(Sender: TObject);
+    procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
+    procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+
+
+  private
+    { Private declarations }
+    function DoLogin: Boolean;
+
+
+  public
+    { Public declarations }
+    Logado: Boolean;
+
+  end;
+
+var
+  FLogin: TFLogin;
+
+implementation
+
+{$R *.dfm}
+
+
+procedure TFLogin.BotaoCancelaClick(Sender: TObject);
+begin
+  Application.Terminate;
+end;
+
+procedure TFLogin.BotaoConfirmaClick(Sender: TObject);
+begin
+  try
+    if DoLogin then
+    begin
+      Logado := True;
+      Close;
+    end
+    else
+    begin
+      Application.MessageBox('Não foi possível realizar login.', 'Atenção', MB_OK + MB_ICONWARNING);
+    end;
+  except
+  end;
+end;
+
+function TFLogin.DoLogin: Boolean;
+begin
+  Result:=False;
+  try
+    DMServer.ConectaBco(True,EditLogin.Text,EditSenha.Text,'servidor.cfg');
+    Result:=True;
+  except on e: Exception do begin
+    Result:=False;
+    ShowMessage('Login e Senha Incorretos!');
+    end;
+  end;
+end;
+
+procedure TFLogin.FormCloseQuery(Sender: TObject; var CanClose: Boolean);
+begin
+
+  inherited;
+
+  CanClose := Logado;
+
+end;
+
+procedure TFLogin.FormKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  inherited;
+  if Key = VK_F11 then
+    BotaoCancela.Click;
+  if Key = VK_F12 then
+    BotaoConfirma.Click;
+
+end;
+
+procedure TFLogin.FormShow(Sender: TObject);
+begin
+  inherited;
+  Logado := False;
+  EditLogin.SetFocus;
+  CustomKeyPreview := True;
+
+end;
+
+end.

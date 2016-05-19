@@ -1,0 +1,122 @@
+unit ConexaoBD;
+
+interface
+
+uses Classes, SQLExpr, WideStrings, DB, SysUtils, DBXFirebird,
+     IWSystem, Inifiles;
+
+type
+
+  TDBExpress = class(TSQLConnection)
+  private
+    class var Banco: String;
+    class var Conexao: TSQLConnection;
+    class procedure ConfigurarConexao(var pConexao: TSQLConnection; pBD: String);
+  public
+    class procedure Conectar(BD: String);
+    class procedure Desconectar;
+    class function getConexao: TSQLConnection;
+    class function getBanco: String;
+  end;
+
+implementation
+
+class procedure TDBExpress.Conectar(BD: String);
+begin
+  Conexao := TSQLConnection.Create(nil);
+  ConfigurarConexao(Conexao, BD);
+  Conexao.KeepConnection := True;
+  Conexao.AutoClone := False;
+  Conexao.Connected := True;
+  Banco := BD;
+end;
+
+class procedure TDBExpress.Desconectar;
+begin
+  Conexao.Connected := False;
+end;
+
+class function TDBExpress.getBanco: String;
+begin
+  Result := Banco;
+end;
+
+class function TDBExpress.getConexao: TSQLConnection;
+begin
+  Result := Conexao;
+end;
+
+class procedure TDBExpress.ConfigurarConexao(var pConexao: TSQLConnection; pBD: String);
+var
+  Arquivo: String;
+  Parametros: TStrings;
+  ArqIni : TIniFile;
+  drivername:string;
+begin
+      //Carrega valores para conexão com banco de dados
+      Conexao.Connected := false;
+      Conexao.LoginPrompt := false;
+      Conexao.ParamsLoaded := True;
+      Conexao.DriverName := 'PostgreSQL';
+      Conexao.GetDriverFunc := 'getSQLDriverMYSQL50';
+      Conexao.LibraryName := 'dbxopenmysql50.dll';
+      Conexao.VendorLib := 'libmysql.dll';
+      Conexao.Params.Clear;
+      Conexao.Params.Add('servercharset=utf8');
+      Conexao.Params.Add('hostname=localhost');
+      Conexao.Params.Add('user_name=mysql');
+      Conexao.Params.Add('password=mysql');
+      Conexao.Params.Add('Database=SGC');
+
+  {ArqIni := TIniFile.Create('config.ini');
+  try
+    try
+      //Carrega valores para conexão com banco de dados
+      Conexao.Connected := false;
+      Conexao.LoginPrompt := false;
+      Conexao.ParamsLoaded := True;
+      drivername:= ArqIni.ReadString('CFG', 'drivername', '');
+      Conexao.DriverName := ArqIni.ReadString('CFG', 'drivername', '');
+      Conexao.GetDriverFunc := ArqIni.ReadString('CFG', 'GetDriveFunc', '');
+      //Conexao.LibraryName := ArqIni.ReadString('cfg', 'LibraryName', '');
+      //Conexao.VendorLib := ArqIni.ReadString('cfg', 'VendorLib', '');
+      Conexao.Params.Clear;
+      Conexao.Params.Add('servercharset='+ ArqIni.ReadString('CFG', 'charset', ''));
+      Conexao.Params.Add('hostname='+ ArqIni.ReadString('CFG', 'Hostname', ''));
+      Conexao.Params.Add('user_name='+ ArqIni.ReadString('CFG', 'user_name', ''));
+      Conexao.Params.Add('password='+ ArqIni.ReadString('CFG', 'Password', ''));
+      Conexao.Params.Add('port='+ IntToStr(ArqIni.ReadInteger('CFG', 'Port', 0)));
+      Conexao.Params.Add('Database='+ ArqIni.ReadString('CFG', 'Database', ''));
+      Except on E:Exception do
+        raise Exception('Erro ao carregar os parametros da conexão!' +#13#10 + E.Message);
+      end;
+  finally
+    ArqIni.Free;
+  end;  }
+
+{  if pBD = 'Firebird' then
+  begin
+
+    Arquivo := gsAppPath + 'Firebird_DBExpress_conn.txt';
+
+    Conexao.DriverName     := 'Firebird';
+    Conexao.ConnectionName := 'FBConnection';
+    Conexao.GetDriverFunc  := 'getSQLDriverINTERBASE';
+    Conexao.LibraryName    := 'dbxfb.dll';
+    Conexao.VendorLib      := 'fbclient.dll';
+  end;
+
+  //variável para carregar os parametros do banco
+  Parametros := TStringList.Create;
+
+  try
+    Parametros.LoadFromFile(Arquivo);
+    Conexao.Params.Text := Parametros.Text;
+  finally
+    Parametros.Free;
+  end;
+  Conexao.LoginPrompt := False;
+  Conexao.Name := 'Conexao';}
+end;
+
+end.

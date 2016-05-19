@@ -1,0 +1,95 @@
+unit UConexaoBD;
+
+interface
+
+uses Classes, SQLExpr, WideStrings,SysUtils,
+     IWSystem,
+     uADStanIntf, uADStanOption,
+     uADStanError, uADGUIxIntf, uADPhysIntf, uADStanDef, uADStanPool, uADStanAsync,
+     uADPhysManager, Data.DB, uADCompClient, uADPhysIB,
+     uADGUIxFormsWait,uADCompGUIx;
+type
+
+  TFiredac = class(TADConnection)
+
+  ADPhysIBDriverLink: TADPhysIBDriverLink;
+  ADGUIxWaitCursor: TADGUIxWaitCursor;
+
+  private
+    class var Banco: String;
+    class var Conexao: TADConnection;
+    class procedure ConfigurarConexao(var pConexao: TADConnection; pBD: String);
+  public
+    class procedure Conectar(BD: String);
+    class procedure Desconectar;
+    class function getConexao: TADConnection;
+    class function getBanco: String;
+  end;
+
+
+
+implementation
+
+class procedure TFiredac.Conectar(BD: String);
+begin
+  Conexao := TADConnection.Create(nil);
+  ConfigurarConexao(Conexao, BD);
+  Conexao.Connected := True;
+  Banco := BD;
+end;
+
+class procedure TFiredac.Desconectar;
+begin
+  Conexao.Connected := False;
+end;
+
+class function TFiredac.getBanco: String;
+begin
+  Result := Banco;
+end;
+
+class function TFiredac.getConexao: TADConnection;
+begin
+  Result := Conexao;
+end;
+
+class procedure TFiredac.ConfigurarConexao(var pConexao: TADConnection; pBD: String);
+var
+  Arquivo: String;
+  Parametros: TStrings;
+begin
+  if pBD = 'Firebird' then
+  begin
+
+    Arquivo := gsAppPath + 'Firebird_DBExpress_conn.txt';
+
+    Conexao.LoginPrompt:=False;
+    Conexao.Params.Text:='';
+    Conexao.Params.Add('SQLDialect=1');
+    Conexao.Params.Add('Protocol=TCPIP');
+    Conexao.Params.Add('Server='+Servidor);
+    Conexao.Params.Add('DataBase='+NomeBancoDados);
+    Conexao.Params.Add('DriverID=IB');
+    Conexao.Params.Add('User_Name='+Usuario);
+    Conexao.Params.Add('password='+Senha);
+
+    ADPhysIBDriverLink.DriverID:='IB';
+    ADPhysIBDriverLink.VendorLib:='';
+
+
+  end;
+  //variável para carregar os parametros do banco
+
+  Parametros := TStringList.Create;
+
+  try
+    Parametros.LoadFromFile(Arquivo);
+    Conexao.Params.Text := Parametros.Text;
+  finally
+    Parametros.Free;
+  end;
+
+
+  Conexao.Name := 'Conexao';
+end;
+end.

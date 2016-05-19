@@ -1,0 +1,166 @@
+unit PessoasVO;
+
+interface
+
+uses  Atributos, Classes, Constantes, Generics.Collections, SysUtils, UGenericVO;
+
+type
+  [TEntity]
+  [TTable('PESSOAS')]
+  TPessoasVO = class(TGenericVO)
+  private
+    FCODIGO: Integer;
+    FNOME: String;
+    FCNPJCPF: String;
+    FIE: String;
+    FIM: String;
+    FSUFRAMA: String;
+    FCODMUNICIPIO: String;
+    FCODPAIS: String;
+    FDSPAIS: String;
+    FNATRETSPED: String;
+    FENDERECO: String;
+    FNUMERO: String;
+    FCOMPLEMENTO: String;
+    FBAIRRO: String;
+    FCIDADE: String;
+    FCEP: String;
+    FUF: String;
+    FDDD: String;
+    FTELEFONE: String;
+    FCELULAR: String;
+    FFAX: String;
+    FEMAIL: String;
+    FHOMEPAGE: String;
+    FFANTASIA: String;
+    FCONTATO: String;
+    FDATAL: TDateTime;
+    FUSUARIO: String;
+    FSEQUENCIALCONDICAOPGTO: Extended;
+    FTIPO: String;
+    FCODIGOINTERNO: String;
+    FTABELAPRECO: String;
+    FRG: String;
+    FBLOQUEIAVENDA: String;
+    FLIMITECREDITO: Extended;
+    FCODIGOVENDEDORFIXO: Integer;
+    FREVCONS: String;
+    FENVIAEMAIL: String;
+    FFLENDCOBRANCADIFERENCIADA: String;
+    FENDERECOCOBRANCA: String;
+    FNUMEROCOBRANCA: String;
+    FCOMPLEMENTOCOBRANCA: String;
+    FBAIRROCOBRANCA: String;
+    FCEPCOBRANCA: String;
+    FCODMUNICIPIOCOBRANCA: String;
+    FCIDADECOBRANCA: String;
+    FUFCOBRANCA: String;
+
+  public
+    [TId('CODIGO')]
+    [TGeneratedValue(sAuto)]
+    property Codigo: Integer  read FCODIGO write FCODIGO;
+    [TColumn('NOME','Nome',450,[ldGrid, ldLookup, ldCombobox], False)]
+    property Nome: String  read FNOME write FNOME;
+    [TColumn('CNPJCPF','Cnpjcpf',112,[ldGrid, ldLookup, ldCombobox], False)]
+    property Cnpjcpf: String  read FCNPJCPF write FCNPJCPF;
+    [TColumn('IE','Ie',112,[ldGrid, ldLookup, ldCombobox], False)]
+    property Ie: String  read FIE write FIE;
+    [TColumn('IM','Im',112,[ldGrid, ldLookup, ldCombobox], False)]
+    property Im: String  read FIM write FIM;
+    [TColumn('SUFRAMA','Suframa',72,[ldGrid, ldLookup, ldCombobox], False)]
+    property Suframa: String  read FSUFRAMA write FSUFRAMA;
+    [TColumn('CODMUNICIPIO','Codmunicipio',56,[ldGrid, ldLookup, ldCombobox], False)]
+    property Codmunicipio: String  read FCODMUNICIPIO write FCODMUNICIPIO;
+    [TColumn('CODPAIS','Codpais',40,[ldGrid, ldLookup, ldCombobox], False)]
+    property Codpais: String  read FCODPAIS write FCODPAIS;
+    [TColumn('DSPAIS','Dspais',450,[ldGrid, ldLookup, ldCombobox], False)]
+    property Dspais: String  read FDSPAIS write FDSPAIS;
+    [TColumn('NATRETSPED','Natretsped',16,[ldGrid, ldLookup, ldCombobox], False)]
+    property Natretsped: String  read FNATRETSPED write FNATRETSPED;
+    [TColumn('ENDERECO','Endereco',450,[ldGrid, ldLookup, ldCombobox], False)]
+    property Endereco: String  read FENDERECO write FENDERECO;
+    [TColumn('NUMERO','Numero',80,[ldGrid, ldLookup, ldCombobox], False)]
+    property Numero: String  read FNUMERO write FNUMERO;
+    [TColumn('COMPLEMENTO','Complemento',450,[ldGrid, ldLookup, ldCombobox], False)]
+    property Complemento: String  read FCOMPLEMENTO write FCOMPLEMENTO;
+    [TColumn('BAIRRO','Bairro',450,[ldGrid, ldLookup, ldCombobox], False)]
+    property Bairro: String  read FBAIRRO write FBAIRRO;
+    [TColumn('CIDADE','Cidade',450,[ldGrid, ldLookup, ldCombobox], False)]
+    property Cidade: String  read FCIDADE write FCIDADE;
+    [TColumn('CEP','Cep',64,[ldGrid, ldLookup, ldCombobox], False)]
+    [TFormatter(ftCep, taLeftJustify)]
+    property Cep: String  read FCEP write FCEP;
+    [TColumn('UF','Uf',16,[ldGrid, ldLookup, ldCombobox], False)]
+    property Uf: String  read FUF write FUF;
+    [TColumn('DDD','Ddd',24,[ldGrid, ldLookup, ldCombobox], False)]
+    property Ddd: String  read FDDD write FDDD;
+    [TColumn('TELEFONE','Telefone',64,[ldGrid, ldLookup, ldCombobox], False)]
+    [TFormatter(ftTelefone, taLeftJustify)]
+    property Telefone: String  read FTELEFONE write FTELEFONE;
+    [TColumn('CELULAR','Celular',64,[ldGrid, ldLookup, ldCombobox], False)]
+    [TFormatter(ftTelefone, taLeftJustify)]
+    property Celular: String  read FCELULAR write FCELULAR;
+    [TColumn('FAX','Fax',64,[ldGrid, ldLookup, ldCombobox], False)]
+    [TFormatter(ftTelefone, taLeftJustify)]
+    property Fax: String  read FFAX write FFAX;
+    [TColumn('EMAIL','Email',450,[ldGrid, ldLookup, ldCombobox], False)]
+    property Email: String  read FEMAIL write FEMAIL;
+    [TColumn('HOMEPAGE','Homepage',320,[ldGrid, ldLookup, ldCombobox], False)]
+    property Homepage: String  read FHOMEPAGE write FHOMEPAGE;
+    [TColumn('FANTASIA','Fantasia',450,[ldGrid, ldLookup, ldCombobox], False)]
+    property Fantasia: String  read FFANTASIA write FFANTASIA;
+    [TColumn('CONTATO','Contato',450,[ldGrid, ldLookup, ldCombobox], False)]
+    property Contato: String  read FCONTATO write FCONTATO;
+    [TColumn('DATAL','Datal',272,[ldGrid, ldLookup, ldCombobox], False)]
+    property Datal: TDateTime  read FDATAL write FDATAL;
+    [TColumn('USUARIO','Usuario',240,[ldGrid, ldLookup, ldCombobox], False)]
+    property Usuario: String  read FUSUARIO write FUSUARIO;
+    [TColumn('SEQUENCIALCONDICAOPGTO','Sequencialcondicaopgto',152,[ldGrid, ldLookup, ldCombobox], False)]
+    [TFormatter(ftFloatComSeparador, taRightJustify)]
+    property Sequencialcondicaopgto: Extended  read FSEQUENCIALCONDICAOPGTO write FSEQUENCIALCONDICAOPGTO;
+    [TColumn('TIPO','Tipo',160,[ldGrid, ldLookup, ldCombobox], False)]
+    property Tipo: String  read FTIPO write FTIPO;
+    [TColumn('CODIGOINTERNO','Codigointerno',160,[ldGrid, ldLookup, ldCombobox], False)]
+    property Codigointerno: String  read FCODIGOINTERNO write FCODIGOINTERNO;
+    [TColumn('TABELAPRECO','Tabelapreco',120,[ldGrid, ldLookup, ldCombobox], False)]
+    property Tabelapreco: String  read FTABELAPRECO write FTABELAPRECO;
+    [TColumn('RG','Rg',120,[ldGrid, ldLookup, ldCombobox], False)]
+    property Rg: String  read FRG write FRG;
+    [TColumn('BLOQUEIAVENDA','Bloqueiavenda',8,[ldGrid, ldLookup, ldCombobox], False)]
+    property Bloqueiavenda: String  read FBLOQUEIAVENDA write FBLOQUEIAVENDA;
+    [TColumn('LIMITECREDITO','Limitecredito',152,[ldGrid, ldLookup, ldCombobox], False)]
+    [TFormatter(ftFloatComSeparador, taRightJustify)]
+    property Limitecredito: Extended  read FLIMITECREDITO write FLIMITECREDITO;
+    [TColumn('CODIGOVENDEDORFIXO','Codigovendedorfixo',80,[ldGrid, ldLookup, ldCombobox], False)]
+    [TFormatter(ftZerosADireita, taCenter)]
+    property Codigovendedorfixo: Integer  read FCODIGOVENDEDORFIXO write FCODIGOVENDEDORFIXO;
+    [TColumn('REVCONS','Revcons',8,[ldGrid, ldLookup, ldCombobox], False)]
+    property Revcons: String  read FREVCONS write FREVCONS;
+    [TColumn('ENVIAEMAIL','Enviaemail',8,[ldGrid, ldLookup, ldCombobox], False)]
+    property Enviaemail: String  read FENVIAEMAIL write FENVIAEMAIL;
+    [TColumn('FLENDCOBRANCADIFERENCIADA','Flendcobrancadiferenciada',8,[ldGrid, ldLookup, ldCombobox], False)]
+    property Flendcobrancadiferenciada: String  read FFLENDCOBRANCADIFERENCIADA write FFLENDCOBRANCADIFERENCIADA;
+    [TColumn('ENDERECOCOBRANCA','Enderecocobranca',450,[ldGrid, ldLookup, ldCombobox], False)]
+    property Enderecocobranca: String  read FENDERECOCOBRANCA write FENDERECOCOBRANCA;
+    [TColumn('NUMEROCOBRANCA','Numerocobranca',80,[ldGrid, ldLookup, ldCombobox], False)]
+    property Numerocobranca: String  read FNUMEROCOBRANCA write FNUMEROCOBRANCA;
+    [TColumn('COMPLEMENTOCOBRANCA','Complementocobranca',450,[ldGrid, ldLookup, ldCombobox], False)]
+    property Complementocobranca: String  read FCOMPLEMENTOCOBRANCA write FCOMPLEMENTOCOBRANCA;
+    [TColumn('BAIRROCOBRANCA','Bairrocobranca',450,[ldGrid, ldLookup, ldCombobox], False)]
+    property Bairrocobranca: String  read FBAIRROCOBRANCA write FBAIRROCOBRANCA;
+    [TColumn('CEPCOBRANCA','Cepcobranca',64,[ldGrid, ldLookup, ldCombobox], False)]
+    property Cepcobranca: String  read FCEPCOBRANCA write FCEPCOBRANCA;
+    [TColumn('CODMUNICIPIOCOBRANCA','Codmunicipiocobranca',56,[ldGrid, ldLookup, ldCombobox], False)]
+    property Codmunicipiocobranca: String  read FCODMUNICIPIOCOBRANCA write FCODMUNICIPIOCOBRANCA;
+    [TColumn('CIDADECOBRANCA','Cidadecobranca',450,[ldGrid, ldLookup, ldCombobox], False)]
+    property Cidadecobranca: String  read FCIDADECOBRANCA write FCIDADECOBRANCA;
+    [TColumn('UFCOBRANCA','Ufcobranca',16,[ldGrid, ldLookup, ldCombobox], False)]
+    property Ufcobranca: String  read FUFCOBRANCA write FUFCOBRANCA;
+
+  end;
+
+implementation
+
+
+end.

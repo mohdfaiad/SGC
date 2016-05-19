@@ -1,0 +1,780 @@
+unit UDAO;
+
+interface
+
+uses Atributos, Rtti, SysUtils, SQLExpr, DBClient, DB, TypInfo, DBXCommon,
+  Classes, Generics.Collections, Contnrs, ConexaoBD;
+
+type
+  TDAO = class
+  private
+    class function FormatarFiltro(pFiltro: String): String;
+    class function ValorPropriedadeObjeto(pObj: TObject; pCampo: String): Integer;
+  public
+    class function Inserir(pObjeto: TObject): Integer;
+    class function Alterar(pObjeto: TObject): Boolean; overload;
+    class function Alterar(pObjeto, pObjetoOld: TObject): Boolean; overload;
+    class function Excluir(pObjeto: TObject): Boolean;
+
+    class function Consultar<T: class>(pFiltro: String; pPagina: Integer; pConsultaCompleta: Boolean): TObjectList<T>; overload;
+    class function Consultar(pObjeto: TObject; pFiltro: String; pPagina: Integer): TDBXReader; overload;
+    class function ConsultarPorId<T:class>(pId: Integer): T; overload;
+    class function ComandoSQL(pConsulta: String): Boolean;
+  end;
+
+
+
+var
+  Conexao: TSQLConnection;
+  Query: TSQLQuery;
+  ConsultaCompleta: Boolean;
+
+  function ExtraiCamposFiltro(pFiltro: String): TStringList;
+
+implementation
+
+uses
+  Constantes, Dialogs, UGenericVO;
+
+{ TDAO }
+
+class function TDAO.FormatarFiltro(pFiltro: String): String;
+begin
+  Result := pFiltro;
+  Result := StringReplace(Result, '*', '%', [rfReplaceAll]);
+  Result := StringReplace(Result, '|', '/', [rfReplaceAll]);
+  Result := StringReplace(Result, '\"', '"', [rfReplaceAll]);
+end;
+
+class function TDAO.ValorPropriedadeObjeto(pObj: TObject; pCampo: String): Integer;
+var
+  Contexto: TRttiContext;
+  Tipo: TRttiType;
+  Atributo: TCustomAttribute;
+  Propriedade: TRttiProperty;
+begin
+  Result := 0;
+  Contexto := TRttiContext.Create;
+  try
+    Tipo := Contexto.GetType(pObj.ClassType);
+
+    for Propriedade in Tipo.GetProperties do
+    begin
+      for Atributo in Propriedade.GetAttributes do
+      begin
+        // se está pesquisando pelo ID
+        if Atributo is TId then
+        begin
+          if (Atributo as TId).NameField = pCampo then
+          begin
+            Result := Propriedade.GetValue(pObj).AsInteger;
+          end;
+        end;
+
+        // se está pesquisando por outro campo
+        if Atributo is TColumn then
+        begin
+          if (Atributo as TColumn).Name = pCampo then
+          begin
+            Result := Propriedade.GetValue(pObj).AsInteger;
+          end;
+        end;
+      end;
+    end;
+  finally
+    Contexto.Free;
+  end;
+end;
+
+class function TDAO.Inserir(pObjeto: TObject): Integer;
+var
+  Contexto: TRttiContext;
+  Tipo: TRttiType;
+  Propriedade: TRttiProperty;
+  Atributo: TCustomAttribute;
+  ConsultaSQL, CamposSQL, ValoresSQL: String;
+  UltimoID: Integer;
+  Tabela: String;
+  NomeTipo: String;
+  CampoId : String;
+begin
+  try
+    Contexto := TRttiContext.Create;
+    Tipo := Contexto.GetType(pObjeto.ClassType);
+
+    // localiza o nome da tabela
+    for Atributo in Tipo.GetAttributes do
+    begin
+      if Atributo is TTable then
+      begin
+        ConsultaSQL := 'INSERT INTO ' + (Atributo as TTable).Name;
+        Tabela := (Atributo as TTable).Name;
+      end;
+    end;
+
+    // preenche os nomes dos campos e valores
+    for Propriedade in Tipo.GetProperties do
+    begin
+      for Atributo in Propriedade.GetAttributes do
+      begin
+
+        if Atributo is TID then begin
+
+          CampoId:=(Atributo as TId).NameField;
+
+          if (Propriedade.GetValue(pObjeto).AsInteger>0) then
+          begin
+            CamposSQL := CamposSQL + (Atributo as TId).NameField + ',';
+            ValoresSQL := ValoresSQL + Propriedade.GetValue(pObjeto).ToString + ',';
+          end;
+
+        end;
+
+        if Atributo is TColumn then
+        begin
+          if not (Atributo as TColumn).Transiente then
+          begin
+            if (Propriedade.PropertyType.TypeKind in [tkInteger, tkInt64]) then
+            begin
+              if (Propriedade.GetValue(pObjeto).AsInteger <> 0) then
+              begin
+                CamposSQL := CamposSQL + (Atributo as TColumn).Name + ',';
+                ValoresSQL := ValoresSQL + Propriedade.GetValue(pObjeto).ToString + ',';
+              end;
+            end
+            else if (Propriedade.PropertyType.TypeKind in [tkString, tkUString]) then
+            begin
+              if (Propriedade.GetValue(pObjeto).AsString <> '') then
+              begin
+                CamposSQL := CamposSQL + (Atributo as TColumn).Name + ',';
+                ValoresSQL := ValoresSQL + QuotedStr(Propriedade.GetValue(pObjeto).ToString) + ',';
+              end;
+            end
+            else if (Propriedade.PropertyType.TypeKind = tkFloat) then
+            begin
+              NomeTipo := LowerCase(Propriedade.PropertyType.Name);
+              if NomeTipo = 'tdatetime' then
+              begin
+                CamposSQL := CamposSQL + (Atributo as TColumn).Name + ',';
+
+                if Propriedade.GetValue(pObjeto).AsExtended > 0 then
+                  ValoresSQL := ValoresSQL + QuotedStr(FormatDateTime('yyyy-mm-dd', Propriedade.GetValue(pObjeto).AsExtended)) + ','
+                else
+                  ValoresSQL := ValoresSQL + 'null,';
+              end
+              else
+              begin
+
+                CamposSQL := CamposSQL + (Atributo as TColumn).Name + ',';
+
+                if Propriedade.GetValue(pObjeto).AsExtended > 0 then
+                  ValoresSQL := ValoresSQL + QuotedStr(FormatFloat('0.00', Propriedade.GetValue(pObjeto).AsExtended)) + ','
+                else
+                  ValoresSQL := ValoresSQL + 'null,';
+
+              end;
+
+            end
+            else
+            begin
+              CamposSQL := CamposSQL + (Atributo as TColumn).Name + ',';
+              ValoresSQL := ValoresSQL + QuotedStr(Propriedade.GetValue(pObjeto).ToString) + ',';
+            end;
+          end;
+        end;
+      end;
+    end;
+
+    // retirando as vírgulas que sobraram no final
+    Delete(CamposSQL, Length(CamposSQL), 1);
+    Delete(ValoresSQL, Length(ValoresSQL), 1);
+
+    ConsultaSQL := ConsultaSQL + '(' + CamposSQL + ') VALUES (' + ValoresSQL + ')';
+
+    if TDBExpress.getBanco = 'Firebird' then
+    begin
+      ConsultaSQL := ConsultaSQL + ' RETURNING '+CampoId;
+    end;
+
+    Query := TSQLQuery.Create(nil);
+    try
+      Query.SQLConnection := TDBExpress.getConexao;
+      Query.sql.Text := ConsultaSQL;
+
+      UltimoID := 0;
+      if TDBExpress.getBanco = 'MySQL' then
+      begin
+        Query.ExecSQL();
+        Query.sql.Text := 'select LAST_INSERT_ID() as id';
+        Query.Open();
+        UltimoID := Query.FieldByName('id').AsInteger;
+      end
+      else if TDBExpress.getBanco = 'Firebird' then
+      begin
+        Query.Open;
+        UltimoID := Query.Fields[0].AsInteger;
+      end
+      else if TDBExpress.getBanco = 'Postgres' then
+      begin
+        Query.ExecSQL();
+        Query.sql.Text := 'select Max(id) as id from ' + Tabela;
+        Query.Open();
+        UltimoID := Query.FieldByName('id').AsInteger;
+      end
+      else if TDBExpress.getBanco = 'MSSQL' then
+      begin
+        Query.ExecSQL();
+        Query.sql.Text := 'select Max(id) as id from ' + Tabela;
+        Query.Open();
+        UltimoID := Query.FieldByName('id').AsInteger;
+      end;
+    finally
+      Query.Close;
+      Query.Free;
+    end;
+
+    Result := UltimoID;
+  finally
+    Contexto.Free;
+  end;
+end;
+
+class function TDAO.Alterar(pObjeto, pObjetoOld: TObject): Boolean;
+var
+  Contexto: TRttiContext;
+  Tipo, TipoOld: TRttiType;
+  Propriedade, PropriedadeOld: TRttiProperty;
+  Atributo, AtributoOld: TCustomAttribute;
+  ConsultaSQL, CamposSQL, FiltroSQL: String;
+  NomeTipo: String;
+  ValorNew, ValorOld: Variant;
+  AchouValorOld: Boolean;
+begin
+  try
+    Contexto := TRttiContext.Create;
+    Tipo := Contexto.GetType(pObjeto.ClassType);
+    TipoOld := Contexto.GetType(pObjetoOld.ClassType);
+
+    // localiza o nome da tabela
+    for Atributo in Tipo.GetAttributes do
+    begin
+      if Atributo is TTable then
+        ConsultaSQL := 'UPDATE ' + (Atributo as TTable).Name + ' SET ';
+    end;
+
+    // preenche os nomes dos campos e filtro
+    for Propriedade in Tipo.GetProperties do
+    begin
+      for Atributo in Propriedade.GetAttributes do
+      begin
+        if Atributo is TColumn then
+        begin
+          if not(Atributo as TColumn).Transiente then
+          begin
+            AchouValorOld := False;
+            ValorNew := Propriedade.GetValue(pObjeto).ToString;
+
+            // Compara os dois VOs e só considera para a consulta os campos que foram alterados
+            for PropriedadeOld in TipoOld.GetProperties do
+            begin
+              for AtributoOld in PropriedadeOld.GetAttributes do
+              begin
+                if AtributoOld is TColumn then
+                begin
+                  if (AtributoOld as TColumn).Name = (Atributo as TColumn).Name then
+                  begin
+                    AchouValorOld := True;
+                    ValorOld := Propriedade.GetValue(pObjetoOld).ToString;
+
+                    // só continua a execução se o valor que subiu em NewVO for diferente do OldVO
+                    if ValorNew <> ValorOld then
+                    begin
+
+                      if (Propriedade.PropertyType.TypeKind in [tkInteger, tkInt64]) then
+                      begin
+                        if (Propriedade.GetValue(pObjeto).AsInteger <> 0) then
+                          CamposSQL := CamposSQL + (Atributo as TColumn).Name + ' = ' + Propriedade.GetValue(pObjeto).ToString + ','
+                        else
+                          CamposSQL := CamposSQL + (Atributo as TColumn).Name + ' = ' + 'null' + ',';
+                      end
+
+                      else if (Propriedade.PropertyType.TypeKind in [tkString, tkUString]) then
+                      begin
+                        if (Propriedade.GetValue(pObjeto).AsString <> '') then
+                          CamposSQL := CamposSQL + (Atributo as TColumn).Name + ' = ' + QuotedStr(Propriedade.GetValue(pObjeto).ToString) + ','
+                        else
+                          CamposSQL := CamposSQL + (Atributo as TColumn).Name + ' = ' + 'null' + ',';
+                      end
+
+                      else if (Propriedade.PropertyType.TypeKind = tkFloat) then
+                      begin
+                        if Propriedade.GetValue(pObjeto).AsExtended > 0 then
+                        begin
+                          NomeTipo := LowerCase(Propriedade.PropertyType.Name);
+                          if NomeTipo = 'tdatetime' then
+                            CamposSQL := CamposSQL + (Atributo as TColumn).Name + ' = ' + QuotedStr(FormatDateTime('yyyy-mm-dd', Propriedade.GetValue(pObjeto).AsExtended)) + ','
+                          else
+                            CamposSQL := CamposSQL + (Atributo as TColumn).Name + ' = ' + QuotedStr(FormatFloat('0.00', Propriedade.GetValue(pObjeto).AsExtended)) + ',';
+                        end
+                        else
+                          CamposSQL := CamposSQL + (Atributo as TColumn).Name + ' = ' + 'null' + ',';
+                      end
+
+                      else if Propriedade.GetValue(pObjeto).ToString <> '' then
+                        CamposSQL := CamposSQL + (Atributo as TColumn).Name + ' = ' + QuotedStr(Propriedade.GetValue(pObjeto).ToString) + ','
+                      else
+                        CamposSQL := CamposSQL + (Atributo as TColumn).Name + ' = ' + 'null' + ',';
+
+                    end;
+                  end;
+                end;
+              end;
+              // Quebra o for, pois já encontrou o valor Old correspondente
+              if AchouValorOld then
+                Break;
+            end;
+
+          end;
+        end
+        else if Atributo is TId then
+          FiltroSQL := ' WHERE ' + (Atributo as TId).NameField + ' = ' + QuotedStr(Propriedade.GetValue(pObjeto).ToString);
+      end;
+    end;
+
+    // retirando as vírgulas que sobraram no final
+    Delete(CamposSQL, Length(CamposSQL), 1);
+
+    ConsultaSQL := ConsultaSQL + CamposSQL + FiltroSQL;
+
+    Conexao := TDBExpress.getConexao;
+    Query := TSQLQuery.Create(nil);
+    Query.SQLConnection := Conexao;
+    Query.sql.Text := ConsultaSQL;
+    Query.ExecSQL();
+
+    Result := True;
+  finally
+    Contexto.Free;
+  end;
+end;
+
+class function TDAO.Alterar(pObjeto: TObject): Boolean;
+var
+  Contexto: TRttiContext;
+  Tipo: TRttiType;
+  Propriedade: TRttiProperty;
+  Atributo: TCustomAttribute;
+  ConsultaSQL, CamposSQL, FiltroSQL: String;
+  NomeTipo: String;
+begin
+  try
+    Contexto := TRttiContext.Create;
+    Tipo := Contexto.GetType(pObjeto.ClassType);
+
+    // localiza o nome da tabela
+    for Atributo in Tipo.GetAttributes do
+    begin
+      if Atributo is TTable then
+        ConsultaSQL := 'UPDATE ' + (Atributo as TTable).Name + ' SET ';
+    end;
+
+    // preenche os nomes dos campos e filtro
+    for Propriedade in Tipo.GetProperties do
+    begin
+      for Atributo in Propriedade.GetAttributes do
+      begin
+        if Atributo is TColumn then
+        begin
+          if not(Atributo as TColumn).Transiente then
+          begin
+            if (Propriedade.PropertyType.TypeKind in [tkInteger, tkInt64]) then
+            begin
+              if (Propriedade.GetValue(pObjeto).AsInteger <> 0) then
+              begin
+                CamposSQL := CamposSQL + (Atributo as TColumn).Name + ' = ' + Propriedade.GetValue(pObjeto).ToString + ','
+              end;
+            end
+            else if (Propriedade.PropertyType.TypeKind in [tkString, tkUString]) then
+            begin
+              if (Propriedade.GetValue(pObjeto).AsString <> '') then
+              begin
+                CamposSQL := CamposSQL + (Atributo as TColumn).Name + ' = ' + QuotedStr(Propriedade.GetValue(pObjeto).ToString) + ','
+              end;
+            end
+            else if (Propriedade.PropertyType.TypeKind = tkFloat) then
+            begin
+              NomeTipo := LowerCase(Propriedade.PropertyType.Name);
+              if NomeTipo = 'tdatetime' then
+              begin
+                if Propriedade.GetValue(pObjeto).AsExtended > 0 then
+                  CamposSQL := CamposSQL + (Atributo as TColumn).Name + ' = ' + QuotedStr(FormatDateTime('yyyy-mm-dd', Propriedade.GetValue(pObjeto).AsExtended)) + ',';
+              end
+              else
+                CamposSQL := CamposSQL + (Atributo as TColumn).Name + ' = ' + QuotedStr(FormatFloat('0.00', Propriedade.GetValue(pObjeto).AsExtended)) + ',';
+            end
+            else if Propriedade.GetValue(pObjeto).ToString <> '' then
+            begin
+              CamposSQL := CamposSQL + (Atributo as TColumn).Name + ' = ' + QuotedStr(Propriedade.GetValue(pObjeto).ToString) + ','
+            end;
+          end;
+        end
+        else if Atributo is TId then
+          FiltroSQL := ' WHERE ' + (Atributo as TId).NameField + ' = ' + QuotedStr(Propriedade.GetValue(pObjeto).ToString);
+      end;
+    end;
+
+    // retirando as vírgulas que sobraram no final
+    Delete(CamposSQL, Length(CamposSQL), 1);
+
+    ConsultaSQL := ConsultaSQL + CamposSQL + FiltroSQL;
+
+    Conexao := TDBExpress.getConexao;
+    Query := TSQLQuery.Create(nil);
+    Query.SQLConnection := Conexao;
+    Query.sql.Text := ConsultaSQL;
+    Query.ExecSQL();
+
+    Result := True;
+  finally
+    Contexto.Free;
+  end;
+end;
+
+class function TDAO.Excluir(pObjeto: TObject): Boolean;
+var
+  Contexto: TRttiContext;
+  Tipo: TRttiType;
+  Propriedade: TRttiProperty;
+  Atributo: TCustomAttribute;
+  ConsultaSQL, FiltroSQL: String;
+begin
+  try
+    Contexto := TRttiContext.Create;
+    Tipo := Contexto.GetType(pObjeto.ClassType);
+
+    // localiza o nome da tabela
+    for Atributo in Tipo.GetAttributes do
+    begin
+      if Atributo is TTable then
+        ConsultaSQL := 'DELETE FROM ' + (Atributo as TTable).Name;
+    end;
+
+    // preenche o filtro
+    for Propriedade in Tipo.GetProperties do
+    begin
+      for Atributo in Propriedade.GetAttributes do
+      begin
+        if Atributo is TId then
+        begin
+          FiltroSQL := ' WHERE ' + (Atributo as TId).NameField + ' = ' + QuotedStr(Propriedade.GetValue(pObjeto).ToString);
+        end;
+      end;
+    end;
+
+    ConsultaSQL := ConsultaSQL + FiltroSQL;
+
+    Conexao := TDBExpress.getConexao;
+    Query := TSQLQuery.Create(nil);
+    Query.SQLConnection := Conexao;
+    Query.sql.Text := ConsultaSQL;
+    Query.ExecSQL();
+
+    Result := True;
+  finally
+    Contexto.Free;
+  end;
+end;
+
+class function TDAO.ConsultarPorId<T>(pId:Integer): T;
+var
+  ObjConsulta: TObject;
+  Obj: T;
+  Contexto: TRttiContext;
+  Tipo: TRttiType;
+  Propriedade: TRttiProperty;
+  Atributo: TCustomAttribute;
+  ConsultaSQL, FiltroSQL: String;
+  DBXConnection: TDBXConnection;
+  DBXCommand: TDBXCommand;
+  DBXReader: TDBXReader;
+begin
+  try
+    try
+      Result:=null;
+      ObjConsulta := TClass(T).Create;
+      Contexto := TRttiContext.Create;
+      Tipo := Contexto.GetType(ObjConsulta.ClassType);
+
+      // localiza o nome da tabela
+      for Atributo in Tipo.GetAttributes do
+      begin
+        if Atributo is TTable then
+          ConsultaSQL := 'SELECT first 1 * FROM ' + (Atributo as TTable).Name;
+      end;
+
+      // preenche o filtro
+      for Propriedade in Tipo.GetProperties do
+      begin
+        for Atributo in Propriedade.GetAttributes do
+        begin
+          if Atributo is TId then
+          begin
+            FiltroSQL := ' WHERE ' + (Atributo as TId).NameField + ' = ' + inttostr(pId);
+          end;
+        end;
+      end;
+
+      DBXConnection := TDBExpress.getConexao.DBXConnection;
+      DBXCommand := DBXConnection.CreateCommand;
+      DBXCommand.Text := ConsultaSQL;
+      DBXCommand.Prepare;
+      DBXReader := DBXCommand.ExecuteQuery;
+
+      while DBXReader.Next do
+      begin
+        Obj := TGenericVO<T>.FromDBXReader(DBXReader);
+        Break;
+      end;
+
+      Result:=obj;
+    except
+      raise ;
+    end;
+  finally
+    ObjConsulta.Free;
+    Contexto.Free;
+  end;
+end;
+
+class function TDAO.Consultar<T>(pFiltro: String; pPagina: Integer; pConsultaCompleta: Boolean): TObjectList<T>;
+var
+  ObjConsulta: TObject;
+  Obj: T;
+  DBXReader: TDBXReader;
+  ObjListaConsulta : Tlist<TObject>;
+begin
+
+  ObjConsulta := TClass(T).Create;
+  Result := TObjectList<T>.Create;
+
+  try
+    try
+      DBXReader := Consultar(ObjConsulta, pFiltro, pPagina);
+      try
+        while DBXReader.Next do
+        begin
+          Obj := TGenericVO<T>.FromDBXReader(DBXReader);
+          Result.Add(Obj);
+
+          try
+
+          finally
+//            TObject(Obj).Free;
+          end;
+        end;
+      finally
+        DBXReader.Free;
+      end;
+    except
+      raise ;
+    end;
+  finally
+    ObjConsulta.Free;
+  end;
+end;
+
+class function TDAO.Consultar(pObjeto: TObject; pFiltro: String; pPagina: Integer): TDBXReader;
+var
+  Contexto: TRttiContext;
+  Tipo: TRttiType;
+  Atributo: TCustomAttribute;
+  Propriedade: TRttiProperty;
+  ConsultaSQL, FiltroSQL, Campo, NomeTabelaPrincipal, Joins: String;
+  DBXConnection: TDBXConnection;
+  DBXCommand: TDBXCommand;
+  DBXReader: TDBXReader;
+  CamposConsulta: TStringList;
+  i: Integer;
+  ConsultaTransiente: Boolean;
+begin
+  try
+    try
+      ConsultaTransiente := False;
+      CamposConsulta := TStringList.Create;
+      Contexto := TRttiContext.Create;
+      Tipo := Contexto.GetType(pObjeto.ClassType);
+
+      // pega o nome da tabela principal
+      for Atributo in Tipo.GetAttributes do
+      begin
+        if Atributo is TTable then
+        begin
+          NomeTabelaPrincipal := (Atributo as TTable).Name;
+        end;
+      end;
+
+      // extrai os campos para consulta
+      CamposConsulta := ExtraiCamposFiltro(pFiltro);
+
+      // verifica se existem campos transientes na consulta
+      for i := 0 to CamposConsulta.Count - 1 do
+      begin
+
+        Campo := CamposConsulta[i];
+
+        for Propriedade in Tipo.GetProperties do
+        begin
+          for Atributo in Propriedade.GetAttributes do
+          begin
+            if Atributo is TColumn then
+            begin
+              // se o campo que retornou na lista for transiente, pega o nome da tabela e marca a consulta como transiente
+              if ((Atributo as TColumn).Name = Campo) and ((Atributo as TColumn).Transiente) then
+              begin
+                Campo := StringReplace(Campo, '.', '', [rfReplaceAll]);
+                ConsultaSQL := ConsultaSQL + ', ' + (Atributo as TColumn).Name + ' AS ' + Campo;
+                Joins := Joins + ' ' + 'LEFT JOIN ' + (Atributo as TColumn).TableName + ' ON ' + NomeTabelaPrincipal + '.' + (Atributo as TColumn).LocalColumn + ' = ' + (Atributo as TColumn).TableName + '.' + (Atributo as TColumn).ForeingColumn;
+                ConsultaTransiente := True;
+              end;
+            end;
+          end;
+        end;
+      end;
+
+      // monta o inicio da consulta
+      if ConsultaTransiente then
+      begin
+        // consulta transiente
+        for Atributo in Tipo.GetAttributes do
+        begin
+          if Atributo is TTable then
+          begin
+            if TDBExpress.getBanco = 'Firebird' then
+            begin
+              ConsultaSQL := 'SELECT first ' + IntToStr(TConstantes.QUANTIDADE_POR_PAGINA) + ' skip ' + IntToStr(pPagina) + ' ' + (Atributo as TTable).Name + '.*' + ConsultaSQL + ' From ' + (Atributo as TTable).Name + Joins;
+            end
+            else
+            begin
+              ConsultaSQL := 'SELECT ' + (Atributo as TTable).Name + '.*' + ConsultaSQL + ' FROM ' + (Atributo as TTable).Name + Joins;
+            end;
+          end;
+        end;
+      end
+      else
+      begin
+        // consulta normal
+        for Atributo in Tipo.GetAttributes do
+        begin
+          if Atributo is TTable then
+          begin
+            if TDBExpress.getBanco = 'Firebird' then
+            begin
+              ConsultaSQL := 'SELECT first ' + IntToStr(TConstantes.QUANTIDADE_POR_PAGINA) + ' skip ' + IntToStr(pPagina) + ' * FROM ' + (Atributo as TTable).Name;
+            end
+            else
+            begin
+              ConsultaSQL := 'SELECT * FROM ' + (Atributo as TTable).Name;
+            end;
+          end;
+        end;
+      end;
+
+      if TDBExpress.getBanco = 'Postgres' then
+      begin
+        if pFiltro <> '' then
+        begin
+          pFiltro := StringReplace(FormatarFiltro(pFiltro), '"', chr(39), [rfReplaceAll]);
+          FiltroSQL := ' WHERE ' + pFiltro;
+        end;
+      end
+      else if pFiltro <> '' then
+      begin
+        FiltroSQL := ' WHERE ' + FormatarFiltro(pFiltro);
+      end;
+
+      ConsultaSQL := ConsultaSQL + FiltroSQL;
+
+      if (TDBExpress.getBanco = 'MySQL') and (pPagina >= 0) then
+      begin
+        ConsultaSQL := ConsultaSQL + ' limit ' + IntToStr(TConstantes.QUANTIDADE_POR_PAGINA) + ' offset ' + IntToStr(pPagina);
+      end
+      else if TDBExpress.getBanco = 'Postgres' then
+      begin
+        ConsultaSQL := ConsultaSQL + ' limit ' + IntToStr(pPagina) + ' offset ' + IntToStr(TConstantes.QUANTIDADE_POR_PAGINA);
+      end;
+
+      // Retira os [] da consulta
+      ConsultaSQL := StringReplace(ConsultaSQL, '[', '', [rfReplaceAll]);
+      ConsultaSQL := StringReplace(ConsultaSQL, ']', '', [rfReplaceAll]);
+
+//      ShowMessage(ConsultaSql);
+
+      DBXConnection := TDBExpress.getConexao.DBXConnection;
+      DBXCommand := DBXConnection.CreateCommand;
+      DBXCommand.Text := ConsultaSQL;
+      DBXCommand.Prepare;
+
+      DBXReader := DBXCommand.ExecuteQuery;
+
+      Result := DBXReader;
+    except
+      raise ;
+    end;
+  finally
+    Contexto.Free;
+    CamposConsulta.Free;
+  end;
+end;
+
+
+class function TDAO.ComandoSQL(pConsulta: String): Boolean;
+begin
+  try
+      Conexao := TDBExpress.getConexao;
+      Query := TSQLQuery.Create(nil);
+      Query.SQLConnection := Conexao;
+
+    try
+
+      Query.sql.Text := pConsulta;
+      Query.ExecSQL();
+      Query.Free;
+      Result := True;
+
+    except
+      Result := False;
+    end;
+
+  finally
+      Query.Free;
+  end;
+end;
+
+function ExtraiCamposFiltro(pFiltro: String): TStringList;
+var
+  Campo, Filtro: String;
+  i, Posicao: integer;
+begin
+  try
+    Filtro := pFiltro;
+    Result := TStringList.Create;
+    i := 1;
+    while i <= Length(Filtro) do
+    begin
+      if Copy(Filtro, i, 1) = '[' then
+      begin
+        Posicao := Pos(']', Filtro);
+        Campo := Copy(Filtro, i, Posicao - i);
+        Campo := StringReplace(Campo, '[', '', [rfReplaceAll]);
+        Campo := StringReplace(Campo, ']', '', [rfReplaceAll]);
+        Delete(Filtro, i, Posicao);
+        i := 0;
+        Result.add(Campo);
+      end;
+      inc(i);
+    end;
+  finally
+  end;
+end;
+
+end.

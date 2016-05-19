@@ -1,0 +1,330 @@
+unit UDMServer;
+
+interface
+
+uses
+
+  System.SysUtils,  Data.DB,
+  Vcl.Forms, Vcl.Dialogs, System.Classes, uADStanIntf, uADStanOption,
+  uADStanError, uADGUIxIntf, uADPhysIntf, uADStanDef, uADStanPool, uADStanAsync,
+  uADPhysManager, uADGUIxFormsWait, uADCompGUIx, uADPhysIB, uADCompClient,
+  uADStanParam, uADDatSManager, uADDAptIntf, uADDAptManager, uADCompDataSet;
+
+type
+
+  TDMServer = class(TDataModule)
+    ADPhysIBDriverLink1: TADPhysIBDriverLink;
+    ADGUIxWaitCursor1: TADGUIxWaitCursor;
+    ADConnection: TADConnection;
+    ADQueryErro: TADQuery;
+    procedure DataModuleCreate(Sender: TObject);
+    procedure ADConnectionAfterConnect(Sender: TObject);
+    procedure ADQueryErroReconcileError(DataSet: TADDataSet; E: EADException; UpdateKind: TADDatSRowState;
+      var Action: TADDAptReconcileAction);
+    procedure ADQueryErroError(ASender: TObject; const AInitiator: IADStanObject; var AException: Exception);
+    procedure ADQueryErroExecuteError(ASender: TObject; ATimes, AOffset: Integer; AError: EADDBEngineException;
+      var AAction: TADErrorAction);
+
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+
+    Usuario_Atual: String;
+    GrupoUsuario_Atual,
+    TipoUsuario_Atual,
+    CadastrosUsuario_Atual: String;
+    NomeBancoDados, ClienteBco,Servidor,VersaoFB : String;
+
+    Function Senha_Atual : String;
+    procedure ConectaBco(Login: Boolean; Usuario, Senha, config : String);
+    procedure ADQueryGeral(var ADQuery : TADQuery);
+    procedure ADComandoGeral(var ADComando : TADCommand);
+    procedure ADTransacaoGeral(var ADTransacao : TADTransaction);
+    procedure VerificaForm(Sender: TObject);
+    Function ControlaAcesso : Boolean;
+    Function ProgramaExecutavel : String;
+
+  end;
+
+var
+
+  DMServer: TDMServer;
+
+implementation
+
+{%CLASSGROUP 'System.Classes.TPersistent'}
+
+uses Funcoes;
+
+{$R *.dfm}
+
+
+Function TDMServer.Senha_Atual : String;
+var  LQuery: TADQuery;
+begin
+
+  Result:='';
+
+  LQuery := TADQuery.Create(Nil);
+  LQuery.Connection := DMServer.ADConnection;
+
+  LQuery.Close;
+  LQuery.SQL.Clear;
+  LQuery.SQL.Add('select senha from usuarios where nome=:usuario');
+  LQuery.ParamByName('usuario').AsString := Usuario_Atual;
+  LQuery.Open;
+
+  Result:=Crypt('D',LQuery.FieldByName('senha').AsString,'G');
+
+  LQuery.Free;
+
+
+end;
+
+
+procedure TDMServer.ConectaBco(Login: Boolean; Usuario, Senha, config : String);
+var
+    p1,p2 : integer;
+    Lista : TStringList;
+
+begin
+
+  Lista:=TStringList.Create;
+
+  If FileExists('fbclient.dll') then
+    ClienteBco:=ExtractFilePath(Application.ExeName)+'fbclient.dll'
+  else begin
+      ShowMessage('Arquivo FBCLIENT.DLL não encontrado...');
+      Abort;
+  end;
+
+  If FileExists(config) then
+  begin
+
+    try Lista.Clear;
+        Lista.LoadFromFile(config);
+        NomeBancoDados:=Lista[0];
+    except;
+    end;
+
+    Servidor:='';
+
+    if Pos('/',NomeBancoDados)<>0 then begin
+      p1:=Pos(':',NomeBancoDados);
+      Servidor:=Copy(NomeBancoDados,1,p1-1);
+      NomeBancoDados:=Copy(NomeBancoDados,p1+1,Length(NomeBancoDados)-p1);
+    end
+    else begin
+      p1:=Pos(':',NomeBancoDados);
+      p2:=Pos(':',Copy(NomeBancoDados,p1+1,Length(NomeBancoDados)-p1));
+      if p2<>0 then begin
+        Servidor:=Copy(NomeBancoDados,1,p1-1);
+        NomeBancoDados:=Copy(NomeBancoDados,p1+1,Length(NomeBancoDados)-p1);
+      end;
+    end;
+  end
+  else begin
+      ShowMessage('Arquivo configuração destino do banco não encontrado...');
+      Abort;
+  end;
+
+  ADPhysIBDriverLink1.DriverID:='IB';
+  ADPhysIBDriverLink1.VendorLib:=ClienteBco;
+
+  ADConnection.LoginPrompt:=False;
+  ADConnection.Params.Text:='';
+  ADConnection.Params.Add('SQLDialect=1');
+  ADConnection.Params.Add('Protocol=TCPIP');
+  ADConnection.Params.Add('Server='+Servidor);
+  ADConnection.Params.Add('DataBase='+NomeBancoDados);
+  ADConnection.Params.Add('DriverID=IB');
+  ADConnection.Params.Add('User_Name='+Usuario);
+  ADConnection.Params.Add('password='+Senha);
+
+  try
+    ADConnection.Connected:=True;
+  except
+      on e: Edatabaseerror do begin
+        if UpperCase(Copy(e.Message, 20, 43)) = 'YOUR USER NAME AND PASSWORD ARE NOT DEFINED'
+        then begin
+          ShowMessage('Usuário não cadastrado no sistema ou senha invalida');
+          Abort;
+        end
+        else begin
+          ShowMessage(e.message);
+          Abort;
+        end;
+      end;
+  end;
+
+  Lista.Free;
+
+end;
+
+function TDMServer.ControlaAcesso: Boolean;
+var  LQuery: TADQuery;
+begin
+
+  Result:=False;
+try
+
+  LQuery := TADQuery.Create(Nil);
+  LQuery.Connection := DMServer.ADConnection;
+
+  LQuery.Close;
+  LQuery.Open('select opcoes from setupsistema where sistema='+QuotedStr(DMServer.ProgramaExecutavel)+' AND OPCOES='+QuotedStr('ControlaAcessos')+'');
+  if LQuery.FieldByName('opcoes').AsString='ControlaAcessos' then Result:=True;
+finally
+  LQuery.Close;
+  LQuery.Free;
+
+end;
+
+
+
+end;
+
+procedure TDMServer.DataModuleCreate(Sender: TObject);
+begin
+
+  DMServer.ADConnection.Connected:=False;
+  DMServer.ADConnection.Params.Clear;
+  DMServer.ADConnection.LoginPrompt:=False;
+
+end;
+
+function TDMServer.ProgramaExecutavel: String;
+begin
+  Result:='';
+
+{$IFDEF FOLHA}
+   Result:='FOLHA';
+{$ENDIF}
+
+{$IFDEF CONTABIL}
+   Result:='CONTABIL';
+{$ENDIF}
+
+end;
+
+procedure TDMServer.ADConnectionAfterConnect(Sender: TObject);
+var  LQuery: TADQuery;
+begin
+
+  LQuery := TADQuery.Create(Nil);
+  LQuery.Connection := DMServer.ADConnection;
+
+  LQuery.Close;
+  LQuery.Open('select usuario from data_atual');
+
+  Usuario_Atual:=LQuery.FieldByName('usuario').AsString;
+
+  LQuery.Close;
+  LQuery.Sql.Clear;
+  LQuery.Sql.Add('select tipo, grupo, cadastros from usuarios where nome=:usuario');
+  LQuery.ParamByName('usuario').AsString :=Usuario_Atual;
+  LQuery.Open;
+
+  GrupoUsuario_Atual := LQuery.FieldByName('grupo').AsString;
+  TipoUsuario_Atual := LQuery.FieldByName('tipo').AsString;
+  CadastrosUsuario_Atual := LQuery.FieldByName('cadastros').AsString;
+
+  LQuery.Close;
+  LQuery.Sql.Clear;
+  LQuery.Sql.Add('SELECT RDB$GET_CONTEXT('+QuotedStr('SYSTEM')+','+QuotedStr('ENGINE_VERSION')+') AS VFIREBIRD FROM RDB$DATABASE');
+  LQuery.Open;
+
+  VersaoFb:=LQuery.FieldByName('VFIREBIRD').AsString;
+
+
+
+  LQuery.Close;
+  LQuery.Free;
+
+end;
+
+procedure TDMServer.ADQueryErroError(ASender: TObject; const AInitiator: IADStanObject; var AException: Exception);
+begin
+//
+end;
+
+procedure TDMServer.ADQueryErroExecuteError(ASender: TObject; ATimes, AOffset: Integer; AError: EADDBEngineException;
+  var AAction: TADErrorAction);
+begin
+//  ShowMessage(e.Message);
+end;
+
+procedure TDMServer.ADQueryErroReconcileError(DataSet: TADDataSet; E: EADException; UpdateKind: TADDatSRowState;
+  var Action: TADDAptReconcileAction);
+begin
+
+  Action := raCorrect{raAbort};
+
+  if pos('BAIXASTITULOS_FOR_KEY_TIT',e.Message) > 0 then
+    raise Exception.Create('Não Excluiu, existe titulo(s) baixado(s) para este documento...')
+//      ShowMessage('Não Excluiu, existe titulo(s) baixado(s) para este documento...')
+  else ShowMessage(e.Message);
+
+
+//        if (UpdateKind = rsInserted) and (E is EADDBEngineException) and (EADDBEngineException(E).Kind = ekUKViolated) then
+//                ShowMessage1('Ja existe um cadastro com essa chave em '+DataSet.Name+' '+IntToStr(DataSet.Recno)+'/'+IntToStr(DataSet.RecordCount)+' ....')
+//        else    ShowMessage1(StringReplace('Erro '+e.Message+' ao gravar '+DataSet.Name+' '+IntToStr(DataSet.Recno)+'/'+IntToStr(DataSet.RecordCount)+' ...','[FireDAC][Phys][IB]','',[rfReplaceAll]));
+
+end;
+
+procedure TDMServer.ADQueryGeral(var ADQuery : TADQuery);
+begin
+
+    ADQuery := TADQuery.Create(Nil);
+    ADQuery.Connection := DMServer.ADConnection;
+
+end;
+
+procedure TDMServer.ADComandoGeral(var ADComando : TADCommand);
+begin
+
+    ADComando := TADCommand.Create(Nil);
+    ADComando.Connection := DMServer.ADConnection;
+
+end;
+
+procedure TDMServer.ADTransacaoGeral(var ADTransacao : TADTransaction);
+begin
+
+  ADTransacao:=TADTransaction.Create(Nil);
+  ADTransacao.Connection := DMServer.ADConnection;
+  ADTransacao.Options.AutoCommit:=True;
+  ADTransacao.Options.AutoStart:=True;
+  ADTransacao.Options.AutoStop:=True;
+
+end;
+
+procedure TDMServer.VerificaForm(Sender: TObject);
+var c: Integer;
+begin
+
+  if Sender is TForm then begin
+    for c:=0 to TForm(Sender).ComponentCount-1 do begin
+      if TForm(Sender).Components[c] is TADQuery then begin
+        if Pos('CriAut',TForm(Sender).Components[c].Name)=0 then begin
+//          if not TADQuery(TForm(Sender).Components[c]).CachedUpdates then ShowMessage(TForm(Sender).Components[c].Name+' sem cachedupdates...');
+//          TADQuery(TForm(Sender).Components[c]).CachedUpdates:=True;
+          TADQuery(TForm(Sender).Components[c]).OnReconcileError := DMServer.ADQueryErroReconcileError;
+//          TADQuery(TForm(Sender).Components[c]).FetchOptions.Mode := fmAll;
+          TADQuery(TForm(Sender).Components[c]).OnError := DMServer.ADQueryErroError;
+          TADQuery(TForm(Sender).Components[c]).OnExecuteError := DMServer.ADQueryErroExecuteError;
+        end;
+      end;
+//      if TForm(Sender).Components[c] is TADCommand then begin
+//        TADCommand(TForm(Sender).Components[c]).OnError := DMServer.ADQueryErroError;
+//      end;
+    end;
+  end;
+
+end;
+
+
+
+
+end.

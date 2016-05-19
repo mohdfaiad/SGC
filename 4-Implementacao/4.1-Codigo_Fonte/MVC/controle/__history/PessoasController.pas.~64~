@@ -1,0 +1,61 @@
+unit PessoasController;
+
+interface
+
+uses
+  Classes, SQLExpr, SysUtils, Generics.Collections, DBXJSON, DBXCommon, ConexaoBD,
+  PessoasVO, Upessoa,UController, DBClient, DB;
+
+type
+  TPessoasController = class (TController)
+  private
+    class var FDataSet: TClientDataSet;
+  public
+    Function Insere(UpessoaV : TPessoasVO) : integer;
+//    function Consulta(condicao : String):TObjectList<TPessoasVO>;
+    procedure Altera(UpessoaV : TPessoasVO);
+    procedure Exclui(PCodigo : Integer; PNome : String);
+  end;
+
+
+implementation
+
+uses
+   UDao, Constantes, Vcl.Dialogs;
+
+{ TPessoasController }
+
+var
+  Resultado: Boolean;
+  SqlTmp : String;
+
+function TPessoasController.Insere(UpessoaV: TPessoasVO) : integer;
+begin
+  try
+    try
+      Result := TDAO.Inserir(UpessoaV);
+      except
+      on E: Exception do
+      begin
+      end;
+    end;
+  finally
+  end;
+end;
+
+//function TPessoasController.Consulta(condicao: string):TObjectList<TPessoasVO>;
+//begin
+//  result := TDAO.Consultar<TPessoasVO>('CODIGO=10000',0,true);
+//end;
+
+Procedure TPessoasController.Altera(UpessoaV: TPessoasVO);
+begin
+
+end;
+
+Procedure TPessoasController.Exclui(PCodigo: Integer; PNome : String);
+begin
+
+end;
+
+end.
