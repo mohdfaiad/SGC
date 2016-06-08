@@ -11,7 +11,7 @@ type
 
   private
     FidPais: Integer;
-    Fnome: String;
+    FnomePais: String;
 
     //FidCidade: integer;
 
@@ -20,8 +20,10 @@ type
     [TGeneratedValue(sAuto)]
     property idPais: Integer  read FidPais write FidPais;
 
-    [TColumn('NOME','Nome',250,[ldGrid], False)]
-    property Nome: String  read Fnome write Fnome;
+    [TColumn('NOMEPAIS','País',250,[ldGrid], False)]
+    property NomePais: String  read FnomePais write FnomePais;
+
+    function ValidarCamposObrigatorios:boolean;
 
   end;
 
@@ -31,5 +33,17 @@ implementation
 { TPaisVO }
 
 
+
+{ TPaisVO }
+
+function TPaisVO.ValidarCamposObrigatorios: boolean;
+begin
+Result := true;
+  if (Self.FnomePais = '') then
+  begin
+    raise Exception.Create('O campo Nome é obrigatório!');
+    Result := false;
+  end
+end;
 
 end.

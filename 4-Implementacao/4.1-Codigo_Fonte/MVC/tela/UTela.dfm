@@ -16,6 +16,10 @@ inherited FTela: TFTela
     TabOrder = 0
     object Consulta: TTabSheet
       Caption = 'Consulta'
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object Grid: TDBGrid
         Left = 3
         Top = 62
@@ -34,6 +38,7 @@ inherited FTela: TFTela
         TitleFont.Height = -11
         TitleFont.Name = 'MS Sans Serif'
         TitleFont.Style = []
+        OnDblClick = GridDblClick
       end
       object Panel2: TPanel
         Left = 0
@@ -41,6 +46,7 @@ inherited FTela: TFTela
         Width = 778
         Height = 56
         Align = alTop
+        ParentBackground = False
         TabOrder = 1
         object BitBtn2: TBitBtn
           Tag = 2

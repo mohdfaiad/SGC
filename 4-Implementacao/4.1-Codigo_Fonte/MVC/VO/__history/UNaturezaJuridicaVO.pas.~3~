@@ -1,0 +1,29 @@
+unit UNaturezaJuridicaVO;
+
+interface
+
+uses Atributos, Classes, Constantes, Generics.Collections, SysUtils, UGenericVO;
+
+type
+  [TEntity]
+  [TTable('NaturezaJuridica')]
+  TNaturezaJuridicaVO = class(TGenericVO)
+
+  private
+    FidNatureza: Integer;
+    FcodigoNatureza : String;
+    Fdescricao: String;
+
+  public
+    [TId('idNatureza')]
+    [TGeneratedValue(sAuto)]
+    property idNatureza: Integer  read FidNatureza write FidNatureza;
+    [TColumn('CODIGONATUREZA','Nat. Jurídica',50,[ldGrid], False)]
+    property codigoNatureza: String  read FcodigoNatureza write FcodigoNatureza;
+    [TColumn('DESCRICAO','Descrição',400,[ldGrid], False)]
+    property descricao: String  read Fdescricao write Fdescricao;
+  end;
+
+implementation
+
+end.

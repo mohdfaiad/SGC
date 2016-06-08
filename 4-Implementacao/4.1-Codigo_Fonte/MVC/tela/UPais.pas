@@ -3,140 +3,163 @@ unit UPais;
 interface
 
 uses
-  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
+  System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, UtelaCadastro, Vcl.ComCtrls,
-  Vcl.StdCtrls, Vcl.Mask, Vcl.Buttons, Vcl.ExtCtrls, Vcl.Grids, Vcl.DBGrids,UPaisVo, UController, Generics.Collections;
+  Vcl.StdCtrls, Vcl.Mask, Vcl.Buttons, Vcl.ExtCtrls, Vcl.Grids, Vcl.DBGrids,
+  UPaisVo, UController, Generics.Collections;
 
 type
   TFTelaCadastroPais = class(TFTelaCadastro)
     LabelEditNome: TLabeledEdit;
-    function MontaFiltro:string;
+    GroupBox2: TGroupBox;
+    RadioButtonNome: TRadioButton;
+    function MontaFiltro: string;
     procedure FormCreate(Sender: TObject);
-    function DoSalvar:boolean;override;
-    function ValidarTela:boolean;
-    procedure DoConsultar;override;
-    function DoExcluir: boolean;override;
+    function DoSalvar: boolean; override;
+    procedure DoConsultar; override;
+    function DoExcluir: boolean; override;
+    procedure CarregaObjetoSelecionado; override;
+    procedure BitBtnNovoClick(Sender: TObject);
   private
     { Private declarations }
 
   public
     { Public declarations }
     procedure GridParaEdits; override;
-    function EditsToObject(Pais:TPaisVo):TPaisVo;
+    function EditsToObject(Pais: TPaisVo): TPaisVo;
   end;
 
 var
   FTelaCadastroPais: TFTelaCadastroPais;
-  PaisController: TController<TPaisVO>;
+  PaisController: TController<TPaisVo>;
 
 implementation
 
 {$R *.dfm}
 
+procedure TFTelaCadastroPais.BitBtnNovoClick(Sender: TObject);
+begin
+  inherited;
+  LabelEditNome.SetFocus;
+end;
+
+procedure TFTelaCadastroPais.CarregaObjetoSelecionado;
+begin
+  if not CDSGrid.IsEmpty then
+  begin
+    ObjetoRetornoVO := TPaisVo.Create;
+    TPaisVo(ObjetoRetornoVO).idPais := CDSGrid.FieldByName('IDPAIS').AsInteger;
+    TPaisVo(ObjetoRetornoVO).NomePais :=
+      CDSGrid.FieldByName('NOMEPAIS').AsString;
+  end;
+
+end;
 
 procedure TFTelaCadastroPais.DoConsultar;
-var listaPais:TObjectList<TPaisVO>;
-    filtro:string;
+var
+  listaPais: TObjectList<TPaisVo>;
+  filtro: string;
 begin
-  filtro:=MontaFiltro;
-  listaPais:= PaisController.Consultar(filtro);
-  PopulaGrid<TPaisVO>(listaPais);
+  filtro := MontaFiltro;
+  listaPais := PaisController.Consultar(filtro);
+  PopulaGrid<TPaisVo>(listaPais);
 end;
 
 function TFTelaCadastroPais.DoExcluir: boolean;
-var Pais:TPaisVO;
+var
+  Pais: TPaisVo;
 begin
   try
     try
-      Pais := TPaisVO.Create;
+      Pais := TPaisVo.Create;
       Pais.idPais := CDSGrid.FieldByName('IDPAIS').AsInteger;
       PaisController.Excluir(Pais);
-      except
-        on E: Exception do
-        begin
-          ShowMessage('Ocorreu um erro ao excluir o registro: '+#13+#13+e.Message);
-          Result:=false;
-        end;
+    except
+      on E: Exception do
+      begin
+        ShowMessage('Ocorreu um erro ao excluir o registro: ' + #13 + #13 +
+          E.Message);
+        Result := false;
       end;
-    finally
     end;
+  finally
+  end;
 end;
 
 function TFTelaCadastroPais.DoSalvar: boolean;
-var Pais:TPaisVO;
+var
+  Pais: TPaisVo;
 begin
-  if(ValidarTela)then
-  begin
+   Pais:=EditsToObject(TPaisVo.Create);
     try
       try
-          if(StatusTela=stInserindo)then
+        if (Pais.ValidarCamposObrigatorios()) then
+        begin
+          if (StatusTela = stInserindo) then
           begin
-            Pais:=EditsToObject(TPaisVO.Create);
             PaisController.Inserir(Pais);
-            Result:=true;
+            Result := true;
           end
-          else if(StatusTela=stEditando)then
+          else if (StatusTela = stEditando) then
           begin
-            Pais:=PaisController.ConsultarPorId(CDSGrid.FieldByName('IDPAIS').AsInteger);
-            Pais:=EditsToObject(Pais);
+            Pais := PaisController.ConsultarPorId(CDSGrid.FieldByName('IDPAIS')
+              .AsInteger);
+            Pais := EditsToObject(Pais);
             PaisController.Alterar(Pais);
-            Result:=true;
+            Result := true;
           end;
-        except
+        end
+        else
+          Result := false;
+      except
         on E: Exception do
         begin
-          ShowMessage('Ocorreu um erro ao salvar o registro: '+#13+#13+e.Message);
-          Result:=false;
+          ShowMessage(E.Message);
+          Result := false;
         end;
       end;
     finally
     end;
-  end
-  else
-    Result:=false;
 end;
 
 function TFTelaCadastroPais.EditsToObject(Pais: TPaisVo): TPaisVo;
 begin
-  Pais.Nome:=LabelEditNome.Text;
-  Result:=Pais;
+  Pais.NomePais := LabelEditNome.Text;
+  Result := Pais;
 end;
 
 procedure TFTelaCadastroPais.FormCreate(Sender: TObject);
 begin
   ClasseObjetoGridVO := TPaisVo;
+  RadioButtonNome.Checked := true;
   inherited;
 end;
 
 procedure TFTelaCadastroPais.GridParaEdits;
-var Pais:TPaisVO;
+var
+  Pais: TPaisVo;
 begin
   inherited;
 
   if not CDSGrid.IsEmpty then
-    Pais := PaisController.ConsultarPorId(CDSGrid.FieldByName('IDPAIS').AsInteger);
+    Pais := PaisController.ConsultarPorId(CDSGrid.FieldByName('IDPAIS')
+      .AsInteger);
 
   if Assigned(Pais) then
   begin
-    LabelEditNome.Text:=Pais.Nome;
+    LabelEditNome.Text := Pais.NomePais;
   end;
 end;
 
 function TFTelaCadastroPais.MontaFiltro: string;
 begin
-  result :='';
-   if(editBusca.Text<>'')then
-    result:='( NOME LIKE '+QuotedStr('%'+EditBusca.Text+'%')+' ) ';
+  Result := '';
+  if (editBusca.Text <> '') then
+    Result := '(UPPER(NOMEPAIS) LIKE ' +
+      QuotedStr('%' + UpperCase(editBusca.Text) + '%') + ' ) ';
 end;
 
-function TFTelaCadastroPais.ValidarTela: boolean;
-begin
-  Result:=true;
-  if(labelEditNome.Text='')then
-  begin
-    ShowMessage('O campo nome é obrigatório!');
-    Result:=false;
-  end;
-end;
+
 
 end.

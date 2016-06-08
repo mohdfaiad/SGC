@@ -1,0 +1,42 @@
+unit UCondominioController;
+
+interface
+
+uses
+  Classes, SQLExpr, SysUtils, Generics.Collections, DBXJSON, DBXCommon, ConexaoBD,
+  UPessoasVO,UController, DBClient, DB, UCnaeVO, UCondominioVO, UNaturezaJuridicaVO;
+
+type
+  TCondominioController = class (TController<TCondominioVO>)
+  private
+
+  public
+    function ConsultarPorId(id:integer):TCondominioVO;
+  end;
+
+
+implementation
+
+uses
+   UDao, Constantes, Vcl.Dialogs;
+
+{ TPessoasController }
+
+{ TPessoasController }
+
+function TCondominioController.ConsultarPorId(id: integer): TCondominioVO;
+var P:TCondominioVO;
+begin
+  p:=TDAO.ConsultarPorId<TCondominioVO>(id);
+  if(p<>nil)then
+  begin
+    p.CnaeVO:= TDAO.ConsultarPorId<TCnaeVO>(p.idCnae);
+    p.NaturezaVO:=TDao.ConsultarPorId<TNaturezaJuridicaVO>(p.idNaturezaJuridica);
+  end;
+
+  result:=p;
+end;
+
+begin
+
+end.

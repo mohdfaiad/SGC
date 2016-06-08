@@ -5,18 +5,17 @@ interface
 uses
   Classes, SysUtils, Forms, Windows, DB, DBClient, DBXJSON, IWSystem,
   Rtti, Atributos, StrUtils, TypInfo, Generics.Collections, Biblioteca,
-  Vcl.Dialogs,UGenericVO,UDAO;
+  Vcl.Dialogs, UGenericVO, UDAO;
 
 type
   TController<T: class> = class
   private
   public
-    function Inserir(Objeto:T) : integer;
-    function Consultar(condicao : String):TObjectList<T>;
-    function ConsultarPorId(id:integer):T;
-    function Alterar(Objeto: T):boolean;
-    function Excluir(Objeto: T):boolean;
-
+    function Inserir(Objeto: T): integer;
+    function Consultar(condicao: String): TObjectList<T>;
+    function ConsultarPorId(id: integer): T;
+    function Alterar(Objeto: T): boolean;
+    function Excluir(Objeto: T): boolean;
 
   protected
   end;
@@ -28,28 +27,24 @@ begin
   Result := TDAO.Inserir(Objeto);
 end;
 
-function TController<T>.Alterar(Objeto: T):boolean;
+function TController<T>.Alterar(Objeto: T): boolean;
 begin
   Result := TDAO.Alterar(Objeto);
 end;
 
 function TController<T>.Consultar(condicao: String): TObjectList<T>;
 begin
-  result := TDAO.Consultar<T>(condicao,0,true);
+  Result := TDAO.Consultar<T>(condicao, 0, true);
 end;
 
 function TController<T>.ConsultarPorId(id: integer): T;
 begin
-  result := TDAO.ConsultarPorId<T>(id);
+  Result := TDAO.ConsultarPorId<T>(id);
 end;
 
-function TController<T>.Excluir(Objeto: T):boolean;
+function TController<T>.Excluir(Objeto: T): boolean;
 begin
   Result := TDAO.Excluir(Objeto);
 end;
-
-
-
-
 
 end.

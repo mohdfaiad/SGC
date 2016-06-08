@@ -1,0 +1,35 @@
+unit UEstadoVO;
+
+interface
+
+uses Atributos, Classes, Constantes, Generics.Collections, SysUtils, UGenericVO,UPaisVO;
+
+type
+  [TEntity]
+  [TTable('Estado')]
+  TEstadoVO = class(TGenericVO)
+
+  private
+    FIdEstado: Integer;
+    Fnome: String;
+    FIdPais : Integer;
+
+  public
+    PaisVO: TPAISVO;
+
+    [TId('idEstado')]
+    [TGeneratedValue(sAuto)]
+    property idEstado: Integer  read FIdEstado write FIdEstado;
+    [TColumn('NOME','Nome',250,[ldGrid], False)]
+    property Nome: String  read Fnome write Fnome;
+    [TColumn('idPais','idPais',0,[ldLookup,ldComboBox], False)]
+    property idPais: integer  read FIdPais write FIdPais;
+
+  end;
+
+implementation
+
+
+
+
+end.

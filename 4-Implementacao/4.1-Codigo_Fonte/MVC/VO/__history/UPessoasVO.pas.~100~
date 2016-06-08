@@ -1,0 +1,66 @@
+unit UPessoasVO;
+
+interface
+
+uses Atributos, Classes, Constantes, Generics.Collections, SysUtils, UGenericVO,UCnaeVO;
+
+type
+  [TEntity]
+  [TTable('Pessoa')]
+  TPessoasVO = class(TGenericVO)
+  private
+    FidPessoa: Integer;
+    FcpfCnpj: String;
+    Fnome: String;
+    Fcep: String;
+    FEndereco: String;
+    Fnumero: String;
+    Fcomplemento: String;
+    Fbairro: String;
+    Femail: String;
+    FtelefoneI: String;
+    FtelefoneII: String;
+    FidCnae: integer;
+
+  public
+    [TId('idPessoa')]
+    [TGeneratedValue(sAuto)]
+    property idPessoa: Integer  read FidPessoa write FidPessoa;
+    [TColumn('cpfCnpj','CNPJ',130,[ldGrid,ldLookup,ldComboBox], False)]
+    [TFormatter(ftCnpj, taLeftJustify)]
+    property Cnpjcpf: String  read FcpfCnpj write FcpfCnpj;
+    [TColumn('nome','Nome',250,[ldGrid,ldLookup,ldComboBox], False)]
+    property nome : String  read Fnome write Fnome;
+    [TColumn('cep','CEP',80,[ldLookup,ldComboBox], False)]
+    property Cep: String  read FCep write FCep;
+    [TColumn('endereco','Rua',250,[ldLookup,ldComboBox], False)]
+    property Endereco: String  read FEndereco write FEndereco;
+    [TColumn('numero','numero',50,[ldLookup,ldComboBox], False)]
+    property Numero: String  read FNumero write FNumero;
+    [TColumn('complemento','complemento',250,[ldLookup,ldComboBox], False)]
+    property Complemento: String  read FComplemento write FComplemento;
+    [TColumn('bairro','bairro',250,[ldLookup,ldComboBox], False)]
+    property Bairro: String  read FBairro write FBairro;
+    [TColumn('email','Email',200,[ldGrid,ldLookup,ldComboBox], False)]
+    property Email: String  read FEmail write FEmail;
+    [TColumn('telefoneI','Tel I',100,[ldGrid,ldLookup,ldComboBox], False)]
+    [TFormatter(ftTelefone, taLeftJustify)]
+    property TelefoneI: String  read FtelefoneI write FtelefoneI;
+    [TColumn('telefoneII','Tel 2',15,[ldLookup,ldComboBox], False)]
+    [TFormatter(ftTelefone, taLeftJustify)]
+    property TelefoneII: String  read FTelefoneII write FtelefoneII;
+    [TColumn('idCnae','idCnae',0,[ldLookup,ldComboBox], False)]
+    property idCnae: integer  read FIdCnae write FIdCnae;
+
+    //[TColumn('idCidade','idCidade',0,[ldGrid,ldLookup,ldComboBox], False)]
+    //property IdCidade: integer  read FIdCidade write FIdCidade;
+
+    public CnaeVO: TCNAEVO;
+  end;
+
+implementation
+
+
+
+
+end.

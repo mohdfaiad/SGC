@@ -7,8 +7,8 @@ uses
   Dbtables, Inifiles, DBClient, DB, SqlExpr, DBXMySql, Grids, DBGrids,
   IdHashMessageDigest, Constantes, Math, Rtti, TypInfo,Atributos, StrUtils,UGenericVO;
 
-Function ValidaCNPJ(xCNPJ: String): Boolean;
-Function ValidaCPF(xCPF: String): Boolean;
+//Function ValidaCNPJ(xCNPJ: String): Boolean;
+//Function ValidaCPF(xCPF: String): Boolean;
 Function OrdenaPinta(xGrid: DBGrids.TDBGrid; Column: DBGrids.TColumn; cds: TClientDataSet): Boolean;
 Function TruncaValor(Value: Extended; Casas: integer): Extended;
 Function ArredondaTruncaValor(Operacao: String; Value: Extended; Casas: integer): Extended;
@@ -47,7 +47,7 @@ begin
 end;
 
 { Valida o CNPJ digitado }
-function ValidaCNPJ(xCNPJ: String): Boolean;
+{function ValidaCNPJ(xCNPJ: String): Boolean;
 Var
   d1, d4, xx, nCount, fator, resto, digito1, digito2: integer;
   Check: String;
@@ -111,7 +111,7 @@ begin
 end;
 
 { Valida o CPF digitado }
-function ValidaCPF(xCPF: String): Boolean;
+{function ValidaCPF(xCPF: String): Boolean;
 Var
   d1, d4, xx, nCount, resto, digito1, digito2: integer;
   Check: String;
@@ -157,7 +157,7 @@ Begin
     Result := True;
   end;
 end;
-
+        }
 Function OrdenaPinta(xGrid: DBGrids.TDBGrid; Column: DBGrids.TColumn; cds: TClientDataSet): Boolean;
 const
   idxDefault = 'DEFAULT_ORDER';

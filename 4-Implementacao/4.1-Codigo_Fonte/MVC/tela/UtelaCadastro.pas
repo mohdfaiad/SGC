@@ -3,7 +3,8 @@ unit UtelaCadastro;
 interface
 
 uses
-  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
+  System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, UTela, Vcl.ComCtrls, Vcl.StdCtrls,
   Vcl.Mask, Vcl.Buttons, Vcl.ExtCtrls, Vcl.Grids, Vcl.DBGrids, Rtti;
 
@@ -39,7 +40,6 @@ type
     function DoCancelar: Boolean; virtual;
     function DoSalvar: Boolean; virtual;
 
-
     property StatusTela: TStatusTela read FStatusTela write SetStatusTela;
   end;
 
@@ -49,9 +49,7 @@ var
 implementation
 
 {$R *.dfm}
-
 { TFTelaCadastro }
-
 
 procedure TFTelaCadastro.BitBtnAlteraClick(Sender: TObject);
 begin
@@ -66,14 +64,17 @@ end;
 procedure TFTelaCadastro.BitBtnExcluiClick(Sender: TObject);
 begin
   if CDSGrid.IsEmpty then
-    Application.MessageBox('Não existe registro selecionado.', 'Erro', MB_OK + MB_ICONERROR)
+    Application.MessageBox('Não existe registro selecionado.', 'Erro',
+      MB_OK + MB_ICONERROR)
   else
   begin
-    if Application.MessageBox('Deseja realmente excluir o registro selecionado?', 'Confirmação', MB_YESNO + MB_ICONQUESTION) = IDYES then
+    if Application.MessageBox
+      ('Deseja realmente excluir o registro selecionado?', 'Confirmação',
+      MB_YESNO + MB_ICONQUESTION) = IDYES then
     begin
-      if(DoExcluir)then
+      if (DoExcluir) then
       begin
-        PageControl.ActivePage:=Consulta;
+        PageControl.ActivePage := Consulta;
         DoConsultar;
         SetStatusTela(TStatusTela.stNavegandoGrid);
       end;
@@ -84,9 +85,9 @@ end;
 procedure TFTelaCadastro.BitBtnGravaClick(Sender: TObject);
 begin
   inherited;
-  if(DoSalvar)then
+  if (DoSalvar) then
   begin
-    PageControl.ActivePage:=Consulta;
+    PageControl.ActivePage := Consulta;
     DoConsultar;
     SetStatusTela(TStatusTela.stNavegandoGrid);
   end;
@@ -99,8 +100,8 @@ end;
 
 function TFTelaCadastro.DoCancelar: Boolean;
 begin
-  if(StatusTela=TStatusTela.stInserindo)then
-    PageControl.ActivePage:=Consulta;
+  if (StatusTela = TStatusTela.stInserindo) then
+    PageControl.ActivePage := Consulta;
 
   SetStatusTela(TStatusTela.stNavegandoGrid);
   Result := True;
@@ -110,7 +111,8 @@ function TFTelaCadastro.DoEditar: Boolean;
 begin
   Result := false;
   if CDSGrid.IsEmpty then
-    Application.MessageBox('Não existe registro selecionado.', 'Erro', MB_OK + MB_ICONERROR)
+    Application.MessageBox('Não existe registro selecionado.', 'Erro',
+      MB_OK + MB_ICONERROR)
   else
   begin
     StatusTela := stEditando;
@@ -120,14 +122,14 @@ end;
 
 function TFTelaCadastro.DoExcluir: Boolean;
 begin
-  result:=true;
+  Result := True;
 end;
 
 function TFTelaCadastro.DoInserir: Boolean;
 begin
   LimparCampos;
   StatusTela := stInserindo;
-  PageControl.ActivePage:= DadosCadastrais;
+  PageControl.ActivePage := DadosCadastrais;
   Result := True;
 end;
 
@@ -139,9 +141,9 @@ end;
 procedure TFTelaCadastro.PageControlChange(Sender: TObject);
 begin
   inherited;
-  if(PageControl.ActivePage = DadosCadastrais)then
+  if (PageControl.ActivePage = DadosCadastrais) then
   begin
-    if(not CdsGrid.IsEmpty)then
+    if (not CDSGrid.IsEmpty) then
     begin
       LimparCampos;
       GridParaEdits;
@@ -154,34 +156,34 @@ procedure TFTelaCadastro.SetStatusTela(const Value: TStatusTela);
 begin
 
   FStatusTela := Value;
-  BitBtnNovo.Enabled:=true;
-  BitBtnIncluirC.Enabled:=true;
-  BitBtnAltera.Enabled:=true;
-  BitBtnGrava.Enabled:=true;
-  BitBtnExclui.Enabled:=true;
-  BitBtnCancela.Enabled := False;
+  BitBtnNovo.Enabled := True;
+  BitBtnIncluirC.Enabled := True;
+  BitBtnAltera.Enabled := True;
+  BitBtnGrava.Enabled := True;
+  BitBtnExclui.Enabled := True;
+  BitBtnCancela.Enabled := false;
 
   PanelEdits.Enabled := True;
   case Value of
-      stNavegandoGrid:
+    stNavegandoGrid:
       begin
         PanelEdits.Enabled := false;
-        BitBtnNovo.Enabled:=true;
-        BitBtnIncluirC.Enabled:=true;
-        BitBtnAltera.Enabled:=true;
-        BitBtnGrava.Enabled:=false;
-        BitBtnExclui.Enabled:=true;
-        BitBtnCancela.Enabled := False;
+        BitBtnNovo.Enabled := True;
+        BitBtnIncluirC.Enabled := True;
+        BitBtnAltera.Enabled := True;
+        BitBtnGrava.Enabled := false;
+        BitBtnExclui.Enabled := True;
+        BitBtnCancela.Enabled := false;
       end;
-      stInserindo, stEditando:
+    stInserindo, stEditando:
       begin
-          PanelEdits.Enabled := true;
-          BitBtnNovo.Enabled:=false;
-          BitBtnIncluirC.Enabled:=false;
-          BitBtnAltera.Enabled:=false;
-          BitBtnGrava.Enabled:=true;
-          BitBtnExclui.Enabled:=false;
-          BitBtnCancela.Enabled := true;
+        PanelEdits.Enabled := True;
+        BitBtnNovo.Enabled := false;
+        BitBtnIncluirC.Enabled := false;
+        BitBtnAltera.Enabled := false;
+        BitBtnGrava.Enabled := True;
+        BitBtnExclui.Enabled := false;
+        BitBtnCancela.Enabled := True;
       end;
   end;
 end;

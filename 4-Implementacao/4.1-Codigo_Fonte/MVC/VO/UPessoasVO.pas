@@ -2,7 +2,7 @@ unit UPessoasVO;
 
 interface
 
-uses Atributos, Classes, Constantes, Generics.Collections, SysUtils, UGenericVO;
+uses Atributos, Classes, Constantes, Generics.Collections, SysUtils, UGenericVO,UCnaeVO;
 
 type
   [TEntity]
@@ -20,39 +20,112 @@ type
     Femail: String;
     FtelefoneI: String;
     FtelefoneII: String;
-    //FidCidade: integer;
+    FidCnae: integer;
 
   public
+    CnaeVO: TCNAEVO;
+
     [TId('idPessoa')]
     [TGeneratedValue(sAuto)]
     property idPessoa: Integer  read FidPessoa write FidPessoa;
-    [TColumn('cpfCnpj','CNPJ',50,[ldGrid,ldLookup,ldComboBox], False)]
+    [TColumn('cpfCnpj','Cpf / Cnpj',130,[ldGrid,ldLookup,ldComboBox], False)]
     property Cnpjcpf: String  read FcpfCnpj write FcpfCnpj;
     [TColumn('nome','Nome',250,[ldGrid,ldLookup,ldComboBox], False)]
     property nome : String  read Fnome write Fnome;
-    [TColumn('cep','CEP',10,[ldGrid,ldLookup,ldComboBox], False)]
+    [TColumn('cep','CEP',80,[ldLookup,ldComboBox], False)]
     property Cep: String  read FCep write FCep;
-    [TColumn('endereco','Rua',250,[ldGrid,ldLookup,ldComboBox], False)]
+    [TColumn('endereco','Rua',250,[ldLookup,ldComboBox], False)]
     property Endereco: String  read FEndereco write FEndereco;
-    [TColumn('numero','numero',50,[ldGrid,ldLookup,ldComboBox], False)]
+    [TColumn('numero','numero',50,[ldLookup,ldComboBox], False)]
     property Numero: String  read FNumero write FNumero;
-    [TColumn('complemento','complemento',250,[ldGrid,ldLookup,ldComboBox], False)]
+    [TColumn('complemento','complemento',250,[ldLookup,ldComboBox], False)]
     property Complemento: String  read FComplemento write FComplemento;
-    [TColumn('bairro','bairro',250,[ldGrid,ldLookup,ldComboBox], False)]
+    [TColumn('bairro','bairro',250,[ldLookup,ldComboBox], False)]
     property Bairro: String  read FBairro write FBairro;
-    [TColumn('email','Email',250,[ldGrid,ldLookup,ldComboBox], False)]
+    [TColumn('email','Email',200,[ldGrid,ldLookup,ldComboBox], False)]
     property Email: String  read FEmail write FEmail;
-    [TColumn('telefoneI','Tel 1',15,[ldGrid,ldLookup,ldComboBox], False)]
+    [TColumn('telefoneI','Tel I',100,[ldGrid,ldLookup,ldComboBox], False)]
     [TFormatter(ftTelefone, taLeftJustify)]
     property TelefoneI: String  read FtelefoneI write FtelefoneI;
-    [TColumn('telefoneII','Tel 2',15,[ldGrid,ldLookup,ldComboBox], False)]
+    [TColumn('telefoneII','Tel II',15,[ldLookup,ldComboBox], False)]
     [TFormatter(ftTelefone, taLeftJustify)]
     property TelefoneII: String  read FTelefoneII write FtelefoneII;
+    [TColumn('idCnae','idCnae',0,[ldLookup,ldComboBox], False)]
+    property idCnae: integer  read FIdCnae write FIdCnae;
+
+
     //[TColumn('idCidade','idCidade',0,[ldGrid,ldLookup,ldComboBox], False)]
     //property IdCidade: integer  read FIdCidade write FIdCidade;
+   function ValidarCamposObrigatorios:boolean;
+   Function ValidaCPF(xCPF: String): Boolean;
+
   end;
 
 implementation
+{ TPessoasVO }
 
+function TPessoasVO.ValidarCamposObrigatorios: boolean;
+begin
+Result := true;
+  if (Self.FcpfCnpj = '') then
+  begin
+    raise Exception.Create('O campo Cnpj / Cpf é obrigatório!');
+    Result := false;
+  end
+  else if (Self.Fnome = '') then
+  begin
+    raise Exception.Create('O campo Nome é obrigatório!');
+    Result := false;
+  end;
+end;
+function TPessoasVO.ValidaCPF(xCPF: String): Boolean;
+Var
+  d1, d4, xx, nCount, resto, digito1, digito2: integer;
+  Check: String;
+Begin
+  d1 := 0;
+  d4 := 0;
+  xx := 1;
+  for nCount := 1 to Length(xCPF) - 2 do
+  begin
+    if Pos(Copy(xCPF, nCount, 1), '/-.') = 0 then
+    begin
+      d1 := d1 + (11 - xx) * StrToInt(Copy(xCPF, nCount, 1));
+      d4 := d4 + (12 - xx) * StrToInt(Copy(xCPF, nCount, 1));
+      xx := xx + 1;
+    end;
+  end;
+  resto := (d1 mod 11);
+  if resto < 2 then
+  begin
+    digito1 := 0;
+  end
+  else
+  begin
+    digito1 := 11 - resto;
+  end;
+  d4 := d4 + 2 * digito1;
+  resto := (d4 mod 11);
+  if resto < 2 then
+  begin
+    digito2 := 0;
+  end
+  else
+  begin
+    digito2 := 11 - resto;
+  end;
+  Check := IntToStr(digito1) + IntToStr(digito2);
+  if Check <> Copy(xCPF, succ(Length(xCPF) - 2), 2) then
+  begin
+    Result := False;
+  end
+  else
+  begin
+    Result := True;
+  end;
+end;
+
+
+begin
 
 end.

@@ -9,27 +9,28 @@ type
   TDAO = class
   private
     class function FormatarFiltro(pFiltro: String): String;
-    class function ValorPropriedadeObjeto(pObj: TObject; pCampo: String): Integer;
+    class function ValorPropriedadeObjeto(pObj: TObject;
+      pCampo: String): Integer;
   public
     class function Inserir(pObjeto: TObject): Integer;
     class function Alterar(pObjeto: TObject): Boolean; overload;
     class function Alterar(pObjeto, pObjetoOld: TObject): Boolean; overload;
     class function Excluir(pObjeto: TObject): Boolean;
 
-    class function Consultar<T: class>(pFiltro: String; pPagina: Integer; pConsultaCompleta: Boolean): TObjectList<T>; overload;
-    class function Consultar(pObjeto: TObject; pFiltro: String; pPagina: Integer): TDBXReader; overload;
-    class function ConsultarPorId<T:class>(pId: Integer): T; overload;
+    class function Consultar<T: class>(pFiltro: String; pPagina: Integer;
+      pConsultaCompleta: Boolean): TObjectList<T>; overload;
+    class function Consultar(pObjeto: TObject; pFiltro: String;
+      pPagina: Integer): TDBXReader; overload;
+    class function ConsultarPorId<T: class>(pId: Integer): T; overload;
     class function ComandoSQL(pConsulta: String): Boolean;
   end;
-
-
 
 var
   Conexao: TSQLConnection;
   Query: TSQLQuery;
   ConsultaCompleta: Boolean;
 
-  function ExtraiCamposFiltro(pFiltro: String): TStringList;
+function ExtraiCamposFiltro(pFiltro: String): TStringList;
 
 implementation
 
@@ -46,7 +47,8 @@ begin
   Result := StringReplace(Result, '\"', '"', [rfReplaceAll]);
 end;
 
-class function TDAO.ValorPropriedadeObjeto(pObj: TObject; pCampo: String): Integer;
+class function TDAO.ValorPropriedadeObjeto(pObj: TObject;
+  pCampo: String): Integer;
 var
   Contexto: TRttiContext;
   Tipo: TRttiType;
@@ -96,7 +98,7 @@ var
   UltimoID: Integer;
   Tabela: String;
   NomeTipo: String;
-  CampoId : String;
+  CampoId: String;
 begin
   try
     Contexto := TRttiContext.Create;
@@ -118,36 +120,41 @@ begin
       for Atributo in Propriedade.GetAttributes do
       begin
 
-        if Atributo is TID then begin
+        if Atributo is TId then
+        begin
 
-          CampoId:=(Atributo as TId).NameField;
+          CampoId := (Atributo as TId).NameField;
 
-          if (Propriedade.GetValue(pObjeto).AsInteger>0) then
+          if (Propriedade.GetValue(pObjeto).AsInteger > 0) then
           begin
             CamposSQL := CamposSQL + (Atributo as TId).NameField + ',';
-            ValoresSQL := ValoresSQL + Propriedade.GetValue(pObjeto).ToString + ',';
+            ValoresSQL := ValoresSQL + Propriedade.GetValue(pObjeto)
+              .ToString + ',';
           end;
 
         end;
 
         if Atributo is TColumn then
         begin
-          if not (Atributo as TColumn).Transiente then
+          if not(Atributo as TColumn).Transiente then
           begin
             if (Propriedade.PropertyType.TypeKind in [tkInteger, tkInt64]) then
             begin
               if (Propriedade.GetValue(pObjeto).AsInteger <> 0) then
               begin
                 CamposSQL := CamposSQL + (Atributo as TColumn).Name + ',';
-                ValoresSQL := ValoresSQL + Propriedade.GetValue(pObjeto).ToString + ',';
+                ValoresSQL := ValoresSQL + Propriedade.GetValue(pObjeto)
+                  .ToString + ',';
               end;
             end
-            else if (Propriedade.PropertyType.TypeKind in [tkString, tkUString]) then
+            else if (Propriedade.PropertyType.TypeKind in [tkString, tkUString])
+            then
             begin
               if (Propriedade.GetValue(pObjeto).AsString <> '') then
               begin
                 CamposSQL := CamposSQL + (Atributo as TColumn).Name + ',';
-                ValoresSQL := ValoresSQL + QuotedStr(Propriedade.GetValue(pObjeto).ToString) + ',';
+                ValoresSQL := ValoresSQL +
+                  QuotedStr(Propriedade.GetValue(pObjeto).ToString) + ',';
               end;
             end
             else if (Propriedade.PropertyType.TypeKind = tkFloat) then
@@ -158,7 +165,9 @@ begin
                 CamposSQL := CamposSQL + (Atributo as TColumn).Name + ',';
 
                 if Propriedade.GetValue(pObjeto).AsExtended > 0 then
-                  ValoresSQL := ValoresSQL + QuotedStr(FormatDateTime('yyyy-mm-dd', Propriedade.GetValue(pObjeto).AsExtended)) + ','
+                  ValoresSQL := ValoresSQL +
+                    QuotedStr(FormatDateTime('yyyy-mm-dd',
+                    Propriedade.GetValue(pObjeto).AsExtended)) + ','
                 else
                   ValoresSQL := ValoresSQL + 'null,';
               end
@@ -168,7 +177,9 @@ begin
                 CamposSQL := CamposSQL + (Atributo as TColumn).Name + ',';
 
                 if Propriedade.GetValue(pObjeto).AsExtended > 0 then
-                  ValoresSQL := ValoresSQL + QuotedStr(FormatFloat('0.00', Propriedade.GetValue(pObjeto).AsExtended)) + ','
+                  ValoresSQL := ValoresSQL +
+                    QuotedStr(FormatFloat('0.00', Propriedade.GetValue(pObjeto)
+                    .AsExtended)) + ','
                 else
                   ValoresSQL := ValoresSQL + 'null,';
 
@@ -178,7 +189,8 @@ begin
             else
             begin
               CamposSQL := CamposSQL + (Atributo as TColumn).Name + ',';
-              ValoresSQL := ValoresSQL + QuotedStr(Propriedade.GetValue(pObjeto).ToString) + ',';
+              ValoresSQL := ValoresSQL + QuotedStr(Propriedade.GetValue(pObjeto)
+                .ToString) + ',';
             end;
           end;
         end;
@@ -189,11 +201,12 @@ begin
     Delete(CamposSQL, Length(CamposSQL), 1);
     Delete(ValoresSQL, Length(ValoresSQL), 1);
 
-    ConsultaSQL := ConsultaSQL + '(' + CamposSQL + ') VALUES (' + ValoresSQL + ')';
+    ConsultaSQL := ConsultaSQL + '(' + CamposSQL + ') VALUES (' +
+      ValoresSQL + ')';
 
     if TDBExpress.getBanco = 'Firebird' then
     begin
-      ConsultaSQL := ConsultaSQL + ' RETURNING '+CampoId;
+      ConsultaSQL := ConsultaSQL + ' RETURNING ' + CampoId;
     end;
 
     Query := TSQLQuery.Create(nil);
@@ -281,7 +294,8 @@ begin
               begin
                 if AtributoOld is TColumn then
                 begin
-                  if (AtributoOld as TColumn).Name = (Atributo as TColumn).Name then
+                  if (AtributoOld as TColumn).Name = (Atributo as TColumn).Name
+                  then
                   begin
                     AchouValorOld := True;
                     ValorOld := Propriedade.GetValue(pObjetoOld).ToString;
@@ -290,20 +304,27 @@ begin
                     if ValorNew <> ValorOld then
                     begin
 
-                      if (Propriedade.PropertyType.TypeKind in [tkInteger, tkInt64]) then
+                      if (Propriedade.PropertyType.TypeKind in [tkInteger,
+                        tkInt64]) then
                       begin
                         if (Propriedade.GetValue(pObjeto).AsInteger <> 0) then
-                          CamposSQL := CamposSQL + (Atributo as TColumn).Name + ' = ' + Propriedade.GetValue(pObjeto).ToString + ','
+                          CamposSQL := CamposSQL + (Atributo as TColumn).Name +
+                            ' = ' + Propriedade.GetValue(pObjeto).ToString + ','
                         else
-                          CamposSQL := CamposSQL + (Atributo as TColumn).Name + ' = ' + 'null' + ',';
+                          CamposSQL := CamposSQL + (Atributo as TColumn).Name +
+                            ' = ' + 'null' + ',';
                       end
 
-                      else if (Propriedade.PropertyType.TypeKind in [tkString, tkUString]) then
+                      else if (Propriedade.PropertyType.TypeKind in [tkString,
+                        tkUString]) then
                       begin
                         if (Propriedade.GetValue(pObjeto).AsString <> '') then
-                          CamposSQL := CamposSQL + (Atributo as TColumn).Name + ' = ' + QuotedStr(Propriedade.GetValue(pObjeto).ToString) + ','
+                          CamposSQL := CamposSQL + (Atributo as TColumn).Name +
+                            ' = ' + QuotedStr(Propriedade.GetValue(pObjeto)
+                            .ToString) + ','
                         else
-                          CamposSQL := CamposSQL + (Atributo as TColumn).Name + ' = ' + 'null' + ',';
+                          CamposSQL := CamposSQL + (Atributo as TColumn).Name +
+                            ' = ' + 'null' + ',';
                       end
 
                       else if (Propriedade.PropertyType.TypeKind = tkFloat) then
@@ -312,18 +333,27 @@ begin
                         begin
                           NomeTipo := LowerCase(Propriedade.PropertyType.Name);
                           if NomeTipo = 'tdatetime' then
-                            CamposSQL := CamposSQL + (Atributo as TColumn).Name + ' = ' + QuotedStr(FormatDateTime('yyyy-mm-dd', Propriedade.GetValue(pObjeto).AsExtended)) + ','
+                            CamposSQL := CamposSQL + (Atributo as TColumn).Name
+                              + ' = ' + QuotedStr(FormatDateTime('yyyy-mm-dd',
+                              Propriedade.GetValue(pObjeto).AsExtended)) + ','
                           else
-                            CamposSQL := CamposSQL + (Atributo as TColumn).Name + ' = ' + QuotedStr(FormatFloat('0.00', Propriedade.GetValue(pObjeto).AsExtended)) + ',';
+                            CamposSQL := CamposSQL + (Atributo as TColumn).Name
+                              + ' = ' + QuotedStr
+                              (FormatFloat('0.00', Propriedade.GetValue(pObjeto)
+                              .AsExtended)) + ',';
                         end
                         else
-                          CamposSQL := CamposSQL + (Atributo as TColumn).Name + ' = ' + 'null' + ',';
+                          CamposSQL := CamposSQL + (Atributo as TColumn).Name +
+                            ' = ' + 'null' + ',';
                       end
 
                       else if Propriedade.GetValue(pObjeto).ToString <> '' then
-                        CamposSQL := CamposSQL + (Atributo as TColumn).Name + ' = ' + QuotedStr(Propriedade.GetValue(pObjeto).ToString) + ','
+                        CamposSQL := CamposSQL + (Atributo as TColumn).Name +
+                          ' = ' + QuotedStr(Propriedade.GetValue(pObjeto)
+                          .ToString) + ','
                       else
-                        CamposSQL := CamposSQL + (Atributo as TColumn).Name + ' = ' + 'null' + ',';
+                        CamposSQL := CamposSQL + (Atributo as TColumn).Name +
+                          ' = ' + 'null' + ',';
 
                     end;
                   end;
@@ -337,7 +367,8 @@ begin
           end;
         end
         else if Atributo is TId then
-          FiltroSQL := ' WHERE ' + (Atributo as TId).NameField + ' = ' + QuotedStr(Propriedade.GetValue(pObjeto).ToString);
+          FiltroSQL := ' WHERE ' + (Atributo as TId).NameField + ' = ' +
+            QuotedStr(Propriedade.GetValue(pObjeto).ToString);
       end;
     end;
 
@@ -391,14 +422,17 @@ begin
             begin
               if (Propriedade.GetValue(pObjeto).AsInteger <> 0) then
               begin
-                CamposSQL := CamposSQL + (Atributo as TColumn).Name + ' = ' + Propriedade.GetValue(pObjeto).ToString + ','
+                CamposSQL := CamposSQL + (Atributo as TColumn).Name + ' = ' +
+                  Propriedade.GetValue(pObjeto).ToString + ','
               end;
             end
-            else if (Propriedade.PropertyType.TypeKind in [tkString, tkUString]) then
+            else if (Propriedade.PropertyType.TypeKind in [tkString, tkUString])
+            then
             begin
               if (Propriedade.GetValue(pObjeto).AsString <> '') then
               begin
-                CamposSQL := CamposSQL + (Atributo as TColumn).Name + ' = ' + QuotedStr(Propriedade.GetValue(pObjeto).ToString) + ','
+                CamposSQL := CamposSQL + (Atributo as TColumn).Name + ' = ' +
+                  QuotedStr(Propriedade.GetValue(pObjeto).ToString) + ','
               end;
             end
             else if (Propriedade.PropertyType.TypeKind = tkFloat) then
@@ -407,19 +441,25 @@ begin
               if NomeTipo = 'tdatetime' then
               begin
                 if Propriedade.GetValue(pObjeto).AsExtended > 0 then
-                  CamposSQL := CamposSQL + (Atributo as TColumn).Name + ' = ' + QuotedStr(FormatDateTime('yyyy-mm-dd', Propriedade.GetValue(pObjeto).AsExtended)) + ',';
+                  CamposSQL := CamposSQL + (Atributo as TColumn).Name + ' = ' +
+                    QuotedStr(FormatDateTime('yyyy-mm-dd',
+                    Propriedade.GetValue(pObjeto).AsExtended)) + ',';
               end
               else
-                CamposSQL := CamposSQL + (Atributo as TColumn).Name + ' = ' + QuotedStr(FormatFloat('0.00', Propriedade.GetValue(pObjeto).AsExtended)) + ',';
+                CamposSQL := CamposSQL + (Atributo as TColumn).Name + ' = ' +
+                  QuotedStr(FormatFloat('0.00', Propriedade.GetValue(pObjeto)
+                  .AsExtended)) + ',';
             end
             else if Propriedade.GetValue(pObjeto).ToString <> '' then
             begin
-              CamposSQL := CamposSQL + (Atributo as TColumn).Name + ' = ' + QuotedStr(Propriedade.GetValue(pObjeto).ToString) + ','
+              CamposSQL := CamposSQL + (Atributo as TColumn).Name + ' = ' +
+                QuotedStr(Propriedade.GetValue(pObjeto).ToString) + ','
             end;
           end;
         end
         else if Atributo is TId then
-          FiltroSQL := ' WHERE ' + (Atributo as TId).NameField + ' = ' + QuotedStr(Propriedade.GetValue(pObjeto).ToString);
+          FiltroSQL := ' WHERE ' + (Atributo as TId).NameField + ' = ' +
+            QuotedStr(Propriedade.GetValue(pObjeto).ToString);
       end;
     end;
 
@@ -466,7 +506,8 @@ begin
       begin
         if Atributo is TId then
         begin
-          FiltroSQL := ' WHERE ' + (Atributo as TId).NameField + ' = ' + QuotedStr(Propriedade.GetValue(pObjeto).ToString);
+          FiltroSQL := ' WHERE ' + (Atributo as TId).NameField + ' = ' +
+            QuotedStr(Propriedade.GetValue(pObjeto).ToString);
         end;
       end;
     end;
@@ -485,7 +526,7 @@ begin
   end;
 end;
 
-class function TDAO.ConsultarPorId<T>(pId:Integer): T;
+class function TDAO.ConsultarPorId<T>(pId: Integer): T;
 var
   ObjConsulta: TObject;
   Obj: T;
@@ -500,7 +541,7 @@ var
 begin
   try
     try
-      Result:=nil;
+      Result := nil;
       ObjConsulta := TClass(T).Create;
       Contexto := TRttiContext.Create;
       Tipo := Contexto.GetType(ObjConsulta.ClassType);
@@ -519,14 +560,15 @@ begin
         begin
           if Atributo is TId then
           begin
-            FiltroSQL := ' WHERE ' + (Atributo as TId).NameField + ' = ' + inttostr(pId);
+            FiltroSQL := ' WHERE ' + (Atributo as TId).NameField + ' = ' +
+              inttostr(pId);
           end;
         end;
       end;
 
       DBXConnection := TDBExpress.getConexao.DBXConnection;
       DBXCommand := DBXConnection.CreateCommand;
-      DBXCommand.Text := ConsultaSQL+FiltroSQL;
+      DBXCommand.Text := ConsultaSQL + FiltroSQL;
       DBXCommand.Prepare;
       DBXReader := DBXCommand.ExecuteQuery;
 
@@ -536,9 +578,9 @@ begin
         Break;
       end;
 
-      Result:=obj;
+      Result := Obj;
     except
-      raise ;
+      raise;
     end;
   finally
     ObjConsulta.Free;
@@ -546,12 +588,13 @@ begin
   end;
 end;
 
-class function TDAO.Consultar<T>(pFiltro: String; pPagina: Integer; pConsultaCompleta: Boolean): TObjectList<T>;
+class function TDAO.Consultar<T>(pFiltro: String; pPagina: Integer;
+  pConsultaCompleta: Boolean): TObjectList<T>;
 var
   ObjConsulta: TObject;
   Obj: T;
   DBXReader: TDBXReader;
-  ObjListaConsulta : Tlist<TObject>;
+  ObjListaConsulta: Tlist<TObject>;
 begin
 
   ObjConsulta := TClass(T).Create;
@@ -569,21 +612,22 @@ begin
           try
 
           finally
-//            TObject(Obj).Free;
+            // TObject(Obj).Free;
           end;
         end;
       finally
         DBXReader.Free;
       end;
     except
-      raise ;
+      raise;
     end;
   finally
     ObjConsulta.Free;
   end;
 end;
 
-class function TDAO.Consultar(pObjeto: TObject; pFiltro: String; pPagina: Integer): TDBXReader;
+class function TDAO.Consultar(pObjeto: TObject; pFiltro: String;
+  pPagina: Integer): TDBXReader;
 var
   Contexto: TRttiContext;
   Tipo: TRttiType;
@@ -629,11 +673,17 @@ begin
             if Atributo is TColumn then
             begin
               // se o campo que retornou na lista for transiente, pega o nome da tabela e marca a consulta como transiente
-              if ((Atributo as TColumn).Name = Campo) and ((Atributo as TColumn).Transiente) then
+              if ((Atributo as TColumn).Name = Campo) and
+                ((Atributo as TColumn).Transiente) then
               begin
                 Campo := StringReplace(Campo, '.', '', [rfReplaceAll]);
-                ConsultaSQL := ConsultaSQL + ', ' + (Atributo as TColumn).Name + ' AS ' + Campo;
-                Joins := Joins + ' ' + 'LEFT JOIN ' + (Atributo as TColumn).TableName + ' ON ' + NomeTabelaPrincipal + '.' + (Atributo as TColumn).LocalColumn + ' = ' + (Atributo as TColumn).TableName + '.' + (Atributo as TColumn).ForeingColumn;
+                ConsultaSQL := ConsultaSQL + ', ' + (Atributo as TColumn).Name +
+                  ' AS ' + Campo;
+                Joins := Joins + ' ' + 'LEFT JOIN ' + (Atributo as TColumn)
+                  .TableName + ' ON ' + NomeTabelaPrincipal + '.' +
+                  (Atributo as TColumn).LocalColumn + ' = ' +
+                  (Atributo as TColumn).TableName + '.' + (Atributo as TColumn)
+                  .ForeingColumn;
                 ConsultaTransiente := True;
               end;
             end;
@@ -651,11 +701,15 @@ begin
           begin
             if TDBExpress.getBanco = 'Firebird' then
             begin
-              ConsultaSQL := 'SELECT first ' + IntToStr(TConstantes.QUANTIDADE_POR_PAGINA) + ' skip ' + IntToStr(pPagina) + ' ' + (Atributo as TTable).Name + '.*' + ConsultaSQL + ' From ' + (Atributo as TTable).Name + Joins;
+              ConsultaSQL := 'SELECT first ' +
+                inttostr(TConstantes.QUANTIDADE_POR_PAGINA) + ' skip ' +
+                inttostr(pPagina) + ' ' + (Atributo as TTable).Name + '.*' +
+                ConsultaSQL + ' From ' + (Atributo as TTable).Name + Joins;
             end
             else
             begin
-              ConsultaSQL := 'SELECT ' + (Atributo as TTable).Name + '.*' + ConsultaSQL + ' FROM ' + (Atributo as TTable).Name + Joins;
+              ConsultaSQL := 'SELECT ' + (Atributo as TTable).Name + '.*' +
+                ConsultaSQL + ' FROM ' + (Atributo as TTable).Name + Joins;
             end;
           end;
         end;
@@ -669,7 +723,9 @@ begin
           begin
             if TDBExpress.getBanco = 'Firebird' then
             begin
-              ConsultaSQL := 'SELECT first ' + IntToStr(TConstantes.QUANTIDADE_POR_PAGINA) + ' skip ' + IntToStr(pPagina) + ' * FROM ' + (Atributo as TTable).Name;
+              ConsultaSQL := 'SELECT first ' +
+                inttostr(TConstantes.QUANTIDADE_POR_PAGINA) + ' skip ' +
+                inttostr(pPagina) + ' * FROM ' + (Atributo as TTable).Name;
             end
             else
             begin
@@ -683,7 +739,8 @@ begin
       begin
         if pFiltro <> '' then
         begin
-          pFiltro := StringReplace(FormatarFiltro(pFiltro), '"', chr(39), [rfReplaceAll]);
+          pFiltro := StringReplace(FormatarFiltro(pFiltro), '"', chr(39),
+            [rfReplaceAll]);
           FiltroSQL := ' WHERE ' + pFiltro;
         end;
       end
@@ -696,18 +753,21 @@ begin
 
       if (TDBExpress.getBanco = 'MySQL') and (pPagina >= 0) then
       begin
-        ConsultaSQL := ConsultaSQL + ' limit ' + IntToStr(TConstantes.QUANTIDADE_POR_PAGINA) + ' offset ' + IntToStr(pPagina);
+        ConsultaSQL := ConsultaSQL + ' limit ' +
+          inttostr(TConstantes.QUANTIDADE_POR_PAGINA) + ' offset ' +
+          inttostr(pPagina);
       end
       else if TDBExpress.getBanco = 'Postgres' then
       begin
-        ConsultaSQL := ConsultaSQL + ' limit ' + IntToStr(pPagina) + ' offset ' + IntToStr(TConstantes.QUANTIDADE_POR_PAGINA);
+        ConsultaSQL := ConsultaSQL + ' limit ' + inttostr(pPagina) + ' offset '
+          + inttostr(TConstantes.QUANTIDADE_POR_PAGINA);
       end;
 
       // Retira os [] da consulta
       ConsultaSQL := StringReplace(ConsultaSQL, '[', '', [rfReplaceAll]);
       ConsultaSQL := StringReplace(ConsultaSQL, ']', '', [rfReplaceAll]);
 
-//      ShowMessage(ConsultaSql);
+      // ShowMessage(ConsultaSql);
 
       DBXConnection := TDBExpress.getConexao.DBXConnection;
       DBXCommand := DBXConnection.CreateCommand;
@@ -718,7 +778,7 @@ begin
 
       Result := DBXReader;
     except
-      raise ;
+      raise;
     end;
   finally
     Contexto.Free;
@@ -726,13 +786,12 @@ begin
   end;
 end;
 
-
 class function TDAO.ComandoSQL(pConsulta: String): Boolean;
 begin
   try
-      Conexao := TDBExpress.getConexao;
-      Query := TSQLQuery.Create(nil);
-      Query.SQLConnection := Conexao;
+    Conexao := TDBExpress.getConexao;
+    Query := TSQLQuery.Create(nil);
+    Query.SQLConnection := Conexao;
 
     try
 
@@ -746,14 +805,14 @@ begin
     end;
 
   finally
-      Query.Free;
+    Query.Free;
   end;
 end;
 
 function ExtraiCamposFiltro(pFiltro: String): TStringList;
 var
   Campo, Filtro: String;
-  i, Posicao: integer;
+  i, Posicao: Integer;
 begin
   try
     Filtro := pFiltro;
@@ -769,7 +828,7 @@ begin
         Campo := StringReplace(Campo, ']', '', [rfReplaceAll]);
         Delete(Filtro, i, Posicao);
         i := 0;
-        Result.add(Campo);
+        Result.Add(Campo);
       end;
       inc(i);
     end;

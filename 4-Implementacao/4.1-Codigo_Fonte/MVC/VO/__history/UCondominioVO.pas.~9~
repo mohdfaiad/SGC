@@ -1,0 +1,92 @@
+unit UCondominioVO;
+
+interface
+
+uses Atributos, Classes, Constantes, Generics.Collections, SysUtils, UGenericVO,UCnaeVO, UNaturezaJuridica;
+
+type
+  [TEntity]
+  [TTable('Condominio')]
+  TPessoasVO = class(TGenericVO)
+  private
+    FIdCondominio: Integer;
+    FCnpj: String;
+    FNome: String;
+    FCep: String;
+    FEndereco: String;
+    FNumero: String;
+    FComplemento: String;
+    FBairro: String;
+    FEmail: String;
+    FTelefoneI: String;
+    FTelefoneII: String;
+    FMetragem : String;
+    FInscricaoMunicipal : String;
+    FNomeFantasia : String;
+    FRegimeTributario : String;
+    FDtInicioAtividade : String;
+    FIdCidade : integer;
+    FIdEstado : integer;
+    FIdPais : integer;
+    FIdCnae: integer;
+    FIdNatureza : integer;
+
+  public
+    CnaeVO: TCNAEVO;
+    NaturezaVO : TNATUREZAJURIDICA;
+
+    [TId('idPessoa')]
+    [TGeneratedValue(sAuto)]
+    property idPessoa: Integer  read FIdCondominio write FIdCondominio;
+    [TColumn('cpfCnpj','CNPJ',130,[ldGrid,ldLookup,ldComboBox], False)]
+    property Cnpjcpf: String  read FCnpj write FCnpj;
+    [TColumn('nome','Nome',250,[ldGrid,ldLookup,ldComboBox], False)]
+    property nome : String  read Fnome write Fnome;
+    [TColumn('cep','CEP',80,[ldLookup,ldComboBox], False)]
+    property Cep: String  read FCep write FCep;
+    [TColumn('endereco','Rua',250,[ldLookup,ldComboBox], False)]
+    property Endereco: String  read FEndereco write FEndereco;
+    [TColumn('numero','numero',50,[ldLookup,ldComboBox], False)]
+    property Numero: String  read FNumero write FNumero;
+    [TColumn('complemento','complemento',250,[ldLookup,ldComboBox], False)]
+    property Complemento: String  read FComplemento write FComplemento;
+    [TColumn('bairro','bairro',250,[ldLookup,ldComboBox], False)]
+    property Bairro: String  read FBairro write FBairro;
+    [TColumn('email','Email',200,[ldGrid,ldLookup,ldComboBox], False)]
+    property Email: String  read FEmail write FEmail;
+    [TColumn('telefoneI','Tel I',100,[ldGrid,ldLookup,ldComboBox], False)]
+    [TFormatter(ftTelefone, taLeftJustify)]
+    property TelefoneI: String  read FtelefoneI write FtelefoneI;
+    [TColumn('telefoneII','Tel 2',15,[ldLookup,ldComboBox], False)]
+    [TFormatter(ftTelefone, taLeftJustify)]
+    property TelefoneII: String  read FTelefoneII write FtelefoneII;
+    [TColumn('metragem','Metragem',0,[ldLookup,ldComboBox], False)]
+    property metragem: string  read FMetragem write FMetragem;
+    [TColumn('inscricaoMunicipal','CMC',0,[ldLookup,ldComboBox], False)]
+    property inscricaoMunicipal: string  read FInscricaoMunicipal write FInscricaoMunicipal;
+    [TColumn('nomeFantasia','Fantasia',0,[ldLookup,ldComboBox], False)]
+    property nomeFantasia: string  read FNomeFantasia write FNomeFantasia;
+    [TColumn('regimeTributario','Tributação',0,[ldLookup,ldComboBox], False)]
+    property regimeTributario: string  read FRegimeTributario write FRegimeTributario;
+    [TColumn('idCnae','idCnae',0,[ldLookup,ldComboBox], False)]
+    property idCnae: integer  read FIdCnae write FIdCnae;
+    [TColumn('idNaturezaJuridica','idNaturezaJuridica',0,[ldLookup,ldComboBox], False)]
+    property idNaturezaJuridica: integer  read FIdNatureza write FIdNatureza;
+
+  //  [TColumn('DtInicioAtividade','Inicio Atividade',0,[ldLookup,ldComboBox], False)]
+  //  property DtInicioAtividade: string  read FDtInicioAtividade write FDtInicioAtividade;
+
+
+
+ //   [TColumn('idCidade','idCidade',0,[ldGrid,ldLookup,ldComboBox], False)]
+ //   property IdCidade: integer  read FIdCidade write FIdCidade;
+ //   [TColumn('idEstado','idEstado',0,[ldGrid,ldLookup,ldComboBox], False)]
+ //   property idEstado: integer  read FIdEstado write FIdEstado;
+ //   [TColumn('idPais','idPais',0,[ldGrid,ldLookup,ldComboBox], False)]
+ //   property idPais: integer  read FIdPais write FIdPais;
+
+
+  end;
+implementation
+
+end.

@@ -1,0 +1,55 @@
+unit UController;
+
+interface
+
+uses
+  Classes, SysUtils, Forms, Windows, DB, DBClient, DBXJSON, IWSystem,
+  Rtti, Atributos, StrUtils, TypInfo, Generics.Collections, Biblioteca,
+  Vcl.Dialogs,UGenericVO,UDAO;
+
+type
+  TController<T: TGenericVO> = clTGenericVOass
+  private
+  public
+    function Inserir(Objeto:T) : integer;
+    function Consultar(condicao : String):TObjectList<T>;
+    function ConsultarPorId(id:integer):T; virtual;
+    function Alterar(Objeto: T):boolean;
+    function Excluir(Objeto: T):boolean;
+
+
+  protected
+  end;
+
+implementation
+
+function TController<T>.Inserir(Objeto: T): integer;
+begin
+  Result := TDAO.Inserir(Objeto);
+end;
+
+function TController<T>.Alterar(Objeto: T):boolean;
+begin
+  Result := TDAO.Alterar(Objeto);
+end;
+
+function TController<T>.Consultar(condicao: String): TObjectList<T>;
+begin
+  result := TDAO.Consultar<T>(condicao,0,true);
+end;
+
+function TController<T>.ConsultarPorId(id: integer): T;
+begin
+  result := TDAO.ConsultarPorId<T>(id);
+end;
+
+function TController<T>.Excluir(Objeto: T):boolean;
+begin
+  Result := TDAO.Excluir(Objeto);
+end;
+
+
+
+
+
+end.

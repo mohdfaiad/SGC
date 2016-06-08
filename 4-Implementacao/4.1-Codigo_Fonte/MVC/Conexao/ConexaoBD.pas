@@ -3,7 +3,7 @@ unit ConexaoBD;
 interface
 
 uses Classes, SQLExpr, WideStrings, DB, SysUtils, DBXFirebird,
-     IWSystem, Inifiles;
+  IWSystem, Inifiles;
 
 type
 
@@ -11,7 +11,8 @@ type
   private
     class var Banco: String;
     class var Conexao: TSQLConnection;
-    class procedure ConfigurarConexao(var pConexao: TSQLConnection; pBD: String);
+    class procedure ConfigurarConexao(var pConexao: TSQLConnection;
+      pBD: String);
   public
     class procedure Conectar(BD: String);
     class procedure Desconectar;
@@ -46,39 +47,40 @@ begin
   Result := Conexao;
 end;
 
-class procedure TDBExpress.ConfigurarConexao(var pConexao: TSQLConnection; pBD: String);
+class procedure TDBExpress.ConfigurarConexao(var pConexao: TSQLConnection;
+  pBD: String);
 var
   Arquivo: String;
   Parametros: TStrings;
 begin
-      //Carrega valores para conexão com banco de dados
-{      Conexao.Connected := false;
-      Conexao.LoginPrompt := false;
-      Conexao.ParamsLoaded := True;
-      Conexao.DriverName := 'MySQL';
-      Conexao.GetDriverFunc := 'getSQLDriverMYSQL50';
-      Conexao.LibraryName := 'dbxopenmysql50.dll';
-      Conexao.VendorLib := 'libmysql.dll';
-      Conexao.Params.Clear;
-      Conexao.Params.Add('servercharset=utf8');
-      Conexao.Params.Add('hostname=localhost');
-      Conexao.Params.Add('user_name=mysql');
-      Conexao.Params.Add('password=mysql');
-      Conexao.Params.Add('Database=SGC');}
+  // Carrega valores para conexão com banco de dados
+  { Conexao.Connected := false;
+    Conexao.LoginPrompt := false;
+    Conexao.ParamsLoaded := True;
+    Conexao.DriverName := 'MySQL';
+    Conexao.GetDriverFunc := 'getSQLDriverMYSQL50';
+    Conexao.LibraryName := 'dbxopenmysql50.dll';
+    Conexao.VendorLib := 'libmysql.dll';
+    Conexao.Params.Clear;
+    Conexao.Params.Add('servercharset=utf8');
+    Conexao.Params.Add('hostname=localhost');
+    Conexao.Params.Add('user_name=mysql');
+    Conexao.Params.Add('password=mysql');
+    Conexao.Params.Add('Database=SGC'); }
 
   if pBD = 'Firebird' then
   begin
 
     Arquivo := gsAppPath + 'config.txt';
 
-    Conexao.DriverName     := 'Firebird';
+    Conexao.DriverName := 'Firebird';
     Conexao.ConnectionName := 'FBConnection';
-    Conexao.GetDriverFunc  := 'getSQLDriverINTERBASE';
-    Conexao.LibraryName    := 'dbxfb.dll';
-    Conexao.VendorLib      := 'fbclient.dll';
+    Conexao.GetDriverFunc := 'getSQLDriverINTERBASE';
+    Conexao.LibraryName := 'dbxfb.dll';
+    Conexao.VendorLib := 'fbclient.dll';
   end;
 
-  //variável para carregar os parametros do banco
+  // variável para carregar os parametros do banco
   Parametros := TStringList.Create;
 
   try

@@ -1,0 +1,38 @@
+unit UCnaeController;
+
+interface
+
+uses
+  Classes, SQLExpr, SysUtils, Generics.Collections, DBXJSON, DBXCommon, ConexaoBD,
+  UController, DBClient, DB, UEstadoVO, UPaisVo;
+
+type
+  TEstadoController = class (TController<TEstadoVO>)
+  private
+
+  public
+    function ConsultarPorId(id:integer):TEstadoVO;
+  end;
+
+
+implementation
+
+uses
+   UDao, Constantes, Vcl.Dialogs;
+
+{ TPessoasController }
+
+{ TPessoasController }
+
+function TEstadoController.ConsultarPorId(id: integer): TEstadoVO;
+var P:TEstadoVO;
+begin
+  p:=TDAO.ConsultarPorId<TEstadoVO>(id);
+  if(p<>nil)then
+      p.PaisVO:= TDAO.ConsultarPorId<TPaisVO>(p.idPais);
+  result:=p;
+end;
+
+begin
+
+end.

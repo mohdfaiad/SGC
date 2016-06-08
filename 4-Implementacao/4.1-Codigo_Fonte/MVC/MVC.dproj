@@ -122,6 +122,26 @@
             <Form>FTelaCadastroNaturezaJuridica</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="VO\UCondominioVO.pas"/>
+        <DCCReference Include="VO\UEstadoVO.pas"/>
+        <DCCReference Include="tela\UEstado.pas">
+            <Form>FTelaCadastroEstado</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="controle\UEstadoController.pas"/>
+        <DCCReference Include="VO\UCidadeVO.pas"/>
+        <DCCReference Include="controle\UCidadeController.pas"/>
+        <DCCReference Include="tela\UCidade.pas">
+            <Form>TFTelaCadastroCidade</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="controle\UCondominioController.pas"/>
+        <DCCReference Include="tela\UCondominio.pas">
+            <Form>FTelaCadastroCondominio</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="controle\UCnaeController.pas"/>
+        <DCCReference Include="controle\UNaturezaJuridicaController.pas"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>
@@ -179,6 +199,9 @@
                 <Platform value="Win32">True</Platform>
                 <Platform value="Win64">False</Platform>
             </Platforms>
+            <UnitTesting>
+                <TestProjectName>C:\Faculdade\Trab Grad II\MVC\Test\MVCTests.dproj</TestProjectName>
+            </UnitTesting>
         </BorlandProject>
         <ProjectFileVersion>12</ProjectFileVersion>
     </ProjectExtensions>

@@ -22,7 +22,18 @@ uses
   UCnaeVO in 'VO\UCnaeVO.pas',
   UCnae in 'tela\UCnae.pas' {FTelaCadastroCnae},
   UNaturezaJuridicaVO in 'VO\UNaturezaJuridicaVO.pas',
-  UNaturezaJuridica in 'tela\UNaturezaJuridica.pas' {FTelaCadastroNaturezaJuridica};
+  UNaturezaJuridica in 'tela\UNaturezaJuridica.pas' {FTelaCadastroNaturezaJuridica},
+  UCondominioVO in 'VO\UCondominioVO.pas',
+  UEstadoVO in 'VO\UEstadoVO.pas',
+  UEstado in 'tela\UEstado.pas' {FTelaCadastroEstado},
+  UEstadoController in 'controle\UEstadoController.pas',
+  UCidadeVO in 'VO\UCidadeVO.pas',
+  UCidadeController in 'controle\UCidadeController.pas',
+  UCidade in 'tela\UCidade.pas' {TFTelaCadastroCidade},
+  UCondominioController in 'controle\UCondominioController.pas',
+  UCondominio in 'tela\UCondominio.pas' {FTelaCadastroCondominio},
+  UCnaeController in 'controle\UCnaeController.pas',
+  UNaturezaJuridicaController in 'controle\UNaturezaJuridicaController.pas';
 
 {$R *.res}
 
@@ -30,5 +41,8 @@ begin
   Application.Initialize;
   Application.MainFormOnTaskbar := True;
   Application.CreateForm(TFormMenu, FormMenu);
+  Application.CreateForm(TFTelaCadastroEstado, FTelaCadastroEstado);
+  Application.CreateForm(TTFTelaCadastroCidade, TFTelaCadastroCidade);
+  Application.CreateForm(TFTelaCadastroCondominio, FTelaCadastroCondominio);
   Application.Run;
 end.

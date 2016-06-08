@@ -1,0 +1,25 @@
+inherited TFTelaCadastroCidade: TTFTelaCadastroCidade
+  Caption = 'Cadastro de Cidade'
+  PixelsPerInch = 96
+  TextHeight = 13
+  inherited PageControl: TPageControl
+    inherited DadosCadastrais: TTabSheet
+      ExplicitLeft = 4
+      ExplicitTop = 24
+      ExplicitWidth = 775
+      ExplicitHeight = 386
+      inherited PageControlEdit: TPageControl
+        ExplicitTop = 57
+        inherited DadosPrincipais: TTabSheet
+          ExplicitLeft = 4
+          ExplicitTop = 24
+          ExplicitWidth = 767
+          ExplicitHeight = 301
+          inherited PanelEdits: TPanel
+            ExplicitTop = 0
+          end
+        end
+      end
+    end
+  end
+end

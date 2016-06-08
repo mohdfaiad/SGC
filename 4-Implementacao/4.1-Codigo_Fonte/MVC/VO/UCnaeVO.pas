@@ -19,12 +19,31 @@ type
     [TGeneratedValue(sAuto)]
     property idCnae: Integer  read FidCnae write FidCnae;
     [TColumn('CODIGOCNAE','Cnae',80,[ldGrid], False)]
+    [TFormatter(ftCnae, taLeftJustify)]
     property codigoCnae: String  read FcodigoCnae write FcodigoCnae;
-    [TColumn('DESCRICAO','Descrição',400,[ldGrid], False)]
+    [TColumn('DESCRICAO','Descrição',500,[ldGrid], False)]
     property descricao: String  read Fdescricao write Fdescricao;
 
+    function ValidarCamposObrigatorios:boolean;
   end;
 
 implementation
+
+{ TCnaeVO }
+
+function TCnaeVO.ValidarCamposObrigatorios: boolean;
+begin
+  Result := true;
+  if (Self.FcodigoCnae = '') then
+  begin
+    raise Exception.Create('O campo Cnae é obrigatório!');
+    Result := false;
+  end
+  else if (Self.Fdescricao = '') then
+  begin
+    raise Exception.Create('O campo Descrição é obrigatório!');
+    Result := false;
+  end;
+end;
 
 end.

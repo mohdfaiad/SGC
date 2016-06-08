@@ -3,10 +3,12 @@ unit UTela;
 interface
 
 uses
-  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
+  System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, UBase, Vcl.StdCtrls, Vcl.Mask,
-  Vcl.Buttons, Vcl.ExtCtrls, Vcl.ComCtrls, Vcl.Grids, Vcl.DBGrids, DBClient,UGenericVO,
-  DB,UController,Generics.Collections, Atributos, Rtti;
+  Vcl.Buttons, Vcl.ExtCtrls, Vcl.ComCtrls, Vcl.Grids, Vcl.DBGrids, DBClient,
+  UGenericVO,
+  DB, UController, Generics.Collections, Atributos, Rtti;
 
 type
   TClasseObjetoGridVO = class of TGenericVO;
@@ -24,20 +26,24 @@ type
     procedure FormCreate(Sender: TObject);
     procedure BitBtn2Click(Sender: TObject);
     procedure BotaoConsultarClick(Sender: TObject);
+    procedure GridDblClick(Sender: TObject);
   private
     { Private declarations }
   public
     { Public declarations }
 
-    ObjetoController: TController<TGenericVO>;
-    ObjetoVO: TGenericVO;
+    // ObjetoController: TController<TGenericVO>;
+
+    ObjetoRetornoVO: TGenericVO;
+    FechaForm: boolean;
 
     ClasseObjetoGridVO: TClassGenericVO;
     procedure ConfiguraGrid;
     procedure LimparCampos; virtual;
     procedure GridParaEdits; virtual;
-    procedure PopulaGrid<T:class>(lista: TObjectList<T>);
+    procedure PopulaGrid<T: class>(lista: TObjectList<T>);
     procedure DoConsultar; virtual;
+    procedure CarregaObjetoSelecionado; virtual;
   published
     CDSGrid: TClientDataSet;
     DSGrid: TDataSource;
@@ -46,7 +52,6 @@ type
 var
   FTela: TFTela;
 
-
 implementation
 
 {$R *.dfm}
@@ -54,8 +59,6 @@ implementation
 uses Biblioteca, TypInfo;
 
 { TFTela }
-
-
 
 procedure TFTela.PopulaGrid<T>(lista: TObjectList<T>);
 var
@@ -68,7 +71,7 @@ var
   Metodo: TRttiMethod;
   Params: TArray<TRttiParameter>;
   DataSetField: TField;
-  EncontrouConstrutor: Boolean;
+  EncontrouConstrutor: boolean;
 begin
   if not Assigned(CDSGrid) then
     Exit;
@@ -83,7 +86,7 @@ begin
 
       for I := 0 to lista.Count - 1 do
       begin
-        ObjetoVO := lista[i];
+        ObjetoVO := lista[I];
         try
           CDSGrid.Append;
 
@@ -97,9 +100,11 @@ begin
                 if Assigned(DataSetField) then
                 begin
                   if Propriedade.PropertyType.TypeKind in [tkEnumeration] then
-                    DataSetField.AsBoolean := Propriedade.GetValue(TObject(ObjetoVO)).AsBoolean
+                    DataSetField.AsBoolean :=
+                      Propriedade.GetValue(TObject(ObjetoVO)).AsBoolean
                   else
-                    DataSetField.Value := Propriedade.GetValue(TObject(ObjetoVO)).AsVariant;
+                    DataSetField.Value := Propriedade.GetValue(TObject(ObjetoVO)
+                      ).AsVariant;
 
                   if DataSetField.DataType = ftDateTime then
                   begin
@@ -113,8 +118,6 @@ begin
                       DataSetField.Clear;
                   end;
 
-
-
                 end;
               end
               else if Atributo is TId then
@@ -122,7 +125,8 @@ begin
                 DataSetField := CDSGrid.FindField((Atributo as TId).NameField);
                 if Assigned(DataSetField) then
                 begin
-                  DataSetField.Value := Propriedade.GetValue(TObject(ObjetoVO)).AsVariant;
+                  DataSetField.Value := Propriedade.GetValue(TObject(ObjetoVO))
+                    .AsVariant;
                 end;
               end;
             end;
@@ -156,6 +160,11 @@ begin
   DoConsultar;
 end;
 
+procedure TFTela.CarregaObjetoSelecionado;
+begin
+
+end;
+
 procedure TFTela.ConfiguraGrid;
 begin
   ConfiguraCDSFromVO(CDSGrid, ClasseObjetoGridVO);
@@ -170,11 +179,13 @@ end;
 procedure TFTela.FormCreate(Sender: TObject);
 begin
   inherited;
+  FechaForm := false;
+  ObjetoRetornoVO := nil;
   CDSGrid := TClientDataSet.Create(Self);
   DSGrid := TDataSource.Create(Self);
   DSGrid.DataSet := CDSGrid;
   Grid.DataSource := DSGrid;
-  PageControl.ActivePage:=Consulta;
+  PageControl.ActivePage := Consulta;
   ConfiguraGrid;
   DoConsultar;
 end;
@@ -194,6 +205,15 @@ begin
       (Components[I] as TMemo).Lines.Clear;
   end;
 
+end;
+
+procedure TFTela.GridDblClick(Sender: TObject);
+begin
+  if (FechaForm = true) then
+  begin
+    CarregaObjetoSelecionado;
+    Close;
+  end;
 end;
 
 procedure TFTela.GridParaEdits;

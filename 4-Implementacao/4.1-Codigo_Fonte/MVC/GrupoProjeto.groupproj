@@ -1,0 +1,48 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{6CFCF104-89FF-4CA5-9207-5A78D29DD162}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="MVC.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="..\TestMVC\TestMVC.dproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="MVC">
+        <MSBuild Projects="MVC.dproj"/>
+    </Target>
+    <Target Name="MVC:Clean">
+        <MSBuild Projects="MVC.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="MVC:Make">
+        <MSBuild Projects="MVC.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="TestMVC">
+        <MSBuild Projects="..\TestMVC\TestMVC.dproj"/>
+    </Target>
+    <Target Name="TestMVC:Clean">
+        <MSBuild Projects="..\TestMVC\TestMVC.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="TestMVC:Make">
+        <MSBuild Projects="..\TestMVC\TestMVC.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="MVC;TestMVC"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="MVC:Clean;TestMVC:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="MVC:Make;TestMVC:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>
