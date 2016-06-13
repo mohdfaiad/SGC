@@ -16,8 +16,6 @@ inherited FTelaCadastro: TFTelaCadastro
     ExplicitWidth = 783
     ExplicitHeight = 414
     inherited Consulta: TTabSheet
-      ExplicitLeft = 4
-      ExplicitTop = 24
       ExplicitWidth = 775
       ExplicitHeight = 386
       inherited Grid: TDBGrid
@@ -62,10 +60,6 @@ inherited FTelaCadastro: TFTelaCadastro
     object DadosCadastrais: TTabSheet
       Caption = 'Dados Cadastrais'
       ImageIndex = 1
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
       object PanelBotoes: TPanel
         Left = 0
         Top = 0
@@ -217,10 +211,6 @@ inherited FTelaCadastro: TFTelaCadastro
         TabOrder = 1
         object DadosPrincipais: TTabSheet
           Caption = 'Dados Principais'
-          ExplicitLeft = 0
-          ExplicitTop = 0
-          ExplicitWidth = 0
-          ExplicitHeight = 0
           object PanelEdits: TPanel
             Left = 0
             Top = 0
@@ -229,7 +219,6 @@ inherited FTelaCadastro: TFTelaCadastro
             Align = alClient
             ParentBackground = False
             TabOrder = 0
-            ExplicitTop = 2
           end
         end
       end

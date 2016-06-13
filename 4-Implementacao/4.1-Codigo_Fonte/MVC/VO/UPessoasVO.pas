@@ -2,7 +2,7 @@ unit UPessoasVO;
 
 interface
 
-uses Atributos, Classes, Constantes, Generics.Collections, SysUtils, UGenericVO,UCnaeVO;
+uses Atributos, Classes, Constantes, Generics.Collections, SysUtils, UGenericVO,UCnaeVO, UCidadeVO, UEstadoVO, UPaisVO;
 
 type
   [TEntity]
@@ -21,9 +21,15 @@ type
     FtelefoneI: String;
     FtelefoneII: String;
     FidCnae: integer;
+    FIdCidade : integer;
+    FidEstado : integer;
+    FidPais : integer;
 
   public
     CnaeVO: TCNAEVO;
+    CidadeVO : TCidadeVO;
+    EstadoVO : TEstadoVO;
+    PaisVO   : TPaisVO;
 
     [TId('idPessoa')]
     [TGeneratedValue(sAuto)]
@@ -52,12 +58,21 @@ type
     property TelefoneII: String  read FTelefoneII write FtelefoneII;
     [TColumn('idCnae','idCnae',0,[ldLookup,ldComboBox], False)]
     property idCnae: integer  read FIdCnae write FIdCnae;
+    [TColumn('idCidade','idCidade',0,[ldGrid,ldLookup,ldComboBox], False)]
+    property idCidade: integer  read FIdCidade write FIdCidade;
+
+    [TColumn('idEstado','idEstado',0,[ldGrid,ldLookup,ldComboBox], False)]
+    property idEstado: integer  read FidEstado write FidEstado;
+
+    [TColumn('idPais','idPais',0,[ldGrid,ldLookup,ldComboBox], False)]
+    property idPais: integer  read FidPais write FidPais;
 
 
-    //[TColumn('idCidade','idCidade',0,[ldGrid,ldLookup,ldComboBox], False)]
-    //property IdCidade: integer  read FIdCidade write FIdCidade;
-   function ValidarCamposObrigatorios:boolean;
+
+   Function ValidarCamposObrigatorios:boolean;
    Function ValidaCPF(xCPF: String): Boolean;
+   Function ValidaCNPJ(xCNPJ: String): Boolean;
+   Function MascaraCnpjCpf(Str: String): String;
 
   end;
 
@@ -76,6 +91,78 @@ Result := true;
   begin
     raise Exception.Create('O campo Nome é obrigatório!');
     Result := false;
+  end;
+end;
+function TPessoasVO.MascaraCnpjCpf(Str: String): String;
+begin
+  if Length(Str)=11 then
+    Result:='999.999.999-99;0; '
+  else
+    if Length(Str)=14 then
+       Result:='99.999.999/9999-99;0; '
+     else Result:='99999999999999;0; ';
+end;
+function TPessoasVO.ValidaCNPJ(xCNPJ: String): Boolean;
+Var
+  d1, d4, xx, nCount, fator, resto, digito1, digito2: integer;
+  Check: String;
+begin
+  d1 := 0;
+  d4 := 0;
+  xx := 1;
+  for nCount := 1 to Length(xCNPJ) - 2 do
+  begin
+    if Pos(Copy(xCNPJ, nCount, 1), '/-.') = 0 then
+    begin
+      if xx < 5 then
+      begin
+        fator := 6 - xx;
+      end
+      else
+      begin
+        fator := 14 - xx;
+      end;
+      d1 := d1 + StrToInt(Copy(xCNPJ, nCount, 1)) * fator;
+      if xx < 6 then
+      begin
+        fator := 7 - xx;
+      end
+      else
+      begin
+        fator := 15 - xx;
+      end;
+      d4 := d4 + StrToInt(Copy(xCNPJ, nCount, 1)) * fator;
+      xx := xx + 1;
+    end;
+  end;
+  resto := (d1 mod 11);
+  if resto < 2 then
+  begin
+    digito1 := 0;
+  end
+  else
+  begin
+    digito1 := 11 - resto;
+  end;
+  d4 := d4 + 2 * digito1;
+  resto := (d4 mod 11);
+  if resto < 2 then
+  begin
+    digito2 := 0;
+  end
+  else
+  begin
+    digito2 := 11 - resto;
+  end;
+  Check := IntToStr(digito1) + IntToStr(digito2);
+  if Check <> Copy(xCNPJ, succ(Length(xCNPJ) - 2), 2) then
+  begin
+    raise Exception.Create('Cnpj inválido!');
+    Result := False;
+  end
+  else
+  begin
+    Result := True;
   end;
 end;
 function TPessoasVO.ValidaCPF(xCPF: String): Boolean;
@@ -117,6 +204,7 @@ Begin
   Check := IntToStr(digito1) + IntToStr(digito2);
   if Check <> Copy(xCPF, succ(Length(xCPF) - 2), 2) then
   begin
+    raise Exception.Create('O Cpf inválido!');
     Result := False;
   end
   else

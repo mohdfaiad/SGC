@@ -31,11 +31,27 @@ type
     [TColumn('idPais','idPais',0,[ldLookup,ldComboBox], False)]
     property idPais: integer  read FIdPais write FIdPais;
 
+    function ValidarCamposObrigatorios:boolean;
+
+
   end;
 
 implementation
 
 
+
+
+{ TCidadeVO }
+
+function TCidadeVO.ValidarCamposObrigatorios: boolean;
+begin
+Result := true;
+  if (Self.FnomeCidade = '') then
+  begin
+    raise Exception.Create('O campo Nome é obrigatório!');
+    Result := false;
+  end
+end;
 
 
 end.

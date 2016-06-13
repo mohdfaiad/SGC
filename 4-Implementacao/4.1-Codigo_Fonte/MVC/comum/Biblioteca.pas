@@ -434,7 +434,7 @@ begin
       begin
         if Atributo is TColumn then
         begin
-          if (Atributo as TColumn).LocalDisplayContainsOneTheseItems([ldGrid, ldLookup]) then
+          if (Atributo as TColumn).LocalDisplayIs(ldGrid) then
           begin
             AtualizaCaptionGrid(pGrid, (Atributo as TColumn).Name, (Atributo as TColumn).Caption);
 
@@ -447,7 +447,9 @@ begin
           begin
             ConfiguraTamanhoColunaGrid(pGrid, (Atributo as TColumn).Name, -1, (Atributo as TColumn).Caption);
           end;
-        end;
+        end
+        else if Atributo is TId then
+          AtualizaCaptionGrid(pGrid, (Atributo as TId).NameField, 'Id');
       end;
     end;
   finally

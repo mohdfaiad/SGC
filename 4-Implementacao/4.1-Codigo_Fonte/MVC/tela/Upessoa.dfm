@@ -1,28 +1,33 @@
 inherited FTelaCadastroPessoa: TFTelaCadastroPessoa
   Caption = 'Cadastro de Pessoas'
-  ClientHeight = 547
-  ClientWidth = 815
-  ExplicitWidth = 831
-  ExplicitHeight = 586
+  ClientHeight = 470
+  ClientWidth = 773
+  ExplicitWidth = 789
+  ExplicitHeight = 509
   PixelsPerInch = 96
   TextHeight = 13
   inherited PageControl: TPageControl
-    Width = 815
-    Height = 522
+    Width = 773
+    Height = 445
+    ActivePage = Consulta
     ExplicitWidth = 815
     ExplicitHeight = 522
     inherited Consulta: TTabSheet
-      ExplicitLeft = 0
-      ExplicitTop = 0
       ExplicitWidth = 807
       ExplicitHeight = 494
       inherited Grid: TDBGrid
-        Width = 807
-        Height = 438
+        Width = 765
+        Height = 361
       end
       inherited Panel2: TPanel
-        Width = 807
+        Width = 765
         ExplicitWidth = 807
+        inherited BitBtn2: TBitBtn
+          Left = 692
+          Top = 10
+          ExplicitLeft = 692
+          ExplicitTop = 10
+        end
         inherited BotaoConsultar: TBitBtn
           Top = 10
           ExplicitTop = 10
@@ -57,52 +62,71 @@ inherited FTelaCadastroPessoa: TFTelaCadastroPessoa
       ExplicitWidth = 807
       ExplicitHeight = 494
       inherited PanelBotoes: TPanel
-        Width = 807
+        Width = 765
         ExplicitWidth = 807
+        inherited BitBtnNovo: TBitBtn
+          TabOrder = 0
+        end
+        inherited BitBtnAltera: TBitBtn
+          TabOrder = 1
+        end
+        inherited BitBtnGrava: TBitBtn
+          TabOrder = 4
+        end
+        inherited BitBtnExclui: TBitBtn
+          TabOrder = 2
+        end
+        inherited BitBtnCancela: TBitBtn
+          TabOrder = 3
+        end
       end
       inherited PageControlEdit: TPageControl
-        Width = 807
-        Height = 437
+        Width = 765
+        Height = 360
         ExplicitWidth = 807
         ExplicitHeight = 437
         inherited DadosPrincipais: TTabSheet
           ExplicitWidth = 799
           ExplicitHeight = 409
           inherited PanelEdits: TPanel
-            Width = 799
-            Height = 409
+            Width = 757
+            Height = 332
             ExplicitWidth = 799
             ExplicitHeight = 409
             object ScrollBox1: TScrollBox
               Left = 1
               Top = 1
-              Width = 797
-              Height = 407
+              Width = 755
+              Height = 330
               Align = alClient
               TabOrder = 0
+              ExplicitLeft = 25
+              ExplicitTop = 4
+              ExplicitWidth = 797
+              ExplicitHeight = 407
               object Telefone_1: TLabel
-                Left = 17
-                Top = 150
+                Left = 16
+                Top = 144
                 Width = 49
                 Height = 13
                 Caption = 'Telefone I'
               end
               object Telefone_2: TLabel
                 Left = 131
-                Top = 150
+                Top = 144
                 Width = 53
                 Height = 13
                 Caption = 'Telefone II'
               end
               object Cep: TLabel
-                Left = 16
-                Top = 55
+                Left = 618
+                Top = 9
                 Width = 19
                 Height = 13
                 Caption = 'Cep'
               end
               object LabelCnpj: TLabel
-                Left = 405
+                Left = 481
                 Top = 9
                 Width = 55
                 Height = 13
@@ -114,18 +138,11 @@ inherited FTelaCadastroPessoa: TFTelaCadastroPessoa
                 Font.Style = [fsBold]
                 ParentFont = False
               end
-              object Label1: TLabel
-                Left = 17
-                Top = 250
-                Width = 25
-                Height = 13
-                Caption = 'Cnae'
-              end
               object LabelEditNome: TLabeledEdit
                 Tag = 16
                 Left = 16
                 Top = 28
-                Width = 383
+                Width = 459
                 Height = 21
                 CharCase = ecUpperCase
                 Color = clWhite
@@ -148,7 +165,7 @@ inherited FTelaCadastroPessoa: TFTelaCadastroPessoa
               end
               object MaskEditCNPJCPF: TMaskEdit
                 Tag = 15
-                Left = 405
+                Left = 481
                 Top = 28
                 Width = 131
                 Height = 21
@@ -164,8 +181,8 @@ inherited FTelaCadastroPessoa: TFTelaCadastroPessoa
               end
               object MaskEditCep: TMaskEdit
                 Tag = 15
-                Left = 16
-                Top = 71
+                Left = 618
+                Top = 28
                 Width = 70
                 Height = 21
                 Color = clWhite
@@ -182,7 +199,7 @@ inherited FTelaCadastroPessoa: TFTelaCadastroPessoa
               end
               object LabelEditRua: TLabeledEdit
                 Tag = 16
-                Left = 92
+                Left = 16
                 Top = 71
                 Width = 258
                 Height = 21
@@ -201,7 +218,7 @@ inherited FTelaCadastroPessoa: TFTelaCadastroPessoa
               end
               object LabelEditNumero: TLabeledEdit
                 Tag = 16
-                Left = 363
+                Left = 280
                 Top = 71
                 Width = 37
                 Height = 21
@@ -220,9 +237,9 @@ inherited FTelaCadastroPessoa: TFTelaCadastroPessoa
               end
               object LabelEditComplemento: TLabeledEdit
                 Tag = 16
-                Left = 406
+                Left = 323
                 Top = 71
-                Width = 133
+                Width = 152
                 Height = 21
                 CharCase = ecUpperCase
                 Color = clWhite
@@ -239,9 +256,9 @@ inherited FTelaCadastroPessoa: TFTelaCadastroPessoa
               end
               object LabelEditBairro: TLabeledEdit
                 Tag = 16
-                Left = 16
-                Top = 119
-                Width = 334
+                Left = 481
+                Top = 71
+                Width = 207
                 Height = 21
                 CharCase = ecUpperCase
                 Color = clWhite
@@ -259,7 +276,7 @@ inherited FTelaCadastroPessoa: TFTelaCadastroPessoa
               object MaskEditTelefone: TMaskEdit
                 Tag = 1
                 Left = 16
-                Top = 167
+                Top = 161
                 Width = 97
                 Height = 21
                 Color = clWhite
@@ -271,13 +288,13 @@ inherited FTelaCadastroPessoa: TFTelaCadastroPessoa
                 Font.Style = []
                 MaxLength = 17
                 ParentFont = False
-                TabOrder = 7
+                TabOrder = 13
                 Text = ''
               end
               object MaskEditTelefone2: TMaskEdit
                 Tag = 1
                 Left = 131
-                Top = 167
+                Top = 161
                 Width = 102
                 Height = 21
                 Color = clWhite
@@ -289,14 +306,14 @@ inherited FTelaCadastroPessoa: TFTelaCadastroPessoa
                 Font.Style = []
                 MaxLength = 17
                 ParentFont = False
-                TabOrder = 8
+                TabOrder = 14
                 Text = ''
               end
               object LabelEditEmail: TLabeledEdit
                 Tag = 1
-                Left = 16
-                Top = 221
-                Width = 334
+                Left = 251
+                Top = 161
+                Width = 437
                 Height = 21
                 EditLabel.Width = 24
                 EditLabel.Height = 13
@@ -307,17 +324,44 @@ inherited FTelaCadastroPessoa: TFTelaCadastroPessoa
                 Font.Name = 'Tahoma'
                 Font.Style = []
                 ParentFont = False
-                TabOrder = 9
+                TabOrder = 15
               end
-              object LabelEditCodCnae: TLabeledEdit
+              object LabeledEditDescCidade: TLabeledEdit
                 Tag = 1
-                Left = 392
-                Top = 269
+                Left = 16
+                Top = 115
+                Width = 193
+                Height = 21
+                EditLabel.Width = 33
+                EditLabel.Height = 13
+                EditLabel.Caption = 'Cidade'
+                Font.Charset = DEFAULT_CHARSET
+                Font.Color = clBlue
+                Font.Height = -11
+                Font.Name = 'Tahoma'
+                Font.Style = []
+                ParentFont = False
+                ReadOnly = True
+                TabOrder = 7
+              end
+              object btnConsultaCidade: TBitBtn
+                Left = 215
+                Top = 113
+                Width = 30
+                Height = 25
+                Caption = 'P'
+                TabOrder = 8
+                OnClick = btnConsultaCidadeClick
+              end
+              object LabeledEditCidade: TLabeledEdit
+                Tag = 1
+                Left = 15
+                Top = 229
                 Width = 71
                 Height = 21
-                EditLabel.Width = 25
+                EditLabel.Width = 33
                 EditLabel.Height = 13
-                EditLabel.Caption = 'Cnae'
+                EditLabel.Caption = 'Cidade'
                 Font.Charset = DEFAULT_CHARSET
                 Font.Color = clBlue
                 Font.Height = -11
@@ -325,18 +369,18 @@ inherited FTelaCadastroPessoa: TFTelaCadastroPessoa
                 Font.Style = []
                 ParentFont = False
                 ReadOnly = True
-                TabOrder = 10
+                TabOrder = 16
                 Visible = False
               end
-              object LabelEditDescCnae: TLabeledEdit
+              object LabeledEditEstado: TLabeledEdit
                 Tag = 1
-                Left = 105
-                Top = 269
-                Width = 245
+                Left = 103
+                Top = 229
+                Width = 71
                 Height = 21
-                EditLabel.Width = 46
+                EditLabel.Width = 33
                 EditLabel.Height = 13
-                EditLabel.Caption = 'Descri'#231#227'o'
+                EditLabel.Caption = 'Estado'
                 Font.Charset = DEFAULT_CHARSET
                 Font.Color = clBlue
                 Font.Height = -11
@@ -344,34 +388,81 @@ inherited FTelaCadastroPessoa: TFTelaCadastroPessoa
                 Font.Style = []
                 ParentFont = False
                 ReadOnly = True
+                TabOrder = 17
+                Visible = False
+              end
+              object LabeledEditPais: TLabeledEdit
+                Tag = 1
+                Left = 199
+                Top = 229
+                Width = 71
+                Height = 21
+                EditLabel.Width = 19
+                EditLabel.Height = 13
+                EditLabel.Caption = 'Pa'#237's'
+                Font.Charset = DEFAULT_CHARSET
+                Font.Color = clBlue
+                Font.Height = -11
+                Font.Name = 'Tahoma'
+                Font.Style = []
+                ParentFont = False
+                ReadOnly = True
+                TabOrder = 18
+                Visible = False
+              end
+              object LabeledEditDescEstado: TLabeledEdit
+                Tag = 1
+                Left = 251
+                Top = 115
+                Width = 215
+                Height = 21
+                EditLabel.Width = 33
+                EditLabel.Height = 13
+                EditLabel.Caption = 'Estado'
+                Font.Charset = DEFAULT_CHARSET
+                Font.Color = clBlue
+                Font.Height = -11
+                Font.Name = 'Tahoma'
+                Font.Style = []
+                ParentFont = False
+                TabOrder = 9
+              end
+              object BtnConsultaEstado: TBitBtn
+                Left = 472
+                Top = 113
+                Width = 30
+                Height = 25
+                Caption = 'P'
+                TabOrder = 10
+                Visible = False
+                OnClick = BtnConsultaEstadoClick
+              end
+              object LabeledEditDescPais: TLabeledEdit
+                Tag = 1
+                Left = 508
+                Top = 115
+                Width = 144
+                Height = 21
+                EditLabel.Width = 19
+                EditLabel.Height = 13
+                EditLabel.Caption = 'Pa'#237's'
+                Font.Charset = DEFAULT_CHARSET
+                Font.Color = clBlue
+                Font.Height = -11
+                Font.Name = 'Tahoma'
+                Font.Style = []
+                ParentFont = False
                 TabOrder = 11
               end
-              object btnConsultaCnae: TBitBtn
-                Left = 356
-                Top = 267
+              object BtnConsultaPais: TBitBtn
+                Left = 658
+                Top = 113
                 Width = 30
                 Height = 25
                 Caption = 'P'
                 TabOrder = 12
-                OnClick = btnConsultaCnaeClick
-              end
-              object LabelEditCnae: TMaskEdit
-                Tag = 15
-                Left = 18
-                Top = 269
-                Width = 81
-                Height = 21
-                Color = clWhite
-                EditMask = ' 99.99-9 / 99 ;0;_'
-                Font.Charset = DEFAULT_CHARSET
-                Font.Color = clBlue
-                Font.Height = -11
-                Font.Name = 'Tahoma'
-                Font.Style = []
-                MaxLength = 14
-                ParentFont = False
-                TabOrder = 13
-                Text = ''
+                Visible = False
+                OnClick = BtnConsultaPaisClick
               end
             end
           end
@@ -380,8 +471,8 @@ inherited FTelaCadastroPessoa: TFTelaCadastroPessoa
     end
   end
   inherited StatusBar1: TStatusBar
-    Top = 522
-    Width = 815
+    Top = 445
+    Width = 773
     ExplicitTop = 522
     ExplicitWidth = 815
   end

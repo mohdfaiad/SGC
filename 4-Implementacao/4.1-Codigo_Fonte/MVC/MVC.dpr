@@ -33,7 +33,8 @@ uses
   UCondominioController in 'controle\UCondominioController.pas',
   UCondominio in 'tela\UCondominio.pas' {FTelaCadastroCondominio},
   UCnaeController in 'controle\UCnaeController.pas',
-  UNaturezaJuridicaController in 'controle\UNaturezaJuridicaController.pas';
+  UNaturezaJuridicaController in 'controle\UNaturezaJuridicaController.pas',
+  UPaisController in 'controle\UPaisController.pas';
 
 {$R *.res}
 

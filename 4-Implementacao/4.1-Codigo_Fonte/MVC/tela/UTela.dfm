@@ -16,10 +16,6 @@ inherited FTela: TFTela
     TabOrder = 0
     object Consulta: TTabSheet
       Caption = 'Consulta'
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
       object Grid: TDBGrid
         Left = 3
         Top = 62

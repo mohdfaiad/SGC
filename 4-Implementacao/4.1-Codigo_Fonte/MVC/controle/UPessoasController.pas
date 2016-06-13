@@ -5,7 +5,7 @@ interface
 uses
   Classes, SQLExpr, SysUtils, Generics.Collections, DBXJSON, DBXCommon,
   ConexaoBD,
-  UPessoasVO, UController, DBClient, DB, UCnaeVO;
+  UPessoasVO, UController, DBClient, DB, UCnaeVO, UCidadeVO;
 
 type
   TPessoasController = class(TController<TPessoasVO>)
@@ -18,7 +18,7 @@ type
 implementation
 
 uses
-  UDao, Constantes, Vcl.Dialogs;
+  UDao, Constantes, Vcl.Dialogs, UCidadeController;
 
 { TPessoasController }
 
@@ -27,10 +27,17 @@ uses
 function TPessoasController.ConsultarPorId(id: integer): TPessoasVO;
 var
   P: TPessoasVO;
+  cidadeController:TCidadeController;
 begin
   P := TDAO.ConsultarPorId<TPessoasVO>(id);
+  cidadeController:=TCidadeController.Create;
   if (P <> nil) then
+  begin
     P.CnaeVO := TDAO.ConsultarPorId<TCnaeVO>(P.idCnae);
+    P.CidadeVO := cidadeController.ConsultarPorId(P.idCidade);
+  end;
+
+  cidadeController.Free;
   result := P;
 end;
 

@@ -96,29 +96,32 @@ begin
             begin
               if Atributo is TColumn then
               begin
-                DataSetField := CDSGrid.FindField((Atributo as TColumn).Name);
-                if Assigned(DataSetField) then
-                begin
-                  if Propriedade.PropertyType.TypeKind in [tkEnumeration] then
-                    DataSetField.AsBoolean :=
-                      Propriedade.GetValue(TObject(ObjetoVO)).AsBoolean
-                  else
-                    DataSetField.Value := Propriedade.GetValue(TObject(ObjetoVO)
-                      ).AsVariant;
-
-                  if DataSetField.DataType = ftDateTime then
+                  if (TColumn(Atributo).LocalDisplayIs(ldGrid))then
                   begin
-                    if DataSetField.AsDateTime = 0 then
-                      DataSetField.Clear;
-                  end;
+                    DataSetField := CDSGrid.FindField((Atributo as TColumn).Name);
+                    if Assigned(DataSetField) then
+                    begin
+                      if Propriedade.PropertyType.TypeKind in [tkEnumeration] then
+                        DataSetField.AsBoolean :=
+                          Propriedade.GetValue(TObject(ObjetoVO)).AsBoolean
+                      else
+                        DataSetField.Value := Propriedade.GetValue(TObject(ObjetoVO)
+                          ).AsVariant;
 
-                  if DataSetField.DataType = ftInteger then
-                  begin
-                    if DataSetField.AsInteger = 0 then
-                      DataSetField.Clear;
-                  end;
+                      if DataSetField.DataType = ftDateTime then
+                      begin
+                        if DataSetField.AsDateTime = 0 then
+                          DataSetField.Clear;
+                      end;
 
-                end;
+                      if DataSetField.DataType = ftInteger then
+                      begin
+                        if DataSetField.AsInteger = 0 then
+                          DataSetField.Clear;
+                      end;
+
+                    end;
+                  end;
               end
               else if Atributo is TId then
               begin

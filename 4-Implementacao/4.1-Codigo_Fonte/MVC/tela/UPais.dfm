@@ -3,11 +3,8 @@ inherited FTelaCadastroPais: TFTelaCadastroPais
   PixelsPerInch = 96
   TextHeight = 13
   inherited PageControl: TPageControl
+    ActivePage = Consulta
     inherited Consulta: TTabSheet
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
       inherited Panel2: TPanel
         inherited BotaoConsultar: TBitBtn
           Top = 10
@@ -43,6 +40,7 @@ inherited FTelaCadastroPais: TFTelaCadastroPais
           ExplicitWidth = 767
           ExplicitHeight = 301
           inherited PanelEdits: TPanel
+            ExplicitTop = 0
             object LabelEditNome: TLabeledEdit
               Tag = 16
               Left = 16

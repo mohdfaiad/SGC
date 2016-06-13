@@ -26,7 +26,7 @@ type
     [TColumn('idPais','idPais',0,[ldLookup,ldComboBox], False)]
     property idPais: integer  read FIdPais write FIdPais;
 
-     function ValidarCamposObrigatorios:boolean;
+    function ValidarCamposObrigatorios:boolean;
 
   end;
 

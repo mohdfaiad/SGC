@@ -6,9 +6,6 @@
         <Projects Include="MVC.dproj">
             <Dependencies/>
         </Projects>
-        <Projects Include="..\TestMVC\TestMVC.dproj">
-            <Dependencies/>
-        </Projects>
     </ItemGroup>
     <ProjectExtensions>
         <Borland.Personality>Default.Personality.12</Borland.Personality>
@@ -26,23 +23,14 @@
     <Target Name="MVC:Make">
         <MSBuild Projects="MVC.dproj" Targets="Make"/>
     </Target>
-    <Target Name="TestMVC">
-        <MSBuild Projects="..\TestMVC\TestMVC.dproj"/>
-    </Target>
-    <Target Name="TestMVC:Clean">
-        <MSBuild Projects="..\TestMVC\TestMVC.dproj" Targets="Clean"/>
-    </Target>
-    <Target Name="TestMVC:Make">
-        <MSBuild Projects="..\TestMVC\TestMVC.dproj" Targets="Make"/>
-    </Target>
     <Target Name="Build">
-        <CallTarget Targets="MVC;TestMVC"/>
+        <CallTarget Targets="MVC"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="MVC:Clean;TestMVC:Clean"/>
+        <CallTarget Targets="MVC:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="MVC:Make;TestMVC:Make"/>
+        <CallTarget Targets="MVC:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>

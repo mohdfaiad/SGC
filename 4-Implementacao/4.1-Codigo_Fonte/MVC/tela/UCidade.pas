@@ -7,7 +7,7 @@ uses
   System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, UtelaCadastro, Vcl.ComCtrls,
   Vcl.StdCtrls, Vcl.Mask, Vcl.Buttons, Vcl.ExtCtrls, Vcl.Grids, Vcl.DBGrids,
-  UCidadeVo, UCidadeController,
+  UCidadeVo, UCidadeController, UController,
   UEstado, UEstadoVO, UPaisVO, Generics.Collections, UPais;
 
 type
@@ -26,8 +26,9 @@ type
     function DoSalvar: boolean; override;
     procedure FormCreate(Sender: TObject);
     function MontaFiltro: string;
-    function ValidarTela: boolean;
     procedure btnConsultaPaisClick(Sender: TObject);
+    procedure CarregaObjetoSelecionado; override;
+
   private
     { Private declarations }
   public
@@ -90,6 +91,15 @@ begin
   FormPaisConsulta.Release;
 end;
 
+procedure TTFTelaCadastroCidade.CarregaObjetoSelecionado;
+begin
+  inherited;
+  if (not CDSGrid.IsEmpty) then
+  begin
+    ObjetoRetornoVO := CidadeController.ConsultarPorId(CDSGRID.FieldByName('IDCIDADE').AsInteger);
+  end;
+end;
+
 procedure TTFTelaCadastroCidade.DoConsultar;
 var
   listaCidade: TObjectList<TCidadeVO>;
@@ -123,39 +133,40 @@ end;
 
 function TTFTelaCadastroCidade.DoSalvar: boolean;
 var
-  Cidade: TCidadeVO;
+  Cidade : TCidadeVO;
 begin
-  if (ValidarTela) then
-  begin
+ begin
+   Cidade:=EditsToObject(TCidadeVO.Create);
     try
       try
-        if (StatusTela = stInserindo) then
+        if (Cidade.ValidarCamposObrigatorios()) then
         begin
-          Cidade := EditsToObject(TCidadeVO.Create);
-          CidadeController.Inserir(Cidade);
-          Result := true;
+          if (StatusTela = stInserindo) then
+          begin
+            CidadeController.Inserir(Cidade);
+            Result := true;
+          end
+          else if (StatusTela = stEditando) then
+          begin
+            Cidade := CidadeController.ConsultarPorId(CDSGrid.FieldByName('IDCIDADE')
+              .AsInteger);
+            Cidade := EditsToObject(Cidade);
+            CidadeController.Alterar(Cidade);
+            Result := true;
+          end;
         end
-        else if (StatusTela = stEditando) then
-        begin
-          Cidade := CidadeController.ConsultarPorId
-            (CDSGrid.FieldByName('IDCIDADE').AsInteger);
-          Cidade := EditsToObject(Cidade);
-          CidadeController.Alterar(Cidade);
-          Result := true;
-        end;
+        else
+          Result := false;
       except
         on E: Exception do
         begin
-          ShowMessage('Ocorreu um erro ao salvar o registro: ' + #13 + #13 +
-            E.Message);
+          ShowMessage(E.Message);
           Result := false;
         end;
       end;
     finally
     end;
-  end
-  else
-    Result := false;
+ end;
 end;
 
 function TTFTelaCadastroCidade.EditsToObject(Cidade: TCidadeVO): TCidadeVO;
@@ -172,8 +183,8 @@ end;
 
 procedure TTFTelaCadastroCidade.FormCreate(Sender: TObject);
 begin
-  ClasseObjetoGridVO := TEstadoVO;
-  // RadioButtonNome.Checked := true;
+  ClasseObjetoGridVO := TCidadeVO;
+  inherited;
 end;
 
 procedure TTFTelaCadastroCidade.GridParaEdits;
@@ -194,12 +205,13 @@ begin
     begin
       LabelEditEstado.Text := IntToStr(Cidade.EstadoVO.idEstado);
       LabelEditNomeEstado.Text := Cidade.EstadoVO.NomeEstado;
+      LabelEditPais.Text := Cidade.PaisVo.NomePais;
     end;
-    if (Cidade.idPais > 0) then
+   { if (Cidade.idPais > 0) then
     begin
       LabelEditPais.Text := IntToStr(Cidade.PaisVO.idPais);
       LabelEditNomePais.Text := Cidade.PaisVO.NomePais;
-    end;
+    end;}
 
   end;
 end;
@@ -211,14 +223,5 @@ begin
     Result := '( NOME LIKE ' + QuotedStr('%' + editBusca.Text + '%') + ' ) ';
 end;
 
-function TTFTelaCadastroCidade.ValidarTela: boolean;
-begin
-  Result := true;
-  if (LabelEditNome.Text = '') then
-  begin
-    ShowMessage('O campo nome é obrigatório!');
-    Result := false;
-  end;
-end;
 
 end.
