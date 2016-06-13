@@ -3,7 +3,6 @@ inherited FTelaCadastroEstado: TFTelaCadastroEstado
   PixelsPerInch = 96
   TextHeight = 13
   inherited PageControl: TPageControl
-    ActivePage = Consulta
     inherited Consulta: TTabSheet
       inherited Panel2: TPanel
         inherited BotaoConsultar: TBitBtn
@@ -29,10 +28,17 @@ inherited FTelaCadastroEstado: TFTelaCadastroEstado
       end
     end
     inherited DadosCadastrais: TTabSheet
+      ExplicitLeft = 4
+      ExplicitTop = 24
+      ExplicitWidth = 775
+      ExplicitHeight = 386
       inherited PageControlEdit: TPageControl
         inherited DadosPrincipais: TTabSheet
+          ExplicitLeft = 4
+          ExplicitTop = 24
+          ExplicitWidth = 767
+          ExplicitHeight = 301
           inherited PanelEdits: TPanel
-            ExplicitTop = 0
             object LabelEditNome: TLabeledEdit
               Tag = 16
               Left = 16

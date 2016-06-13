@@ -9,16 +9,19 @@ inherited FTelaCadastroCondominio: TFTelaCadastroCondominio
   inherited PageControl: TPageControl
     Width = 771
     Height = 480
+    ActivePage = Consulta
+    ExplicitWidth = 771
+    ExplicitHeight = 480
     inherited Consulta: TTabSheet
-      ExplicitWidth = 778
-      ExplicitHeight = 439
+      ExplicitWidth = 763
+      ExplicitHeight = 452
       inherited Grid: TDBGrid
         Width = 763
         Height = 396
       end
       inherited Panel2: TPanel
         Width = 763
-        ExplicitWidth = 778
+        ExplicitWidth = 763
         object GroupBox2: TGroupBox
           Left = 86
           Top = 3
@@ -48,6 +51,7 @@ inherited FTelaCadastroCondominio: TFTelaCadastroCondominio
     inherited DadosCadastrais: TTabSheet
       inherited PanelBotoes: TPanel
         Width = 763
+        ExplicitWidth = 763
         inherited BitBtnNovo: TBitBtn
           TabOrder = 0
         end
@@ -67,12 +71,12 @@ inherited FTelaCadastroCondominio: TFTelaCadastroCondominio
       inherited PageControlEdit: TPageControl
         Width = 763
         Height = 395
+        ExplicitWidth = 763
+        ExplicitHeight = 395
         inherited DadosPrincipais: TTabSheet
           inherited PanelEdits: TPanel
             Width = 755
             Height = 367
-            ExplicitLeft = 3
-            ExplicitTop = -3
             ExplicitWidth = 755
             ExplicitHeight = 367
             object Cep: TLabel
@@ -677,5 +681,7 @@ inherited FTelaCadastroCondominio: TFTelaCadastroCondominio
   inherited StatusBar1: TStatusBar
     Top = 480
     Width = 771
+    ExplicitTop = 480
+    ExplicitWidth = 771
   end
 end

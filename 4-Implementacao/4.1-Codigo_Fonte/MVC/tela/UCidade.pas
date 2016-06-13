@@ -61,14 +61,10 @@ begin
   FormEstadoConsulta.ShowModal;
   if (FormEstadoConsulta.ObjetoRetornoVO <> nil) then
   begin
-    LabelEditEstado.Text :=
-      IntToStr(TEstadoVO(FormEstadoConsulta.ObjetoRetornoVO).idEstado);
-    LabelEditNomeEstado.Text := TEstadoVO(FormEstadoConsulta.ObjetoRetornoVO)
-      .NomeEstado;
-    LabelEditPais.Text := TEstadoVO(FormEstadoConsulta.ObjetoRetornoVO)
-      .PaisVO.NomePais;
-    LabelEditPais.Text := IntToStr(TEstadoVO(FormEstadoConsulta.ObjetoRetornoVO)
-      .PaisVO.idPais);
+    LabelEditEstado.Text:=IntToStr(TEstadoVO(FormEstadoConsulta.ObjetoRetornoVO).idEstado);
+    LabelEditNomeEstado.Text:=TEstadoVO(FormEstadoConsulta.ObjetoRetornoVO).NomeEstado;
+    LabelEditPais.Text:=IntToStr(TEstadoVO(FormEstadoConsulta.ObjetoRetornoVO).PaisVO.idPais);
+    LabelEditNomePais.Text:=TEstadoVO(FormEstadoConsulta.ObjetoRetornoVO).PaisVO.NomePais;
   end;
   FormEstadoConsulta.Release;
 
@@ -198,20 +194,15 @@ begin
     Cidade := CidadeController.ConsultarPorId(CDSGrid.FieldByName('IDCIDADE')
       .AsInteger);
 
-  if Cidade <> nil then
-  begin
-    LabelEditNome.Text := Cidade.NomeCidade;
     if (Cidade.idEstado > 0) then
     begin
       LabelEditEstado.Text := IntToStr(Cidade.EstadoVO.idEstado);
       LabelEditNomeEstado.Text := Cidade.EstadoVO.NomeEstado;
-      LabelEditPais.Text := Cidade.PaisVo.NomePais;
     end;
-   { if (Cidade.idPais > 0) then
+     if (Cidade.idPais > 0) then
     begin
       LabelEditPais.Text := IntToStr(Cidade.PaisVO.idPais);
       LabelEditNomePais.Text := Cidade.PaisVO.NomePais;
-    end;}
 
   end;
 end;

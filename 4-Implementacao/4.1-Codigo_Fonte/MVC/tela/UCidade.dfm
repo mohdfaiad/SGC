@@ -16,7 +16,6 @@ inherited TFTelaCadastroCidade: TTFTelaCadastroCidade
           ExplicitWidth = 767
           ExplicitHeight = 301
           inherited PanelEdits: TPanel
-            ExplicitTop = 0
             object LabelEditNome: TLabeledEdit
               Tag = 16
               Left = 16
@@ -113,6 +112,7 @@ inherited TFTelaCadastroCidade: TTFTelaCadastroCidade
               Height = 25
               Caption = 'P'
               TabOrder = 5
+              Visible = False
               OnClick = btnConsultaPaisClick
             end
             object LabelEditPais: TLabeledEdit

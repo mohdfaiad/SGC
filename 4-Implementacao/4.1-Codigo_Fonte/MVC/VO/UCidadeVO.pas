@@ -16,6 +16,7 @@ type
     FIdPais : Integer;
 
   public
+
     PaisVO: TPAISVO;
     EstadoVO : TESTADOVO;
 

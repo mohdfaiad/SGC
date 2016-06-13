@@ -72,7 +72,14 @@ begin
 end;
 
 procedure TFTelaCadastroEstado.CarregaObjetoSelecionado;
-var
+begin
+  inherited;
+  if (not CDSGrid.IsEmpty) then
+  begin
+    ObjetoRetornoVO := EstadoController.ConsultarPorId(CDSGRID.FieldByName('IDESTADO').AsInteger);
+  end;
+end;
+{var
   controllerPais: TController<TPaisVO>;
 begin
   inherited;
@@ -91,7 +98,7 @@ begin
       (CDSGrid.FieldByName('IDPAIS').AsInteger);
     FreeAndNil(controllerPais);
   end;
-end;
+end;       }
 
 procedure TFTelaCadastroEstado.DoConsultar;
 var

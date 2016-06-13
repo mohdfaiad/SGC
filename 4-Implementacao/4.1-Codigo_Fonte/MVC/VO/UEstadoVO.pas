@@ -17,6 +17,7 @@ type
   public
     PaisVO: TPAISVO;
 
+
     [TId('idEstado')]
     [TGeneratedValue(sAuto)]
     property idEstado: Integer  read FIdEstado write FIdEstado;
