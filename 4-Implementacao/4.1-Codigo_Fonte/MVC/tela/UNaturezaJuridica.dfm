@@ -36,7 +36,6 @@ inherited FTelaCadastroNaturezaJuridica: TFTelaCadastroNaturezaJuridica
       inherited PageControlEdit: TPageControl
         inherited DadosPrincipais: TTabSheet
           inherited PanelEdits: TPanel
-            ExplicitTop = 0
             object LabelEditDescricao: TLabeledEdit
               Tag = 16
               Left = 16

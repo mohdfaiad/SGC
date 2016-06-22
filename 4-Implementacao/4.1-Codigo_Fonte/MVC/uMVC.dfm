@@ -14,6 +14,7 @@ object FormMenu: TFormMenu
   OldCreateOrder = False
   Position = poScreenCenter
   WindowState = wsMaximized
+  OnClose = FormClose
   OnCreate = FormCreate
   PixelsPerInch = 96
   TextHeight = 13
@@ -28,30 +29,51 @@ object FormMenu: TFormMenu
         ShortCut = 16464
         OnClick = Pessoa1Click
       end
-      object Cnae1: TMenuItem
-        Caption = 'Cnae'
-        OnClick = Cnae1Click
-      end
-      object NaturezaJurdica1: TMenuItem
-        Caption = 'Natureza Jur'#237'dica'
-        OnClick = NaturezaJurdica1Click
-      end
-      object Pas1: TMenuItem
-        Caption = 'Pa'#237's'
-        OnClick = Pas1Click
-      end
-      object Estado1: TMenuItem
-        Caption = 'Estado'
-        OnClick = Estado1Click
-      end
-      object Cidade1: TMenuItem
-        Caption = 'Cidade'
-        OnClick = Cidade1Click
-      end
       object Condomnio1: TMenuItem
         Caption = 'Condom'#237'nio'
+        ShortCut = 16451
         OnClick = Condomnio1Click
       end
+      object Unidades1: TMenuItem
+        Caption = 'Unidades'
+        OnClick = Unidades1Click
+      end
+      object N1: TMenuItem
+        Caption = '-'
+      end
+      object CadastrosAuxiliares1: TMenuItem
+        Caption = 'Cadastros Auxiliares'
+        object NaturezaJurdica1: TMenuItem
+          Caption = 'Natureza Jur'#237'dica'
+          OnClick = NaturezaJurdica1Click
+        end
+        object Cnae1: TMenuItem
+          Caption = 'Cnae'
+          OnClick = Cnae1Click
+        end
+        object N3: TMenuItem
+          Caption = '-'
+        end
+        object Cidade1: TMenuItem
+          Caption = 'Cidade'
+          OnClick = Cidade1Click
+        end
+        object Estado1: TMenuItem
+          Caption = 'Estado'
+          OnClick = Estado1Click
+        end
+        object Pas1: TMenuItem
+          Caption = 'Pa'#237's'
+          OnClick = Pas1Click
+        end
+      end
+      object N2: TMenuItem
+        Caption = '-'
+      end
+    end
+    object EmpresaTrabalho1: TMenuItem
+      Caption = 'Empresa Trabalho'
+      OnClick = EmpresaTrabalho1Click
     end
     object Sair1: TMenuItem
       Caption = 'Sair'

@@ -143,6 +143,29 @@
         <DCCReference Include="controle\UCnaeController.pas"/>
         <DCCReference Include="controle\UNaturezaJuridicaController.pas"/>
         <DCCReference Include="controle\UPaisController.pas"/>
+        <DCCReference Include="VO\UUnidadeVO.pas"/>
+        <DCCReference Include="tela\UUnidade.pas">
+            <Form>FTelaCadastroUnidade</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="controle\UUnidadeController.pas"/>
+        <DCCReference Include="tela\UEmpresaTrab.pas">
+            <Form>FormEmpresaTrab</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="VO\UProprietarioUnidadeVO.pas"/>
+        <DCCReference Include="tela\UProprietarioUnidade.pas">
+            <Form>FTelaCadastroProprietario</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="controle\UProprietarioUnidadeController.pas"/>
+        <DCCReference Include="VO\UInquilinoUnidadeVO.pas"/>
+        <DCCReference Include="controle\UInquilinoUnidadeController.pas"/>
+        <DCCReference Include="tela\UInquilinoUnidade.pas">
+            <Form>FTelaCadastroInquilino</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="VO\UTotalGastoMesVO.pas"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

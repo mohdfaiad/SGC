@@ -31,7 +31,7 @@ type
     EstadoVO : TEstadoVO;
     PaisVO   : TPaisVO;
 
-    [TId('idPessoa')]
+    [TId('idpessoa')]
     [TGeneratedValue(sAuto)]
     property idPessoa: Integer  read FidPessoa write FidPessoa;
     [TColumn('cpfCnpj','Cpf / Cnpj',130,[ldGrid,ldLookup,ldComboBox], False)]
@@ -58,13 +58,13 @@ type
     property TelefoneII: String  read FTelefoneII write FtelefoneII;
     [TColumn('idCnae','idCnae',0,[ldLookup,ldComboBox], False)]
     property idCnae: integer  read FIdCnae write FIdCnae;
-    [TColumn('idCidade','idCidade',0,[ldGrid,ldLookup,ldComboBox], False)]
+    [TColumn('idCidade','idCidade',0,[ldLookup,ldComboBox], False)]
     property idCidade: integer  read FIdCidade write FIdCidade;
 
-    [TColumn('idEstado','idEstado',0,[ldGrid,ldLookup,ldComboBox], False)]
+    [TColumn('idEstado','idEstado',0,[ldLookup,ldComboBox], False)]
     property idEstado: integer  read FidEstado write FidEstado;
 
-    [TColumn('idPais','idPais',0,[ldGrid,ldLookup,ldComboBox], False)]
+    [TColumn('idPais','idPais',0,[ldLookup,ldComboBox], False)]
     property idPais: integer  read FidPais write FidPais;
 
 

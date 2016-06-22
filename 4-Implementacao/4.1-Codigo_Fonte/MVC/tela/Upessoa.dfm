@@ -1,27 +1,29 @@
 inherited FTelaCadastroPessoa: TFTelaCadastroPessoa
   Caption = 'Cadastro de Pessoas'
   ClientHeight = 470
-  ClientWidth = 773
-  ExplicitWidth = 789
+  ClientWidth = 787
+  ExplicitWidth = 803
   ExplicitHeight = 509
   PixelsPerInch = 96
   TextHeight = 13
   inherited PageControl: TPageControl
-    Width = 773
+    Width = 787
     Height = 445
     ActivePage = Consulta
-    ExplicitWidth = 815
-    ExplicitHeight = 522
+    ExplicitWidth = 787
+    ExplicitHeight = 445
     inherited Consulta: TTabSheet
-      ExplicitWidth = 807
-      ExplicitHeight = 494
+      ExplicitLeft = 4
+      ExplicitTop = 24
+      ExplicitWidth = 779
+      ExplicitHeight = 417
       inherited Grid: TDBGrid
-        Width = 765
+        Width = 779
         Height = 361
       end
       inherited Panel2: TPanel
-        Width = 765
-        ExplicitWidth = 807
+        Width = 779
+        ExplicitWidth = 779
         inherited BitBtn2: TBitBtn
           Left = 692
           Top = 10
@@ -59,11 +61,13 @@ inherited FTelaCadastroPessoa: TFTelaCadastroPessoa
       end
     end
     inherited DadosCadastrais: TTabSheet
-      ExplicitWidth = 807
-      ExplicitHeight = 494
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 779
+      ExplicitHeight = 417
       inherited PanelBotoes: TPanel
-        Width = 765
-        ExplicitWidth = 807
+        Width = 779
+        ExplicitWidth = 779
         inherited BitBtnNovo: TBitBtn
           TabOrder = 0
         end
@@ -81,29 +85,27 @@ inherited FTelaCadastroPessoa: TFTelaCadastroPessoa
         end
       end
       inherited PageControlEdit: TPageControl
-        Width = 765
+        Width = 779
         Height = 360
-        ExplicitWidth = 807
-        ExplicitHeight = 437
+        ExplicitWidth = 779
+        ExplicitHeight = 360
         inherited DadosPrincipais: TTabSheet
-          ExplicitWidth = 799
-          ExplicitHeight = 409
+          ExplicitLeft = 0
+          ExplicitTop = 0
+          ExplicitWidth = 771
+          ExplicitHeight = 332
           inherited PanelEdits: TPanel
-            Width = 757
+            Width = 771
             Height = 332
-            ExplicitWidth = 799
-            ExplicitHeight = 409
+            ExplicitWidth = 771
+            ExplicitHeight = 332
             object ScrollBox1: TScrollBox
               Left = 1
               Top = 1
-              Width = 755
+              Width = 769
               Height = 330
               Align = alClient
               TabOrder = 0
-              ExplicitLeft = 25
-              ExplicitTop = 4
-              ExplicitWidth = 797
-              ExplicitHeight = 407
               object Telefone_1: TLabel
                 Left = 16
                 Top = 144
@@ -329,8 +331,8 @@ inherited FTelaCadastroPessoa: TFTelaCadastroPessoa
               object LabeledEditDescCidade: TLabeledEdit
                 Tag = 1
                 Left = 16
-                Top = 115
-                Width = 193
+                Top = 117
+                Width = 254
                 Height = 21
                 EditLabel.Width = 33
                 EditLabel.Height = 13
@@ -345,7 +347,7 @@ inherited FTelaCadastroPessoa: TFTelaCadastroPessoa
                 TabOrder = 7
               end
               object btnConsultaCidade: TBitBtn
-                Left = 215
+                Left = 276
                 Top = 113
                 Width = 30
                 Height = 25
@@ -412,9 +414,9 @@ inherited FTelaCadastroPessoa: TFTelaCadastroPessoa
               end
               object LabeledEditDescEstado: TLabeledEdit
                 Tag = 1
-                Left = 251
+                Left = 312
                 Top = 115
-                Width = 215
+                Width = 185
                 Height = 21
                 EditLabel.Width = 33
                 EditLabel.Height = 13
@@ -428,8 +430,8 @@ inherited FTelaCadastroPessoa: TFTelaCadastroPessoa
                 TabOrder = 9
               end
               object BtnConsultaEstado: TBitBtn
-                Left = 472
-                Top = 113
+                Left = 103
+                Top = 256
                 Width = 30
                 Height = 25
                 Caption = 'P'
@@ -439,9 +441,9 @@ inherited FTelaCadastroPessoa: TFTelaCadastroPessoa
               end
               object LabeledEditDescPais: TLabeledEdit
                 Tag = 1
-                Left = 508
+                Left = 503
                 Top = 115
-                Width = 144
+                Width = 185
                 Height = 21
                 EditLabel.Width = 19
                 EditLabel.Height = 13
@@ -455,8 +457,8 @@ inherited FTelaCadastroPessoa: TFTelaCadastroPessoa
                 TabOrder = 11
               end
               object BtnConsultaPais: TBitBtn
-                Left = 658
-                Top = 113
+                Left = 199
+                Top = 256
                 Width = 30
                 Height = 25
                 Caption = 'P'
@@ -472,8 +474,8 @@ inherited FTelaCadastroPessoa: TFTelaCadastroPessoa
   end
   inherited StatusBar1: TStatusBar
     Top = 445
-    Width = 773
-    ExplicitTop = 522
-    ExplicitWidth = 815
+    Width = 787
+    ExplicitTop = 445
+    ExplicitWidth = 787
   end
 end

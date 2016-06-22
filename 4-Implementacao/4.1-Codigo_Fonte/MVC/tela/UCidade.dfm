@@ -5,16 +5,8 @@ inherited TFTelaCadastroCidade: TTFTelaCadastroCidade
   inherited PageControl: TPageControl
     ActivePage = Consulta
     inherited DadosCadastrais: TTabSheet
-      ExplicitLeft = 4
-      ExplicitTop = 24
-      ExplicitWidth = 775
-      ExplicitHeight = 386
       inherited PageControlEdit: TPageControl
         inherited DadosPrincipais: TTabSheet
-          ExplicitLeft = 4
-          ExplicitTop = 24
-          ExplicitWidth = 767
-          ExplicitHeight = 301
           inherited PanelEdits: TPanel
             object LabelEditNome: TLabeledEdit
               Tag = 16

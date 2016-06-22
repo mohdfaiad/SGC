@@ -34,7 +34,18 @@ uses
   UCondominio in 'tela\UCondominio.pas' {FTelaCadastroCondominio},
   UCnaeController in 'controle\UCnaeController.pas',
   UNaturezaJuridicaController in 'controle\UNaturezaJuridicaController.pas',
-  UPaisController in 'controle\UPaisController.pas';
+  UPaisController in 'controle\UPaisController.pas',
+  UUnidadeVO in 'VO\UUnidadeVO.pas',
+  UUnidade in 'tela\UUnidade.pas' {FTelaCadastroUnidade},
+  UUnidadeController in 'controle\UUnidadeController.pas',
+  UEmpresaTrab in 'tela\UEmpresaTrab.pas' {FormEmpresaTrab},
+  UProprietarioUnidadeVO in 'VO\UProprietarioUnidadeVO.pas',
+  UProprietarioUnidade in 'tela\UProprietarioUnidade.pas' {FTelaCadastroProprietario},
+  UProprietarioUnidadeController in 'controle\UProprietarioUnidadeController.pas',
+  UInquilinoUnidadeVO in 'VO\UInquilinoUnidadeVO.pas',
+  UInquilinoUnidadeController in 'controle\UInquilinoUnidadeController.pas',
+  UInquilinoUnidade in 'tela\UInquilinoUnidade.pas' {FTelaCadastroInquilino},
+  UTotalGastoMesVO in 'VO\UTotalGastoMesVO.pas';
 
 {$R *.res}
 
@@ -42,8 +53,7 @@ begin
   Application.Initialize;
   Application.MainFormOnTaskbar := True;
   Application.CreateForm(TFormMenu, FormMenu);
-  Application.CreateForm(TFTelaCadastroEstado, FTelaCadastroEstado);
-  Application.CreateForm(TTFTelaCadastroCidade, TFTelaCadastroCidade);
-  Application.CreateForm(TFTelaCadastroCondominio, FTelaCadastroCondominio);
+  Application.CreateForm(TFTelaCadastroProprietario, FTelaCadastroProprietario);
+  Application.CreateForm(TFTelaCadastroInquilino, FTelaCadastroInquilino);
   Application.Run;
 end.

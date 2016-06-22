@@ -3,11 +3,10 @@ inherited FTelaCadastroCnae: TFTelaCadastroCnae
   PixelsPerInch = 96
   TextHeight = 13
   inherited PageControl: TPageControl
+    ActivePage = Consulta
     inherited Consulta: TTabSheet
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
+      ExplicitLeft = 4
+      ExplicitTop = 24
       inherited Panel2: TPanel
         object GroupBox2: TGroupBox
           Left = 86
@@ -47,7 +46,6 @@ inherited FTelaCadastroCnae: TFTelaCadastroCnae
           ExplicitWidth = 767
           ExplicitHeight = 301
           inherited PanelEdits: TPanel
-            ExplicitTop = 0
             object Cep: TLabel
               Left = 16
               Top = 7

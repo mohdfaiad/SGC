@@ -133,8 +133,7 @@ begin
     end;
 end;
 
-function TFTelaCadastroNaturezaJuridica.EditsToObject(NaturezaJuridica
-  : TNaturezaJuridicaVo): TNaturezaJuridicaVo;
+function TFTelaCadastroNaturezaJuridica.EditsToObject(NaturezaJuridica  : TNaturezaJuridicaVo): TNaturezaJuridicaVo;
 begin
   NaturezaJuridica.codigoNatureza := LabelEditNatureza.Text;
   NaturezaJuridica.descricao := LabelEditDescricao.Text;

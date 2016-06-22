@@ -1,0 +1,77 @@
+inherited FTelaCadastroProprietario: TFTelaCadastroProprietario
+  Caption = 'Cadastro de Propriet'#225'rio'
+  PixelsPerInch = 96
+  TextHeight = 13
+  inherited PageControl: TPageControl
+    inherited Consulta: TTabSheet
+      ExplicitLeft = 4
+      ExplicitTop = 24
+    end
+    inherited DadosCadastrais: TTabSheet
+      inherited PageControlEdit: TPageControl
+        inherited DadosPrincipais: TTabSheet
+          inherited PanelEdits: TPanel
+            ExplicitTop = 2
+            object LabelNome: TLabel
+              Left = 126
+              Top = 43
+              Width = 250
+              Height = 13
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'Tahoma'
+              Font.Style = [fsBold]
+              ParentFont = False
+            end
+            object LabelEditCodigo: TLabeledEdit
+              Tag = 16
+              Left = 18
+              Top = 40
+              Width = 67
+              Height = 21
+              CharCase = ecUpperCase
+              Color = clWhite
+              EditLabel.Width = 33
+              EditLabel.Height = 13
+              EditLabel.Caption = 'C'#243'digo'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clBlue
+              Font.Height = -11
+              Font.Name = 'Tahoma'
+              Font.Style = []
+              ParentFont = False
+              TabOrder = 0
+            end
+            object btnConsultaPessoa: TBitBtn
+              Left = 91
+              Top = 38
+              Width = 29
+              Height = 25
+              Caption = 'P'
+              TabOrder = 1
+              OnClick = btnConsultaPessoaClick
+            end
+            object MaskEditDtInicioAtividade: TMaskEdit
+              Left = 446
+              Top = 40
+              Width = 64
+              Height = 21
+              Color = clWhite
+              EditMask = '!99/99/9999;1;_'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clBlue
+              Font.Height = -11
+              Font.Name = 'Tahoma'
+              Font.Style = []
+              MaxLength = 10
+              ParentFont = False
+              TabOrder = 2
+              Text = '  /  /    '
+            end
+          end
+        end
+      end
+    end
+  end
+end

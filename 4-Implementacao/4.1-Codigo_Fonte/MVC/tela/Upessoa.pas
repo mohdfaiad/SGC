@@ -48,6 +48,7 @@ type
     procedure btnConsultaCidadeClick(Sender: TObject);
     procedure BtnConsultaEstadoClick(Sender: TObject);
     procedure BtnConsultaPaisClick(Sender: TObject);
+    procedure CarregaObjetoSelecionado; override;
 
   private
 
@@ -122,6 +123,15 @@ begin
     LabeledEditDescPais.Text := TPaisVO(FormPaisConsulta.ObjetoRetornoVO).NomePais;
   end;
   FormPaisConsulta.Release;
+end;
+
+procedure TFTelaCadastroPessoa.CarregaObjetoSelecionado;
+begin
+  inherited;
+  if (not CDSGrid.IsEmpty) then
+  begin
+    ObjetoRetornoVO := PessoaController.ConsultarPorId(CDSGRID.FieldByName('IDPESSOA').AsInteger);
+  end;
 end;
 
 procedure TFTelaCadastroPessoa.DoConsultar;

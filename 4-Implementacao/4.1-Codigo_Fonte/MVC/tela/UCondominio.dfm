@@ -1,27 +1,26 @@
 inherited FTelaCadastroCondominio: TFTelaCadastroCondominio
   Caption = 'Cadastro de Condom'#237'nio'
-  ClientHeight = 505
-  ClientWidth = 771
-  ExplicitWidth = 787
-  ExplicitHeight = 544
+  ClientHeight = 504
+  ClientWidth = 784
+  ExplicitWidth = 800
+  ExplicitHeight = 543
   PixelsPerInch = 96
   TextHeight = 13
   inherited PageControl: TPageControl
-    Width = 771
-    Height = 480
-    ActivePage = Consulta
-    ExplicitWidth = 771
-    ExplicitHeight = 480
+    Width = 784
+    Height = 479
+    ExplicitWidth = 784
+    ExplicitHeight = 479
     inherited Consulta: TTabSheet
-      ExplicitWidth = 763
-      ExplicitHeight = 452
+      ExplicitWidth = 776
+      ExplicitHeight = 451
       inherited Grid: TDBGrid
-        Width = 763
-        Height = 396
+        Width = 776
+        Height = 395
       end
       inherited Panel2: TPanel
-        Width = 763
-        ExplicitWidth = 763
+        Width = 776
+        ExplicitWidth = 776
         object GroupBox2: TGroupBox
           Left = 86
           Top = 3
@@ -49,9 +48,11 @@ inherited FTelaCadastroCondominio: TFTelaCadastroCondominio
       end
     end
     inherited DadosCadastrais: TTabSheet
+      ExplicitWidth = 776
+      ExplicitHeight = 451
       inherited PanelBotoes: TPanel
-        Width = 763
-        ExplicitWidth = 763
+        Width = 776
+        ExplicitWidth = 776
         inherited BitBtnNovo: TBitBtn
           TabOrder = 0
         end
@@ -69,29 +70,31 @@ inherited FTelaCadastroCondominio: TFTelaCadastroCondominio
         end
       end
       inherited PageControlEdit: TPageControl
-        Width = 763
-        Height = 395
-        ExplicitWidth = 763
-        ExplicitHeight = 395
+        Width = 776
+        Height = 394
+        ExplicitWidth = 776
+        ExplicitHeight = 394
         inherited DadosPrincipais: TTabSheet
+          ExplicitWidth = 768
+          ExplicitHeight = 366
           inherited PanelEdits: TPanel
-            Width = 755
-            Height = 367
-            ExplicitWidth = 755
-            ExplicitHeight = 367
+            Width = 768
+            Height = 366
+            ExplicitWidth = 768
+            ExplicitHeight = 366
             object Cep: TLabel
-              Left = 624
+              Left = 610
               Top = 9
               Width = 19
               Height = 13
               Caption = 'Cep'
             end
             object LabelCnpj: TLabel
-              Left = 495
+              Left = 481
               Top = 9
-              Width = 55
+              Width = 27
               Height = 13
-              Caption = 'Cpf / Cnpj'
+              Caption = 'CNPJ'
               Font.Charset = DEFAULT_CHARSET
               Font.Color = clWindowText
               Font.Height = -11
@@ -100,15 +103,15 @@ inherited FTelaCadastroCondominio: TFTelaCadastroCondominio
               ParentFont = False
             end
             object Telefone_2: TLabel
-              Left = 115
-              Top = 142
+              Left = 122
+              Top = 148
               Width = 53
               Height = 13
               Caption = 'Telefone II'
             end
             object Telefone_1: TLabel
               Left = 16
-              Top = 144
+              Top = 148
               Width = 49
               Height = 13
               Caption = 'Telefone I'
@@ -142,9 +145,9 @@ inherited FTelaCadastroCondominio: TFTelaCadastroCondominio
               Height = 21
               CharCase = ecUpperCase
               Color = clWhite
-              EditLabel.Width = 115
+              EditLabel.Width = 71
               EditLabel.Height = 13
-              EditLabel.Caption = 'Nome / Raz'#227'o Social'
+              EditLabel.Caption = 'Raz'#227'o Social'
               EditLabel.Font.Charset = DEFAULT_CHARSET
               EditLabel.Font.Color = clWindowText
               EditLabel.Font.Height = -11
@@ -161,7 +164,7 @@ inherited FTelaCadastroCondominio: TFTelaCadastroCondominio
             end
             object MaskEditCNPJCPF: TMaskEdit
               Tag = 15
-              Left = 495
+              Left = 481
               Top = 28
               Width = 123
               Height = 21
@@ -177,9 +180,9 @@ inherited FTelaCadastroCondominio: TFTelaCadastroCondominio
             end
             object MaskEditCep: TMaskEdit
               Tag = 15
-              Left = 624
+              Left = 610
               Top = 28
-              Width = 64
+              Width = 78
               Height = 21
               Color = clWhite
               EditMask = ' 99.999-999 ;0;_'
@@ -273,7 +276,7 @@ inherited FTelaCadastroCondominio: TFTelaCadastroCondominio
               Tag = 1
               Left = 16
               Top = 163
-              Width = 93
+              Width = 100
               Height = 21
               Color = clWhite
               EditMask = '(999) 9999 - 9999;0;_'
@@ -289,7 +292,7 @@ inherited FTelaCadastroCondominio: TFTelaCadastroCondominio
             end
             object MaskEditTelefone2: TMaskEdit
               Tag = 1
-              Left = 115
+              Left = 122
               Top = 163
               Width = 100
               Height = 21
@@ -454,7 +457,7 @@ inherited FTelaCadastroCondominio: TFTelaCadastroCondominio
               Tag = 1
               Left = 16
               Top = 115
-              Width = 193
+              Width = 250
               Height = 21
               EditLabel.Width = 33
               EditLabel.Height = 13
@@ -469,7 +472,7 @@ inherited FTelaCadastroCondominio: TFTelaCadastroCondominio
               TabOrder = 7
             end
             object btnConsultaCidade: TBitBtn
-              Left = 215
+              Left = 271
               Top = 113
               Width = 30
               Height = 25
@@ -479,9 +482,9 @@ inherited FTelaCadastroCondominio: TFTelaCadastroCondominio
             end
             object LabeledEditDescEstado: TLabeledEdit
               Tag = 1
-              Left = 251
+              Left = 307
               Top = 115
-              Width = 215
+              Width = 185
               Height = 21
               EditLabel.Width = 33
               EditLabel.Height = 13
@@ -496,8 +499,8 @@ inherited FTelaCadastroCondominio: TFTelaCadastroCondominio
               TabOrder = 9
             end
             object BtnConsultaEstado: TBitBtn
-              Left = 472
-              Top = 113
+              Left = 267
+              Top = 337
               Width = 30
               Height = 25
               Caption = 'P'
@@ -506,9 +509,9 @@ inherited FTelaCadastroCondominio: TFTelaCadastroCondominio
             end
             object LabeledEditDescPais: TLabeledEdit
               Tag = 1
-              Left = 508
+              Left = 503
               Top = 115
-              Width = 144
+              Width = 185
               Height = 21
               EditLabel.Width = 19
               EditLabel.Height = 13
@@ -523,8 +526,8 @@ inherited FTelaCadastroCondominio: TFTelaCadastroCondominio
               TabOrder = 11
             end
             object BtnConsultaPais: TBitBtn
-              Left = 658
-              Top = 113
+              Left = 315
+              Top = 337
               Width = 30
               Height = 25
               Caption = 'P'
@@ -679,9 +682,9 @@ inherited FTelaCadastroCondominio: TFTelaCadastroCondominio
     end
   end
   inherited StatusBar1: TStatusBar
-    Top = 480
-    Width = 771
-    ExplicitTop = 480
-    ExplicitWidth = 771
+    Top = 479
+    Width = 784
+    ExplicitTop = 479
+    ExplicitWidth = 784
   end
 end

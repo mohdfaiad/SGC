@@ -1,0 +1,44 @@
+object FormEmpresaTrab: TFormEmpresaTrab
+  Left = 0
+  Top = 0
+  Caption = 'Empresa de Trabalho'
+  ClientHeight = 231
+  ClientWidth = 505
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  PixelsPerInch = 96
+  TextHeight = 13
+  object Panel1: TPanel
+    Left = 0
+    Top = 0
+    Width = 505
+    Height = 233
+    ParentShowHint = False
+    ShowHint = False
+    TabOrder = 0
+    object LabeledEditCodigo: TLabeledEdit
+      Left = 16
+      Top = 40
+      Width = 57
+      Height = 21
+      EditLabel.Width = 33
+      EditLabel.Height = 13
+      EditLabel.Caption = 'C'#243'digo'
+      TabOrder = 0
+    end
+    object BitBtn1: TBitBtn
+      Left = 79
+      Top = 38
+      Width = 34
+      Height = 25
+      Caption = 'P'
+      TabOrder = 1
+      OnClick = BitBtn1Click
+    end
+  end
+end

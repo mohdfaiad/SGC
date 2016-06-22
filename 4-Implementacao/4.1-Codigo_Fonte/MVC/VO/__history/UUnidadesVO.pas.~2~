@@ -1,0 +1,23 @@
+unit UUnidadesVO;
+
+Interface
+
+uses Atributos, Classes, Constantes, Generics.Collections, SysUtils, UGenericVO,UCnaeVO, UCondominioVO;
+
+type
+  [TEntity]
+  [TTable('unidade')]
+  TUnidadesVO = class(TGenericVO)
+  private
+    Fidunidade: Integer;
+    Fvlgasinicial: String;
+    Fvlareatotal: String;
+    Fvlfracaoideal: String;
+    Fidcondominio: Integer;
+  public
+  CondominioVO : TCondominioVO;
+  end;
+
+implementation
+
+end.

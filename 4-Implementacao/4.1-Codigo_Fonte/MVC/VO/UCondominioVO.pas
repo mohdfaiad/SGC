@@ -39,7 +39,7 @@ type
     EstadoVO : TEstadoVO;
     PaisVO   : TPaisVO;
 
-    [TId('idCondominio')]
+    [TId('idcondominio')]
     [TGeneratedValue(sAuto)]
     property idCondominio: Integer  read FIdCondominio write FIdCondominio;
     [TColumn('cnpj','CNPJ',130,[ldGrid,ldLookup,ldComboBox], False)]
@@ -81,11 +81,11 @@ type
 
 
 
-    [TColumn('idCidade','idCidade',0,[ldGrid,ldLookup,ldComboBox], False)]
+    [TColumn('idCidade','idCidade',0,[ldLookup,ldComboBox], False)]
     property IdCidade: integer  read FIdCidade write FIdCidade;
-    [TColumn('idEstado','idEstado',0,[ldGrid,ldLookup,ldComboBox], False)]
+    [TColumn('idEstado','idEstado',0,[ldLookup,ldComboBox], False)]
     property idEstado: integer  read FIdEstado write FIdEstado;
-    [TColumn('idPais','idPais',0,[ldGrid,ldLookup,ldComboBox], False)]
+    [TColumn('idPais','idPais',0,[ldLookup,ldComboBox], False)]
     property idPais: integer  read FIdPais write FIdPais;
 
     Function ValidarCamposObrigatorios:boolean;

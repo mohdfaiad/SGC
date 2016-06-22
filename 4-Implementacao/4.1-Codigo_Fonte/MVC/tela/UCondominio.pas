@@ -57,7 +57,7 @@ type
     Label3: TLabel;
     procedure FormCreate(Sender: TObject);
     function DoSalvar: boolean; override;
-    function ValidarTela: boolean;
+//    function ValidarTela: boolean;
     function MontaFiltro: string;
     procedure DoConsultar; override;
     function DoExcluir: boolean; override;
@@ -190,6 +190,7 @@ begin
         begin
            if (StatusTela = stInserindo) then
            begin
+              Condominio.ValidaCNPJ(Condominio.Cnpjcpf);
               CondominioController.Inserir(Condominio);
               Result := true;
            end
@@ -215,7 +216,6 @@ begin
     end;
 end;
 end;
-
 
 
 function TFTelaCadastroCondominio.EditsToObject(Condominio: TCondominioVO)
@@ -277,22 +277,6 @@ begin
       Result := '( UPPER(NOME) LIKE ' +
         QuotedStr('%' + UpperCase(editBusca.Text) + '%') + ' ) ';
   end;
-end;
-
-function TFTelaCadastroCondominio.ValidarTela: boolean;
-begin
-  Result := true;
-  if (LabelEditNome.Text = '') then
-  begin
-    ShowMessage('O campo nome é obrigatório!');
-    Result := false;
-  end
-  else if (MaskEditCNPJCPF.Text = '') then
-  begin
-    ShowMessage('O campo CNPJ é obrigatório!');
-    Result := false;
-  end;
-
 end;
 
 procedure TFTelaCadastroCondominio.GridParaEdits;

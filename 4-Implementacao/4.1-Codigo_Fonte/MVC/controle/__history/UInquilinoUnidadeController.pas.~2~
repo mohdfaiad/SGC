@@ -1,0 +1,43 @@
+unit UInquilinoUnidadeController;
+
+interface
+
+uses
+  Classes, SQLExpr, SysUtils, Generics.Collections, DBXJSON, DBXCommon,
+  ConexaoBD,
+  UPessoasVO, UController, DBClient, DB, UCondominioVO, UInquilinoUnidade, UCondominioController;
+
+
+type
+  TInquilinoUnidadeControllerr = class(TController<TInquilinoUnidadeVO>)
+  private
+
+  public
+    function ConsultarPorId(id: integer): TInquilinoUnidadeVO;
+  end;
+
+implementation
+
+uses
+  UDao, Constantes, Vcl.Dialogs;
+
+function TInquilinoUnidadeControllerr.ConsultarPorId(id: integer): TInquilinoUnidadeVO;
+var
+  P: TInquilinoUnidadeVO;
+  codominioController:TCondominioController;
+begin
+  P := TDAO.ConsultarPorId<TInquilinoUnidadeVO>(id);
+{//  codominioController:=TCondominioController.Create;
+//  if (P <> nil) then
+  begin
+    P.CondominioVO := codominioController.ConsultarPorId(P.idCondominio);
+  end;
+  codominioController.Free;    }
+  result := P;
+end;
+
+
+begin
+
+
+end.
