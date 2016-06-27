@@ -9,7 +9,6 @@ inherited FTelaCadastroPessoa: TFTelaCadastroPessoa
   inherited PageControl: TPageControl
     Width = 787
     Height = 445
-    ActivePage = Consulta
     ExplicitWidth = 787
     ExplicitHeight = 445
     inherited Consulta: TTabSheet
@@ -61,8 +60,6 @@ inherited FTelaCadastroPessoa: TFTelaCadastroPessoa
       end
     end
     inherited DadosCadastrais: TTabSheet
-      ExplicitLeft = 0
-      ExplicitTop = 0
       ExplicitWidth = 779
       ExplicitHeight = 417
       inherited PanelBotoes: TPanel
@@ -90,8 +87,6 @@ inherited FTelaCadastroPessoa: TFTelaCadastroPessoa
         ExplicitWidth = 779
         ExplicitHeight = 360
         inherited DadosPrincipais: TTabSheet
-          ExplicitLeft = 0
-          ExplicitTop = 0
           ExplicitWidth = 771
           ExplicitHeight = 332
           inherited PanelEdits: TPanel

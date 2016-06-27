@@ -27,6 +27,7 @@ type
     procedure BitBtn2Click(Sender: TObject);
     procedure BotaoConsultarClick(Sender: TObject);
     procedure GridDblClick(Sender: TObject);
+    procedure FormShow(Sender: TObject);
   private
     { Private declarations }
   public
@@ -190,6 +191,11 @@ begin
   Grid.DataSource := DSGrid;
   PageControl.ActivePage := Consulta;
   ConfiguraGrid;
+end;
+
+procedure TFTela.FormShow(Sender: TObject);
+begin
+  inherited;
   DoConsultar;
 end;
 
@@ -202,6 +208,8 @@ begin
   begin
     if (Components[I] is TLabeledEdit) then
       (Components[I] as TLabeledEdit).Text := ''
+    else if (Components[I] is TEdit) then
+      (Components[I] as TEdit).Text := ''
     else if (Components[I] is TMaskEdit) then
       (Components[I] as TMaskEdit).Text := ''
     else if (Components[I] is TMemo) then

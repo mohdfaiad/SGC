@@ -38,6 +38,14 @@ object FormMenu: TFormMenu
         Caption = 'Unidades'
         OnClick = Unidades1Click
       end
+      object PreoGs1: TMenuItem
+        Caption = 'Pre'#231'o G'#225's'
+        OnClick = PreoGs1Click
+      end
+      object otalGastoMs1: TMenuItem
+        Caption = 'Total Gasto M'#234's'
+        OnClick = otalGastoMs1Click
+      end
       object N1: TMenuItem
         Caption = '-'
       end

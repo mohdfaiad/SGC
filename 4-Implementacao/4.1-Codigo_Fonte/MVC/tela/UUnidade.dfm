@@ -110,16 +110,28 @@ inherited FTelaCadastroUnidade: TFTelaCadastroUnidade
                   object Label2: TLabel
                     Left = 190
                     Top = 21
-                    Width = 50
+                    Width = 59
                     Height = 13
                     Caption = #193'rea Total'
+                    Font.Charset = DEFAULT_CHARSET
+                    Font.Color = clWindowText
+                    Font.Height = -11
+                    Font.Name = 'Tahoma'
+                    Font.Style = [fsBold]
+                    ParentFont = False
                   end
                   object Label4: TLabel
                     Left = 289
                     Top = 21
-                    Width = 60
+                    Width = 70
                     Height = 13
                     Caption = 'Fra'#231#227'o Ideal'
+                    Font.Charset = DEFAULT_CHARSET
+                    Font.Color = clWindowText
+                    Font.Height = -11
+                    Font.Name = 'Tahoma'
+                    Font.Style = [fsBold]
+                    ParentFont = False
                   end
                   object Label5: TLabel
                     Left = 22
@@ -136,9 +148,15 @@ inherited FTelaCadastroUnidade: TFTelaCadastroUnidade
                     Height = 21
                     CharCase = ecUpperCase
                     Color = clWhite
-                    EditLabel.Width = 37
+                    EditLabel.Width = 44
                     EditLabel.Height = 13
                     EditLabel.Caption = 'N'#250'mero'
+                    EditLabel.Font.Charset = DEFAULT_CHARSET
+                    EditLabel.Font.Color = clWindowText
+                    EditLabel.Font.Height = -11
+                    EditLabel.Font.Name = 'Tahoma'
+                    EditLabel.Font.Style = [fsBold]
+                    EditLabel.ParentFont = False
                     Font.Charset = DEFAULT_CHARSET
                     Font.Color = clBlue
                     Font.Height = -11
@@ -159,6 +177,12 @@ inherited FTelaCadastroUnidade: TFTelaCadastroUnidade
                     Top = 40
                     Width = 93
                     Height = 21
+                    Font.Charset = DEFAULT_CHARSET
+                    Font.Color = clWindowText
+                    Font.Height = -11
+                    Font.Name = 'Tahoma'
+                    Font.Style = []
+                    ParentFont = False
                     TabOrder = 2
                   end
                   object EditFracaoIdeal: TEdit
@@ -166,6 +190,12 @@ inherited FTelaCadastroUnidade: TFTelaCadastroUnidade
                     Top = 40
                     Width = 93
                     Height = 21
+                    Font.Charset = DEFAULT_CHARSET
+                    Font.Color = clWindowText
+                    Font.Height = -11
+                    Font.Name = 'Tahoma'
+                    Font.Style = []
+                    ParentFont = False
                     TabOrder = 3
                   end
                   object EditObservacao: TEdit

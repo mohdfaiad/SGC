@@ -1,0 +1,527 @@
+unit Biblioteca;
+
+interface
+
+uses
+  Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs, Windows,
+  Dbtables, Inifiles, DBClient, DB, SqlExpr, DBXMySql, Grids, DBGrids,
+  IdHashMessageDigest, Constantes, Math, Rtti, TypInfo,Atributos, StrUtils,UGenericVO;
+
+//Function ValidaCNPJ(xCNPJ: String): Boolean;
+//Function ValidaCPF(xCPF: String): Boolean;
+Function OrdenaPinta(xGrid: DBGrids.TDBGrid; Column: DBGrids.TColumn; cds: TClientDataSet): Boolean;
+Function TruncaValor(Value: Extended; Casas: integer): Extended;
+Function ArredondaTruncaValor(Operacao: String; Value: Extended; Casas: integer): Extended;
+procedure ConfiguraCDSFromVO(cds: TClientDataSet; VOClass: TClassGenericVO);
+procedure AtualizaCaptionGrid(pGrid: TDBGrid; pFieldName, pCaption: string);
+procedure ConfiguraTamanhoColunaGrid(pGrid: TDBGrid; pFieldName: string; pTamanho: integer; pCaption: String);
+procedure ConfiguraGridFromVO(pGrid: TDBGrid; pVOClass: TClassGenericVO);
+function ExtraiCamposFiltro(pFiltro: String): TStringList;
+function VerificaInteiro(Value: String): Boolean;
+function MascaraCnpjCpf(Str: String): String;
+
+
+var
+  InString: String;
+
+implementation
+
+
+function MascaraCnpjCpf(Str: String): String;
+begin
+        if Length(Str)=11 then
+                Result:='999.999.999-99;0; '
+        else
+        if Length(Str)=14 then
+                Result:='99.999.999/9999-99;0; '
+        else Result:='99999999999999;0; ';
+end;
+
+function LimpaParanumeros(Str: String): String;
+var     c: Integer;
+begin
+        Result:='';
+        for c:=1 to length(Str) do begin
+                if (Str[c]>='0') and (Str[c]<='9') then result:=result+Str[c];
+        end;
+end;
+
+{ Valida o CNPJ digitado }
+{function ValidaCNPJ(xCNPJ: String): Boolean;
+Var
+  d1, d4, xx, nCount, fator, resto, digito1, digito2: integer;
+  Check: String;
+begin
+  d1 := 0;
+  d4 := 0;
+  xx := 1;
+  for nCount := 1 to Length(xCNPJ) - 2 do
+  begin
+    if Pos(Copy(xCNPJ, nCount, 1), '/-.') = 0 then
+    begin
+      if xx < 5 then
+      begin
+        fator := 6 - xx;
+      end
+      else
+      begin
+        fator := 14 - xx;
+      end;
+      d1 := d1 + StrToInt(Copy(xCNPJ, nCount, 1)) * fator;
+      if xx < 6 then
+      begin
+        fator := 7 - xx;
+      end
+      else
+      begin
+        fator := 15 - xx;
+      end;
+      d4 := d4 + StrToInt(Copy(xCNPJ, nCount, 1)) * fator;
+      xx := xx + 1;
+    end;
+  end;
+  resto := (d1 mod 11);
+  if resto < 2 then
+  begin
+    digito1 := 0;
+  end
+  else
+  begin
+    digito1 := 11 - resto;
+  end;
+  d4 := d4 + 2 * digito1;
+  resto := (d4 mod 11);
+  if resto < 2 then
+  begin
+    digito2 := 0;
+  end
+  else
+  begin
+    digito2 := 11 - resto;
+  end;
+  Check := IntToStr(digito1) + IntToStr(digito2);
+  if Check <> Copy(xCNPJ, succ(Length(xCNPJ) - 2), 2) then
+  begin
+    Result := False;
+  end
+  else
+  begin
+    Result := True;
+  end;
+end;
+
+{ Valida o CPF digitado }
+{function ValidaCPF(xCPF: String): Boolean;
+Var
+  d1, d4, xx, nCount, resto, digito1, digito2: integer;
+  Check: String;
+Begin
+  d1 := 0;
+  d4 := 0;
+  xx := 1;
+  for nCount := 1 to Length(xCPF) - 2 do
+  begin
+    if Pos(Copy(xCPF, nCount, 1), '/-.') = 0 then
+    begin
+      d1 := d1 + (11 - xx) * StrToInt(Copy(xCPF, nCount, 1));
+      d4 := d4 + (12 - xx) * StrToInt(Copy(xCPF, nCount, 1));
+      xx := xx + 1;
+    end;
+  end;
+  resto := (d1 mod 11);
+  if resto < 2 then
+  begin
+    digito1 := 0;
+  end
+  else
+  begin
+    digito1 := 11 - resto;
+  end;
+  d4 := d4 + 2 * digito1;
+  resto := (d4 mod 11);
+  if resto < 2 then
+  begin
+    digito2 := 0;
+  end
+  else
+  begin
+    digito2 := 11 - resto;
+  end;
+  Check := IntToStr(digito1) + IntToStr(digito2);
+  if Check <> Copy(xCPF, succ(Length(xCPF) - 2), 2) then
+  begin
+    Result := False;
+  end
+  else
+  begin
+    Result := True;
+  end;
+end;
+        }
+Function OrdenaPinta(xGrid: DBGrids.TDBGrid; Column: DBGrids.TColumn; cds: TClientDataSet): Boolean;
+const
+  idxDefault = 'DEFAULT_ORDER';
+var
+  strColumn: string;
+  bolUsed: Boolean;
+  idOptions: TIndexOptions;
+  i: integer;
+  VDescendField: string;
+  coluna: String;
+begin
+
+  Result := False;
+  if not cds.Active then
+    exit;
+
+  strColumn := idxDefault;
+
+  // não faz nada caso seja um campo calculado
+  if (Column.Field.FieldKind = fkCalculated) then
+    exit;
+
+  // índice já está sendo utilizado
+  bolUsed := (Column.Field.FieldName = cds.IndexName);
+
+  // seta o nome da coluna na variavel para carga de dados e pesquisa
+  coluna := Column.Field.FieldName;
+
+  // verifica a existência do índice e propriedades
+  cds.IndexDefs.Update;
+  idOptions := [];
+  for i := 0 to cds.IndexDefs.Count - 1 do
+  begin
+    if cds.IndexDefs.Items[i].Name = Column.Field.FieldName then
+    begin
+      strColumn := Column.Field.FieldName;
+      // determina como deve ser criado o índice, inverte a condição ixDescending
+      case (ixDescending in cds.IndexDefs.Items[i].Options) of
+        True:
+          begin
+            idOptions := [];
+            VDescendField := '';
+          end;
+        False:
+          begin
+            idOptions := [ixDescending];
+            VDescendField := strColumn;
+          end;
+      end;
+    end;
+  end;
+
+  // caso não encontre o índice ou o mesmo esteja em uso
+  if (strColumn = idxDefault) or bolUsed then
+  begin
+    if bolUsed then
+      cds.DeleteIndex(Column.Field.FieldName);
+    try
+      cds.AddIndex(Column.Field.FieldName, Column.Field.FieldName, idOptions, VDescendField, '', 0);
+      strColumn := Column.Field.FieldName;
+    except
+      // se índice indeterminado, seta o padrão
+      if bolUsed then
+        strColumn := idxDefault;
+    end;
+  end;
+
+  // pinta todas as outras colunas com a cor padrão e a coluna clicada com a cor Azul
+  for i := 0 to xGrid.Columns.Count - 1 do
+  begin
+    if Pos(strColumn, xGrid.Columns[i].Field.FieldName) <> 0 then
+      xGrid.Columns[i].Title.Font.Color := clBlue
+    else
+      xGrid.Columns[i].Title.Font.Color := clWindowText;
+  end;
+
+  // tenta setar o índice, caso ocorra algum erro seta o padrão
+  try
+    cds.IndexName := strColumn;
+  except
+    cds.IndexName := idxDefault;
+  end;
+
+  Result := True;
+end;
+
+Function TruncaValor(Value: Extended; Casas: integer): Extended;
+Var
+  sValor: String;
+  nPos: integer;
+begin
+  // Transforma o valor em string
+  sValor := FloatToStr(Value);
+
+  // Verifica se possui ponto decimal
+  nPos := Pos(FormatSettings.DecimalSeparator, sValor);
+  If (nPos > 0) Then
+  begin
+    sValor := Copy(sValor, 1, nPos + Casas);
+  End;
+
+  Result := StrToFloat(sValor);
+end;
+
+Function ArredondaTruncaValor(Operacao: String; Value: Extended; Casas: integer): Extended;
+Var
+  sValor: String;
+  nPos: integer;
+begin
+  if Operacao = 'A' then
+    Result := SimpleRoundTo(Value, Casas * -1)
+  else
+  begin
+    // Transforma o valor em string
+    sValor := FloatToStr(Value);
+
+    // Verifica se possui ponto decimal
+    nPos := Pos(FormatSettings.DecimalSeparator, sValor);
+    If (nPos > 0) Then
+    begin
+      sValor := Copy(sValor, 1, nPos + Casas);
+    End;
+
+    Result := StrToFloat(sValor);
+  end;
+end;
+
+procedure ConfiguraCDSFromVO(cds: TClientDataSet; VOClass: TClassGenericVO);
+var
+  Contexto: TRttiContext;
+  Tipo: TRttiType;
+  Propriedade: TRttiProperty;
+  Atributo: TCustomAttribute;
+  NomeTipo: string;
+
+  function LengthAtributo(pColumn: Atributos.TColumn): integer;
+  begin
+    if pColumn.Length > 0 then
+      Result := pColumn.Length
+    else
+      Result := 50;
+  end;
+
+begin
+  try
+    Contexto := TRttiContext.Create;
+    Tipo := Contexto.GetType(VOClass);
+
+    // Configura ClientDataset
+    cds.Close;
+    cds.FieldDefs.Clear;
+    cds.IndexDefs.Clear;
+
+    // Preenche os nomes dos campos do CDS
+    for Propriedade in Tipo.GetProperties do
+    begin
+      for Atributo in Propriedade.GetAttributes do
+      begin
+        if Atributo is TId then
+        begin
+          //cds.FieldDefs.add('ID', ftInteger);
+            CDS.FieldDefs.Add((Atributo as TId).NameField,ftInteger);
+
+        end
+        else if Atributo is Atributos.TColumn then
+        begin
+          if Propriedade.PropertyType.TypeKind in [tkString, tkUString] then
+          begin
+            cds.FieldDefs.add((Atributo as Atributos.TColumn).Name, ftString, LengthAtributo(Atributo as Atributos.TColumn));
+          end
+          else if Propriedade.PropertyType.TypeKind in [tkFloat] then
+          begin
+            NomeTipo := LowerCase(Propriedade.PropertyType.Name);
+            if NomeTipo = 'tdatetime' then
+              cds.FieldDefs.add((Atributo as Atributos.TColumn).Name, ftDateTime)
+            else
+              cds.FieldDefs.add((Atributo as Atributos.TColumn).Name, ftFloat);
+          end
+          else if Propriedade.PropertyType.TypeKind in [tkInt64, tkInteger] then
+          begin
+            cds.FieldDefs.add((Atributo as Atributos.TColumn).Name, ftInteger);
+          end
+          else if Propriedade.PropertyType.TypeKind in [tkEnumeration] then
+          begin
+            cds.FieldDefs.add((Atributo as TColumn).Name, ftBoolean);
+          end;
+        end;
+      end;
+    end;
+    cds.CreateDataSet;
+
+    for Propriedade in Tipo.GetProperties do
+    begin
+      for Atributo in Propriedade.GetAttributes do
+      begin
+
+        if Atributo is TColumn then
+          NomeTipo := (Atributo as TColumn).Name;
+        if Atributo is TId then
+          NomeTipo := (Atributo as TId).NameField;
+
+        if Atributo is TFormatter then
+        begin
+          // Máscaras
+          if Propriedade.PropertyType.TypeKind in [tkInt64, tkInteger] then
+            TNumericField(cds.FieldByName(NomeTipo)).DisplayFormat := (Atributo as Atributos.TFormatter).Formatter;
+          if Propriedade.PropertyType.TypeKind in [tkFloat] then
+            TNumericField(cds.FieldByName(NomeTipo)).DisplayFormat := (Atributo as Atributos.TFormatter).Formatter;
+          if Propriedade.PropertyType.TypeKind in [tkString, tkUString] then
+            TStringField(cds.FieldByName(NomeTipo)).EditMask := (Atributo as Atributos.TFormatter).Formatter;
+          // Alinhamento
+          TStringField(cds.FieldByName(NomeTipo)).Alignment := (Atributo as TFormatter).Alignment;
+        end;
+      end;
+    end;
+
+  finally
+    Contexto.Free;
+  end;
+end;
+
+procedure AtualizaCaptionGrid(pGrid: TDBGrid; pFieldName, pCaption: string);
+var
+  i: integer;
+begin
+  for i := 0 to pGrid.Columns.Count - 1 do
+  begin
+    if pGrid.Columns[i].FieldName = pFieldName then
+    begin
+      pGrid.Columns[i].Title.Caption := pCaption;
+      Break;
+    end;
+  end;
+end;
+
+procedure ConfiguraTamanhoColunaGrid(pGrid: TDBGrid; pFieldName: string; pTamanho: integer; pCaption: String);
+var
+  i: integer;
+begin
+  for i := 0 to pGrid.Columns.Count - 1 do
+  begin
+    if pGrid.Columns[i].FieldName = pFieldName then
+    begin
+      if pTamanho <= 0 then
+      begin
+        pGrid.Columns[i].Visible := False;
+      end
+      else
+      begin
+        if pTamanho < (Length(pCaption) * 8) then
+          pTamanho := (Length(pCaption) * 6);
+        pGrid.Columns[i].Visible := True;
+        pGrid.Columns[i].Width := pTamanho;
+      end;
+      Break;
+    end;
+  end;
+end;
+
+procedure ConfiguraGridFromVO(pGrid: TDBGrid; pVOClass: TClassGenericVO);
+var
+  Contexto: TRttiContext;
+  Tipo: TRttiType;
+  Propriedade: TRttiProperty;
+  Atributo: TCustomAttribute;
+begin
+  try
+    Contexto := TRttiContext.Create;
+    Tipo := Contexto.GetType(pVOClass);
+    // Configura a Grid
+    for Propriedade in Tipo.GetProperties do
+    begin
+      for Atributo in Propriedade.GetAttributes do
+      begin
+        if Atributo is TColumn then
+        begin
+          if (Atributo as TColumn).LocalDisplayIs(ldGrid) then
+          begin
+            AtualizaCaptionGrid(pGrid, (Atributo as TColumn).Name, (Atributo as TColumn).Caption);
+
+            if (Atributo as TColumn).Length > 0 then
+            begin
+              ConfiguraTamanhoColunaGrid(pGrid, (Atributo as TColumn).Name, (Atributo as TColumn).Length, (Atributo as TColumn).Caption);
+            end;
+          end
+          else
+          begin
+            ConfiguraTamanhoColunaGrid(pGrid, (Atributo as TColumn).Name, -1, (Atributo as TColumn).Caption);
+          end;
+        end
+        else if Atributo is TId then
+          AtualizaCaptionGrid(pGrid, (Atributo as TId).NameField, 'Id');
+      end;
+    end;
+  finally
+    Contexto.Free;
+  end;
+end;
+
+function TextoParaData(pData: string): TDate;
+var
+  dia, mes, ano: integer;
+begin
+  if (pData <> '') AND (pData <> '0000-00-00') then
+  begin
+    dia := StrToInt(Copy(pData, 9, 2));
+    mes := StrToInt(Copy(pData, 6, 2));
+    ano := StrToInt(Copy(pData, 1, 4));
+    Result := EncodeDate(ano, mes, dia);
+  end
+  else
+  begin
+    Result := 0;
+  end;
+end;
+
+function DataParaTexto(pData: TDate): string;
+begin
+  if pData > 0 then
+    Result := FormatDateTime('YYYY-MM-DD', pData)
+  else
+    Result := '0000-00-00';
+end;
+
+function ExtraiCamposFiltro(pFiltro: String): TStringList;
+var
+  Campo, Filtro: String;
+  i, Posicao: integer;
+begin
+  try
+    Filtro := pFiltro;
+    Result := TStringList.Create;
+    i := 1;
+    while i <= Length(Filtro) do
+    begin
+      if Copy(Filtro, i, 1) = '[' then
+      begin
+        Posicao := Pos(']', Filtro);
+        Campo := Copy(Filtro, i, Posicao - i);
+        Campo := StringReplace(Campo, '[', '', [rfReplaceAll]);
+        Campo := StringReplace(Campo, ']', '', [rfReplaceAll]);
+        Delete(Filtro, i, Posicao);
+        i := 0;
+        Result.add(Campo);
+      end;
+      inc(i);
+    end;
+  finally
+  end;
+end;
+
+function VerificaInteiro(Value: String): Boolean;
+var
+  i: integer;
+begin
+  Result := False;
+  for i := 0 to 9 do
+  begin
+    if Pos(IntToStr(i), Value) <> 0 then
+    begin
+      Result := True;
+      exit;
+    end;
+  end;
+end;
+
+end.

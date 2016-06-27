@@ -2,7 +2,7 @@ unit UProprietarioUnidadeVO;
 
 interface
 
-uses Atributos, Classes, Constantes, Generics.Collections, SysUtils, UGenericVO,UCnaeVO, UCidadeVO, UEstadoVO, UPaisVO;
+uses Atributos, Classes, Constantes, Generics.Collections, SysUtils, UGenericVO,UCondominioVO, UpESSOAsVO;
 
 type
   [TEntity]
@@ -14,6 +14,8 @@ type
     FdtInicio : TdateTime;
 
   public
+    CondominioVO : TCondominioVO;
+    PessoaVo : TpESSOASVO;
 
     [TId('idproprietario')]
     [TGeneratedValue(sAuto)]
@@ -40,8 +42,11 @@ Result := true;
     Result := false;
   end
   else if (self.FdtInicio = 0) then
+  begin
     raise Exception.Create('O campo data é obrigatório!');
     Result := false;
+  end;
+
 end;
 
 end.

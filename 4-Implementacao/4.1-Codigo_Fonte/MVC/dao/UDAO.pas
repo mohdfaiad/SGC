@@ -35,7 +35,7 @@ function ExtraiCamposFiltro(pFiltro: String): TStringList;
 implementation
 
 uses
-  Constantes, Dialogs, UGenericVO;
+  Constantes, Dialogs, UGenericVO, Biblioteca;
 
 { TDAO }
 
@@ -178,7 +178,7 @@ begin
 
                 if Propriedade.GetValue(pObjeto).AsExtended > 0 then
                   ValoresSQL := ValoresSQL +
-                    QuotedStr(FormatFloat('0.00', Propriedade.GetValue(pObjeto)
+                    QuotedStr(FormatFloatComPonto(Propriedade.GetValue(pObjeto)
                     .AsExtended)) + ','
                 else
                   ValoresSQL := ValoresSQL + 'null,';
@@ -339,7 +339,7 @@ begin
                           else
                             CamposSQL := CamposSQL + (Atributo as TColumn).Name
                               + ' = ' + QuotedStr
-                              (FormatFloat('0.00', Propriedade.GetValue(pObjeto)
+                              (FormatFloatComPonto(Propriedade.GetValue(pObjeto)
                               .AsExtended)) + ',';
                         end
                         else
@@ -450,7 +450,7 @@ begin
               end
               else
                 CamposSQL := CamposSQL + (Atributo as TColumn).Name + ' = ' +
-                  QuotedStr(FormatFloat('0.00', Propriedade.GetValue(pObjeto)
+                  QuotedStr(FormatFloatComPonto(Propriedade.GetValue(pObjeto)
                   .AsExtended)) + ',';
             end
             else if Propriedade.GetValue(pObjeto).ToString <> '' then

@@ -5,7 +5,7 @@ interface
 uses
   Classes, SQLExpr, SysUtils, Generics.Collections, DBXJSON, DBXCommon,
   ConexaoBD,
-  UPessoasVO, UController, DBClient, DB, UCondominioVO, UCondominioController, UInquilinoUnidadeVO;
+  UPessoasVO, UController, DBClient, DB, UCondominioVO, UCondominioController, UInquilinoUnidadeVO, UPessoasController;
 
 
 type
@@ -24,15 +24,16 @@ uses
 function TInquilinoUnidadeController.ConsultarPorId(id: integer): TInquilinoUnidadeVO;
 var
   P: TInquilinoUnidadeVO;
-  codominioController:TCondominioController;
+  pessoaController : TPessoasController;
 begin
   P := TDAO.ConsultarPorId<TInquilinoUnidadeVO>(id);
-{//  codominioController:=TCondominioController.Create;
-//  if (P <> nil) then
+  pessoaController := TPessoasController.Create;
+
+  if (P <> nil) then
   begin
-    P.CondominioVO := codominioController.ConsultarPorId(P.idCondominio);
+      p.PessoaVo := pessoacontroller.ConsultarPorId(p.idinquilino);
   end;
-  codominioController.Free;    }
+  pessoaController.Free;
   result := P;
 end;
 

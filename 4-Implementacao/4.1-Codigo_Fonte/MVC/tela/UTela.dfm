@@ -2,6 +2,7 @@ inherited FTela: TFTela
   Caption = 'FTela'
   ClientHeight = 395
   ClientWidth = 786
+  OnShow = FormShow
   ExplicitWidth = 802
   ExplicitHeight = 434
   PixelsPerInch = 96

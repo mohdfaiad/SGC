@@ -19,13 +19,20 @@ procedure ConfiguraGridFromVO(pGrid: TDBGrid; pVOClass: TClassGenericVO);
 function ExtraiCamposFiltro(pFiltro: String): TStringList;
 function VerificaInteiro(Value: String): Boolean;
 function MascaraCnpjCpf(Str: String): String;
-
+function FormatFloatComPonto(const value:extended):string;
 
 var
   InString: String;
 
 implementation
 
+function FormatFloatComPonto(const value:extended):string;
+var myformatsettings:TformatSettings;
+begin
+  GetLocaleFormatSettings(GetThreadLocale, myFormatSettings);
+  myformatSettings.decimalSeparator:='.';
+  result:= FormatFloat('0.00',value,myformatsettings);
+end;
 
 function MascaraCnpjCpf(Str: String): String;
 begin

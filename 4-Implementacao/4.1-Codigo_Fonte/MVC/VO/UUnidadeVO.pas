@@ -10,9 +10,9 @@ type
   TUnidadeVO = class(TGenericVO)
   private
     Fidunidade: Integer;
-    Fvlgasinicial: String;
-    Fvlareatotal: String;
-    Fvlfracaoideal: String;
+    Fvlgasinicial: currency;
+    Fvlareatotal: currency;
+    Fvlfracaoideal: currency;
     Fidcondominio: Integer;
     Fnumero : Integer;
     Fobservacao : String;
@@ -23,11 +23,11 @@ type
     [TGeneratedValue(sAuto)]
     property idUnidade: Integer  read Fidunidade write Fidunidade;
     [TColumn('vlgasinicial','Gás Inicial',130,[ldLookup,ldComboBox], False)]
-    property vlgasinicial: String  read Fvlgasinicial write Fvlgasinicial;
+    property vlgasinicial: currency  read Fvlgasinicial write Fvlgasinicial;
     [TColumn('vlareatotal','Área Total',50,[ldGrid,ldLookup,ldComboBox], False)]
-    property vlareatotal: String  read Fvlareatotal write Fvlareatotal;
+    property vlareatotal: currency  read Fvlareatotal write Fvlareatotal;
     [TColumn('vlfracaoideal','Fração Ideal',50,[ldGrid,ldLookup,ldComboBox], False)]
-    property vlfracaoideal: String  read Fvlfracaoideal write Fvlfracaoideal;
+    property vlfracaoideal: currency  read Fvlfracaoideal write Fvlfracaoideal;
     [TColumn('idcondominio','IdCondominio',50,[ldLookup,ldComboBox], False)]
     property idcondominio: Integer  read Fidcondominio write Fidcondominio;
     [TColumn('numero','Número',50,[ldGrid,ldLookup,ldComboBox], False)]
@@ -35,7 +35,7 @@ type
     [TColumn('observacao','Observação',500,[ldLookup,ldComboBox], False)]
     property observacao: String  read Fobservacao write Fobservacao;
 
-    Function ValidarCamposObrigatorios:boolean;
+    procedure ValidarCampos;
 
 
   end;
@@ -44,13 +44,19 @@ implementation
 
 { TUnidadeVO }
 
-function TUnidadeVO.ValidarCamposObrigatorios: boolean;
+procedure TUnidadeVO.ValidarCampos;
 begin
-Result := true;
-  if (Self.Fnumero = 0) then
+  if (Self.Fnumero =  0) then
   begin
     raise Exception.Create('O campo Número é obrigatório!');
-    Result := false;
+  end;
+   if (Self.FvlAreaTotal = 0) then
+  begin
+    raise Exception.Create('O campo Área Total é obrigatório!');
+  end;
+   if (Self.Fvlfracaoideal = 0) then
+  begin
+    raise Exception.Create('O campo Fração Ideal é obrigatório!');
   end;
 end;
 

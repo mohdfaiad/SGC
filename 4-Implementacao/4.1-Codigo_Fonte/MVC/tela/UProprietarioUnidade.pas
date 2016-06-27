@@ -18,6 +18,9 @@ type
     MaskEditDtInicio: TMaskEdit;
     LabelNome: TLabel;
     Label1: TLabel;
+    GroupBox2: TGroupBox;
+    RadioButton1: TRadioButton;
+    RadioButton2: TRadioButton;
     procedure btnConsultaPessoaClick(Sender: TObject);
     function MontaFiltro: string;
     procedure FormCreate(Sender: TObject);
@@ -25,6 +28,7 @@ type
     function DoExcluir: boolean; override;
     procedure DoConsultar; override;
     procedure BitBtnNovoClick(Sender: TObject);
+
 
   private
     { Private declarations }
@@ -143,7 +147,7 @@ var
 
 begin
   ProprietarioUndiade.idproprietario := StrToInt(LabelEditCodigo.text);
-//  ProprietarioUndiade.IdUnidade := TUnidadeVO(FormConsultaUnidade.ObjetoRetornoVO).idUnidade;
+ // ProprietarioUndiade.IdUnidade := TUnidadeVO(FormConsultaUnidade.ObjetoRetornoVO).idUnidade;
   ProprietarioUndiade.IdUnidade := idunidade;
   ProprietarioUndiade.DtInicio := StrToDateTime(MaskEditDtInicio.Text);
   result := ProprietarioUndiade;
@@ -153,6 +157,7 @@ end;
 procedure TFTelaCadastroProprietario.FormCreate(Sender: TObject);
 begin
   ClasseObjetoGridVO := TProprietarioUnidadeVo;
+  RadioButton2.Checked := true;
 
   inherited;
 
@@ -161,9 +166,6 @@ end;
 procedure TFTelaCadastroProprietario.GridParaEdits;
 var
   ProprietarioUnidade: TProprietarioUnidadeVo;
-  ObjRetornoVO : TGenericVO;
-  FormPessoaConsulta : TFTelaCadastroPessoa;
-  pessoaController : TPessoasController;
 begin
   inherited;
 
@@ -173,31 +175,29 @@ begin
 
   if Assigned(ProprietarioUnidade) then
   begin
-//    ObjRetornoVO := pessoaController.ConsultarPorId(ProprietarioUnidade.idProprietario);
-//    FormPessoaConsulta.ObjetoRetornoVO := ObjRetornoVO;
     LabelEditCodigo.Text := IntToStr(ProprietarioUnidade.idproprietario);
-//    LabelNome.Caption := TPessoasVO(FormPessoaConsulta.ObjetoRetornoVO).nome;
-    MaskEditDtInicio.Text := DateTimeToStr(ProprietarioUnidade.DtInicio);
-
-
+    LabelNome.Caption := ProprietarioUnidade.PessoaVo.nome;
+    MaskEditDtInicio.Text := datetostr(ProprietarioUnidade.DtInicio);
   end;
 end;
 
 function TFTelaCadastroProprietario.MontaFiltro: string;
 begin
-  Result := '';
- { if (RadioButtonNaturezaJuridica.Checked = true) then
+ Result := ' (IDUNIDADE = '+inttostr(Idunidade)+')';
+ {if (RadioButton2.Checked = true) then
   begin
     if (editBusca.Text <> '') then
-      Result := '( UPPER(CODIGONATUREZA) LIKE ' +
-        QuotedStr('%' + UpperCase(editBusca.Text) + '%') + ' ) ';
-  end
-  else if (RadioButtonDescricao.Checked = true) then
+      Result := '( UPPER(IDPROPRIETARIO) LIKE ' +
+      QuotedStr('%' + UpperCase(editBusca.Text) + '%') + ' ) ';
+  end;
+ { else if (RadioButtonDescricao.Checked = true) then
   begin
     if (editBusca.Text <> '') then
       Result := '( UPPER(DESCRICAO) LIKE ' +
         QuotedStr('%' + UpperCase(editBusca.Text) + '%') + ' ) ';
   end;          }
 end;
+
+
 
 end.

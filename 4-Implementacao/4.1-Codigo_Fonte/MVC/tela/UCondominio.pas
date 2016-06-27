@@ -186,25 +186,20 @@ begin
     Condominio:=EditsToObject(TCondominioVO.Create);
     try
       try
-        if (Condominio.ValidarCamposObrigatorios()) then
-        begin
-           if (StatusTela = stInserindo) then
-           begin
-              Condominio.ValidaCNPJ(Condominio.Cnpjcpf);
-              CondominioController.Inserir(Condominio);
-              Result := true;
-           end
-            else if (StatusTela = stEditando) then
-             begin
-            Condominio := CondominioController.ConsultarPorId(CDSGrid.FieldByName('IDCONDOMINIO')
-              .AsInteger);
-            Condominio := EditsToObject(Condominio);
-            CondominioController.Alterar(Condominio);
+        Condominio.ValidarCampos();
+         if (StatusTela = stInserindo) then
+         begin
+            CondominioController.Inserir(Condominio);
             Result := true;
-          end;
-        end
-        else
-          Result := false;
+         end
+         else if (StatusTela = stEditando) then
+           begin
+          Condominio := CondominioController.ConsultarPorId(CDSGrid.FieldByName('IDCONDOMINIO')
+            .AsInteger);
+          Condominio := EditsToObject(Condominio);
+          CondominioController.Alterar(Condominio);
+          Result := true;
+        end;
       except
         on E: Exception do
         begin

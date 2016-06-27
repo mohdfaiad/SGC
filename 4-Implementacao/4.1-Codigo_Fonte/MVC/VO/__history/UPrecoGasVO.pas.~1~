@@ -1,0 +1,51 @@
+unit UPregoGasVO;
+
+interface
+
+uses Atributos, Classes, Constantes, Generics.Collections, SysUtils, UGenericVO,UCnaeVO, UCidadeVO, UEstadoVO, UPaisVO;
+
+type
+  [TEntity]
+  [TTable('PrecoGas')]
+  TPrecoGasVO = class(TGenericVO)
+  private
+    FidPrecoGas: Integer;
+    FdtMesAno : TdateTime;
+    FvlGas : currency;
+    FidCondominio: Integer;
+  public
+
+    [TId('idtotalgastomes')]
+    [TGeneratedValue(sAuto)]
+    property idTotalGastoMes: Integer  read FidPrecoGas write FidPrecoGas;
+    [TColumn('vltotal','Valor Total',50,[ldGrid,ldLookup,ldComboBox], False)]
+    property vlTotal: currency  read FvlGas write FvlGas;
+    [TColumn('dtMesAno','Data Inicio',0,[ldLookup,ldComboBox], False)]
+    property dtMesAno: TDateTime  read FdtMesAno write FdtMesAno;
+    [TColumn('idcondominio','Condominio',0,[ldLookup,ldComboBox], False)]
+    property idCondominio: integer  read FidCondominio write FidCondominio;
+
+
+    Function ValidarCamposObrigatorios:boolean;
+
+  end;
+implementation
+
+{ TPrecoGasVO }
+
+function TPrecoGasVO.ValidarCamposObrigatorios: boolean;
+begin
+  Result := true;
+  if (Self.FvlGas = 0) then
+  begin
+    raise Exception.Create('O campo Valor do Gás é obrigatório!');
+    Result := false;
+  end
+  else if (self.FdtMesAno = 0) then
+  begin
+    raise Exception.Create('O campo data é obrigatório!');
+    Result := false;
+  end;
+end;
+end.
+

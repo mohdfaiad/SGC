@@ -4,8 +4,33 @@ inherited FTelaCadastroProprietario: TFTelaCadastroProprietario
   TextHeight = 13
   inherited PageControl: TPageControl
     inherited Consulta: TTabSheet
-      ExplicitLeft = 4
-      ExplicitTop = 24
+      inherited Panel2: TPanel
+        ExplicitTop = -6
+        object GroupBox2: TGroupBox
+          Left = 86
+          Top = 3
+          Width = 185
+          Height = 47
+          Caption = 'Tipo'
+          TabOrder = 4
+          object RadioButton1: TRadioButton
+            Left = 87
+            Top = 21
+            Width = 62
+            Height = 17
+            Caption = 'Desri'#231#227'o'
+            TabOrder = 0
+          end
+          object RadioButton2: TRadioButton
+            Left = 8
+            Top = 16
+            Width = 65
+            Height = 28
+            Caption = 'Unidade'
+            TabOrder = 1
+          end
+        end
+      end
     end
     inherited DadosCadastrais: TTabSheet
       ExplicitLeft = 4

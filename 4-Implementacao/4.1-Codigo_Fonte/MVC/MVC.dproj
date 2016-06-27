@@ -166,6 +166,17 @@
             <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="VO\UTotalGastoMesVO.pas"/>
+        <DCCReference Include="controle\UTotalGastoMesController.pas"/>
+        <DCCReference Include="tela\UTotalGastoMes.pas">
+            <Form>FTelaCadastroTotalGastoMes</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="VO\UPrecoGasVO.pas"/>
+        <DCCReference Include="controle\UPrecoGasController.pas"/>
+        <DCCReference Include="tela\UPrecoGas.pas">
+            <Form>FTelaCadastroPrecoGas</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>
@@ -224,7 +235,7 @@
                 <Platform value="Win64">False</Platform>
             </Platforms>
             <UnitTesting>
-                <TestProjectName>C:\Faculdade\Trab Grad II\MVC\Test\MVCTests.dproj</TestProjectName>
+                <TestProjectName>C:\Users\Nayara\Documents\GitHub\SGC\4-Implementacao\4.1-Codigo_Fonte\MVC\Test\MVCTests2.dproj</TestProjectName>
             </UnitTesting>
         </BorlandProject>
         <ProjectFileVersion>12</ProjectFileVersion>

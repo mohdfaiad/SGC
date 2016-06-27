@@ -128,27 +128,24 @@ var
 begin
   begin
     Unidade:=EditsToObject(TUnidadeVO.Create);
+
     try
       try
-        if (Unidade.ValidarCamposObrigatorios()) then
-        begin
-           if (StatusTela = stInserindo) then
+       Unidade.ValidarCampos();
+        if (StatusTela = stInserindo) then
            begin
               Unidade.idcondominio := FormEmpresaTrab.CodigoEmpLogada;
               UnidadeController.Inserir(Unidade);
               Result := true;
            end
             else if (StatusTela = stEditando) then
-             begin
-            Unidade := UnidadeController.ConsultarPorId(CDSGrid.FieldByName('IDUNIDADE')
+            begin
+              Unidade := UnidadeController.ConsultarPorId(CDSGrid.FieldByName('IDUNIDADE')
               .AsInteger);
-            Unidade := EditsToObject(Unidade);
-            UnidadeController.Alterar(Unidade);
-            Result := true;
+              Unidade := EditsToObject(Unidade);
+              UnidadeController.Alterar(Unidade);
+              Result := true;
           end;
-        end
-        else
-          Result := false;
       except
         on E: Exception do
         begin
@@ -163,14 +160,16 @@ end;
 
 function TFTelaCadastroUnidade.EditsToObject(Unidade: TUnidadeVO): TUnidadeVO;
 begin
+  if(LabelEditNumero.Text<>'')then
+    Unidade.numero := StrToInt(LabelEditNumero.Text);
+  if(EditQtdGas.Text<>'')then
+    Unidade.vlgasinicial := StrToFloat(EditQtdGas.Text);
+  if(editareatotal.Text<>'')then
+    Unidade.vlareatotal := StrToFloat(EditAreaTotal.Text);
+  if(EditFracaoIdeal.Text<>'')then
+    Unidade.vlfracaoideal := StrToFloat(EditFracaoIdeal.Text);
 
-  Unidade.numero := StrToInt(LabelEditNumero.Text);
-  Unidade.vlgasinicial := EditQtdGas.Text;
-  Unidade.vlareatotal := EditAreaTotal.Text;
-  Unidade.vlfracaoideal := EditFracaoIdeal.Text;
   Unidade.observacao := EditObservacao.Text;
-
-
   Result := Unidade;
 
 end;
@@ -199,9 +198,9 @@ begin
   begin
 
     LabelEditNumero.Text := IntToStr(Unidade.Numero);
-    EditQtdGas.Text := Unidade.vlgasinicial;
-    EditAreaTotal.Text := Unidade.vlareatotal;
-    EditFracaoIdeal.Text := Unidade.vlfracaoideal;
+    EditQtdGas.Text := FloatToStr(Unidade.vlgasinicial);
+    EditAreaTotal.Text := FloatToStr(Unidade.vlareatotal);
+    EditFracaoIdeal.Text := FloatToStr(Unidade.vlfracaoideal);
     EditObservacao.Text := Unidade.observacao;
   end;
 end;

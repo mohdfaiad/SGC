@@ -69,7 +69,7 @@ type
 
 
 
-   Function ValidarCamposObrigatorios:boolean;
+   procedure ValidarCampos;
    Function ValidaCPF(xCPF: String): Boolean;
    Function ValidaCNPJ(xCNPJ: String): Boolean;
    Function MascaraCnpjCpf(Str: String): String;
@@ -79,19 +79,28 @@ type
 implementation
 { TPessoasVO }
 
-function TPessoasVO.ValidarCamposObrigatorios: boolean;
+procedure TPessoasVO.ValidarCampos;
 begin
-Result := true;
   if (Self.FcpfCnpj = '') then
-  begin
     raise Exception.Create('O campo Cnpj / Cpf é obrigatório!');
-    Result := false;
-  end
-  else if (Self.Fnome = '') then
-  begin
+  if (Self.Fnome = '') then
     raise Exception.Create('O campo Nome é obrigatório!');
-    Result := false;
+
+  if ((length(self.FcpfCnpj)) <= 11) then
+  begin
+    if(Self.ValidaCPF(self.FcpfCnpj)=false)then
+    begin
+      raise Exception.Create('CPF Inválido');
+    end;
+  end
+  else if (length(self.FcpfCnpj) >= 14) then
+  begin
+    if(Self.ValidaCnpj(self.FcpfCnpj)=false)then
+    begin
+      raise Exception.Create('CNPJ Inválido');
+    end;
   end;
+
 end;
 function TPessoasVO.MascaraCnpjCpf(Str: String): String;
 begin
@@ -157,7 +166,7 @@ begin
   Check := IntToStr(digito1) + IntToStr(digito2);
   if Check <> Copy(xCNPJ, succ(Length(xCNPJ) - 2), 2) then
   begin
-    raise Exception.Create('Cnpj inválido!');
+    //raise Exception.Create('Cnpj inválido!');
     Result := False;
   end
   else
@@ -204,7 +213,7 @@ Begin
   Check := IntToStr(digito1) + IntToStr(digito2);
   if Check <> Copy(xCPF, succ(Length(xCPF) - 2), 2) then
   begin
-    raise Exception.Create('O Cpf inválido!');
+    //raise Exception.Create('O Cpf inválido!');
     Result := False;
   end
   else

@@ -23,6 +23,8 @@ type
     N3: TMenuItem;
     Unidades1: TMenuItem;
     EmpresaTrabalho1: TMenuItem;
+    otalGastoMs1: TMenuItem;
+    PreoGs1: TMenuItem;
     procedure FormCreate(Sender: TObject);
     procedure Pessoa1Click(Sender: TObject);
     procedure Sair1Click(Sender: TObject);
@@ -35,6 +37,8 @@ type
     procedure Unidades1Click(Sender: TObject);
     procedure EmpresaTrabalho1Click(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure otalGastoMs1Click(Sender: TObject);
+    procedure PreoGs1Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -52,7 +56,8 @@ implementation
 
 {$R *.dfm}
 
-uses Upessoa, UPais, UCnae, UNaturezaJuridica, UEstado, UCidade, UCondominio, UUnidade, UEmpresaTrab;
+uses Upessoa, UPais, UCnae, UNaturezaJuridica, UEstado, UCidade, UCondominio, UUnidade, UEmpresaTrab,
+UTotalGastoMes, UPrecoGas;
 
 
 procedure TFormMenu.Cidade1Click(Sender: TObject);
@@ -130,6 +135,14 @@ begin
   FormNaturezaJuridica.Close;
 end;
 
+procedure TFormMenu.otalGastoMs1Click(Sender: TObject);
+var FormTotalGastoMes :TFTelaCadastroTotalGastoMes;
+begin
+  Application.CreateForm(TFTelaCadastroTotalGastoMes,FormTotalGastoMes);
+  FormTotalGastoMes.ShowModal;
+  FormTotalGastoMes.Close;
+end;
+
 procedure TFormMenu.Pas1Click(Sender: TObject);
 var FormPais:TFTelaCadastroPais;
 begin
@@ -144,6 +157,14 @@ begin
   Application.CreateForm(TFTelaCadastroPessoa,FormPessoa);
   FormPessoa.ShowModal;
   FormPessoa.Close;
+end;
+
+procedure TFormMenu.PreoGs1Click(Sender: TObject);
+var FormPrecoGas:TFTelaCadastroPrecoGas;
+begin
+  Application.CreateForm(TFTelaCadastroPrecoGas,FormPrecoGas);
+  FormPrecoGas.ShowModal;
+  FormPrecoGas.Close;
 end;
 
 procedure TFormMenu.Sair1Click(Sender: TObject);

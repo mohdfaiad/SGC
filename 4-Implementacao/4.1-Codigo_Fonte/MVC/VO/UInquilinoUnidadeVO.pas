@@ -2,7 +2,7 @@ unit UInquilinoUnidadeVO;
 
 interface
 
-uses Atributos, Classes, Constantes, Generics.Collections, SysUtils, UGenericVO,UCnaeVO, UCidadeVO, UEstadoVO, UPaisVO;
+uses Atributos, Classes, Constantes, Generics.Collections, SysUtils, UGenericVO, UCondominioVO, UPessoasVO;
 
 type
   [TEntity]
@@ -14,8 +14,10 @@ type
     FdtInicio : TdateTime;
 
   public
+    CondominioVO : TCondominioVO;
+    PessoaVo : TPessoasVO;
 
-    [TId('idproprietario')]
+    [TId('idinquilino')]
     [TGeneratedValue(sAuto)]
     property idInquilino: Integer  read FidInquilino write FidInquilino;
     [TColumn('idunidade','Unidade',50,[ldGrid,ldLookup,ldComboBox], False)]
@@ -23,7 +25,7 @@ type
     [TColumn('DtInicio','Data Inicio',0,[ldLookup,ldComboBox], False)]
     property DtInicio: TDateTime  read FdtInicio write FdtInicio;
 
-    Function ValidarCamposObrigatorios:boolean;
+    procedure ValidarCampos;
 
   end;
 
@@ -31,17 +33,19 @@ type
 
   { TProprietarioUnidadeVO }
 
-function TInquilinoUnidadeVO.ValidarCamposObrigatorios: boolean;
+procedure TInquilinoUnidadeVO.ValidarCampos;
 begin
-Result := true;
+
   if (Self.FidInquilino = 0) then
   begin
     raise Exception.Create('O campo Inquilino é obrigatório!');
-    Result := false;
+
   end
-  else if (self.FdtInicio = 0) then
+  else if (self.FdtInicio = strtodatetime(' / / ')) then
+  begin
     raise Exception.Create('O campo data é obrigatório!');
-    Result := false;
+
+  end;
 end;
 
 end.

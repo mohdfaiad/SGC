@@ -173,35 +173,22 @@ begin
     Pessoa:=EditsToObject(TPessoasVO.Create);
     try
       try
-        if (Pessoa.ValidarCamposObrigatorios()) then
+        Pessoa.ValidarCampos();
+        if (StatusTela = stInserindo) then
         begin
-          if ((length(Pessoa.Cnpjcpf)) <= 11) then
-          begin
-            pessoa.ValidaCPF(Pessoa.Cnpjcpf)
-          end
-          else if (length(Pessoa.Cnpjcpf) >= 14) then
-          begin
-            Pessoa.ValidaCnpj(Pessoa.Cnpjcpf)
-          end;
-          if (StatusTela = stInserindo) then
-          begin
-            pessoa.MascaraCnpjCpf(Pessoa.Cnpjcpf);
+          pessoa.MascaraCnpjCpf(Pessoa.Cnpjcpf);
 //            Pessoa.Cnpjcpf := MaskEditCNPJCPF.Text;
-            PessoaController.Inserir(pessoa);
-            result := true;
-          end;
-          end
-
-          else if (StatusTela = stEditando) then
-          begin
-            Pessoa := PessoaController.ConsultarPorId(CDSGrid.FieldByName('IDPESSOA')
-              .AsInteger);
-            Pessoa := EditsToObject(Pessoa);
-            PessoaController.Alterar(Pessoa);
-            Result := true;
-          end
-        else
-          Result := false;
+          PessoaController.Inserir(pessoa);
+          result := true;
+        end
+        else if (StatusTela = stEditando) then
+        begin
+          Pessoa := PessoaController.ConsultarPorId(CDSGrid.FieldByName('IDPESSOA')
+            .AsInteger);
+          Pessoa := EditsToObject(Pessoa);
+          PessoaController.Alterar(Pessoa);
+          Result := true;
+        end
       except
         on E: Exception do
         begin

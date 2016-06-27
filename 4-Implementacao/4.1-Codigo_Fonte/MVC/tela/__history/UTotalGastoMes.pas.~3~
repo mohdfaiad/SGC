@@ -1,0 +1,158 @@
+unit UTotalGastoMes;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, UtelaCadastro, Vcl.StdCtrls, Generics.Collections,
+  Vcl.ComCtrls, Vcl.Mask, Vcl.Buttons, Vcl.ExtCtrls, Vcl.Grids, Vcl.DBGrids, UTotalGastoMesVO,
+  UTotalGastoMesController;
+
+type
+  TFTelaCadastroTotalGastoMes = class(TFTelaCadastro)
+    MaskEditDtInicio: TMaskEdit;
+    Label1: TLabel;
+    EdtValor: TEdit;
+    Label2: TLabel;
+    procedure FormCreate(Sender: TObject);
+    function DoSalvar: boolean; override;
+    function MontaFiltro: string;
+    procedure DoConsultar; override;
+    function DoExcluir: boolean; override;
+    procedure BitBtnNovoClick(Sender: TObject);
+    procedure GridParaEdits; override;
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+    function EditsToObject(TotalGastoMes: TTotalGastoMesVO): TTotalGastoMesVO;
+
+  end;
+
+var
+  FTelaCadastroTotalGastoMes: TFTelaCadastroTotalGastoMes;
+  TotalGastoMesController : TTotalGastoMesController;
+
+implementation
+
+{$R *.dfm}
+uses UEmpresaTrab;
+
+{ TFTelaCadastroTotalGastoMes }
+
+procedure TFTelaCadastroTotalGastoMes.BitBtnNovoClick(Sender: TObject);
+begin
+  inherited;
+  MaskEditDtInicio.SetFocus;
+end;
+
+procedure TFTelaCadastroTotalGastoMes.DoConsultar;
+var
+  listaTotalGastoMes: TObjectList<TTotalGastoMesVo>;
+  filtro: string;
+begin
+  filtro := MontaFiltro;
+  listaTotalGastoMes := TotalGastoMesController.Consultar(filtro);
+  PopulaGrid<TTotalGastoMesVo>(listaTotalGastoMes);
+end;
+
+function TFTelaCadastroTotalGastoMes.DoExcluir: boolean;
+var
+  TotalGastoMes : TTotalGastoMesVo;
+begin
+  try
+    try
+      TotalGastoMes := TTotalGastoMesVo.Create;
+      TotalGastoMes.idToTalGastoMes := CDSGrid.FieldByName('IDTOTALGASTOMES')
+        .AsInteger;
+      TotalGastoMesController.Excluir(TotalGastoMes);
+    except
+      on E: Exception do
+      begin
+        ShowMessage('Ocorreu um erro ao excluir o registro: ' + #13 + #13 +
+          E.Message);
+        Result := false;
+      end;
+    end;
+  finally
+  end;
+end;
+
+function TFTelaCadastroTotalGastoMes.DoSalvar: boolean;
+var
+  TotalGastoMes: TTotalGastoMesVO;
+begin
+  begin
+    TotalGastoMes:=EditsToObject(TTotalGastoMesVO.Create);
+    try
+      try
+        if (TotalGastoMes.ValidarCamposObrigatorios()) then
+        begin
+           if (StatusTela = stInserindo) then
+           begin
+              TotalGastoMes.idcondominio := FormEmpresaTrab.CodigoEmpLogada;
+              TotalGastoMesController.Inserir(TotalGastoMes);
+              Result := true;
+           end
+            else if (StatusTela = stEditando) then
+             begin
+            TotalGastoMes := TotalGastoMesController.ConsultarPorId(CDSGrid.FieldByName('IDTOTALGASTOMES')
+              .AsInteger);
+            TotalGastoMes := EditsToObject(TotalGastoMes);
+           TotalGastoMesController.Alterar(TotalGastoMes);
+            Result := true;
+          end;
+        end
+        else
+          Result := false;
+      except
+        on E: Exception do
+        begin
+          ShowMessage(E.Message);
+          Result := false;
+        end;
+      end;
+    finally
+    end;
+end;
+end;
+
+function TFTelaCadastroTotalGastoMes.EditsToObject(
+  TotalGastoMes: TTotalGastoMesVO): TTotalGastoMesVO;
+begin
+  TotalGastoMes.vlTotal := StrToFloat(EdtValor.Text);
+  TotalGastoMes.dtMesAno := StrToDateTime(MaskEditDtInicio.Text);
+  Result := TotalGastoMes;
+
+end;
+
+procedure TFTelaCadastroTotalGastoMes.FormCreate(Sender: TObject);
+begin
+  ClasseObjetoGridVO := TTotalGastoMesVO;
+  inherited;
+end;
+
+procedure TFTelaCadastroTotalGastoMes.GridParaEdits;
+var
+  TotalGastoMes: TTotalGastoMesVo;
+begin
+  inherited;
+
+  if not CDSGrid.IsEmpty then
+    TotalGastoMes := TotalGastoMesController.ConsultarPorId
+      (CDSGrid.FieldByName('IDTOTALGASTOMES').AsInteger);
+
+  if Assigned(TotalGastoMes) then
+  begin
+    EdtValor.Text := TotalGastoMes.vlTotal;
+    MaskEditDtInicio := TotalGastoMes.dtMesAno;
+  end;
+end;
+
+function TFTelaCadastroTotalGastoMes.MontaFiltro: string;
+begin
+  result := '';
+
+end;
+
+end.

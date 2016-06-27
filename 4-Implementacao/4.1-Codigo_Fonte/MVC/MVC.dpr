@@ -45,7 +45,12 @@ uses
   UInquilinoUnidadeVO in 'VO\UInquilinoUnidadeVO.pas',
   UInquilinoUnidadeController in 'controle\UInquilinoUnidadeController.pas',
   UInquilinoUnidade in 'tela\UInquilinoUnidade.pas' {FTelaCadastroInquilino},
-  UTotalGastoMesVO in 'VO\UTotalGastoMesVO.pas';
+  UTotalGastoMesVO in 'VO\UTotalGastoMesVO.pas',
+  UTotalGastoMesController in 'controle\UTotalGastoMesController.pas',
+  UTotalGastoMes in 'tela\UTotalGastoMes.pas' {FTelaCadastroTotalGastoMes},
+  UPrecoGasVO in 'VO\UPrecoGasVO.pas',
+  UPrecoGasController in 'controle\UPrecoGasController.pas',
+  UPrecoGas in 'tela\UPrecoGas.pas' {FTelaCadastroPrecoGas};
 
 {$R *.res}
 
@@ -55,5 +60,7 @@ begin
   Application.CreateForm(TFormMenu, FormMenu);
   Application.CreateForm(TFTelaCadastroProprietario, FTelaCadastroProprietario);
   Application.CreateForm(TFTelaCadastroInquilino, FTelaCadastroInquilino);
+  Application.CreateForm(TFTelaCadastroTotalGastoMes, FTelaCadastroTotalGastoMes);
+  Application.CreateForm(TFTelaCadastroPrecoGas, FTelaCadastroPrecoGas);
   Application.Run;
 end.

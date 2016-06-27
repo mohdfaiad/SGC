@@ -88,7 +88,7 @@ type
     [TColumn('idPais','idPais',0,[ldLookup,ldComboBox], False)]
     property idPais: integer  read FIdPais write FIdPais;
 
-    Function ValidarCamposObrigatorios:boolean;
+    procedure ValidarCampos;
     Function ValidaCNPJ(xCNPJ: String): Boolean;
 
   end;
@@ -96,19 +96,14 @@ implementation
 
 { TCondominioVO }
 
-function TCondominioVO.ValidarCamposObrigatorios: boolean;
+procedure TCondominioVO.ValidarCampos;
 begin
-Result := true;
   if (Self.Fnome = '') then
-  begin
     raise Exception.Create('O campo Nome é obrigatório!');
-    Result := false;
-  end
-  else if (Self.FCnpj = '') then
-  begin
+  if (Self.FCnpj = '') then
     raise Exception.Create('O campo Cnpj é obrigatório!');
-    Result := false;
-  end;
+  if (Self.ValidaCNPJ(self.FCnpj)=false) then
+    raise Exception.Create('Cnpj inválido!');
 end;
 
 function TCondominioVO.ValidaCNPJ(xCNPJ: String): Boolean;
@@ -166,7 +161,7 @@ begin
   Check := IntToStr(digito1) + IntToStr(digito2);
   if Check <> Copy(xCNPJ, succ(Length(xCNPJ) - 2), 2) then
   begin
-    raise Exception.Create('Cnpj inválido!');
+    //raise Exception.Create('Cnpj inválido!');
     Result := False;
   end
   else

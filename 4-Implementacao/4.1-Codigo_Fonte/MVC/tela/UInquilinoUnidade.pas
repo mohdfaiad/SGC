@@ -104,8 +104,8 @@ begin
     InquilinoUnidade:=EditsToObject(TInquilinoUnidadeVo.Create);
     try
       try
-        if (InquilinoUnidade.ValidarCamposObrigatorios()) then
-        begin
+       InquilinoUnidade.ValidarCampos();
+
           if (StatusTela = stInserindo) then
           begin
             InquilinoUnidade.idUnidade := idunidade;
@@ -120,9 +120,6 @@ begin
             InquilinoUnidadeController.Alterar(InquilinoUnidade);
             Result := true;
          end;
-        end
-        else
-          Result := false;
       except
         on E: Exception do
         begin
@@ -140,10 +137,13 @@ var
   FormConsultaUnidade : TFTelaCadastroUnidade;
 
 begin
-  InquilinoUnidade.idinquilino := StrToInt(LabelEditCodigo.text);
-//  ProprietarioUndiade.IdUnidade := TUnidadeVO(FormConsultaUnidade.ObjetoRetornoVO).idUnidade;
+  if(LabelEditCodigo.Text<>'')then
+    InquilinoUnidade.idinquilino := StrToInt(LabelEditCodigo.text);
+
   InquilinoUnidade.IdUnidade := idunidade;
-  InquilinoUnidade.DtInicio := StrToDateTime(MaskEditDtInicio.Text);
+
+  if(MaskEditDtInicio.Text<> '' )then
+    InquilinoUnidade.DtInicio := StrToDateTime(MaskEditDtInicio.Text);
   result := InquilinoUnidade;
 
 end;
@@ -169,19 +169,15 @@ begin
 
   if Assigned(InquilinoUnidade) then
   begin
-//    ObjRetornoVO := pessoaController.ConsultarPorId(ProprietarioUnidade.idProprietario);
-//    FormPessoaConsulta.ObjetoRetornoVO := ObjRetornoVO;
     LabelEditCodigo.Text := IntToStr(InquilinoUnidade.idinquilino);
-//    LabelNome.Caption := TPessoasVO(FormPessoaConsulta.ObjetoRetornoVO).nome;
+    LabelNome.Caption := TPessoasVO(FormPessoaConsulta.ObjetoRetornoVO).nome;
     MaskEditDtInicio.Text := DateTimeToStr(InquilinoUnidade.DtInicio);
-
-
   end;
 end;
 
 function TFTelaCadastroInquilino.MontaFiltro: string;
 begin
-    Result := '';
+ Result := ' (IDUNIDADE = '+inttostr(Idunidade)+')';
 end;
 
 end.
