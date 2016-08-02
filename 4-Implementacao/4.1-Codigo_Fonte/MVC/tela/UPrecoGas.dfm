@@ -3,12 +3,22 @@ inherited FTelaCadastroPrecoGas: TFTelaCadastroPrecoGas
   PixelsPerInch = 96
   TextHeight = 13
   inherited PageControl: TPageControl
-    ActivePage = DadosCadastrais
+    inherited Consulta: TTabSheet
+      ExplicitLeft = 4
+      ExplicitTop = 24
+    end
     inherited DadosCadastrais: TTabSheet
+      ExplicitLeft = 4
+      ExplicitTop = 24
+      ExplicitWidth = 775
+      ExplicitHeight = 386
       inherited PageControlEdit: TPageControl
         inherited DadosPrincipais: TTabSheet
+          ExplicitLeft = 4
+          ExplicitTop = 24
+          ExplicitWidth = 767
+          ExplicitHeight = 301
           inherited PanelEdits: TPanel
-            ExplicitTop = 2
             object Label1: TLabel
               Left = 22
               Top = 32

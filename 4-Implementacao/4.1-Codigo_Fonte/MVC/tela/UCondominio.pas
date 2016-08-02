@@ -304,6 +304,18 @@ begin
     LabeledEditInsMunicipal.Text := Condominio.inscricaoMunicipal;
     LabeledEditNomeFantasia.Text := Condominio.nomeFantasia;
     LabeledEditMetragem.Text := Condominio.metragem;
+   if (condominio.idCnae > 0) then
+   begin
+    LabelEditCodCnae.Text := IntToStr(Condominio.CnaeVO.idCnae);
+    LabelEditDescCnae.Text := Condominio.CnaeVO.descricao;
+    LabelEditCnae.Text := Condominio.CnaeVO.codigoCnae;
+   end;
+   if (Condominio.idNaturezaJuridica > 0) then
+   begin
+     LabelEditCodNatureza.Text := IntToStr(Condominio.NaturezaVO.idNatureza);
+     LabelEditDescNatureza.Text := condominio.NaturezaVO.descricao;
+     LabelEditNatureza.Text := condominio.NaturezaVO.codigoNatureza;
+   end;
    if (Condominio.idCidade > 0) then
     begin
       LabeledEditCidade.Text := IntToStr(Condominio.CidadeVO.idCidade);

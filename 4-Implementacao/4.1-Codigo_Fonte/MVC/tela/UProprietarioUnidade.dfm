@@ -5,7 +5,6 @@ inherited FTelaCadastroProprietario: TFTelaCadastroProprietario
   inherited PageControl: TPageControl
     inherited Consulta: TTabSheet
       inherited Panel2: TPanel
-        ExplicitTop = -6
         object GroupBox2: TGroupBox
           Left = 86
           Top = 3

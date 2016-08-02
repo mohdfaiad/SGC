@@ -43,9 +43,9 @@ inherited FTelaCadastroPessoa: TFTelaCadastroPessoa
           object RadioButtonCnpj: TRadioButton
             Left = 72
             Top = 21
-            Width = 49
+            Width = 89
             Height = 17
-            Caption = 'CNPJ'
+            Caption = 'CNPJ / CPF'
             TabOrder = 0
           end
           object RadioButtonNome: TRadioButton
@@ -60,6 +60,8 @@ inherited FTelaCadastroPessoa: TFTelaCadastroPessoa
       end
     end
     inherited DadosCadastrais: TTabSheet
+      ExplicitLeft = 4
+      ExplicitTop = 24
       ExplicitWidth = 779
       ExplicitHeight = 417
       inherited PanelBotoes: TPanel
@@ -87,6 +89,8 @@ inherited FTelaCadastroPessoa: TFTelaCadastroPessoa
         ExplicitWidth = 779
         ExplicitHeight = 360
         inherited DadosPrincipais: TTabSheet
+          ExplicitLeft = 4
+          ExplicitTop = 24
           ExplicitWidth = 771
           ExplicitHeight = 332
           inherited PanelEdits: TPanel

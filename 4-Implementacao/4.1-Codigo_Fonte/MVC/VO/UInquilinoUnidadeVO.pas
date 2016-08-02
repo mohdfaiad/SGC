@@ -41,7 +41,7 @@ begin
     raise Exception.Create('O campo Inquilino é obrigatório!');
 
   end
-  else if (self.FdtInicio = strtodatetime(' / / ')) then
+  else if (self.FdtInicio = 0) then
   begin
     raise Exception.Create('O campo data é obrigatório!');
 

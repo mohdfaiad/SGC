@@ -12,6 +12,8 @@ inherited FTelaCadastroCondominio: TFTelaCadastroCondominio
     ExplicitWidth = 784
     ExplicitHeight = 479
     inherited Consulta: TTabSheet
+      ExplicitLeft = 4
+      ExplicitTop = 24
       ExplicitWidth = 776
       ExplicitHeight = 451
       inherited Grid: TDBGrid
@@ -48,6 +50,8 @@ inherited FTelaCadastroCondominio: TFTelaCadastroCondominio
       end
     end
     inherited DadosCadastrais: TTabSheet
+      ExplicitLeft = 4
+      ExplicitTop = 24
       ExplicitWidth = 776
       ExplicitHeight = 451
       inherited PanelBotoes: TPanel
@@ -75,6 +79,8 @@ inherited FTelaCadastroCondominio: TFTelaCadastroCondominio
         ExplicitWidth = 776
         ExplicitHeight = 394
         inherited DadosPrincipais: TTabSheet
+          ExplicitLeft = 4
+          ExplicitTop = 24
           ExplicitWidth = 768
           ExplicitHeight = 366
           inherited PanelEdits: TPanel
@@ -131,8 +137,8 @@ inherited FTelaCadastroCondominio: TFTelaCadastroCondominio
               Caption = 'Natureza Jur'#237'dica'
             end
             object Label3: TLabel
-              Left = 402
-              Top = 277
+              Left = 615
+              Top = 269
               Width = 73
               Height = 13
               Caption = 'Inicio Atividade'
@@ -347,7 +353,7 @@ inherited FTelaCadastroCondominio: TFTelaCadastroCondominio
               Tag = 1
               Left = 102
               Top = 253
-              Width = 245
+              Width = 459
               Height = 21
               EditLabel.Width = 46
               EditLabel.Height = 13
@@ -362,8 +368,8 @@ inherited FTelaCadastroCondominio: TFTelaCadastroCondominio
               TabOrder = 21
             end
             object btnConsultaCnae: TBitBtn
-              Left = 353
-              Top = 251
+              Left = 567
+              Top = 253
               Width = 30
               Height = 25
               Caption = 'P'
@@ -393,16 +399,16 @@ inherited FTelaCadastroCondominio: TFTelaCadastroCondominio
               Tag = 15
               Left = 13
               Top = 295
-              Width = 81
+              Width = 77
               Height = 21
               Color = clWhite
-              EditMask = ' 99.99-9 / 99 ;0;_'
+              EditMask = ' 999-9 ;0;_'
               Font.Charset = DEFAULT_CHARSET
               Font.Color = clBlue
               Font.Height = -11
               Font.Name = 'Tahoma'
               Font.Style = []
-              MaxLength = 14
+              MaxLength = 7
               ParentFont = False
               TabOrder = 24
               Text = ''
@@ -411,7 +417,7 @@ inherited FTelaCadastroCondominio: TFTelaCadastroCondominio
               Tag = 1
               Left = 100
               Top = 295
-              Width = 245
+              Width = 461
               Height = 21
               EditLabel.Width = 46
               EditLabel.Height = 13
@@ -426,7 +432,7 @@ inherited FTelaCadastroCondominio: TFTelaCadastroCondominio
               TabOrder = 25
             end
             object btnConsultaNatureza: TBitBtn
-              Left = 351
+              Left = 567
               Top = 291
               Width = 30
               Height = 25
@@ -660,8 +666,8 @@ inherited FTelaCadastroCondominio: TFTelaCadastroCondominio
               TabOrder = 18
             end
             object MaskEditDtInicioAtividade: TMaskEdit
-              Left = 402
-              Top = 296
+              Left = 615
+              Top = 288
               Width = 64
               Height = 21
               Color = clWhite

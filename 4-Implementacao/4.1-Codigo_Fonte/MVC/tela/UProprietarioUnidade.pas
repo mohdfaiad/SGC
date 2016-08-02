@@ -146,10 +146,11 @@ var
   FormConsultaUnidade : TFTelaCadastroUnidade;
 
 begin
-  ProprietarioUndiade.idproprietario := StrToInt(LabelEditCodigo.text);
- // ProprietarioUndiade.IdUnidade := TUnidadeVO(FormConsultaUnidade.ObjetoRetornoVO).idUnidade;
+  if(LabelEditCodigo.Text<>'')then
+    ProprietarioUndiade.idproprietario := StrToInt(LabelEditCodigo.text);
   ProprietarioUndiade.IdUnidade := idunidade;
-  ProprietarioUndiade.DtInicio := StrToDateTime(MaskEditDtInicio.Text);
+  if(MaskEditDtInicio.Text<> '  /  /    ' )then
+   ProprietarioUndiade.DtInicio := StrToDateTime(MaskEditDtInicio.Text);
   result := ProprietarioUndiade;
 
 end;

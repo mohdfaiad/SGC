@@ -1,6 +1,5 @@
 unit UTotalGastoMesVO;
-
-
+//mapeamento
 interface
 
 uses Atributos, Classes, Constantes, Generics.Collections, SysUtils, UGenericVO,UCnaeVO, UCidadeVO, UEstadoVO, UPaisVO;

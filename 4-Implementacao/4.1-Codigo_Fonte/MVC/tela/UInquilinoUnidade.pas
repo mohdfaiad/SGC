@@ -142,9 +142,10 @@ begin
 
   InquilinoUnidade.IdUnidade := idunidade;
 
-  if(MaskEditDtInicio.Text<> '' )then
+  if(MaskEditDtInicio.Text<> '  /  /    ' )then
     InquilinoUnidade.DtInicio := StrToDateTime(MaskEditDtInicio.Text);
   result := InquilinoUnidade;
+
 
 end;
 
@@ -157,7 +158,6 @@ end;
 procedure TFTelaCadastroInquilino.GridParaEdits;
 var
   InquilinoUnidade: TInquilinoUnidadeVo;
-  ObjRetornoVO : TGenericVO;
   FormPessoaConsulta : TFTelaCadastroPessoa;
   pessoaController : TPessoasController;
 begin
@@ -170,7 +170,7 @@ begin
   if Assigned(InquilinoUnidade) then
   begin
     LabelEditCodigo.Text := IntToStr(InquilinoUnidade.idinquilino);
-    LabelNome.Caption := TPessoasVO(FormPessoaConsulta.ObjetoRetornoVO).nome;
+    LabelNome.Caption := InquilinoUnidade.PessoaVo.nome;
     MaskEditDtInicio.Text := DateTimeToStr(InquilinoUnidade.DtInicio);
   end;
 end;
