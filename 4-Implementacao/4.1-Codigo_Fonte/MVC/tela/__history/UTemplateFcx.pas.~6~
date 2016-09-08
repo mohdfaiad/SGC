@@ -1,0 +1,193 @@
+unit UTemplateFcx;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, UtelaCadastro, Vcl.StdCtrls,
+  Vcl.ExtCtrls, Vcl.ComCtrls, Vcl.Mask, Vcl.Buttons, Vcl.Grids, Vcl.DBGrids, UTemplateFcxVO,
+  UEmpresaTrab, UTemplateFcxController, Generics.Collections;
+
+type
+  TFTelaCadastroTemplateFcx = class(TFTelaCadastro)
+    GroupBox2: TGroupBox;
+    RadioButtonCodigo: TRadioButton;
+    RadioButtonDescricao: TRadioButton;
+    LabelEditCodigo: TLabeledEdit;
+    EditClassificacao: TMaskEdit;
+    LabeledEditDescricao: TLabeledEdit;
+    ComboBoxTipo: TComboBox;
+    LabeledEditOrdem: TLabeledEdit;
+    LabeledEditTotal: TLabeledEdit;
+    Telefone_1: TLabel;
+    Label1: TLabel;
+    EditClassificacaoFcx: TMaskEdit;
+    Label2: TLabel;
+    procedure FormCreate(Sender: TObject);
+    function DoSalvar: boolean; override;
+    function MontaFiltro: string;
+    procedure DoConsultar; override;
+    function DoExcluir: boolean; override;
+    procedure BitBtnNovoClick(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+    procedure GridParaEdits; override;
+    function EditsToObject(TemplateFcx : TTemplateFcxVO): TTemplateFcxVO;
+  end;
+
+var
+  FTelaCadastroTemplateFcx: TFTelaCadastroTemplateFcx;
+
+implementation
+
+{$R *.dfm}
+
+{ TFTelaCadastroTemplateFcx }
+var
+TemplateFcxController : TTemplateFcxController;
+
+procedure TFTelaCadastroTemplateFcx.BitBtnNovoClick(Sender: TObject);
+begin
+   inherited;
+   LabelEditCodigo.SetFocus;
+end;
+
+procedure TFTelaCadastroTemplateFcx.DoConsultar;
+var
+  listaTemplateFcx: TObjectList<TTemplateFcxVO>;
+  filtro: string;
+begin
+  filtro := MontaFiltro;
+  listaTemplateFcx := TemplateFcxController.Consultar(filtro);
+  PopulaGrid<TTemplateFcxVO>(listaTemplateFcx);
+end;
+
+function TFTelaCadastroTemplateFcx.DoExcluir: boolean;
+var
+  TemplateFcx: TTemplateFcxVO;
+begin
+  try
+    try
+      TemplateFcx := TTemplateFcxVO.Create;
+      TemplateFcx.idFcx := CDSGrid.FieldByName('IDDRE').AsInteger;
+      TemplateFcxController.Excluir(TemplateFcx);
+    except
+      on E: Exception do
+      begin
+        ShowMessage('Ocorreu um erro ao excluir o registro: ' + #13 + #13 +
+          E.Message);
+        Result := false;
+      end;
+    end;
+  finally
+  end;
+
+end;
+
+
+function TFTelaCadastroTemplateFcx.DoSalvar: boolean;
+var
+   TemplateFcx: TTemplateFcxVO;
+begin
+  begin
+    TemplateFcx:=EditsToObject(TTemplateFcxVO.Create);
+    try
+      try
+        if (TemplateFcx.ValidarCamposObrigatorios()) then
+        begin
+           if (StatusTela = stInserindo) then
+           begin
+              TemplateFcx.idcondominio := FormEmpresaTrab.CodigoEmpLogada;
+              TemplateFcxController.Inserir(TemplateFcx);
+              Result := true;
+           end
+            else if (StatusTela = stEditando) then
+             begin
+            TemplateFcx := TemplateFcxController.ConsultarPorId(CDSGrid.FieldByName('IDDRE')
+              .AsInteger);
+            TemplateFcx := EditsToObject(TemplateFcx);
+            TemplateFcxController.Alterar(TemplateFcx);
+            Result := true;
+          end;
+        end
+        else
+          Result := false;
+      except
+        on E: Exception do
+        begin
+          ShowMessage(E.Message);
+          Result := false;
+        end;
+      end;
+    finally
+    end;
+end;
+end;
+
+function TFTelaCadastroTemplateFcx.EditsToObject(
+  TemplateFcx: TTemplateFcxVO): TTemplateFcxVO;
+begin
+  TemplateFcx.idTemplate := StrToInt(LabelEditCodigo.Text);
+  TemplateFcx.descricao := LabeledEditDescricao.Text;
+  TemplateFcx.ClassificacaoContabil := EditClassificacao.Text;
+  TemplateFcx.Classificacao :=    EditClassificacaoFcx.Text;
+  TemplateFcx.flTipo := IntToStr(comboboxTipo.ItemIndex);
+  TemplateFcx.linha := LabeledEditOrdem.Text;
+  TemplateFcx.linhatotal := LabeledEditTotal.Text;
+  Result := TemplateFcx;
+
+end;
+
+procedure TFTelaCadastroTemplateFcx.FormCreate(Sender: TObject);
+begin
+  ClasseObjetoGridVO := TTemplateFcxVO;
+  inherited;
+end;
+
+procedure TFTelaCadastroTemplateFcx.GridParaEdits;
+var
+  TemplateFcx: TTemplateFcxVO;
+begin
+  inherited;
+  TemplateFcx := nil;
+
+  if not CDSGrid.IsEmpty then
+    TemplateFcx := TemplateFcxController.ConsultarPorId
+      (CDSGrid.FieldByName('IDFCX').AsInteger);
+
+  if TemplateFcx <> nil then
+  begin
+    LabelEditCodigo.Text := IntToStr(TemplateFcx.idFcx);
+    LabeledEditDescricao.Text := TemplateFcx.descricao;
+    EditClassificacao.Text := TemplateFcx.ClassificacaoContabil;
+    EditClassificacaoFcx.Text := TemplateFcx.Classificacao;
+    LabeledEditOrdem.Text := TemplateFcx.linha;
+    LabeledEditTotal.Text := TemplateFcx.linhatotal;
+//    comboboxTipo.ItemIndex := IntToStr(TemplateFcx.flTipo);
+  end;
+end;
+
+function TFTelaCadastroTemplateFcx.MontaFiltro: string;
+begin
+  Result := ' ( IDCONDOMINIO = '+inttostr(FormEmpresaTrab.CodigoEmpLogada)+ ' ) ';
+  if (RadioButtonCodigo.Checked = true) then
+  begin
+    if (editBusca.Text <> '') then
+    begin
+      Result := '( UPPER(IDTEMPLATE) LIKE ' +
+        QuotedStr('%' + UpperCase(editBusca.Text) + '%') + ' ) ';
+    end;
+  end
+  else if (RadioButtonDescricao.Checked = true) then
+  begin
+      if (editBusca.Text <> '') then
+      begin
+        Result := '( UPPER(DESCRICAO) LIKE ' +
+        QuotedStr('%' + UpperCase(editBusca.Text) + '%') + ' ) ';
+      end;
+  end;
+end;
+
+end.

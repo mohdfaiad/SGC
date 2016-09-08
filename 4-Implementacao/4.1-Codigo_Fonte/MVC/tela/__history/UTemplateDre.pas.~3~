@@ -1,0 +1,43 @@
+unit UTemplateDre;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, UtelaCadastro, Vcl.ComCtrls,
+  Vcl.StdCtrls, Vcl.Mask, Vcl.Buttons, Vcl.ExtCtrls, Vcl.Grids, Vcl.DBGrids, UTemplateDreVO;
+
+type
+  TFTelaCadastroTemplateDre = class(TFTelaCadastro)
+    LabelEditCodigo: TLabeledEdit;
+    LabeledEditDescricao: TLabeledEdit;
+    LabeledEditOrdem: TLabeledEdit;
+    LabeledEditTotal: TLabeledEdit;
+    ComboBoxTipo: TComboBox;
+    Label1: TLabel;
+    EditClassificacao: TMaskEdit;
+    Telefone_1: TLabel;
+    GroupBox2: TGroupBox;
+    RadioButtonCodigo: TRadioButton;
+    procedure FormCreate(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  FTelaCadastroTemplateDre: TFTelaCadastroTemplateDre;
+
+implementation
+
+{$R *.dfm}
+
+procedure TFTelaCadastroTemplateDre.FormCreate(Sender: TObject);
+begin
+  ClasseObjetoGridVO := TTemplateDreVO;
+  inherited;
+
+end;
+
+end.

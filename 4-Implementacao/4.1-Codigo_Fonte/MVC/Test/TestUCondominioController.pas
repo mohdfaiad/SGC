@@ -47,7 +47,7 @@ var
   ReturnValue: TCondominioVO;
  // id: Integer;
 begin
-  ReturnValue := FCondominioController.ConsultarPorId(8);
+  ReturnValue := FCondominioController.ConsultarPorId(15);
   if(returnvalue <> nil)  then
     check(true,'Condomínio  pesquisado com sucesso!')
   else

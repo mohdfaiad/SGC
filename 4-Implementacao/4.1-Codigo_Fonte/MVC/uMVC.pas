@@ -25,6 +25,9 @@ type
     EmpresaTrabalho1: TMenuItem;
     otalGastoMs1: TMenuItem;
     PreoGs1: TMenuItem;
+    PlanodeContas1: TMenuItem;
+    emplateDre1: TMenuItem;
+    emplateFcx1: TMenuItem;
     procedure FormCreate(Sender: TObject);
     procedure Pessoa1Click(Sender: TObject);
     procedure Sair1Click(Sender: TObject);
@@ -39,6 +42,9 @@ type
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure otalGastoMs1Click(Sender: TObject);
     procedure PreoGs1Click(Sender: TObject);
+    procedure PlanodeContas1Click(Sender: TObject);
+    procedure emplateDre1Click(Sender: TObject);
+    procedure emplateFcx1Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -57,7 +63,7 @@ implementation
 {$R *.dfm}
 
 uses Upessoa, UPais, UCnae, UNaturezaJuridica, UEstado, UCidade, UCondominio, UUnidade, UEmpresaTrab,
-UTotalGastoMes, UPrecoGas;
+UTotalGastoMes, UPrecoGas, UPlanoContas, UTemplateDre, UtemplateFcx;
 
 
 procedure TFormMenu.Cidade1Click(Sender: TObject);
@@ -97,6 +103,22 @@ begin
   end;
 end;
 
+
+procedure TFormMenu.emplateDre1Click(Sender: TObject);
+var FormTemplateDre :TFTelaCadastroTemplateDre;
+begin
+  Application.CreateForm(TFTelaCadastroTemplateDre,FormTemplateDre);
+  FormTemplateDre.ShowModal;
+  FormTemplateDre.Close;
+end;
+
+procedure TFormMenu.emplateFcx1Click(Sender: TObject);
+var FormTemplateFcx :TFTelaCadastroTemplateFcx;
+begin
+  Application.CreateForm(TFTelaCadastroTemplateFcx,FormTemplateFcx);
+  FormTemplateFcx.ShowModal;
+  FormTemplateFcx.Close;
+end;
 
 procedure TFormMenu.EmpresaTrabalho1Click(Sender: TObject);
 begin
@@ -157,6 +179,14 @@ begin
   Application.CreateForm(TFTelaCadastroPessoa,FormPessoa);
   FormPessoa.ShowModal;
   FormPessoa.Close;
+end;
+
+procedure TFormMenu.PlanodeContas1Click(Sender: TObject);
+var FormPlanoContas:TFTelaCadastroPlano;
+begin
+  Application.CreateForm(TFTelaCadastroPlano,FormPlanoContas);
+  FormPlanoContas.ShowModal;
+  FormPlanoContas.Close;
 end;
 
 procedure TFormMenu.PreoGs1Click(Sender: TObject);

@@ -28,6 +28,8 @@ type
   published
     procedure TestValidarCamposObrigatorios;
     procedure TestValidaCNPJ;
+    procedure TestValidarCamposObrigatoriosErro;
+    procedure TestValidaCNPJErro;
   end;
 
 implementation
@@ -60,6 +62,23 @@ begin
   end;
 end;
 
+procedure TestTCondominioVO.TestValidarCamposObrigatoriosErro;
+var
+  ReturnValue: Boolean;
+  Condominio : TCondominioVO;
+begin
+  Condominio:= TCondominioVO.Create;
+  Condominio.nome := '';
+  condominio.Cnpjcpf := '08960493000113';
+
+  try
+     Condominio.ValidarCampos;
+     Check(true,'sucesso!')
+  except on E: Exception do
+     Check(false,'Erro');
+  end;
+end;
+
 procedure TestTCondominioVO.TestValidaCNPJ;
 begin
   try
@@ -70,6 +89,20 @@ begin
       Check(false,'Erro');
     end;
   end;
+end;
+
+
+procedure TestTCondominioVO.TestValidaCNPJErro;
+begin
+  try
+    FCondominioVO.ValidaCNPJ('99');
+    Check(false,'Sucesso!');
+    except on E: Exception do
+    begin
+      Check(true,'Erro');
+    end;
+  end;
+
 end;
 
 initialization

@@ -277,7 +277,7 @@ inherited FTelaCadastroPessoa: TFTelaCadastroPessoa
               object MaskEditTelefone: TMaskEdit
                 Tag = 1
                 Left = 16
-                Top = 161
+                Top = 163
                 Width = 97
                 Height = 21
                 Color = clWhite

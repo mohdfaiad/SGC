@@ -14,6 +14,9 @@ type
     FnomeEstado: String;
     FIdPais : Integer;
 
+    // Atributos Transientes
+    FnomePais: String;
+    // ----------------------
   public
     PaisVO: TPAISVO;
 
@@ -23,9 +26,13 @@ type
     property idEstado: Integer  read FIdEstado write FIdEstado;
     [TColumn('NOMEESTADO','Estado',250,[ldGrid], False)]
     property NomeEstado: String  read FnomeEstado write FnomeEstado;
-
     [TColumn('idPais','idPais',0,[ldLookup,ldComboBox], False)]
     property idPais: integer  read FIdPais write FIdPais;
+
+    // Atributos Transientes
+    [TColumn('NOMEPAIS','Pais',0,[ldGrid], True, 'Pais', 'idPais', 'idPais')]
+    property NomePais: string  read FNomePais write FNomePais;
+    // ----------------------
 
     function ValidarCamposObrigatorios:boolean;
 

@@ -664,10 +664,10 @@ begin
       CamposConsulta := ExtraiCamposFiltro(pFiltro);
 
       // verifica se existem campos transientes na consulta
-      for i := 0 to CamposConsulta.Count - 1 do
-      begin
+     // for i := 0 to CamposConsulta.Count - 1 do
+//      begin
 
-        Campo := CamposConsulta[i];
+  //      Campo := CamposConsulta[i];
 
         for Propriedade in Tipo.GetProperties do
         begin
@@ -676,11 +676,12 @@ begin
             if Atributo is TColumn then
             begin
               // se o campo que retornou na lista for transiente, pega o nome da tabela e marca a consulta como transiente
-              if ((Atributo as TColumn).Name = Campo) and
+              if {((Atributo as TColumn).Name = Campo) and}
                 ((Atributo as TColumn).Transiente) then
               begin
-                Campo := StringReplace(Campo, '.', '', [rfReplaceAll]);
-                ConsultaSQL := ConsultaSQL + ', ' + (Atributo as TColumn).Name +
+                //Campo := StringReplace(Campo, '.', '', [rfReplaceAll]);
+                Campo:= (Atributo as TColumn).Name;
+                ConsultaSQL := ConsultaSQL + ', ' + (Atributo as TColumn).TableName + '.' +(Atributo as TColumn).Name +
                   ' AS ' + Campo;
                 Joins := Joins + ' ' + 'LEFT JOIN ' + (Atributo as TColumn)
                   .TableName + ' ON ' + NomeTabelaPrincipal + '.' +
@@ -692,7 +693,7 @@ begin
             end;
           end;
         end;
-      end;
+    //  end;
 
       // monta o inicio da consulta
       if ConsultaTransiente then

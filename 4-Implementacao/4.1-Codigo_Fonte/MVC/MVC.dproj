@@ -39,6 +39,12 @@
         <CfgParent>Base</CfgParent>
         <Base>true</Base>
     </PropertyGroup>
+    <PropertyGroup Condition="('$(Platform)'=='Win32' and '$(Cfg_2)'=='true') or '$(Cfg_2_Win32)'!=''">
+        <Cfg_2_Win32>true</Cfg_2_Win32>
+        <CfgParent>Cfg_2</CfgParent>
+        <Cfg_2>true</Cfg_2>
+        <Base>true</Base>
+    </PropertyGroup>
     <PropertyGroup Condition="'$(Base)'!=''">
         <DCC_Namespace>System;Xml;Data;Datasnap;Web;Soap;Vcl;Vcl.Imaging;Vcl.Touch;Vcl.Samples;Vcl.Shell;$(DCC_Namespace)</DCC_Namespace>
         <Icon_MainIcon>$(BDS)\bin\delphi_PROJECTICON.ico</Icon_MainIcon>
@@ -58,6 +64,10 @@
         <DCC_UsePackage>DBXOdbcDriver;DBXSybaseASEDriver;vclimg;vclactnband;vcldb;vcldsnap;bindcompvcl;vclie;vcltouch;DBXDb2Driver;websnap;VclSmp;vcl;DBXMSSQLDriver;dsnapcon;vclx;webdsnap;$(DCC_UsePackage)</DCC_UsePackage>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1)'!=''">
+        <Manifest_File>None</Manifest_File>
+        <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0</VerInfo_Keys>
+        <DCC_ExeOutput>C:\nayara\</DCC_ExeOutput>
+        <VerInfo_Locale>1046</VerInfo_Locale>
         <DCC_Define>DEBUG;$(DCC_Define)</DCC_Define>
         <DCC_Optimize>false</DCC_Optimize>
         <DCC_GenerateStackFrames>true</DCC_GenerateStackFrames>
@@ -65,6 +75,8 @@
         <DCC_RemoteDebug>true</DCC_RemoteDebug>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
+        <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
+        <DCC_ExeOutput>.\$(Platform)\$(Config)</DCC_ExeOutput>
         <DCC_RemoteDebug>false</DCC_RemoteDebug>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
@@ -72,6 +84,10 @@
         <DCC_Define>RELEASE;$(DCC_Define)</DCC_Define>
         <DCC_SymbolReferenceInfo>0</DCC_SymbolReferenceInfo>
         <DCC_DebugInformation>false</DCC_DebugInformation>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Cfg_2_Win32)'!=''">
+        <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
+        <VerInfo_Locale>1033</VerInfo_Locale>
     </PropertyGroup>
     <ItemGroup>
         <DelphiCompile Include="$(MainSource)">
@@ -175,6 +191,24 @@
         <DCCReference Include="controle\UPrecoGasController.pas"/>
         <DCCReference Include="tela\UPrecoGas.pas">
             <Form>FTelaCadastroPrecoGas</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="VO\UPlanoContasVO.pas"/>
+        <DCCReference Include="controle\UPlanoContasController.pas"/>
+        <DCCReference Include="tela\UPlanoContas.pas">
+            <Form>FTelaCadastroPlano</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="VO\UTemplateDreVO.pas"/>
+        <DCCReference Include="controle\UTemplateDreController.pas"/>
+        <DCCReference Include="tela\UTemplateDre.pas">
+            <Form>FTelaCadastroTemplateDre</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="VO\UTemplateFcxVO.pas"/>
+        <DCCReference Include="controle\UTemplateFcxController.pas"/>
+        <DCCReference Include="tela\UTemplateFcx.pas">
+            <Form>FTelaCadastroTemplateFcx</Form>
             <FormType>dfm</FormType>
         </DCCReference>
         <BuildConfiguration Include="Release">

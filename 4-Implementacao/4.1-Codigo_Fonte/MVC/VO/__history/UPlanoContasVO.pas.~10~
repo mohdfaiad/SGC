@@ -1,0 +1,64 @@
+unit UPlanoContasVO;
+
+interface
+
+uses Atributos, Classes, Constantes, Generics.Collections, SysUtils, UGenericVO;
+
+type
+  [TEntity]
+  [TTable('PlanoContas')]
+  TPlanoContasVO = class(TGenericVO)
+  private
+    FidPlanoContas : Integer;
+    FidConta: Integer;
+    FdsConta : string;
+    FnrClassificacao : string;
+    FflTipo: string;
+    FidCondominio : Integer;
+    FidUnidade : Integer;
+    FidPessoa : Integer;
+  public
+
+    [TId('idPlanoContas')]
+    [TGeneratedValue(sAuto)]
+    property idPlanoContas : Integer  read FidPlanoContas write FidPlanoContas;
+
+    property idConta: Integer  read FidConta write FidConta;
+    [TColumn('idConta','Código',10,[ldLookup,ldComboBox], False)]
+    property dsConta: string  read FdsConta write FdsConta;
+    [TColumn('dsConta','Descrição',40,[ldLookup,ldComboBox], False)]
+    property nrClassificacao: string  read FnrClassificacao write FnrClassificacao;
+    [TColumn('nrClassificacao ','Classificação',20,[ldLookup,ldComboBox], False)]
+    property flTipo: string  read FflTipo write FflTipo;
+    [TColumn('flTipo ','Tipo',10,[ldLookup,ldComboBox], False)]
+    property idcondominio: integer  read Fidcondominio write Fidcondominio;
+    [TColumn('idCondominio','Condomínio',10,[ldLookup,ldComboBox], False)]
+    property idUnidade: integer  read FidUnidade write FidUnidade;
+    [TColumn('idUnidade','Unidade',10,[ldLookup,ldComboBox], False)]
+    property idPessoa: integer  read FidPessoa write FidPessoa;
+    [TColumn('idPessoa','Pessoa',10,[ldLookup,ldComboBox], False)]
+
+
+    Function ValidarCamposObrigatorios:boolean;
+
+  end;
+implementation
+
+
+
+function TPlanoContasVO.ValidarCamposObrigatorios: boolean;
+begin
+  Result := true;
+  if (Self.FdsConta = '') then
+  begin
+    raise Exception.Create('O campo Descrição é obrigatório!');
+    Result := false;
+  end
+  else if (self.FnrClassificacao = '') then
+  begin
+    raise Exception.Create('O campo Classificação é obrigatório!');
+    Result := false;
+  end;
+end;
+end.
+

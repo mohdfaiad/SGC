@@ -78,6 +78,18 @@ object FormMenu: TFormMenu
       object N2: TMenuItem
         Caption = '-'
       end
+      object PlanodeContas1: TMenuItem
+        Caption = 'Plano de Contas'
+        OnClick = PlanodeContas1Click
+      end
+      object emplateDre1: TMenuItem
+        Caption = 'Template Dre'
+        OnClick = emplateDre1Click
+      end
+      object emplateFcx1: TMenuItem
+        Caption = 'Template Fcx'
+        OnClick = emplateFcx1Click
+      end
     end
     object EmpresaTrabalho1: TMenuItem
       Caption = 'Empresa Trabalho'

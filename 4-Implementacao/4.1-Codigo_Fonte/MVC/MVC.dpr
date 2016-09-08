@@ -50,7 +50,16 @@ uses
   UTotalGastoMes in 'tela\UTotalGastoMes.pas' {FTelaCadastroTotalGastoMes},
   UPrecoGasVO in 'VO\UPrecoGasVO.pas',
   UPrecoGasController in 'controle\UPrecoGasController.pas',
-  UPrecoGas in 'tela\UPrecoGas.pas' {FTelaCadastroPrecoGas};
+  UPrecoGas in 'tela\UPrecoGas.pas' {FTelaCadastroPrecoGas},
+  UPlanoContasVO in 'VO\UPlanoContasVO.pas',
+  UPlanoContasController in 'controle\UPlanoContasController.pas',
+  UPlanoContas in 'tela\UPlanoContas.pas' {FTelaCadastroPlano},
+  UTemplateDreVO in 'VO\UTemplateDreVO.pas',
+  UTemplateDreController in 'controle\UTemplateDreController.pas',
+  UTemplateDre in 'tela\UTemplateDre.pas' {FTelaCadastroTemplateDre},
+  UTemplateFcxVO in 'VO\UTemplateFcxVO.pas',
+  UTemplateFcxController in 'controle\UTemplateFcxController.pas',
+  UTemplateFcx in 'tela\UTemplateFcx.pas' {FTelaCadastroTemplateFcx};
 
 {$R *.res}
 
@@ -62,5 +71,8 @@ begin
   Application.CreateForm(TFTelaCadastroInquilino, FTelaCadastroInquilino);
   Application.CreateForm(TFTelaCadastroTotalGastoMes, FTelaCadastroTotalGastoMes);
   Application.CreateForm(TFTelaCadastroPrecoGas, FTelaCadastroPrecoGas);
+  Application.CreateForm(TFTelaCadastroPlano, FTelaCadastroPlano);
+  Application.CreateForm(TFTelaCadastroTemplateDre, FTelaCadastroTemplateDre);
+  Application.CreateForm(TFTelaCadastroTemplateFcx, FTelaCadastroTemplateFcx);
   Application.Run;
 end.

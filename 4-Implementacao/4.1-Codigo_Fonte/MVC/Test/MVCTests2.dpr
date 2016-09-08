@@ -53,7 +53,16 @@ uses
   UPrecoGasVO in '..\VO\UPrecoGasVO.pas',
   UInquilinoUnidadeVO in '..\VO\UInquilinoUnidadeVO.pas',
   UInquilinoUnidadeController in '..\controle\UInquilinoUnidadeController.pas',
-  TestUCondominioVO in 'TestUCondominioVO.pas';
+  TestUCondominioVO in 'TestUCondominioVO.pas',
+  UTemplateFcxVO in '..\VO\UTemplateFcxVO.pas',
+  UPlanoContasVO in '..\VO\UPlanoContasVO.pas',
+  UTemplateDreVO in '..\VO\UTemplateDreVO.pas',
+  UPlanoContasController in '..\controle\UPlanoContasController.pas',
+  UTemplateDreController in '..\controle\UTemplateDreController.pas',
+  UTemplateFcxController in '..\controle\UTemplateFcxController.pas',
+  TestUTemplateDreController in 'TestUTemplateDreController.pas',
+  TestUTemplateFcxController in 'TestUTemplateFcxController.pas',
+  TestUPlanoContasController in 'TestUPlanoContasController.pas';
 
 {R *.RES}
 

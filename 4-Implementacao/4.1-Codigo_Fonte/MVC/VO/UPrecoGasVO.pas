@@ -18,6 +18,7 @@ type
     [TId('idprecogas')]
     [TGeneratedValue(sAuto)]
     property idPrecoGas: Integer  read FidPrecoGas write FidPrecoGas;
+
     [TColumn('vlGas','Valor Total',50,[ldGrid,ldLookup,ldComboBox], False)]
     property vlGas: currency  read FvlGas write FvlGas;
     [TColumn('dtMesAno','Data Inicio',0,[ldLookup,ldComboBox], False)]

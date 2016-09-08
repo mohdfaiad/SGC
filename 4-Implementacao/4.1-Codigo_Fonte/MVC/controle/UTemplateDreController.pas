@@ -1,0 +1,44 @@
+unit UTemplateDreController;
+
+interface
+
+uses
+  Classes, SQLExpr, SysUtils, Generics.Collections, DBXJSON, DBXCommon,
+  ConexaoBD,
+  UController, DBClient, DB, UTemplateDreVO, UCondominioController;
+
+
+type
+  TTemplateDreController = class(TController<TTemplateDreVO>)
+  private
+
+  public
+    function ConsultarPorId(id: integer): TTemplateDreVO;
+  end;
+
+implementation
+
+uses
+  UDao, Constantes, Vcl.Dialogs;
+
+function TTemplateDreController.ConsultarPorId(id: integer): TTemplateDreVO;
+var
+  P: TTemplateDreVO;
+  condominioController : TCondominioController;
+
+begin
+  P := TDAO.ConsultarPorId<TTemplateDreVO>(id);
+  condominioController := TCondominioController.Create;
+
+
+  if (P <> nil) then
+  begin
+      p.CondominioVO := condominioController.ConsultarPorId(p.idcondominio);
+  end;
+  condominioController.Free;
+  result := P;
+end;
+begin
+
+
+end.

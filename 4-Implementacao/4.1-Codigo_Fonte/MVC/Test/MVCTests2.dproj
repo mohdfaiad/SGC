@@ -127,6 +127,15 @@
         <DCCReference Include="..\VO\UInquilinoUnidadeVO.pas"/>
         <DCCReference Include="..\controle\UInquilinoUnidadeController.pas"/>
         <DCCReference Include="TestUCondominioVO.pas"/>
+        <DCCReference Include="..\VO\UTemplateFcxVO.pas"/>
+        <DCCReference Include="..\VO\UPlanoContasVO.pas"/>
+        <DCCReference Include="..\VO\UTemplateDreVO.pas"/>
+        <DCCReference Include="..\controle\UPlanoContasController.pas"/>
+        <DCCReference Include="..\controle\UTemplateDreController.pas"/>
+        <DCCReference Include="..\controle\UTemplateFcxController.pas"/>
+        <DCCReference Include="TestUTemplateDreController.pas"/>
+        <DCCReference Include="TestUTemplateFcxController.pas"/>
+        <DCCReference Include="TestUPlanoContasController.pas"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>
