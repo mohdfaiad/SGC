@@ -65,7 +65,7 @@ begin
   try
     try
       PlanoContas := TPlanoContasVo.Create;
-      PlanoContas.idConta := CDSGrid.FieldByName('IDCONTA')
+      PlanoContas.idPlanoContas := CDSGrid.FieldByName('IDPLANOCONTAS')
         .AsInteger;
       PlanoContasController.Excluir(PlanoContas);
     except
@@ -98,7 +98,7 @@ begin
            end
             else if (StatusTela = stEditando) then
              begin
-            PlanoContas := PlanoContasController.ConsultarPorId(CDSGrid.FieldByName('IDCONTA')
+            PlanoContas := PlanoContasController.ConsultarPorId(CDSGrid.FieldByName('IDPLANOCONTAS')
               .AsInteger);
             PlanoContas := EditsToObject(PlanoContas);
             PlanoContasController.Alterar(PlanoContas);
@@ -142,11 +142,13 @@ var
   PlanoContas: TPlanoContasVO;
 begin
   inherited;
+  PlanoContas := nil;
+
   if not CDSGrid.IsEmpty then
     PlanoContas := PlanoContasController.ConsultarPorId
-      (CDSGrid.FieldByName('IDCONTA').AsInteger);
+      (CDSGrid.FieldByName('IDPLANOCONTAS').AsInteger);
 
-  if Assigned(PlanoContas) then
+  if PlanoContas <> nil then
   begin
     LabelEditCodigo.Text := IntToStr(PlanoContas.idConta);
     LabelEditDescricao.Text := PlanoContas.dsConta;
@@ -157,7 +159,28 @@ end;
 
 function TFTelaCadastroPlano.MontaFiltro: string;
 begin
-  Result := '';
+  Result :=' ( IDCONDOMINIO = '+inttostr(FormEmpresaTrab.CodigoEmpLogada)+ ' ) ';
+  if (RadioButtonCodigo.Checked = true) then
+  begin
+    if (editBusca.Text <> '') then
+    begin
+      Result := '( UPPER(IDCONTA) LIKE ' +
+        QuotedStr('%' + UpperCase(editBusca.Text) + '%') + ' ) ';
+    end;
+  end
+  else if (RadioButtonClassificacao.Checked = true) then
+  begin
+    if (editBusca.Text <> '') then
+      Result := '( UPPER(NRCLASSIFICACAO) LIKE ' +
+        QuotedStr('%' + UpperCase(editBusca.Text) + '%') + ' ) ';
+  end
+  else if (RadioButtonDescricao.Checked = true) then
+  begin
+  if (editBusca.Text <> '') then
+      Result := '( UPPER(DSCONTA) LIKE ' +
+        QuotedStr('%' + UpperCase(editBusca.Text) + '%') + ' ) ';
+  end;
+
 end;
 
 end.

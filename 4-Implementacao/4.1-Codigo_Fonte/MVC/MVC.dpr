@@ -59,7 +59,10 @@ uses
   UTemplateDre in 'tela\UTemplateDre.pas' {FTelaCadastroTemplateDre},
   UTemplateFcxVO in 'VO\UTemplateFcxVO.pas',
   UTemplateFcxController in 'controle\UTemplateFcxController.pas',
-  UTemplateFcx in 'tela\UTemplateFcx.pas' {FTelaCadastroTemplateFcx};
+  UTemplateFcx in 'tela\UTemplateFcx.pas' {FTelaCadastroTemplateFcx},
+  UContasPagarVO in 'VO\UContasPagarVO.pas',
+  UContasPagarController in 'controle\UContasPagarController.pas',
+  UContasPagar in 'tela\UContasPagar.pas' {FTelaCadastroContasPagar};
 
 {$R *.res}
 
@@ -74,5 +77,6 @@ begin
   Application.CreateForm(TFTelaCadastroPlano, FTelaCadastroPlano);
   Application.CreateForm(TFTelaCadastroTemplateDre, FTelaCadastroTemplateDre);
   Application.CreateForm(TFTelaCadastroTemplateFcx, FTelaCadastroTemplateFcx);
+  Application.CreateForm(TFTelaCadastroContasPagar, FTelaCadastroContasPagar);
   Application.Run;
 end.

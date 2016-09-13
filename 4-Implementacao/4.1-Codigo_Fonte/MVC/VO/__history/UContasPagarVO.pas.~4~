@@ -1,0 +1,72 @@
+unit UContasPagarVO;
+
+interface
+
+uses Atributos, Classes, Constantes, Generics.Collections, SysUtils, UGenericVO, UPessoasVO, UCondominioVO;
+
+type
+  [TEntity]
+  [TTable('ContasPagar')]
+  TContasPagarVO = class(TGenericVO)
+  private
+    FidContasPagar : Integer;
+    FDtCompetencia : TDateTime;
+    FDtEmissao : TDateTime;
+    FDtVencimento: TDateTime;
+    FNrDocumento : String;
+    FVlValor : Currency;
+    FDsComplemento : String;
+    FIdHistorico : Integer;
+    FFlBaixa : Char;
+    FIdPlanoContas : Integer;
+    FIdCondominio : Integer;
+    FIdPessoa : Integer;
+
+  public
+
+    CondominioVO : TCondominioVO;
+    PessoaVO : TPessoasVO;
+
+
+    [TId('idContasPagar')]
+    [TGeneratedValue(sAuto)]
+    property idContasPagar : Integer  read FidPlanoContas write FidPlanoContas;
+
+    [TColumn('DtCompetencia','Data Competencia',50,[ldGrid,ldLookup,ldComboBox], False)]
+    property DtCompetencia: TDateTime  read FDtCompetencia write FDtCompetencia;
+    [TColumn('DtEmissao','Data Emissão',50,[ldGrid,ldLookup,ldComboBox], False)]
+    property DtEmissao: TDateTime  read FDtEmissao write FDtEmissao;
+    [TColumn('DtVencimento','Data Vencimento',50,[ldGrid,ldLookup,ldComboBox], False)]
+    property DtVencimento: TDateTime  read FDtVencimento write FDtVencimento;
+    [TColumn('NrDocumento','Documento',50,[ldLookup,ldComboBox], False)]
+    property NrDocumento: string  read FNrDocumento write FNrDocumento;
+    [TColumn('VlValor','Valor',50,[ldLookup,ldComboBox], False)]
+    property VlValor: Currency  read FVlValor write FVlValor;
+    [TColumn('DsComplemento','Complemento',0,[ldLookup,ldComboBox], False)]
+    property DsComplemento: String  read FDsComplemento write FDsComplemento;
+    [TColumn('IdHistorico','Histórico',0,[ldLookup,ldComboBox], False)]
+    property IdHistorico: integer  read FIdHistorico write FIdHistorico;
+    [TColumn('FlBaixa','Baixa',0,[ldLookup,ldComboBox], False)]
+    property FlBaixa: char  read FFlBaixa write FFlBaixa;
+    [TColumn('IdPlanoContas','Id Plano',0,[ldLookup,ldComboBox], False)]
+    property IdPlanoContas: Integer  read FIdPlanoContas write FIdPlanoContas;
+    [TColumn('IdCondominio','Id Condominio',0,[ldLookup,ldComboBox], False)]
+    property IdCondominio: Integer  read FIdCondominio write FIdCondominio;
+    [TColumn('IdPessoa','Id Pessoa',0,[ldLookup,ldComboBox], False)]
+    property IdPessoa: Integer  read FIdPessoa write FIdPessoa;
+
+
+
+    Function ValidarCamposObrigatorios:boolean;
+
+  end;
+implementation
+
+
+
+function TContasPagarVO.ValidarCamposObrigatorios: boolean;
+begin
+  Result := true;
+end;
+end.
+

@@ -28,6 +28,8 @@ type
     PlanodeContas1: TMenuItem;
     emplateDre1: TMenuItem;
     emplateFcx1: TMenuItem;
+    Movimento1: TMenuItem;
+    ContasaPagar1: TMenuItem;
     procedure FormCreate(Sender: TObject);
     procedure Pessoa1Click(Sender: TObject);
     procedure Sair1Click(Sender: TObject);
@@ -45,6 +47,7 @@ type
     procedure PlanodeContas1Click(Sender: TObject);
     procedure emplateDre1Click(Sender: TObject);
     procedure emplateFcx1Click(Sender: TObject);
+    procedure ContasaPagar1Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -63,7 +66,7 @@ implementation
 {$R *.dfm}
 
 uses Upessoa, UPais, UCnae, UNaturezaJuridica, UEstado, UCidade, UCondominio, UUnidade, UEmpresaTrab,
-UTotalGastoMes, UPrecoGas, UPlanoContas, UTemplateDre, UtemplateFcx;
+UTotalGastoMes, UPrecoGas, UPlanoContas, UTemplateDre, UtemplateFcx, UContasPagar;
 
 
 procedure TFormMenu.Cidade1Click(Sender: TObject);
@@ -89,6 +92,15 @@ begin
   FormCondominio.ShowModal;
   FormCondominio.Close;
 end;
+
+procedure TFormMenu.ContasaPagar1Click(Sender: TObject);
+var FormContasPagar:TFTelaCadastroContasPagar;
+begin
+  Application.CreateForm(TFTelaCadastroContasPagar,FormContasPagar);
+  FormContasPagar.ShowModal;
+  FormContasPagar.Close;
+end;
+
 
 function TFormMenu.doLogin: Boolean;
 var

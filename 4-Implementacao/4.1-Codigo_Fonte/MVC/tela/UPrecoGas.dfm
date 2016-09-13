@@ -48,7 +48,7 @@ inherited FTelaCadastroPrecoGas: TFTelaCadastroPrecoGas
             end
             object MaskEditDtInicio: TMaskEdit
               Left = 22
-              Top = 48
+              Top = 51
               Width = 64
               Height = 21
               Color = clWhite

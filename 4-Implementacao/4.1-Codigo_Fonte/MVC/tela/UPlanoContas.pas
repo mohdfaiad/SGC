@@ -26,12 +26,14 @@ type
     function DoSalvar: boolean; override;
     procedure DoConsultar; override;
     function DoExcluir: boolean; override;
-    procedure GridParaEdits; override;
+
     function MontaFiltro: string;
+    procedure CarregaObjetoSelecionado; override;
   private
     { Private declarations }
   public
     { Public declarations }
+    procedure GridParaEdits; override;
     function EditsToObject(PlanoContas: TPlanoContasVO): TPlanoContasVO;
   end;
 
@@ -46,6 +48,15 @@ procedure TFTelaCadastroPlano.BitBtnNovoClick(Sender: TObject);
 begin
   inherited;
   LabelEditCodigo.SetFocus;
+end;
+
+procedure TFTelaCadastroPlano.CarregaObjetoSelecionado;
+begin
+  inherited;
+  if (not CDSGrid.IsEmpty) then
+  begin
+    ObjetoRetornoVO := PlanoContasController.ConsultarPorId(CDSGRID.FieldByName('IDPLANOCONTAS').AsInteger);
+  end;
 end;
 
 procedure TFTelaCadastroPlano.DoConsultar;
@@ -126,7 +137,7 @@ begin
   PlanoContas.dsConta := LabelEditDescricao.Text;
   PlanoContas.nrClassificacao := EditClassificacao.Text;
   PlanoContas.flTipo := IntToStr(comboboxTipo.ItemIndex);
-  //PlanoContas.idcondominio :=
+
   Result := PlanoContas;
 end;
 

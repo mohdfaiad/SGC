@@ -30,19 +30,14 @@ type
     GroupBox2: TGroupBox;
     RadioButtonCnpj: TRadioButton;
     RadioButtonNome: TRadioButton;
-    LabelEditCodCnae: TLabeledEdit;
-    LabelEditDescCnae: TLabeledEdit;
-    btnConsultaCnae: TBitBtn;
-    LabelEditCnae: TMaskEdit;
-    Label1: TLabel;
-    LabeledEdit1: TLabeledEdit;
+    LabeledEditDescCidade: TLabeledEdit;
     btnConsultaCidade: TBitBtn;
     LabeledEditCidade: TLabeledEdit;
     LabeledEditEstado: TLabeledEdit;
     LabeledEditPais: TLabeledEdit;
-    LabeledEdit5: TLabeledEdit;
+    LabeledEditDescEstado: TLabeledEdit;
     BtnConsultaEstado: TBitBtn;
-    LabeledEdit6: TLabeledEdit;
+    LabeledEditDescPais: TLabeledEdit;
     BtnConsultaPais: TBitBtn;
     procedure FormCreate(Sender: TObject);
     function DoSalvar: boolean; override;
@@ -51,6 +46,9 @@ type
     function DoExcluir: boolean; override;
     procedure BitBtnNovoClick(Sender: TObject);
     procedure btnConsultaCidadeClick(Sender: TObject);
+    procedure BtnConsultaEstadoClick(Sender: TObject);
+    procedure BtnConsultaPaisClick(Sender: TObject);
+    procedure CarregaObjetoSelecionado; override;
 
   private
 
@@ -66,7 +64,7 @@ implementation
 
 {$R *.dfm}
 
-uses UCnae, UCnaeVO, UCidade, UCidadeVO, UEstado, UEstadoVO;
+uses UCnae, UCnaeVO, UCidade, UCidadeVO, UEstado, UEstadoVO, UPais, UPaisVO;
 
 var
   PessoaController: TPessoasController;
@@ -86,13 +84,54 @@ begin
   FormCidadeConsulta.ShowModal;
   if (FormCidadeConsulta.ObjetoRetornoVO <> nil) then
   begin
-    LabelEditCodCnae.Text :=
-      IntToStr(TCidadeVO(FormCidadeConsulta.ObjetoRetornoVO).idCidade);
-    LabelEditDescCnae.Text := TCnaeVO(FormCidadeConsulta.ObjetoRetornoVO)
-      .descricao;
-    LabelEditCnae.Text := TCidadeVO(FormCidadeConsulta.ObjetoRetornoVO).idCidade;
+    LabeledEditCidade.Text := IntToStr(TCidadeVO(FormCidadeConsulta.ObjetoRetornoVO).idCidade);
+    LabeledEditDescCidade.Text := TCidadeVO(FormCidadeConsulta.ObjetoRetornoVO).NomeCidade;
+    LabeledEditEstado.Text:=IntToStr(TCidadeVO(FormCidadeConsulta.ObjetoRetornoVO).EstadoVO.idEstado);
+    LabeledEditDescEstado.Text:=TCidadeVO(FormCidadeConsulta.ObjetoRetornoVO).EstadoVO.NomeEstado;
+    LabeledEditPais.Text:=IntToStr(TCidadeVO(FormCidadeConsulta.ObjetoRetornoVO).PaisVO.idPais);
+    LabeledEditDescPais.Text:=TCidadeVO(FormCidadeConsulta.ObjetoRetornoVO).PaisVO.NomePais;
   end;
   FormCidadeConsulta.Release;
+end;
+
+procedure TFTelaCadastroPessoa.BtnConsultaEstadoClick(Sender: TObject);
+
+var
+  FormEstadoConsulta: TFTelaCadastroEstado;
+begin
+  FormEstadoConsulta := TFTelaCadastroEstado.Create(nil);
+  FormEstadoConsulta.FechaForm := true;
+  FormEstadoConsulta.ShowModal;
+  if (FormEstadoConsulta.ObjetoRetornoVO <> nil) then
+  begin
+    LabeledEditEstado.Text := IntToStr(TEstadoVO(FormEstadoConsulta.ObjetoRetornoVO).idEstado);
+    LabeledEditDescEstado.Text := TEstadoVO(FormEstadoConsulta.ObjetoRetornoVO).NomeEstado;
+  end;
+  FormEstadoConsulta.Release;
+end;
+procedure TFTelaCadastroPessoa.BtnConsultaPaisClick(Sender: TObject);
+var
+  FormPaisConsulta: TFTelaCadastroPais;
+begin
+  FormPaisConsulta := TFTelaCadastroPais.Create(nil);
+  FormPaisConsulta.FechaForm := true;
+  FormPaisConsulta.ShowModal;
+  if (FormPaisConsulta.ObjetoRetornoVO <> nil) then
+  begin
+    LabeledEditPais.Text :=
+      IntToStr(TPaisVO(FormPaisConsulta.ObjetoRetornoVO).idPais);
+    LabeledEditDescPais.Text := TPaisVO(FormPaisConsulta.ObjetoRetornoVO).NomePais;
+  end;
+  FormPaisConsulta.Release;
+end;
+
+procedure TFTelaCadastroPessoa.CarregaObjetoSelecionado;
+begin
+  inherited;
+  if (not CDSGrid.IsEmpty) then
+  begin
+    ObjetoRetornoVO := PessoaController.ConsultarPorId(CDSGRID.FieldByName('IDPESSOA').AsInteger);
+  end;
 end;
 
 procedure TFTelaCadastroPessoa.DoConsultar;
@@ -134,35 +173,22 @@ begin
     Pessoa:=EditsToObject(TPessoasVO.Create);
     try
       try
-        if (Pessoa.ValidarCamposObrigatorios()) then
+        Pessoa.ValidarCampos();
+        if (StatusTela = stInserindo) then
         begin
-          if ((length(Pessoa.Cnpjcpf)) <= 11) then
-          begin
-            pessoa.ValidaCPF(Pessoa.Cnpjcpf)
-          end
-          else if (length(Pessoa.Cnpjcpf) >= 14) then
-          begin
-            Pessoa.ValidaCnpj(Pessoa.Cnpjcpf)
-          end;
-          if (StatusTela = stInserindo) then
-          begin
-            pessoa.MascaraCnpjCpf(Pessoa.Cnpjcpf);
+          pessoa.MascaraCnpjCpf(Pessoa.Cnpjcpf);
 //            Pessoa.Cnpjcpf := MaskEditCNPJCPF.Text;
-            PessoaController.Inserir(pessoa);
-            result := true;
-          end;
-          end
-
-          else if (StatusTela = stEditando) then
-          begin
-            Pessoa := PessoaController.ConsultarPorId(CDSGrid.FieldByName('IDPESSOA')
-              .AsInteger);
-            Pessoa := EditsToObject(Pessoa);
-            PessoaController.Alterar(Pessoa);
-            Result := true;
-          end
-        else
-          Result := false;
+          PessoaController.Inserir(pessoa);
+          result := true;
+        end
+        else if (StatusTela = stEditando) then
+        begin
+          Pessoa := PessoaController.ConsultarPorId(CDSGrid.FieldByName('IDPESSOA')
+            .AsInteger);
+          Pessoa := EditsToObject(Pessoa);
+          PessoaController.Alterar(Pessoa);
+          Result := true;
+        end
       except
         on E: Exception do
         begin
@@ -192,8 +218,7 @@ begin
     Pessoa.idEstado := strtoint(LabeledEditEstado.Text);
   if (LabeledEditPais.Text<>'') then
     Pessoa.idPais := strtoint(LabeledEditPais.Text);
-//  if (LabelEditCodCnae.Text <> '') then
-//    Pessoa.idCnae := strtoint(LabelEditCodCnae.Text);
+
   Result := Pessoa;
 end;
 
@@ -229,13 +254,18 @@ begin
     MaskEditTelefone2.Text := Pessoa.TelefoneII;
     if (Pessoa.idCidade > 0) then
     begin
-  //    LabeledEditCidade.Text := IntToStr(Pessoa);
+      LabeledEditCidade.Text := IntToStr(Pessoa.CidadeVO.idCidade);
+      LabeledEditDescCidade.Text := Pessoa.CidadeVO.NomeCidade;
     end;
-    if (Pessoa.idCnae > 0) then
+    if (Pessoa.idEstado > 0) then
     begin
-      LabelEditCodCnae.Text := IntToStr(Pessoa.CnaeVO.idCnae);
-      LabelEditDescCnae.Text := Pessoa.CnaeVO.descricao;
-      LabelEditCnae.Text := Pessoa.CnaeVO.codigoCnae;
+      LabeledEditEstado.Text := IntToStr(Pessoa.CidadeVO.EstadoVO.idEstado);
+      LabeledEditDescEstado.Text := Pessoa.CidadeVO.EstadoVO.NomeEstado;
+    end;
+     if (Pessoa.idPais > 0) then
+    begin
+      LabeledEditPais.Text := IntToStr(Pessoa.CidadeVO.PaisVO.idPais);
+      LabeledEditDescPais.Text := Pessoa.CidadeVO.PaisVO.NomePais;
     end;
   end;
 
