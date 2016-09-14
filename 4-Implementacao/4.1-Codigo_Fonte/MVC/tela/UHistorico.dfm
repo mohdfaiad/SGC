@@ -1,0 +1,82 @@
+inherited FTelaCadastroHistorico: TFTelaCadastroHistorico
+  Caption = 'Cadastro de Hist'#243'ricos'
+  PixelsPerInch = 96
+  TextHeight = 13
+  inherited PageControl: TPageControl
+    ActivePage = DadosCadastrais
+    inherited Consulta: TTabSheet
+      ExplicitLeft = 4
+      ExplicitTop = 24
+      inherited Panel2: TPanel
+        object GroupBox2: TGroupBox
+          Left = 63
+          Top = 3
+          Width = 106
+          Height = 47
+          Caption = 'Tipo'
+          TabOrder = 4
+          object RadioButtonDescricao: TRadioButton
+            Left = 11
+            Top = 16
+            Width = 73
+            Height = 17
+            Caption = 'Descri'#231#227'o'
+            TabOrder = 0
+          end
+        end
+      end
+    end
+    inherited DadosCadastrais: TTabSheet
+      ExplicitLeft = 4
+      ExplicitTop = 24
+      ExplicitWidth = 775
+      ExplicitHeight = 386
+      inherited PageControlEdit: TPageControl
+        inherited DadosPrincipais: TTabSheet
+          ExplicitLeft = 4
+          ExplicitTop = 24
+          ExplicitWidth = 767
+          ExplicitHeight = 301
+          inherited PanelEdits: TPanel
+            object Label1: TLabel
+              Left = 23
+              Top = 72
+              Width = 75
+              Height = 13
+              Caption = 'Conta Corrente'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'Tahoma'
+              Font.Style = []
+              ParentFont = False
+            end
+            object LabeledEditDescricao: TLabeledEdit
+              Left = 23
+              Top = 39
+              Width = 370
+              Height = 21
+              EditLabel.Width = 46
+              EditLabel.Height = 13
+              EditLabel.Caption = 'Descri'#231#227'o'
+              TabOrder = 0
+            end
+            object ComboBoxTipo: TComboBox
+              Left = 23
+              Top = 91
+              Width = 145
+              Height = 21
+              Style = csDropDownList
+              ItemIndex = 1
+              TabOrder = 1
+              Text = 'N- N'#227'o'
+              Items.Strings = (
+                'S- Sim'
+                'N- N'#227'o')
+            end
+          end
+        end
+      end
+    end
+  end
+end

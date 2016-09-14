@@ -1,0 +1,30 @@
+unit UHistorico;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, UtelaCadastro, Vcl.StdCtrls,
+  Vcl.ExtCtrls, Vcl.ComCtrls, Vcl.Mask, Vcl.Buttons, Vcl.Grids, Vcl.DBGrids;
+
+type
+  TFTelaCadastroHistorico = class(TFTelaCadastro)
+    LabeledEditPessoa: TLabeledEdit;
+    Label1: TLabel;
+    ComboBoxTipo: TComboBox;
+    GroupBox2: TGroupBox;
+    RadioButtonDescricao: TRadioButton;
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  FTelaCadastroHistorico: TFTelaCadastroHistorico;
+
+implementation
+
+{$R *.dfm}
+
+end.

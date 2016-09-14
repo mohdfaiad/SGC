@@ -90,12 +90,20 @@ object FormMenu: TFormMenu
         Caption = 'Template Fcx'
         OnClick = emplateFcx1Click
       end
+      object Histricos1: TMenuItem
+        Caption = 'Hist'#243'ricos'
+        OnClick = Histricos1Click
+      end
     end
     object Movimento1: TMenuItem
       Caption = 'Movimento'
       object ContasaPagar1: TMenuItem
         Caption = 'Contas a Pagar'
         OnClick = ContasaPagar1Click
+      end
+      object ContasaReceber1: TMenuItem
+        Caption = 'Contas a Receber'
+        OnClick = ContasaReceber1Click
       end
     end
     object EmpresaTrabalho1: TMenuItem

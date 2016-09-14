@@ -30,6 +30,8 @@ type
     emplateFcx1: TMenuItem;
     Movimento1: TMenuItem;
     ContasaPagar1: TMenuItem;
+    Histricos1: TMenuItem;
+    ContasaReceber1: TMenuItem;
     procedure FormCreate(Sender: TObject);
     procedure Pessoa1Click(Sender: TObject);
     procedure Sair1Click(Sender: TObject);
@@ -48,6 +50,8 @@ type
     procedure emplateDre1Click(Sender: TObject);
     procedure emplateFcx1Click(Sender: TObject);
     procedure ContasaPagar1Click(Sender: TObject);
+    procedure Histricos1Click(Sender: TObject);
+    procedure ContasaReceber1Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -66,7 +70,7 @@ implementation
 {$R *.dfm}
 
 uses Upessoa, UPais, UCnae, UNaturezaJuridica, UEstado, UCidade, UCondominio, UUnidade, UEmpresaTrab,
-UTotalGastoMes, UPrecoGas, UPlanoContas, UTemplateDre, UtemplateFcx, UContasPagar;
+UTotalGastoMes, UPrecoGas, UPlanoContas, UTemplateDre, UtemplateFcx, UContasPagar, UHistorico, UContasReceber;
 
 
 procedure TFormMenu.Cidade1Click(Sender: TObject);
@@ -102,6 +106,13 @@ begin
 end;
 
 
+procedure TFormMenu.ContasaReceber1Click(Sender: TObject);
+var FormContasReceber:TFTelaCadastroContasReceber;
+begin
+  Application.CreateForm(TFTelaCadastroContasReceber,FormContasReceber);
+  FormContasReceber.ShowModal;
+  FormContasReceber.Close;
+end;
 function TFormMenu.doLogin: Boolean;
 var
   FormLogin: TFormLogin;
@@ -159,6 +170,14 @@ begin
       Application.CreateForm(TFormEmpresaTrab, FormEmpresaTrab);
       FormEmpresaTrab.ShowModal;
   end;
+end;
+
+procedure TFormMenu.Histricos1Click(Sender: TObject);
+var FormHistorico:TFTelaCadastroHistorico;
+begin
+  Application.CreateForm(TFTelaCadastroHistorico,FormHistorico);
+  FormHistorico.ShowModal;
+  FormHistorico.Close;
 end;
 
 procedure TFormMenu.NaturezaJurdica1Click(Sender: TObject);

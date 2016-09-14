@@ -1,0 +1,60 @@
+unit UContasPagarController;
+
+
+interface
+
+uses
+  Classes, SQLExpr, SysUtils, Generics.Collections, DBXJSON, DBXCommon,
+  ConexaoBD,
+  UPessoasVO, UController, DBClient, DB, UContasPagarVO, UPessoasController, UCondominioController,
+  UPlanoCOntasController, UCondominioVO, UPlanoContasVO;
+
+
+type
+  TContasPagarController = class(TController<TContasPagarVO>)
+  private
+
+  public
+    function ConsultarPorId(id: integer): TContasPagarVO;
+  end;
+
+implementation
+
+uses
+  UDao, Constantes, Vcl.Dialogs;
+
+function TContasPagarController.ConsultarPorId(id: integer): TContasPagarVO;
+var
+  P: TContasPagarVO;
+  condominioController : TCondominioController;
+  pessoaController : TPessoasController;
+  planoContasContaController : TPlanoContasController;
+  planoContasContraPController : TPlanoContasController;
+
+
+begin
+  P := TDAO.ConsultarPorId<TContasPagarVO>(id);
+  condominioController := TCondominioController.Create;
+  pessoaController := TPessoasController.Create;
+  PlanoContasContaController := TPlanoContasController.Create;
+//  PlanoContasContraPController := TPlanoContasController.Create;
+
+
+  if (P <> nil) then
+  begin
+      p.CondominioVO := TDAO.ConsultarPorId<TCondominioVO>(P.IdCondominio);
+      p.PessoaVO := TDAO.ConsultarPorId<TPessoasVO>(P.IdPessoa);
+      p.PlanoContasContaVO := TDAO.ConsultarPorId<TPlanoContasVO>(P.IdConta);
+      P.PlanoContasContraPartidaVO := TDao.ConsultarPorId<TPlanoContasVO>(P.IdContraPartida);
+  end;
+  pessoaController.Free;
+  PlanoContasContaController.Free;
+ // PlanoContasContraPController.Free;
+  condominioController.Free;
+
+  result := P;
+end;
+
+begin
+
+end.

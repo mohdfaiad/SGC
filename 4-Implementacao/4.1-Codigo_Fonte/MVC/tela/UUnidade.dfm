@@ -93,6 +93,10 @@ inherited FTelaCadastroUnidade: TFTelaCadastroUnidade
               TabOrder = 0
               object TabSheet1: TTabSheet
                 Caption = 'Unidades'
+                ExplicitLeft = 0
+                ExplicitTop = 0
+                ExplicitWidth = 0
+                ExplicitHeight = 0
                 object Panel1: TPanel
                   Left = -4
                   Top = 0

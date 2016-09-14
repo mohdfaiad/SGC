@@ -217,6 +217,18 @@
             <Form>FTelaCadastroContasPagar</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="VO\UHistoricoVO.pas"/>
+        <DCCReference Include="controle\UHistoricoController.pas"/>
+        <DCCReference Include="tela\UHistorico.pas">
+            <Form>FTelaCadastroHistorico</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="VO\UContasReceberVO.pas"/>
+        <DCCReference Include="controle\UContasReceberController.pas"/>
+        <DCCReference Include="tela\UContasReceber.pas">
+            <Form>FTelaCadastroContasReceber</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

@@ -24,15 +24,15 @@ uses
 function TUnidadeController.ConsultarPorId(id: integer): TUnidadeVO;
 var
   P: TUnidadeVO;
-  codominioController:TCondominioController;
+  //codominioController:TCondominioController;
 begin
   P := TDAO.ConsultarPorId<TUnidadeVO>(id);
-  codominioController:=TCondominioController.Create;
+  //codominioController:=TCondominioController.Create;
   if (P <> nil) then
   begin
-    P.CondominioVO := codominioController.ConsultarPorId(P.idCondominio);
+    P.CondominioVO := TDAO.ConsultarPorId<TCondominioVO>(P.idCondominio);
   end;
-  codominioController.Free;
+  //codominioController.Free;
   result := P;
 end;
 

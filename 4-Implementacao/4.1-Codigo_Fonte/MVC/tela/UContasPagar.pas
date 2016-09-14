@@ -7,7 +7,7 @@ uses
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, UtelaCadastro, Vcl.Buttons,
   Vcl.StdCtrls, Vcl.ExtCtrls, Vcl.ComCtrls, Vcl.Mask, Vcl.Grids, Vcl.DBGrids, UContasPagarVO,
   UContasPagarController, Generics.Collections, UEmpresaTrab, UPessoa, UPessoasVO,
-  UPlanoContas, UPlanoContasVO;
+  UPlanoContas, UPlanoContasVO,UPlanoContasController, UHistoricoController, UPessoasController,UGenericVO, UHistoricoVO, UHistorico;
 
 type
   TFTelaCadastroContasPagar = class(TFTelaCadastro)
@@ -30,12 +30,12 @@ type
     EditValor: TEdit;
     Label4: TLabel;
     LabeledEditComp: TLabeledEdit;
-    BtnConta: TSpeedButton;
-    BtnContra: TSpeedButton;
-    BtnHistorico: TSpeedButton;
     LabeledEditPessoa: TLabeledEdit;
     LabeledEditdsPessoa: TLabeledEdit;
-    BtnPessoa: TSpeedButton;
+    BtnPessoa: TBitBtn;
+    BtnConta: TBitBtn;
+    BtnContra: TBitBtn;
+    BtnHistorico: TBitBtn;
     procedure FormCreate(Sender: TObject);
     procedure BitBtnNovoClick(Sender: TObject);
     function DoSalvar: boolean; override;
@@ -46,6 +46,13 @@ type
     procedure BtnPessoaClick(Sender: TObject);
     procedure BtnContaClick(Sender: TObject);
     procedure BtnContraClick(Sender: TObject);
+    procedure LabeledEditPessoaExit(Sender: TObject);
+    procedure BtnHistoricoClick(Sender: TObject);
+    procedure LabeledEditContaExit(Sender: TObject);
+    procedure LabeledEditContraPExit(Sender: TObject);
+    procedure LabeledEditHistoricoExit(Sender: TObject);
+
+
   private
     { Private declarations }
   public
@@ -98,6 +105,21 @@ begin
     LabeledEditDsContra.Text := TPlanoContasVO(FormPlanoConsulta.ObjetoRetornoVO).dsConta;
   end;
   FormPlanoConsulta.Release;
+end;
+
+procedure TFTelaCadastroContasPagar.BtnHistoricoClick(Sender: TObject);
+var
+  FormHistorico: TFTelaCadastroHistorico;
+begin
+  FormHistorico := TFTelaCadastroHistorico.Create(nil);
+  FormHistorico.FechaForm := true;
+  FormHistorico.ShowModal;
+  if (FormHistorico.ObjetoRetornoVO <> nil) then
+  begin
+    LabeledEditHistorico.Text := IntToStr(THistoricoVO(FormHistorico.ObjetoRetornoVO).idHistorico);
+    LabeledEditDsHist.Text := THistoricoVO(FormHistorico.ObjetoRetornoVO).dsHistorico;
+  end;
+  FormHistorico.Release;
 end;
 
 procedure TFTelaCadastroContasPagar.BtnPessoaClick(Sender: TObject);
@@ -197,22 +219,22 @@ begin
   if(MaskEditVenc.Text<> '  /  /    ' )then
     ContasPagar.DtVencimento := StrToDateTime(MaskEditVenc.Text);
 
-  {ContasPagar.DtCompetencia := StrToDateTime(MaskEditComp.Text);
-  ContasPagar.DtEmissao := StrToDateTime(MaskEditEmissao.Text);
-  ContasPagar.DtVencimento := StrToDateTime(MaskEditVenc.Text);}
-
   ContasPagar.NrDocumento := LabeledEditDoc.Text;
   ContasPagar.VlValor := StrToFloat(EditValor.Text);
   ContasPagar.DsComplemento := LabeledEditComp.Text;
-  ContasPagar.IdContraPartida := StrToInt(LabeledEditContraP.Text);
 
   if(LabeledEditHistorico.Text<>'')then
     ContasPagar.IdHistorico := StrToInt(LabeledEditHistorico.Text);
 
   if(LabeledEditPessoa.Text<>'')then
     ContasPagar.IdPessoa := StrToInt(LabeledEditPessoa.Text);
+
   if(LabeledEditConta.Text<>'')then
     ContasPagar.IdConta := StrToInt(LabeledEditConta.Text);
+
+  if (LabeledEditContraP.Text<>'') then
+    ContasPagar.IdContraPartida := StrToInt(LabeledEditContraP.Text);
+
   Result := ContasPagar;
 end;
 
@@ -235,22 +257,145 @@ begin
 
   if ContasPagar <> nil then
   begin
-    LabeledEditPessoa.Text := IntToStr(ContasPagar.PessoaVo.idPessoa);
-    LabeledEditDsPessoa.Text := ContasPagar.PessoaVO.nome;
-    LabeledEditConta.Text := IntToStr(ContasPagar.PlanoContasVO.idConta);
-    LabeledEditDsConta.Text := ContasPagar.PlanoContasVO.dsConta;
-    LabeledEditContraP.Text := IntToStr(ContasPagar.PlanoContasVO.idConta);
-    LabeledEditDsContra.Text := ContasPagar.PlanoContasVO.dsConta;
- //   LabeledEditHistorico.Text := IntToStr(ContasPagar.HistoricoVO.idHistorico);
- //   LabeledEditDsHist.Text :=  ContasPagar.HistoricoVO.descricao;
+    if ContasPagar.PessoaVO <> nil then
+    begin
+      LabeledEditPessoa.Text := IntToStr(ContasPagar.PessoaVo.idPessoa);
+      LabeledEditDsPessoa.Text := ContasPagar.PessoaVO.nome;
+    end;
+    if (ContasPagar.PlanoContasContaVO <> nil ) then
+    begin
+      LabeledEditConta.Text := IntToStr(ContasPagar.PlanoContasContaVO.idPlanoContas);
+      LabeledEditDsConta.Text := ContasPagar.PlanoContasContaVO.dsConta;
+    end;
+    if ContasPagar.PlanoContasContraPartidaVO <> nil then
+    begin
+      LabeledEditContraP.Text := IntToStr(ContasPagar.PlanoContasContraPartidaVO.idPlanoContas);
+      LabeledEditDsContra.Text := ContasPagar.PlanoContasContraPartidaVO.dsConta;
+    end;
+    if ContasPagar.HistoricoVO <> nil then
+    begin
+      LabeledEditHistorico.Text := IntToStr(ContasPagar.HistoricoVO.idHistorico);
+      LabeledEditDsHist.Text :=  ContasPagar.HistoricoVO.DsHistorico;
+    end;
+
     EditValor.Text := FloatToStr(ContasPagar.VlValor);
     LabeledEditComp.Text := ContasPagar.DsComplemento;
+    LabeledEditDoc.Text := ContasPagar.NrDocumento;
+    MaskEditComp.Text := DateToStr(ContasPagar.DtCompetencia);
+    MaskEditEmissao.Text := DateToStr(ContasPagar.DtEmissao);
+    MaskEditVenc.Text := DateToStr(ContasPagar.DtVencimento);
+
+
+  end;
+end;
+
+procedure TFTelaCadastroContasPagar.LabeledEditContaExit(Sender: TObject);
+var
+  PlanoController:TPlanoContasController;
+  PlanoContasVO: TPlanoContasVO;
+begin
+  if LabeledEditConta.Text <> '' then
+  begin
+  try
+    PlanoController := TPlanoContasController.Create;
+    PlanoContasVO := PlanoController.ConsultarPorId(StrToInt(LabeledEditConta.Text));
+    LabeledEditDsConta.Text := PlanoContasVO.dsConta;
+    PlanoController.Free;
+  except
+    raise Exception.Create('Código Inválido');
+  end;
+  end
+  else
+  begin
+    LabeledEditDsConta.Text := '';
+  end;
+end;
+
+procedure TFTelaCadastroContasPagar.LabeledEditContraPExit(Sender: TObject);
+var
+  PlanoController:TPlanoContasController;
+  PlanoContasVO: TPlanoContasVO;
+begin
+  if LabeledEditContraP.Text <> '' then
+  begin
+  try
+    PlanoController := TPlanoContasController.Create;
+    PlanoContasVO := PlanoController.ConsultarPorId(StrToInt(LabeledEditContraP.Text));
+    LabeledEditDsContra.Text := PlanoContasVO.dsConta;
+    PlanoController.Free;
+  except
+    raise Exception.Create('Código Inválido');
+  end;
+  end
+  else
+  begin
+    LabeledEditDsContra.Text := '';
+  end;
+end;
+
+procedure TFTelaCadastroContasPagar.LabeledEditHistoricoExit(Sender: TObject);
+var
+  HistoricoController:THistoricoController;
+  HistoricoVO: THistoricoVO;
+begin
+  if LabeledEditHistorico.Text <> '' then
+  begin
+  try
+    HistoricoController := THistoricoController.Create;
+    HistoricoVO := HistoricoController.ConsultarPorId(StrToInt(LabeledEditHistorico.Text));
+    LabeledEditDsHist.Text := HistoricoVO.DsHistorico;
+    HistoricoController.Free;
+  Except
+    raise Exception.Create('Código Inválido');
+  end;
+  end
+  else
+  begin
+    LabeledEditDsHist.Text := '';
+  end;
+
+end;
+
+procedure TFTelaCadastroContasPagar.LabeledEditPessoaExit(Sender: TObject);
+var
+  PessoaController:TPessoasController;
+  PessoaVO: TPessoasVO;
+begin
+  if LabeledEditPessoa.Text <> '' then
+  begin
+  try
+    PessoaController := TPessoasController.Create;
+    PessoaVO := PessoaController.ConsultarPorId(StrToInt(LabeledEditPessoa.Text));
+    labeledEditDsPessoa.Text := PessoaVO.nome;
+    LabeledEditPessoa.Text := inttostr(PessoaVO.idPessoa);
+    PessoaController.Free;
+  except
+    raise Exception.Create('Código Inválido');
+  end;
+  end
+  else
+  begin
+    labeledEditDsPessoa.Text := '';
   end;
 end;
 
 function TFTelaCadastroContasPagar.MontaFiltro: string;
+var dataini,datafim:string;
 begin
-  Result :='';
+  dataini:='01.01.0001';
+  datafim:='31.12.2999';
+  if(MaskEdit1.Text<>'  /  /    ')then
+    dataini:=  StringReplace(MaskEdit1.Text,'/','.',[rfReplaceAll]);
+  if(MaskEdit2.Text<>'  /  /    ')then
+    datafim:=  StringReplace(MaskEdit2.Text,'/','.',[rfReplaceAll]);
+
+  Result :=' ( IDCONDOMINIO = '+inttostr(FormEmpresaTrab.CodigoEmpLogada)+ ' ) ';
+  Result := Result+ ' AND ( DtVencimento >='+QuotedStr(dataini)+
+                            ' AND DTVENCIMENTO <= '+QuotedStr(datafim)+' ) ';
+  if(editbusca.Text<>'')then
+    Result:= result+ ' AND Upper(Nome) like '+QuotedStr('%'+Uppercase(EditBusca.Text)+'%');
+
+
 end;
 
 end.

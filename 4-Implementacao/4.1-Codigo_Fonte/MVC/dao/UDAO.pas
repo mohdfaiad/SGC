@@ -544,6 +544,7 @@ var
 begin
   try
     try
+      Obj:=nil;
       Result := nil;
       ObjConsulta := TClass(T).Create;
       Contexto := TRttiContext.Create;

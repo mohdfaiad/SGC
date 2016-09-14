@@ -62,7 +62,13 @@ uses
   UTemplateFcx in 'tela\UTemplateFcx.pas' {FTelaCadastroTemplateFcx},
   UContasPagarVO in 'VO\UContasPagarVO.pas',
   UContasPagarController in 'controle\UContasPagarController.pas',
-  UContasPagar in 'tela\UContasPagar.pas' {FTelaCadastroContasPagar};
+  UContasPagar in 'tela\UContasPagar.pas' {FTelaCadastroContasPagar},
+  UHistoricoVO in 'VO\UHistoricoVO.pas',
+  UHistoricoController in 'controle\UHistoricoController.pas',
+  UHistorico in 'tela\UHistorico.pas' {FTelaCadastroHistorico},
+  UContasReceberVO in 'VO\UContasReceberVO.pas',
+  UContasReceberController in 'controle\UContasReceberController.pas',
+  UContasReceber in 'tela\UContasReceber.pas' {FTelaCadastroContasReceber};
 
 {$R *.res}
 
@@ -78,5 +84,7 @@ begin
   Application.CreateForm(TFTelaCadastroTemplateDre, FTelaCadastroTemplateDre);
   Application.CreateForm(TFTelaCadastroTemplateFcx, FTelaCadastroTemplateFcx);
   Application.CreateForm(TFTelaCadastroContasPagar, FTelaCadastroContasPagar);
+  Application.CreateForm(TFTelaCadastroHistorico, FTelaCadastroHistorico);
+  Application.CreateForm(TFTelaCadastroContasReceber, FTelaCadastroContasReceber);
   Application.Run;
 end.

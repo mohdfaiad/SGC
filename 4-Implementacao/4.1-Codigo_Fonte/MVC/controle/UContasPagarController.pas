@@ -6,7 +6,8 @@ interface
 uses
   Classes, SQLExpr, SysUtils, Generics.Collections, DBXJSON, DBXCommon,
   ConexaoBD,
-  UPessoasVO, UController, DBClient, DB, UContasPagarVO, UPessoasController, UCondominioController;
+  UPessoasVO, UController, DBClient, DB, UContasPagarVO, UPessoasController, UCondominioController,
+  UPlanoCOntasController, UCondominioVO, UPlanoContasVO, UHistoricoVO;
 
 
 type
@@ -25,27 +26,26 @@ uses
 function TContasPagarController.ConsultarPorId(id: integer): TContasPagarVO;
 var
   P: TContasPagarVO;
-  condominioController : TCondominioController;
-  pessoaController : TPessoasController;
+
+
 
 begin
   P := TDAO.ConsultarPorId<TContasPagarVO>(id);
-  condominioController := TCondominioController.Create;
-  pessoaController := TPessoasController.Create;
 
 
   if (P <> nil) then
   begin
-      p.CondominioVO := condominioController.ConsultarPorId(p.idcondominio);
-      p.PessoaVO := pessoaController.ConsultarPorId(p.IdPessoa);
-
+      p.CondominioVO := TDAO.ConsultarPorId<TCondominioVO>(P.IdCondominio);
+      p.PessoaVO := TDAO.ConsultarPorId<TPessoasVO>(P.IdPessoa);
+      p.PlanoContasContaVO := TDAO.ConsultarPorId<TPlanoContasVO>(P.IdConta);
+      P.PlanoContasContraPartidaVO := TDao.ConsultarPorId<TPlanoContasVO>(P.IdContraPartida);
+      p.HistoricoVO := TDao.ConsultarPorId<THistoricoVO>(P.IdHistorico);
   end;
 
-  condominioController.Free;
-  pessoaController.Free;
+
   result := P;
 end;
-begin
 
+begin
 
 end.
