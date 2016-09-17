@@ -99,7 +99,7 @@ begin
     PlanoContas:=EditsToObject(TPlanoContasVo.Create);
     try
       try
-        if (PlanoContas.ValidarCamposObrigatorios()) then
+        PlanoContas.ValidarCamposObrigatorios();
         begin
            if (StatusTela = stInserindo) then
            begin
@@ -114,10 +114,10 @@ begin
             PlanoContas := EditsToObject(PlanoContas);
             PlanoContasController.Alterar(PlanoContas);
             Result := true;
-          end;
-        end
+          end
         else
           Result := false;
+        end;
       except
         on E: Exception do
         begin

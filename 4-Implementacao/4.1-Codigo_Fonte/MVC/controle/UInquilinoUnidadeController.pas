@@ -31,7 +31,7 @@ begin
 
   if (P <> nil) then
   begin
-      p.PessoaVo := pessoacontroller.ConsultarPorId(p.idinquilino);
+      p.PessoaVo := pessoacontroller.ConsultarPorId(p.idPessoa);
   end;
   pessoaController.Free;
   result := P;

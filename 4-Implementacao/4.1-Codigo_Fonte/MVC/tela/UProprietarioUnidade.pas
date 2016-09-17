@@ -18,9 +18,6 @@ type
     MaskEditDtInicio: TMaskEdit;
     LabelNome: TLabel;
     Label1: TLabel;
-    GroupBox2: TGroupBox;
-    RadioButton1: TRadioButton;
-    RadioButton2: TRadioButton;
     procedure btnConsultaPessoaClick(Sender: TObject);
     function MontaFiltro: string;
     procedure FormCreate(Sender: TObject);
@@ -89,7 +86,7 @@ begin
   try
     try
       ProprietarioUnidade := TProprietarioUnidadeVo.Create;
-      ProprietarioUnidade.idproprietario := CDSGrid.FieldByName('IDPROPRIETARIO')
+      ProprietarioUnidade.idproprietarioUnidade := CDSGrid.FieldByName('IDPROPRIETARIOUNIDADE')
         .AsInteger;
       ProprietarioUnidadeController.Excluir(ProprietarioUnidade);
     except
@@ -110,9 +107,8 @@ var
 begin
     ProprietarioUnidade:=EditsToObject(TProprietarioUnidadeVo.Create);
     try
-      try
-        if (ProprietarioUnidade.ValidarCamposObrigatorios()) then
-        begin
+      Try
+        ProprietarioUnidade.ValidarCamposObrigatorios();
           if (StatusTela = stInserindo) then
           begin
             ProprietarioUnidade.idUnidade := idunidade;
@@ -121,15 +117,12 @@ begin
           end
           else if (StatusTela = stEditando) then
           begin
-            ProprietarioUnidade := ProprietarioUnidadeController.ConsultarPorId(CDSGrid.FieldByName('IDPROPRIETARIO')
+            ProprietarioUnidade := ProprietarioUnidadeController.ConsultarPorId(CDSGrid.FieldByName('IDPROPRIETARIOUNIDADE')
               .AsInteger);
             ProprietarioUnidade := EditsToObject(ProprietarioUnidade);
             ProprietarioUnidadeController.Alterar(ProprietarioUnidade);
             Result := true;
-         end;
-        end
-        else
-          Result := false;
+          end;
       except
         on E: Exception do
         begin
@@ -147,8 +140,7 @@ var
 
 begin
   if(LabelEditCodigo.Text<>'')then
-    ProprietarioUndiade.idproprietario := StrToInt(LabelEditCodigo.text);
-  ProprietarioUndiade.IdUnidade := idunidade;
+    ProprietarioUndiade.idPessoa := StrToInt(LabelEditCodigo.text);
   if(MaskEditDtInicio.Text<> '  /  /    ' )then
    ProprietarioUndiade.DtInicio := StrToDateTime(MaskEditDtInicio.Text);
   result := ProprietarioUndiade;
@@ -158,7 +150,7 @@ end;
 procedure TFTelaCadastroProprietario.FormCreate(Sender: TObject);
 begin
   ClasseObjetoGridVO := TProprietarioUnidadeVo;
-  RadioButton2.Checked := true;
+
 
   inherited;
 
@@ -172,11 +164,11 @@ begin
 
   if not CDSGrid.IsEmpty then
     ProprietarioUnidade := ProprietarioUnidadeController.ConsultarPorId
-      (CDSGrid.FieldByName('IDPROPRIETARIO').AsInteger);
+      (CDSGrid.FieldByName('IDPROPRIETARIOUNIDADE').AsInteger);
 
   if Assigned(ProprietarioUnidade) then
   begin
-    LabelEditCodigo.Text := IntToStr(ProprietarioUnidade.idproprietario);
+    LabelEditCodigo.Text := IntToStr(ProprietarioUnidade.idPessoa);
     LabelNome.Caption := ProprietarioUnidade.PessoaVo.nome;
     MaskEditDtInicio.Text := datetostr(ProprietarioUnidade.DtInicio);
   end;
@@ -185,20 +177,8 @@ end;
 function TFTelaCadastroProprietario.MontaFiltro: string;
 begin
  Result := ' (IDUNIDADE = '+inttostr(Idunidade)+')';
- {if (RadioButton2.Checked = true) then
-  begin
-    if (editBusca.Text <> '') then
-      Result := '( UPPER(IDPROPRIETARIO) LIKE ' +
-      QuotedStr('%' + UpperCase(editBusca.Text) + '%') + ' ) ';
-  end;
- { else if (RadioButtonDescricao.Checked = true) then
-  begin
-    if (editBusca.Text <> '') then
-      Result := '( UPPER(DESCRICAO) LIKE ' +
-        QuotedStr('%' + UpperCase(editBusca.Text) + '%') + ' ) ';
-  end;          }
+
+ if (editBusca.Text <> '') then
+     Result:= result+ ' AND Upper(Nome) like '+QuotedStr('%'+Uppercase(EditBusca.Text)+'%')
 end;
-
-
-
 end.

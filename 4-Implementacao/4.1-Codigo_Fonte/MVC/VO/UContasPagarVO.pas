@@ -26,6 +26,7 @@ type
     FNomePessoa : string;
 
 
+
   public
 
     CondominioVO : TCondominioVO;
@@ -41,10 +42,10 @@ type
 
     [TColumn('DtCompetencia','Data Competencia',50,[ldLookup,ldComboBox], False)]
     property DtCompetencia: TDateTime  read FDtCompetencia write FDtCompetencia;
-    [TColumn('DtEmissao','Data Emissão',50,[ldGrid,ldLookup,ldComboBox], False)]
-    property DtEmissao: TDateTime  read FDtEmissao write FDtEmissao;
     [TColumn('DtVencimento','Data Vencimento',50,[ldGrid,ldLookup,ldComboBox], False)]
     property DtVencimento: TDateTime  read FDtVencimento write FDtVencimento;
+    [TColumn('DtEmissao','Data Emissão',50,[ldGrid,ldLookup,ldComboBox], False)]
+    property DtEmissao: TDateTime  read FDtEmissao write FDtEmissao;
     [TColumn('NrDocumento','Documento',100,[ldGrid,ldLookup,ldComboBox], False)]
     property NrDocumento: string  read FNrDocumento write FNrDocumento;
     // Atributos Transientes
@@ -67,17 +68,27 @@ type
     [TColumn('IdContraPartida','Id Contra Partida',0,[ldLookup,ldComboBox], False)]
     property IdContraPartida: Integer  read FIdContraPartida write FIdContraPartida;
 
-
-    Function ValidarCamposObrigatorios:boolean;
+    procedure ValidarCampos;
 
   end;
 implementation
 
 
 
-function TContasPagarVO.ValidarCamposObrigatorios: boolean;
+procedure TContasPagarVO.ValidarCampos;
 begin
-  Result := true;
+  if (Self.FDtCompetencia = 0 ) then
+    raise Exception.Create('O campo Data Competencia é obrigatório!');
+  if (Self.FDtEmissao = 0) then
+    raise Exception.Create('O campo Data Emissão é obrigatório!');
+  if (Self.FNrDocumento= '') then
+    raise Exception.Create('O campo Documento é obrigatório!');
+  if (Self.FDtCompetencia = 0) then
+   raise Exception.Create('O campo Data Vencimento é obrigatório!');
+  if (Self.FVlValor= 0) then
+    raise Exception.Create('O campo Valor é obrigatório!');
 end;
+
+
 end.
 

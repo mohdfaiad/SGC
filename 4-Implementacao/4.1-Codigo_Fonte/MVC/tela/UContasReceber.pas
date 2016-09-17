@@ -18,20 +18,26 @@ type
     Label3: TLabel;
     LabeledEditDoc: TLabeledEdit;
     LabeledEditPessoa: TLabeledEdit;
-    LabeledEditdsPessoa: TLabeledEdit;
     LabeledEditConta: TLabeledEdit;
-    LabeledEditDsConta: TLabeledEdit;
     LabeledEditContraP: TLabeledEdit;
-    LabeledEditDsContra: TLabeledEdit;
     BtnContra: TBitBtn;
     BtnConta: TBitBtn;
     BtnPessoa: TBitBtn;
     LabeledEditHistorico: TLabeledEdit;
-    LabeledEditDsHist: TLabeledEdit;
     BtnHistorico: TBitBtn;
     EditValor: TEdit;
     LabeledEditComp: TLabeledEdit;
     Label4: TLabel;
+    GroupBox2: TGroupBox;
+    MaskEdit1: TMaskEdit;
+    MaskEdit2: TMaskEdit;
+    GroupBox3: TGroupBox;
+    RadioButtonValor: TRadioButton;
+    RadioButtonDoc: TRadioButton;
+    LabeledEditDsPessoa: TEdit;
+    LabeledEditDsConta: TEdit;
+    LabeledEditDsContra: TEdit;
+    LabeledEditDsHist: TEdit;
  procedure FormCreate(Sender: TObject);
     procedure BitBtnNovoClick(Sender: TObject);
     function DoSalvar: boolean; override;
@@ -127,7 +133,7 @@ begin
   if (FormUnidadeConsulta.ObjetoRetornoVO <> nil) then
   begin
     LabeledEditPessoa.Text := IntToStr(TUnidadeVO(FormPessoaConsulta.ObjetoRetornoVO).idUnidade);
-//    LabeledEditDsPessoa.Text := TUnidadeVO(FormPessoaConsulta.ObjetoRetornoVO).nome;
+    LabeledEditDsPessoa.Text := TUnidadeVO(FormPessoaConsulta.ObjetoRetornoVO).DsUnidade;
   end;
   FormUnidadeConsulta.Release;
 end;
@@ -172,8 +178,7 @@ begin
     ContasReceber:=EditsToObject(TContasReceberVo.Create);
     try
       try
-        if (ContasReceber.ValidarCamposObrigatorios()) then
-        begin
+        ContasReceber.ValidarCamposObrigatorios();
            if (StatusTela = stInserindo) then
            begin
               ContasReceber.idcondominio := FormEmpresaTrab.CodigoEmpLogada;
@@ -187,8 +192,7 @@ begin
             ContasReceber := EditsToObject(ContasReceber);
             ContasReceberController.Alterar(ContasReceber);
             Result := true;
-          end;
-        end
+          end
         else
           Result := false;
       except
@@ -212,9 +216,14 @@ begin
   if(MaskEditVenc.Text<> '  /  /    ' )then
     ContasReceber.DtVencimento := StrToDateTime(MaskEditVenc.Text);
 
-  ContasReceber.NrDocumento := LabeledEditDoc.Text;
-  ContasReceber.VlValor := StrToFloat(EditValor.Text);
-  ContasReceber.DsComplemento := LabeledEditComp.Text;
+  if (LabeledEditDoc.Text <> '') then
+    ContasReceber.NrDocumento := LabeledEditDoc.Text;
+
+  if (EditValor.Text <> '') then
+    ContasReceber.VlValor := StrToFloat(EditValor.Text);
+
+  if (LabeledEditComp.Text <> '') then
+    ContasReceber.DsComplemento := LabeledEditComp.Text;
 
   if(LabeledEditHistorico.Text<>'')then
     ContasReceber.IdHistorico := StrToInt(LabeledEditHistorico.Text);
@@ -292,6 +301,8 @@ begin
     PlanoContasVO := PlanoController.ConsultarPorId(StrToInt(LabeledEditConta.Text));
     LabeledEditDsConta.Text := PlanoContasVO.dsConta;
     PlanoController.Free;
+    LabeledEditPessoa.Enabled := false;
+    BtnPessoa.Enabled := false;
   except
     raise Exception.Create('Código Inválido');
   end;
@@ -299,6 +310,8 @@ begin
   else
   begin
     LabeledEditDsConta.Text := '';
+    LabeledEditPessoa.Enabled := true;
+    BtnPessoa.Enabled := true;
   end;
 end;
 
@@ -350,15 +363,17 @@ procedure TFTelaCadastroContasReceber.LabeledEditPessoaExit(Sender: TObject);
 var
   UnidadeController:TUnidadeController;
   UnidadeVO: TUnidadeVO;
-begin  {
+begin
   if LabeledEditPessoa.Text <> '' then
   begin
   try
-    PessoaController := TUnidadeController.Create;
-    UnidadeVO := PessoaController.ConsultarPorId(StrToInt(LabeledEditPessoa.Text));
-    labeledEditDsPessoa.Text := UnidadeVO.nome;
-    LabeledEditPessoa.Text := inttostr(UnidadeVO.idPessoa);
-    PessoaController.Free;
+    UnidadeController := TUnidadeController.Create;
+    UnidadeVO := UnidadeController.ConsultarPorId(StrToInt(LabeledEditPessoa.Text));
+    labeledEditDsPessoa.Text := UnidadeVO.DsUnidade;
+    LabeledEditPessoa.Text := inttostr(UnidadeVO.idUnidade);
+    UnidadeController.Free;
+    LabeledEditConta.Enabled := false;
+    BtnConta.Enabled := false;
   except
     raise Exception.Create('Código Inválido');
   end;
@@ -366,12 +381,44 @@ begin  {
   else
   begin
     labeledEditDsPessoa.Text := '';
-  end;    }
+    LabeledEditConta.Enabled := true;
+    BtnConta.Enabled := true;
+  end;
 end;
 
 function TFTelaCadastroContasReceber.MontaFiltro: string;
+var dataini,datafim:string;
 begin
+  dataini:='01.01.0001';
+  datafim:='31.12.2999';
+  if(MaskEdit1.Text<>'  /  /    ')then
+    dataini:=  StringReplace(MaskEdit1.Text,'/','.',[rfReplaceAll]);
+  if(MaskEdit2.Text<>'  /  /    ')then
+    datafim:=  StringReplace(MaskEdit2.Text,'/','.',[rfReplaceAll]);
+
   Result :=' ( IDCONDOMINIO = '+inttostr(FormEmpresaTrab.CodigoEmpLogada)+ ' ) ';
+  Result := Result+ ' AND ( DtVencimento >='+QuotedStr(dataini)+
+                            ' AND DTVENCIMENTO <= '+QuotedStr(datafim)+' ) ';
+ { if(editbusca.Text<>'')then
+    Result:= result+ ' AND Upper(Nome) like '+QuotedStr('%'+Uppercase(EditBusca.Text)+'%');
+if (RadioButtonPessoa.Checked = true) then
+ begin
+  if(editbusca.Text<>'')then
+    Result:= result+ ' AND Upper(Nome) like '+QuotedStr('%'+Uppercase(EditBusca.Text)+'%')
+ end     }
+ if  (RadioButtonValor.Checked = true) then
+ begin
+  if (editBusca.Text <> '') then
+      Result := result + ' and ( UPPER(VLVALOR) LIKE ' +
+        QuotedStr('%' + UpperCase(editBusca.Text) + '%') + ' ) ';
+ end
+ else if (RadioButtonDoc.Checked = true) then
+ begin
+  if (editBusca.Text <> '') then
+      Result := result + ' AND ( UPPER(NRDOCUMENTO) LIKE ' +
+        QuotedStr('%' + UpperCase(editBusca.Text) + '%') + ' ) ';
+  end;
+
 end;
 
 end.

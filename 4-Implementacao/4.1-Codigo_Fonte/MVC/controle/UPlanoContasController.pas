@@ -13,7 +13,9 @@ type
   private
 
   public
+
     function ConsultarPorId(id: integer): TPlanoContasVO;
+   // function Inserir(Objeto: TPlanoContasController): integer; override;
   end;
 
 implementation
@@ -47,6 +49,15 @@ begin
  // pessoaController.Free;
   result := P;
 end;
+{function TPlanoContasController.Inserir(
+  Objeto: TPlanoContasController): integer;
+var  classificacao : string;
+begin
+  classificacao := 'select classificacao from planocontas';
+  TDAO.Consultar(classificacao);
+  Result := TDAO.Inserir(Objeto);
+end;
+               }
 begin
 
 

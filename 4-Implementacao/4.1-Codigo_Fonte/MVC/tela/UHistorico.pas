@@ -98,24 +98,20 @@ begin
     Historico:=EditsToObject(THistoricoVO.Create);
     try
       try
-        if (Historico.ValidarCamposObrigatorios()) then
+        Historico.ValidarCamposObrigatorios();
+        if (StatusTela = stInserindo) then
         begin
-          if (StatusTela = stInserindo) then
-          begin
-            HistoricoController.Inserir(Historico);
-            Result := true;
-          end
-          else if (StatusTela = stEditando) then
-          begin
-            Historico := HistoricoController.ConsultarPorId(CDSGrid.FieldByName('IDHISTORICO')
-              .AsInteger);
-            Historico := EditsToObject(Historico);
-            HistoricoController.Alterar(Historico);
-            Result := true;
-          end;
+          HistoricoController.Inserir(Historico);
+          result := true;
         end
-        else
-          Result := false;
+        else if (StatusTela = stEditando) then
+        begin
+          Historico := HistoricoController.ConsultarPorId(CDSGrid.FieldByName('IDHISTORICO')
+            .AsInteger);
+          Historico := EditsToObject(Historico);
+          HistoricoController.Alterar(Historico);
+          Result := true;
+        end
       except
         on E: Exception do
         begin
@@ -125,7 +121,6 @@ begin
       end;
     finally
     end;
-
 end;
 
 function TFTelaCadastroHistorico.EditsToObject(

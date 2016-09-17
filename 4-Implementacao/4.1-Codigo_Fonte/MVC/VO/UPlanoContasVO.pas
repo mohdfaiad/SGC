@@ -44,25 +44,35 @@ type
     property idPessoa: integer  read FidPessoa write FidPessoa;
 
 
-    Function ValidarCamposObrigatorios:boolean;
+    Procedure ValidarCamposObrigatorios;
+    Function Classificacao(Str: String): String;
 
   end;
 implementation
 
 
 
-function TPlanoContasVO.ValidarCamposObrigatorios: boolean;
+function TPlanoContasVO.Classificacao(Str: String): String;
 begin
-  Result := true;
+begin
+  if (Self.FflTipo = '0' ) then
+
+  else
+    if Length(Str)=14 then
+       Result:='99.999.999/9999-99;0; '
+     else Result:='99999999999999;0; ';
+end;
+end;
+
+Procedure TPlanoContasVO.ValidarCamposObrigatorios;
+begin
   if (Self.FdsConta = '') then
   begin
     raise Exception.Create('O campo Descrição é obrigatório!');
-    Result := false;
   end
   else if (self.FnrClassificacao = '') then
   begin
     raise Exception.Create('O campo Classificação é obrigatório!');
-    Result := false;
   end;
 end;
 end.

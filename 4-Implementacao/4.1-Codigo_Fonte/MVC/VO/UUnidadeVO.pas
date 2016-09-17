@@ -2,7 +2,7 @@ unit UUnidadeVO;
 
 Interface
 
-uses Atributos, Classes, Constantes, Generics.Collections, SysUtils, UGenericVO,UCnaeVO, UCondominioVO;
+uses Atributos, Classes, Constantes, Generics.Collections, SysUtils, UGenericVO,UCnaeVO, UCondominioVO, UProprietarioUnidadeVO;
 
 type
   [TEntity]
@@ -16,12 +16,15 @@ type
     Fidcondominio: Integer;
     Fnumero : Integer;
     Fobservacao : String;
+    FDsUnidade : String;
   public
     CondominioVO : TCondominioVO;
 
     [TId('idunidade')]
     [TGeneratedValue(sAuto)]
     property idUnidade: Integer  read Fidunidade write Fidunidade;
+    [TColumn('dsunidade','Descrição',500,[ldGrid,ldLookup,ldComboBox], False)]
+    property DsUnidade: String  read FDsUnidade write FDsUnidade;
     [TColumn('vlgasinicial','Gás Inicial',130,[ldLookup,ldComboBox], False)]
     property vlgasinicial: currency  read Fvlgasinicial write Fvlgasinicial;
     [TColumn('vlareatotal','Área Total',50,[ldGrid,ldLookup,ldComboBox], False)]
@@ -34,6 +37,9 @@ type
     property numero: Integer  read Fnumero write Fnumero;
     [TColumn('observacao','Observação',500,[ldLookup,ldComboBox], False)]
     property observacao: String  read Fobservacao write Fobservacao;
+
+
+
 
     procedure ValidarCampos;
 

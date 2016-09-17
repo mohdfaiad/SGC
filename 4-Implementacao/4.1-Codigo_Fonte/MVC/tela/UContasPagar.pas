@@ -11,7 +11,7 @@ uses
 
 type
   TFTelaCadastroContasPagar = class(TFTelaCadastro)
-    GroupBox2: TGroupBox;
+    Vencimento: TGroupBox;
     MaskEdit1: TMaskEdit;
     MaskEdit2: TMaskEdit;
     MaskEditComp: TMaskEdit;
@@ -22,20 +22,24 @@ type
     Label3: TLabel;
     LabeledEditDoc: TLabeledEdit;
     LabeledEditConta: TLabeledEdit;
-    LabeledEditDsConta: TLabeledEdit;
     LabeledEditContraP: TLabeledEdit;
-    LabeledEditDsContra: TLabeledEdit;
     LabeledEditHistorico: TLabeledEdit;
-    LabeledEditDsHist: TLabeledEdit;
     EditValor: TEdit;
     Label4: TLabel;
     LabeledEditComp: TLabeledEdit;
     LabeledEditPessoa: TLabeledEdit;
-    LabeledEditdsPessoa: TLabeledEdit;
     BtnPessoa: TBitBtn;
     BtnConta: TBitBtn;
     BtnContra: TBitBtn;
     BtnHistorico: TBitBtn;
+    GroupBox3: TGroupBox;
+    RadioButtonValor: TRadioButton;
+    RadioButtonPessoa: TRadioButton;
+    RadioButtonDoc: TRadioButton;
+    LabeledEditdsPessoa: TEdit;
+    LabeledEditDsConta: TEdit;
+    LabeledEditDsContra: TEdit;
+    LabeledEditDsHist: TEdit;
     procedure FormCreate(Sender: TObject);
     procedure BitBtnNovoClick(Sender: TObject);
     function DoSalvar: boolean; override;
@@ -172,31 +176,26 @@ end;
 
 function TFTelaCadastroContasPagar.DoSalvar: boolean;
 var
-  ContasPagar : TContasPagarVo;
+  ContasPagar: TContasPagarVO;
 begin
-  begin
-    ContasPagar:=EditsToObject(TContasPagarVo.Create);
+    ContasPagar:=EditsToObject(TContasPagarVO.Create);
     try
       try
-        if (ContasPagar.ValidarCamposObrigatorios()) then
+        ContasPagar.ValidarCampos();
+        if (StatusTela = stInserindo) then
         begin
-           if (StatusTela = stInserindo) then
-           begin
-              ContasPagar.idcondominio := FormEmpresaTrab.CodigoEmpLogada;
-              ContasPagarController.Inserir(ContasPagar);
-              Result := true;
-           end
-            else if (StatusTela = stEditando) then
-             begin
-            ContasPagar := ContasPagarController.ConsultarPorId(CDSGrid.FieldByName('IDCONTASPAGAR')
-              .AsInteger);
-            ContasPagar := EditsToObject(ContasPagar);
-            ContasPagarController.Alterar(ContasPagar);
-            Result := true;
-          end;
+          ContasPagar.idcondominio := FormEmpresaTrab.CodigoEmpLogada;
+          ContasPagarController.Inserir(ContasPagar);
+          result := true;
         end
-        else
-          Result := false;
+        else if (StatusTela = stEditando) then
+        begin
+          ContasPagar := ContasPagarController.ConsultarPorId(CDSGrid.FieldByName('IDCONTASPAGAR')
+            .AsInteger);
+          ContasPagar := EditsToObject(ContasPagar);
+          ContasPagarController.Alterar(ContasPagar);
+          Result := true;
+        end
       except
         on E: Exception do
         begin
@@ -207,7 +206,7 @@ begin
     finally
     end;
 end;
-end;
+
 
 function TFTelaCadastroContasPagar.EditsToObject(
   ContasPagar: TContasPagarVO): TContasPagarVO;
@@ -218,11 +217,12 @@ begin
     ContasPagar.DtEmissao := StrToDateTime(MaskEditEmissao.Text);
   if(MaskEditVenc.Text<> '  /  /    ' )then
     ContasPagar.DtVencimento := StrToDateTime(MaskEditVenc.Text);
-
-  ContasPagar.NrDocumento := LabeledEditDoc.Text;
-  ContasPagar.VlValor := StrToFloat(EditValor.Text);
-  ContasPagar.DsComplemento := LabeledEditComp.Text;
-
+  if (LabeledEditDoc.Text <> '') then
+    ContasPagar.NrDocumento := LabeledEditDoc.Text;
+  if (EditValor.Text <> '') then
+    ContasPagar.VlValor := StrToFloat(EditValor.Text);
+  if (LabeledEditComp.Text <> '') then
+    ContasPagar.DsComplemento := LabeledEditComp.Text;
   if(LabeledEditHistorico.Text<>'')then
     ContasPagar.IdHistorico := StrToInt(LabeledEditHistorico.Text);
 
@@ -301,6 +301,8 @@ begin
     PlanoContasVO := PlanoController.ConsultarPorId(StrToInt(LabeledEditConta.Text));
     LabeledEditDsConta.Text := PlanoContasVO.dsConta;
     PlanoController.Free;
+    LabeledEditPessoa.Enabled := false;
+    BtnPessoa.Enabled := false;
   except
     raise Exception.Create('Código Inválido');
   end;
@@ -308,6 +310,8 @@ begin
   else
   begin
     LabeledEditDsConta.Text := '';
+    LabeledEditPessoa.Enabled := true;
+    BtnPessoa.Enabled := true;
   end;
 end;
 
@@ -369,6 +373,8 @@ begin
     labeledEditDsPessoa.Text := PessoaVO.nome;
     LabeledEditPessoa.Text := inttostr(PessoaVO.idPessoa);
     PessoaController.Free;
+    LabeledEditConta.Enabled := false;
+    BtnConta.Enabled := false;
   except
     raise Exception.Create('Código Inválido');
   end;
@@ -376,6 +382,8 @@ begin
   else
   begin
     labeledEditDsPessoa.Text := '';
+    labeledEditConta.Enabled := true;
+    BtnConta.Enabled := true;
   end;
 end;
 
@@ -392,8 +400,25 @@ begin
   Result :=' ( IDCONDOMINIO = '+inttostr(FormEmpresaTrab.CodigoEmpLogada)+ ' ) ';
   Result := Result+ ' AND ( DtVencimento >='+QuotedStr(dataini)+
                             ' AND DTVENCIMENTO <= '+QuotedStr(datafim)+' ) ';
+ if (RadioButtonPessoa.Checked = true) then
+ begin
   if(editbusca.Text<>'')then
-    Result:= result+ ' AND Upper(Nome) like '+QuotedStr('%'+Uppercase(EditBusca.Text)+'%');
+    Result:= result+ ' AND Upper(Nome) like '+QuotedStr('%'+Uppercase(EditBusca.Text)+'%')
+ end
+ else if  (RadioButtonValor.Checked = true) then
+ begin
+  if (editBusca.Text <> '') then
+      Result := result + ' and ( UPPER(VLVALOR) LIKE ' +
+        QuotedStr('%' + UpperCase(editBusca.Text) + '%') + ' ) ';
+ end
+ else if (RadioButtonDoc.Checked = true) then
+ begin
+  if (editBusca.Text <> '') then
+      Result := result + ' AND ( UPPER(NRDOCUMENTO) LIKE ' +
+        QuotedStr('%' + UpperCase(editBusca.Text) + '%') + ' ) ';
+  end;
+
+
 
 
 end;

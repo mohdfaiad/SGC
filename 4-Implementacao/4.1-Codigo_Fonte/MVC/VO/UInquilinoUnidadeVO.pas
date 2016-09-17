@@ -9,21 +9,30 @@ type
   [TTable('InquilinoUnidade')]
   TInquilinoUnidadeVO = class(TGenericVO)
   private
-    FidInquilino: Integer;
+    FidInquilinounidade: Integer;
     FidUnidade: Integer;
+    FidPessoa : Integer;
     FdtInicio : TdateTime;
+    FNomePessoa : string;
+
 
   public
     CondominioVO : TCondominioVO;
     PessoaVo : TPessoasVO;
 
-    [TId('idinquilino')]
+    [TId('idinquilinounidade')]
     [TGeneratedValue(sAuto)]
-    property idInquilino: Integer  read FidInquilino write FidInquilino;
-    [TColumn('idunidade','Unidade',50,[ldGrid,ldLookup,ldComboBox], False)]
+    property idInquilinounidade: Integer  read FidInquilinounidade write FidInquilinounidade;
+    [TColumn('nome','Pessoa',500,[ldGrid], True, 'Pessoa', 'idPessoa', 'idPessoa')]
+    property NomePessoa: string  read FNomePessoa write FNomePessoa;
+    [TColumn('idunidade','Unidade',50,[ldLookup,ldComboBox], False)]
     property IdUnidade: Integer  read FidUnidade write FidUnidade;
-    [TColumn('DtInicio','Data Inicio',0,[ldLookup,ldComboBox], False)]
+    [TColumn('idpessoa','id Pessoa',50,[ldLookup,ldComboBox], False)]
+    property idPessoa: Integer  read FidPessoa write FidPessoa;
+    [TColumn('DtInicio','Data Inicio',70,[ldGrid,ldLookup,ldComboBox], False)]
     property DtInicio: TDateTime  read FdtInicio write FdtInicio;
+
+
 
     procedure ValidarCampos;
 
@@ -36,7 +45,7 @@ type
 procedure TInquilinoUnidadeVO.ValidarCampos;
 begin
 
-  if (Self.FidInquilino = 0) then
+  if (Self.FidPessoa = 0) then
   begin
     raise Exception.Create('O campo Inquilino é obrigatório!');
 

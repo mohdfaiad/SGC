@@ -4,8 +4,6 @@ inherited FTelaCadastroPlano: TFTelaCadastroPlano
   TextHeight = 13
   inherited PageControl: TPageControl
     inherited Consulta: TTabSheet
-      ExplicitLeft = 4
-      ExplicitTop = 24
       inherited Panel2: TPanel
         inherited GroupBox1: TGroupBox
           Left = 292
@@ -48,16 +46,8 @@ inherited FTelaCadastroPlano: TFTelaCadastroPlano
       end
     end
     inherited DadosCadastrais: TTabSheet
-      ExplicitLeft = 4
-      ExplicitTop = 24
-      ExplicitWidth = 775
-      ExplicitHeight = 386
       inherited PageControlEdit: TPageControl
         inherited DadosPrincipais: TTabSheet
-          ExplicitLeft = 4
-          ExplicitTop = 24
-          ExplicitWidth = 767
-          ExplicitHeight = 301
           inherited PanelEdits: TPanel
             object Telefone_1: TLabel
               Left = 18
@@ -127,17 +117,19 @@ inherited FTelaCadastroPlano: TFTelaCadastroPlano
               Tag = 1
               Left = 18
               Top = 91
-              Width = 215
+              Width = 119
               Height = 21
               Color = clWhite
+              EditMask = '!9.9.99.99.999.999;1;_'
               Font.Charset = DEFAULT_CHARSET
               Font.Color = clBlue
               Font.Height = -11
               Font.Name = 'Tahoma'
               Font.Style = []
+              MaxLength = 17
               ParentFont = False
               TabOrder = 2
-              Text = ''
+              Text = ' . .  .  .   .   '
             end
             object ComboBoxTipo: TComboBox
               Left = 18

@@ -23,6 +23,7 @@ type
     procedure BtnAcessarClick(Sender: TObject);
     procedure BtnSairClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
+    procedure LabeledEditCodigoExit(Sender: TObject);
 
   private
     { Private declarations }
@@ -92,6 +93,32 @@ begin
     LabelNomeCond.caption:=descricaoEmpLogada;
     LabelCnpj.caption:=cnpjEmpLogada;
   end;
+end;
+
+procedure TFormEmpresaTrab.LabeledEditCodigoExit(Sender: TObject);
+var
+  CondominioController:TCondominioController;
+  CondominioVO: TCondominioVO;
+begin
+  if LabeledEditCodigo.Text <> '' then
+  begin
+  try
+    CondominioController := TCondominioController.Create;
+    CondominioVO := CondominioController.ConsultarPorId(StrToInt(LabeledEditCodigo.Text));
+    LabelNomeCond.Caption := CondominioVO.nome;
+    LabelCnpj.Caption := CondominioVO.Cnpjcpf;
+    CondominioController.Free;
+   except
+    LabelNomeCond.Caption := '';
+    LabelCnpj.Caption := '';
+    raise Exception.Create('Código Inválido');
+  end;
+  end
+  else
+  begin
+    LabeledEditCodigo.Text := '';
+  end;
+
 end;
 
 end.

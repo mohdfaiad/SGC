@@ -47,12 +47,12 @@ inherited FTelaCadastroContasPagar: TFTelaCadastroContasPagar
           ExplicitLeft = 737
           ExplicitTop = 10
         end
-        object GroupBox2: TGroupBox
+        object Vencimento: TGroupBox
           Left = 63
           Top = 3
-          Width = 355
+          Width = 154
           Height = 47
-          Caption = 'Per'#237'odo'
+          Caption = 'Vencimento '
           TabOrder = 4
           object MaskEdit1: TMaskEdit
             Left = 3
@@ -73,6 +73,38 @@ inherited FTelaCadastroContasPagar: TFTelaCadastroContasPagar
             MaxLength = 10
             TabOrder = 1
             Text = '  /  /    '
+          end
+        end
+        object GroupBox3: TGroupBox
+          Left = 223
+          Top = 3
+          Width = 195
+          Height = 47
+          Caption = 'Tipo'
+          TabOrder = 5
+          object RadioButtonValor: TRadioButton
+            Left = 3
+            Top = 16
+            Width = 54
+            Height = 28
+            Caption = 'Valor'
+            TabOrder = 0
+          end
+          object RadioButtonPessoa: TRadioButton
+            Left = 54
+            Top = 16
+            Width = 54
+            Height = 28
+            Caption = 'Nome'
+            TabOrder = 1
+          end
+          object RadioButtonDoc: TRadioButton
+            Left = 110
+            Top = 16
+            Width = 82
+            Height = 28
+            Caption = 'Documento'
+            TabOrder = 2
           end
         end
       end
@@ -119,30 +151,54 @@ inherited FTelaCadastroContasPagar: TFTelaCadastroContasPagar
             object Label1: TLabel
               Left = 16
               Top = 13
-              Width = 88
+              Width = 74
               Height = 13
-              Caption = 'Data Compet'#234'ncia'
+              Caption = 'Compet'#234'ncia'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'Tahoma'
+              Font.Style = [fsBold]
+              ParentFont = False
             end
             object Label2: TLabel
-              Left = 110
+              Left = 102
               Top = 13
-              Width = 64
+              Width = 46
               Height = 13
-              Caption = 'Data Emiss'#227'o'
+              Caption = 'Emiss'#227'o'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'Tahoma'
+              Font.Style = [fsBold]
+              ParentFont = False
             end
             object Label3: TLabel
-              Left = 204
+              Left = 186
               Top = 13
-              Width = 81
+              Width = 67
               Height = 13
-              Caption = 'Data Vencimento'
+              Caption = 'Vencimento'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'Tahoma'
+              Font.Style = [fsBold]
+              ParentFont = False
             end
             object Label4: TLabel
               Left = 17
               Top = 274
-              Width = 24
+              Width = 29
               Height = 13
               Caption = 'Valor'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'Tahoma'
+              Font.Style = [fsBold]
+              ParentFont = False
             end
             object MaskEditComp: TMaskEdit
               Left = 16
@@ -155,7 +211,7 @@ inherited FTelaCadastroContasPagar: TFTelaCadastroContasPagar
               Text = '  /  /    '
             end
             object MaskEditEmissao: TMaskEdit
-              Left = 110
+              Left = 102
               Top = 32
               Width = 66
               Height = 21
@@ -165,7 +221,7 @@ inherited FTelaCadastroContasPagar: TFTelaCadastroContasPagar
               Text = '  /  /    '
             end
             object MaskEditVenc: TMaskEdit
-              Left = 204
+              Left = 186
               Top = 32
               Width = 67
               Height = 21
@@ -179,9 +235,15 @@ inherited FTelaCadastroContasPagar: TFTelaCadastroContasPagar
               Top = 80
               Width = 121
               Height = 21
-              EditLabel.Width = 54
+              EditLabel.Width = 65
               EditLabel.Height = 13
               EditLabel.Caption = 'Documento'
+              EditLabel.Font.Charset = DEFAULT_CHARSET
+              EditLabel.Font.Color = clWindowText
+              EditLabel.Font.Height = -11
+              EditLabel.Font.Name = 'Tahoma'
+              EditLabel.Font.Style = [fsBold]
+              EditLabel.ParentFont = False
               TabOrder = 3
             end
             object LabeledEditConta: TLabeledEdit
@@ -195,16 +257,6 @@ inherited FTelaCadastroContasPagar: TFTelaCadastroContasPagar
               TabOrder = 6
               OnExit = LabeledEditContaExit
             end
-            object LabeledEditDsConta: TLabeledEdit
-              Left = 102
-              Top = 167
-              Width = 331
-              Height = 21
-              EditLabel.Width = 3
-              EditLabel.Height = 13
-              ReadOnly = True
-              TabOrder = 14
-            end
             object LabeledEditContraP: TLabeledEdit
               Left = 16
               Top = 207
@@ -216,16 +268,6 @@ inherited FTelaCadastroContasPagar: TFTelaCadastroContasPagar
               TabOrder = 8
               OnExit = LabeledEditContraPExit
             end
-            object LabeledEditDsContra: TLabeledEdit
-              Left = 102
-              Top = 207
-              Width = 331
-              Height = 21
-              EditLabel.Width = 3
-              EditLabel.Height = 13
-              ReadOnly = True
-              TabOrder = 15
-            end
             object LabeledEditHistorico: TLabeledEdit
               Left = 17
               Top = 247
@@ -236,16 +278,6 @@ inherited FTelaCadastroContasPagar: TFTelaCadastroContasPagar
               EditLabel.Caption = 'Hist'#243'rico'
               TabOrder = 10
               OnExit = LabeledEditHistoricoExit
-            end
-            object LabeledEditDsHist: TLabeledEdit
-              Left = 102
-              Top = 247
-              Width = 331
-              Height = 21
-              EditLabel.Width = 3
-              EditLabel.Height = 13
-              ReadOnly = True
-              TabOrder = 16
             end
             object EditValor: TEdit
               Left = 16
@@ -275,16 +307,6 @@ inherited FTelaCadastroContasPagar: TFTelaCadastroContasPagar
               TabOrder = 4
               OnExit = LabeledEditPessoaExit
             end
-            object LabeledEditdsPessoa: TLabeledEdit
-              Left = 102
-              Top = 127
-              Width = 331
-              Height = 21
-              EditLabel.Width = 3
-              EditLabel.Height = 13
-              ReadOnly = True
-              TabOrder = 17
-            end
             object BtnPessoa: TBitBtn
               Left = 439
               Top = 123
@@ -301,7 +323,7 @@ inherited FTelaCadastroContasPagar: TFTelaCadastroContasPagar
               Height = 25
               Caption = 'P'
               TabOrder = 7
-              OnClick = BtnPessoaClick
+              OnClick = BtnContaClick
             end
             object BtnContra: TBitBtn
               Left = 439
@@ -310,7 +332,7 @@ inherited FTelaCadastroContasPagar: TFTelaCadastroContasPagar
               Height = 25
               Caption = 'P'
               TabOrder = 9
-              OnClick = BtnPessoaClick
+              OnClick = BtnContraClick
             end
             object BtnHistorico: TBitBtn
               Left = 439
@@ -319,7 +341,42 @@ inherited FTelaCadastroContasPagar: TFTelaCadastroContasPagar
               Height = 25
               Caption = 'P'
               TabOrder = 11
-              OnClick = BtnPessoaClick
+              OnClick = BtnHistoricoClick
+            end
+            object LabeledEditdsPessoa: TEdit
+              Left = 102
+              Top = 127
+              Width = 331
+              Height = 21
+              ReadOnly = True
+              TabOrder = 14
+            end
+            object LabeledEditDsConta: TEdit
+              Left = 102
+              Top = 167
+              Width = 331
+              Height = 21
+              ParentCustomHint = False
+              ReadOnly = True
+              TabOrder = 15
+            end
+            object LabeledEditDsContra: TEdit
+              Left = 102
+              Top = 207
+              Width = 331
+              Height = 21
+              ParentCustomHint = False
+              ReadOnly = True
+              TabOrder = 16
+            end
+            object LabeledEditDsHist: TEdit
+              Left = 102
+              Top = 247
+              Width = 331
+              Height = 21
+              ParentCustomHint = False
+              ReadOnly = True
+              TabOrder = 17
             end
           end
         end

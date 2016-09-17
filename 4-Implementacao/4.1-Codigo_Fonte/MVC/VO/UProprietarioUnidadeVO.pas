@@ -9,23 +9,29 @@ type
   [TTable('ProprietarioUnidade')]
   TProprietarioUnidadeVO = class(TGenericVO)
   private
-    FidProprietario: Integer;
+    FidProprietarioUnidade: Integer;
     FidUnidade: Integer;
     FdtInicio : TdateTime;
+    FidPessoa : Integer;
+    FNomePessoa : string;
 
   public
     CondominioVO : TCondominioVO;
     PessoaVo : TpESSOASVO;
 
-    [TId('idproprietario')]
+    [TId('idproprietariounidade')]
     [TGeneratedValue(sAuto)]
-    property idProprietario: Integer  read FidProprietario write FidProprietario;
-    [TColumn('idunidade','Unidade',50,[ldGrid,ldLookup,ldComboBox], False)]
+    property idProprietarioUnidade: Integer  read FidProprietarioUnidade write FidProprietarioUnidade;
+    [TColumn('nome','Pessoa',500,[ldGrid], True, 'Pessoa', 'idPessoa', 'idPessoa')]
+    property NomePessoa: string  read FNomePessoa write FNomePessoa;
+    [TColumn('idunidade','Unidade',50,[ldLookup,ldComboBox], False)]
     property IdUnidade: Integer  read FidUnidade write FidUnidade;
-    [TColumn('DtInicio','Data Inicio',0,[ldLookup,ldComboBox], False)]
+    [TColumn('idpessoa','id Pessoa',50,[ldLookup,ldComboBox], False)]
+    property idPessoa: Integer  read FidPessoa write FidPessoa;
+    [TColumn('DtInicio','Data Inicio',0,[ldGrid,ldLookup,ldComboBox], False)]
     property DtInicio: TDateTime  read FdtInicio write FdtInicio;
 
-    Function ValidarCamposObrigatorios:boolean;
+    Procedure ValidarCamposObrigatorios;
 
   end;
 
@@ -33,20 +39,16 @@ type
 
   { TProprietarioUnidadeVO }
 
-function TProprietarioUnidadeVO.ValidarCamposObrigatorios: boolean;
+Procedure TProprietarioUnidadeVO.ValidarCamposObrigatorios;
 begin
-Result := true;
-  if (Self.FidProprietario = 0) then
+ if (Self.FidPessoa = 0) then
   begin
-    raise Exception.Create('O campo Proprietário é obrigatório!');
-    Result := false;
+    raise Exception.Create('O campo Inquilino é obrigatório!');
   end
   else if (self.FdtInicio = 0) then
   begin
     raise Exception.Create('O campo data é obrigatório!');
-    Result := false;
   end;
-
 end;
 
 end.

@@ -7,24 +7,24 @@ uses
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, UtelaCadastro, Vcl.StdCtrls,
   Vcl.ExtCtrls, Vcl.ComCtrls, Vcl.Mask, Vcl.Buttons, Vcl.Grids, Vcl.DBGrids, UUnidadeVO, UGenericVO,
   Generics.Collections, UUnidadeController, UPessoa, UPessoasController, UPessoasVO,
-  UProprietarioUnidade, UProprietarioUnidadeVO, UInquilinoUnidade, UInquilinoUnidadeVO;
+  UProprietarioUnidade, UProprietarioUnidadeVO, UInquilinoUnidade, UInquilinoUnidadeVO,
+  IWVCLBaseControl, IWBaseControl, IWBaseHTMLControl, IWControl, IWCompEdit,
+  IWDBStdCtrls;
 
 type
   TFTelaCadastroUnidade = class(TFTelaCadastro)
     GroupBox2: TGroupBox;
-    RadioButtonNome: TRadioButton;
-    PageControlUnidade: TPageControl;
-    TabSheet1: TTabSheet;
-    Panel1: TPanel;
+    LabelEditNumero: TLabeledEdit;
+    LabeledEditDescricao: TLabeledEdit;
+    EditQtdGas: TEdit;
     Label1: TLabel;
     Label2: TLabel;
-    Label4: TLabel;
-    Label5: TLabel;
-    LabelEditNumero: TLabeledEdit;
-    EditQtdGas: TEdit;
     EditAreaTotal: TEdit;
+    Label4: TLabel;
     EditFracaoIdeal: TEdit;
-    EditObservacao: TEdit;
+    Label5: TLabel;
+    EditObservacao: TRichEdit;
+    RadioButton1: TRadioButton;
     BtnProprietario: TBitBtn;
     BtnInquilino: TBitBtn;
     procedure FormCreate(Sender: TObject);
@@ -36,6 +36,9 @@ type
     procedure GridParaEdits; override;
     procedure BtnProprietarioClick(Sender: TObject);
     procedure BtnInquilinoClick(Sender: TObject);
+    procedure BitBtnCancelaClick(Sender: TObject);
+    procedure PageControlChange(Sender: TObject);
+    procedure BitBtnAlteraClick(Sender: TObject);
 
 
   private
@@ -62,12 +65,51 @@ uses UEmpresaTrab;
 
 
 
+procedure TFTelaCadastroUnidade.BitBtnAlteraClick(Sender: TObject);
+begin
+  inherited;
+  if (StatusTela = TStatusTela.stNavegandoGrid) then
+  begin
+    BtnProprietario.Enabled := true;
+    BtnInquilino.Enabled := true;
+  end
+  else
+    begin
+    BtnProprietario.Enabled := false;
+    BtnInquilino.Enabled := false;
+    end;
+end;
+
+procedure TFTelaCadastroUnidade.BitBtnCancelaClick(Sender: TObject);
+begin
+  inherited;
+  if (StatusTela = TStatusTela.stNavegandoGrid) then
+  begin
+    BtnProprietario.Enabled := true;
+    BtnInquilino.Enabled := true;
+  end
+  else
+    begin
+    BtnProprietario.Enabled := false;
+    BtnInquilino.Enabled := false;
+    end;
+end;
+
 procedure TFTelaCadastroUnidade.BitBtnNovoClick(Sender: TObject);
 begin
   inherited;
+  EditObservacao.Clear;
   LabelEditNumero.SetFocus;
-
-
+  if (StatusTela = TStatusTela.stNavegandoGrid) then
+  begin
+    BtnProprietario.Enabled := true;
+    BtnInquilino.Enabled := true;
+  end
+  else
+    begin
+    BtnProprietario.Enabled := false;
+    BtnInquilino.Enabled := false;
+    end;
 end;
 
 procedure TFTelaCadastroUnidade.BtnInquilinoClick(Sender: TObject);
@@ -168,6 +210,8 @@ begin
     Unidade.vlareatotal := StrToFloat(EditAreaTotal.Text);
   if(EditFracaoIdeal.Text<>'')then
     Unidade.vlfracaoideal := StrToFloat(EditFracaoIdeal.Text);
+  if (LabeledEditDescricao.Text <> '') then
+    Unidade.DsUnidade := LabeledEditDescricao.Text;
 
   Unidade.observacao := EditObservacao.Text;
   Result := Unidade;
@@ -179,7 +223,8 @@ end;
 procedure TFTelaCadastroUnidade.FormCreate(Sender: TObject);
 begin
   ClasseObjetoGridVO := TUnidadeVO;
-  RadioButtonNome.Checked := true;
+  RadioButton1.Checked := true;
+
   inherited;
 end;
 
@@ -202,27 +247,43 @@ begin
     EditAreaTotal.Text := FloatToStr(Unidade.vlareatotal);
     EditFracaoIdeal.Text := FloatToStr(Unidade.vlfracaoideal);
     EditObservacao.Text := Unidade.observacao;
+    LabeledEditDescricao.Text := Unidade.DsUnidade;
   end;
 end;
 
 function TFTelaCadastroUnidade.MontaFiltro: string;
 begin
   Result := ' ( IDCONDOMINIO = '+inttostr(FormEmpresaTrab.CodigoEmpLogada)+ ' ) ';
-  if (RadioButtonNome.Checked = true) then
+  {if (RadioButton2.Checked = true) then
   begin
     if (editBusca.Text <> '') then
     begin
-      Result := ' AND ( UPPER(NUMERO) LIKE ' +
+      Result :=  '  ( UPPER(NUMERO) LIKE '       +
         QuotedStr('%' + UpperCase(editBusca.Text) + '%') + ' ) ';
     end;
   end
-  else if (RadioButtonNome.Checked = true) then
+  else} if (RadioButton1.Checked = true) then
   begin
     if (editBusca.Text <> '') then
-      Result := ' AND ( UPPER(NUMERO) LIKE ' +
+      Result := '  ( UPPER(DSUNIDADE) LIKE ' +
         QuotedStr('%' + UpperCase(editBusca.Text) + '%') + ' ) ';
   end;
 end;
 
+
+procedure TFTelaCadastroUnidade.PageControlChange(Sender: TObject);
+begin
+  inherited;
+  if (StatusTela = TStatusTela.stNavegandoGrid) then
+  begin
+    BtnProprietario.Enabled := true;
+    BtnInquilino.Enabled := true;
+  end
+  else
+    begin
+    BtnProprietario.Enabled := false;
+    BtnInquilino.Enabled := false;
+    end;
+end;
 
 end.

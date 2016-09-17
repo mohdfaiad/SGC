@@ -10,6 +10,7 @@ inherited FTelaCadastro: TFTelaCadastro
   inherited PageControl: TPageControl
     Width = 783
     Height = 414
+    ActivePage = DadosCadastrais
     TabOrder = 1
     OnChange = PageControlChange
     ExplicitWidth = 783

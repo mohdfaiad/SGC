@@ -66,7 +66,7 @@ type
 
 
 
-    Function ValidarCamposObrigatorios:boolean;
+    Procedure ValidarCamposObrigatorios;
 
   end;
 
@@ -77,9 +77,16 @@ implementation
 
 
 
-function TContasReceberVO.ValidarCamposObrigatorios: boolean;
+Procedure TContasReceberVO.ValidarCamposObrigatorios;
 begin
-  result := true;
+  if (Self.FDtCompetencia = 0 ) then
+    raise Exception.Create('O campo Data Competencia é obrigatório!');
+   if (Self.FNrDocumento= '') then
+    raise Exception.Create('O campo Documento é obrigatório!');
+  if (Self.FDtCompetencia = 0) then
+   raise Exception.Create('O campo Data Vencimento é obrigatório!');
+  if (Self.FVlValor= 0) then
+    raise Exception.Create('O campo Valor é obrigatório!');
 end;
 
 end.
