@@ -424,7 +424,10 @@ begin
               begin
                 CamposSQL := CamposSQL + (Atributo as TColumn).Name + ' = ' +
                   Propriedade.GetValue(pObjeto).ToString + ','
-              end;
+              end
+              else
+                CamposSQL := CamposSQL + (Atributo as TColumn).Name +
+                ' = ' + 'null' + ',';
             end
             else if (Propriedade.PropertyType.TypeKind in [tkString, tkUString])
             then
@@ -433,7 +436,10 @@ begin
               begin
                 CamposSQL := CamposSQL + (Atributo as TColumn).Name + ' = ' +
                   QuotedStr(Propriedade.GetValue(pObjeto).ToString) + ','
-              end;
+              end
+              else
+                CamposSQL := CamposSQL + (Atributo as TColumn).Name +
+                ' = ' + 'null' + ',';
             end
             else if (Propriedade.PropertyType.TypeKind = tkFloat) then
             begin

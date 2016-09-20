@@ -23,7 +23,15 @@ type
     FIdPessoa : Integer;
     FIdContraPartida : Integer;
     FIdUnidade : Integer;
-    FNomeUnidade : String;
+    FVlBaixa : Currency;
+    FVlJuros : Currency;
+    FVlMulta : Currency;
+    FVlDesconto : Currency;
+    FDtBaixa : TDateTime;
+    FIdContaBaixa : Integer;
+    FIdHistoricoBx  : Integer;
+    FDescricao : string;
+    FVlPago : currency;
 
 
   public
@@ -45,6 +53,10 @@ type
     property DtVencimento: TDateTime  read FDtVencimento write FDtVencimento;
     [TColumn('NrDocumento','Documento',100,[ldGrid,ldLookup,ldComboBox], False)]
     property NrDocumento: string  read FNrDocumento write FNrDocumento;
+
+    [TColumn('DSUNIDADE','Unidade',400,[ldGrid], True, 'Unidade', 'idUnidade', 'idUnidade')]
+    property Descricao: string  read FDescricao write FDescricao;
+
     [TColumn('VlValor','Valor',100,[ldGrid,ldLookup,ldComboBox], False)]
     property VlValor: Currency  read FVlValor write FVlValor;
     [TColumn('DsComplemento','Complemento',0,[ldLookup,ldComboBox], False)]
@@ -59,14 +71,34 @@ type
     property IdConta: Integer  read FIdConta write FIdConta;
     [TColumn('IdCondominio','Id Condominio',0,[ldLookup,ldComboBox], False)]
     property IdCondominio: Integer  read FIdCondominio write FIdCondominio;
-    [TColumn('IdPessoa','Id Pessoa',50,[ldGrid,ldLookup,ldComboBox], False)]
-    property IdPessoa: Integer  read FIdPessoa write FIdPessoa;
+//    [TColumn('IdPessoa','Id Pessoa',50,[ldLookup,ldComboBox], False)]
+//    property IdPessoa: Integer  read FIdPessoa write FIdPessoa;
     [TColumn('IdContraPartida','Id Contra Partida',0,[ldLookup,ldComboBox], False)]
     property IdContraPartida: Integer  read FIdContraPartida write FIdContraPartida;
 
+    [TColumn('VlBaixa','Valor',100,[ldLookup,ldComboBox], False)]
+    property VlBaixa: Currency  read FVlBaixa write FVlBaixa;
+    [TColumn('VlJuros','Juros',100,[ldLookup,ldComboBox], False)]
+    property VlJuros: Currency  read FVlJuros write FVlJuros;
+    [TColumn('VlMulta','Multa',100,[ldLookup,ldComboBox], False)]
+    property VlMulta: Currency  read FVlMulta write FVlMulta;
+    [TColumn('VlDesconto','Desconto',100,[ldLookup,ldComboBox], False)]
+    property VlDesconto: Currency  read FVlDesconto write FVlDesconto;
+    [TColumn('DtBaixa','Data Baixa',50,[ldLookup,ldComboBox], False)]
+    property DtBaixa: TDateTime  read FDtBaixa write FDtBaixa;
+    [TColumn('IdContaBaixa','Id Conta',0,[ldLookup,ldComboBox], False)]
+    property IdContaBaixa: Integer  read FIdContaBaixa write FIdContaBaixa;
+    [TColumn('IdHistoricoBx','Id Conta',0,[ldLookup,ldComboBox], False)]
+    property IdHistoricoBx: Integer  read FIdHistoricoBx write FIdHistoricoBx;
+    [TColumn('VlPago','Valor Pago',100,[ldLookup,ldComboBox], False)]
+    property VlPago: Currency  read FVlPago write FVlPago;
 
 
-    Procedure ValidarCamposObrigatorios;
+
+    procedure ValidarCampos;
+    procedure ValidarBaixa;
+
+
 
   end;
 
@@ -77,17 +109,45 @@ implementation
 
 
 
-Procedure TContasReceberVO.ValidarCamposObrigatorios;
+procedure TContasReceberVO.ValidarBaixa;
+begin
+ if (Self.FDtBaixa = 0)  then
+   raise Exception.Create('O campo Data Baixa é obrigatório!');
+  if (Self.FVlBaixa= 0) then
+    raise Exception.Create('O campo Valor é obrigatório!');
+  if ( Self.FVlPago=0) then
+    raise Exception.Create('O campo Valor Pago é obrigatório!');
+  if (self.FDtBaixa < self.DtCompetencia) then
+    raise Exception.Create('A data da baixa não pode ser menor que a data de competencia!');
+  if (Self.FIdContaBaixa = 0) then
+    raise Exception.Create('O campo Conta é obrigatório!');
+
+  if Self.vlpago > self.vlvalor then
+  begin
+    if ((self.vlbaixa + Self.VlJuros + self.VlMulta - self.VlDesconto) <> self.VlPago) then
+    raise Exception.Create('Valor não confere!');
+  end
+  else if Self.VlPago < self.VlValor then
+  begin
+    if ((self.VlPago + self.vldesconto) <> self.vlValor) then
+    raise Exception.Create('Valor não confere');
+  end;
+end;
+
+procedure TContasReceberVO.ValidarCampos;
 begin
   if (Self.FDtCompetencia = 0 ) then
-    raise Exception.Create('O campo Data Competencia é obrigatório!');
-   if (Self.FNrDocumento= '') then
+   raise Exception.Create('O campo Data Competencia é obrigatório!');
+  if (Self.FNrDocumento= '') then
     raise Exception.Create('O campo Documento é obrigatório!');
-  if (Self.FDtCompetencia = 0) then
+  if (Self.FDtVencimento = 0) then
    raise Exception.Create('O campo Data Vencimento é obrigatório!');
   if (Self.FVlValor= 0) then
     raise Exception.Create('O campo Valor é obrigatório!');
+  if (Self.FDtVencimento < self.FDtCompetencia) then
+    raise Exception.Create('A data de Competencia deve ser menor que a data de Vencimento!');
 end;
+
 
 end.
 

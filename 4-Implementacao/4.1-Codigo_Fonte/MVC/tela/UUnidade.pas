@@ -14,17 +14,17 @@ uses
 type
   TFTelaCadastroUnidade = class(TFTelaCadastro)
     GroupBox2: TGroupBox;
+    RadioButton1: TRadioButton;
     LabelEditNumero: TLabeledEdit;
     LabeledEditDescricao: TLabeledEdit;
-    EditQtdGas: TEdit;
-    Label1: TLabel;
-    Label2: TLabel;
     EditAreaTotal: TEdit;
+    Label2: TLabel;
     Label4: TLabel;
     EditFracaoIdeal: TEdit;
-    Label5: TLabel;
+    Label1: TLabel;
+    EditQtdGas: TEdit;
     EditObservacao: TRichEdit;
-    RadioButton1: TRadioButton;
+    Label5: TLabel;
     BtnProprietario: TBitBtn;
     BtnInquilino: TBitBtn;
     procedure FormCreate(Sender: TObject);
@@ -39,6 +39,7 @@ type
     procedure BitBtnCancelaClick(Sender: TObject);
     procedure PageControlChange(Sender: TObject);
     procedure BitBtnAlteraClick(Sender: TObject);
+    procedure CarregaObjetoSelecionado; override;
 
 
   private
@@ -130,6 +131,15 @@ begin
   FormProprietario.FechaForm := true;
   FormProprietario.idunidade := CDSGrid.FieldByName('IDUNIDADE').AsInteger;
   FormProprietario.ShowModal;
+end;
+
+procedure TFTelaCadastroUnidade.CarregaObjetoSelecionado;
+begin
+  inherited;
+  if (not CDSGrid.IsEmpty) then
+  begin
+    ObjetoRetornoVO := UnidadeController.ConsultarPorId(CDSGRID.FieldByName('IDUNIDADE').AsInteger);
+  end;
 end;
 
 procedure TFTelaCadastroUnidade.DoConsultar;
@@ -274,16 +284,17 @@ end;
 procedure TFTelaCadastroUnidade.PageControlChange(Sender: TObject);
 begin
   inherited;
-  if (StatusTela = TStatusTela.stNavegandoGrid) then
+  if (PageControl.ActivePage = DadosCadastrais) then
   begin
     BtnProprietario.Enabled := true;
     BtnInquilino.Enabled := true;
   end
   else
     begin
-    BtnProprietario.Enabled := false;
-    BtnInquilino.Enabled := false;
+    BtnProprietario.Enabled := false ;
+    BtnInquilino.Enabled :=false;
     end;
 end;
+
 
 end.

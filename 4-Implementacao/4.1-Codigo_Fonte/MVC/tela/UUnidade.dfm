@@ -9,9 +9,12 @@ inherited FTelaCadastroUnidade: TFTelaCadastroUnidade
   inherited PageControl: TPageControl
     Width = 793
     Height = 478
+    ActivePage = DadosCadastrais
     ExplicitWidth = 793
     ExplicitHeight = 478
     inherited Consulta: TTabSheet
+      ExplicitLeft = 0
+      ExplicitTop = 0
       ExplicitWidth = 785
       ExplicitHeight = 450
       inherited Grid: TDBGrid
@@ -46,6 +49,24 @@ inherited FTelaCadastroUnidade: TFTelaCadastroUnidade
         Width = 785
         ParentBackground = False
         ExplicitWidth = 785
+        object BtnProprietario: TBitBtn
+          Left = 312
+          Top = 10
+          Width = 89
+          Height = 41
+          Caption = 'Propriet'#225'rio'
+          TabOrder = 5
+          OnClick = BtnProprietarioClick
+        end
+        object BtnInquilino: TBitBtn
+          Left = 407
+          Top = 10
+          Width = 98
+          Height = 41
+          Caption = 'Inquilino'
+          TabOrder = 6
+          OnClick = BtnInquilinoClick
+        end
       end
       inherited PageControlEdit: TPageControl
         Width = 785
@@ -58,17 +79,8 @@ inherited FTelaCadastroUnidade: TFTelaCadastroUnidade
           inherited PanelEdits: TPanel
             Width = 777
             Height = 365
-            ExplicitLeft = 24
-            ExplicitTop = 2
             ExplicitWidth = 777
             ExplicitHeight = 365
-            object Label1: TLabel
-              Left = 240
-              Top = 69
-              Width = 93
-              Height = 13
-              Caption = 'Qtd G'#225's Inicial (m'#179')'
-            end
             object Label2: TLabel
               Left = 18
               Top = 69
@@ -94,6 +106,13 @@ inherited FTelaCadastroUnidade: TFTelaCadastroUnidade
               Font.Name = 'Tahoma'
               Font.Style = [fsBold]
               ParentFont = False
+            end
+            object Label1: TLabel
+              Left = 240
+              Top = 69
+              Width = 93
+              Height = 13
+              Caption = 'Qtd G'#225's Inicial (m'#179')'
             end
             object Label5: TLabel
               Left = 20
@@ -152,13 +171,6 @@ inherited FTelaCadastroUnidade: TFTelaCadastroUnidade
               ParentFont = False
               TabOrder = 1
             end
-            object EditQtdGas: TEdit
-              Left = 240
-              Top = 88
-              Width = 93
-              Height = 21
-              TabOrder = 4
-            end
             object EditAreaTotal: TEdit
               Left = 18
               Top = 88
@@ -185,6 +197,13 @@ inherited FTelaCadastroUnidade: TFTelaCadastroUnidade
               ParentFont = False
               TabOrder = 3
             end
+            object EditQtdGas: TEdit
+              Left = 240
+              Top = 88
+              Width = 93
+              Height = 21
+              TabOrder = 4
+            end
             object EditObservacao: TRichEdit
               Left = 18
               Top = 134
@@ -197,24 +216,6 @@ inherited FTelaCadastroUnidade: TFTelaCadastroUnidade
               Font.Style = []
               ParentFont = False
               TabOrder = 5
-            end
-            object BtnProprietario: TBitBtn
-              Left = 616
-              Top = 40
-              Width = 113
-              Height = 69
-              Caption = 'Propriet'#225'rio'
-              TabOrder = 6
-              OnClick = BtnProprietarioClick
-            end
-            object BtnInquilino: TBitBtn
-              Left = 616
-              Top = 134
-              Width = 113
-              Height = 69
-              Caption = 'Inquilino'
-              TabOrder = 7
-              OnClick = BtnInquilinoClick
             end
           end
         end

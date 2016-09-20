@@ -7,7 +7,8 @@ uses
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, UtelaCadastro, Vcl.Buttons,
   Vcl.StdCtrls, Vcl.ExtCtrls, Vcl.ComCtrls, Vcl.Mask, Vcl.Grids, Vcl.DBGrids, UContasPagarVO,
   UContasPagarController, Generics.Collections, UEmpresaTrab, UPessoa, UPessoasVO,
-  UPlanoContas, UPlanoContasVO,UPlanoContasController, UHistoricoController, UPessoasController,UGenericVO, UHistoricoVO, UHistorico;
+  UPlanoContas, UPlanoContasVO,UPlanoContasController, UHistoricoController, UPessoasController,UGenericVO, UHistoricoVO, UHistorico,
+  Vcl.Menus;
 
 type
   TFTelaCadastroContasPagar = class(TFTelaCadastro)
@@ -40,6 +41,38 @@ type
     LabeledEditDsConta: TEdit;
     LabeledEditDsContra: TEdit;
     LabeledEditDsHist: TEdit;
+    PopupMenu1: TPopupMenu;
+    ProcessarBaixa1: TMenuItem;
+    PanelBaixa: TPanel;
+    GroupBox2: TGroupBox;
+    BtnSair: TBitBtn;
+    EditBxCredito: TEdit;
+    Label5: TLabel;
+    EditBxValor: TEdit;
+    Label6: TLabel;
+    EditBxJuros: TEdit;
+    Label7: TLabel;
+    EditBxMulta: TEdit;
+    Label8: TLabel;
+    EditBxDesc: TEdit;
+    Label9: TLabel;
+    EditBxConta: TEdit;
+    Label10: TLabel;
+    EditBxDsConta: TEdit;
+    BtnBxConta: TBitBtn;
+    BitBtn3: TBitBtn;
+    EditBxHist: TEdit;
+    EditBxDsHist: TEdit;
+    BtnBxHist: TBitBtn;
+    Label11: TLabel;
+    Label12: TLabel;
+    MaskEditBxEdit: TMaskEdit;
+    EditBxDoc: TEdit;
+    BitBtn1: TBitBtn;
+    MaskEdit3: TMaskEdit;
+    Label13: TLabel;
+    Edit1: TEdit;
+    Label14: TLabel;
     procedure FormCreate(Sender: TObject);
     procedure BitBtnNovoClick(Sender: TObject);
     function DoSalvar: boolean; override;
@@ -55,6 +88,19 @@ type
     procedure LabeledEditContaExit(Sender: TObject);
     procedure LabeledEditContraPExit(Sender: TObject);
     procedure LabeledEditHistoricoExit(Sender: TObject);
+    procedure ProcessarBaixa1Click(Sender: TObject);
+    procedure BtnSairClick(Sender: TObject);
+    procedure BtnBxContaClick(Sender: TObject);
+    procedure BtnBxHistClick(Sender: TObject);
+    procedure EditBxContaExit(Sender: TObject);
+    procedure EditBxHistExit(Sender: TObject);
+    procedure GroupBox2Click(Sender: TObject);
+    procedure BitBtn3Click(Sender: TObject);
+    procedure BitBtn1Click(Sender: TObject);
+  //  procedure EditBxValorExit(Sender: TObject);
+    procedure Edit1Exit(Sender: TObject);
+
+
 
 
   private
@@ -75,10 +121,114 @@ implementation
 
 { TFTelaCadastroContasPagar }
 
+procedure TFTelaCadastroContasPagar.BtnSairClick(Sender: TObject);
+begin
+  inherited;
+  PanelBaixa.Visible:=false;
+  PageControl.Enabled:=true;
+end;
+
+procedure TFTelaCadastroContasPagar.BitBtn1Click(Sender: TObject);
+var
+  ContasPagar: TContasPagarVO;
+begin
+//  inherited;
+  ContasPagar := nil;
+  ContasPagar := ContasPagarController.ConsultarPorId(CDSGrid.FieldByName('IDCONTASPAGAR')
+            .AsInteger);
+  ContasPagar.DtBaixa := 0;
+  ContasPagar.VlBaixa := 0;
+  ContasPagar.VlJuros := 0;
+  ContasPagar.VlMulta := 0;
+  ContasPagar.VlDesconto := 0;
+  ContasPagar.IdHistoricoBx := 0;
+  ContasPagar.IdContaBaixa := 0;
+  ContasPagar.VlPago := 0;
+  ContasPagar.FlBaixa := 'P';
+  if(MessageDlg('Confirma cancelamento',mterror,mbokcancel,0)=mrok)then
+  begin
+    ContasPagarController.Alterar(ContasPagar);
+    PanelBaixa.Visible := false;
+     PageControl.Enabled:=true;
+  end;
+
+end;
+
+procedure TFTelaCadastroContasPagar.BitBtn3Click(Sender: TObject);
+var
+  ContasPagar: TContasPagarVO;
+begin
+//  inherited;
+  ContasPagar := nil;
+  ContasPagar := ContasPagarController.ConsultarPorId(CDSGrid.FieldByName('IDCONTASPAGAR')
+            .AsInteger);
+  if (MaskEditBxEdit.Text<> '  /  /    ' ) then
+    ContasPagar.DtBaixa := StrToDateTime(MaskEditBxEdit.Text);
+  if EditBxValor.Text <> '' then
+    ContasPagar.VlBaixa := StrToFloat(EditBxValor.Text);
+  if EditBxJuros.Text <> '' then
+    ContasPagar.VlJuros := StrToFloat (EditBxJuros.Text);
+  if EditBxMulta.Text <> '' then
+    ContasPagar.VlMulta := StrToFloat (EditBxMulta.Text);
+  if EditBxDesc.Text <> '' then
+    ContasPagar.VlDesconto := StrToFloat (EditBxDesc.Text);
+  if EditBxHist.Text <> '' then
+    ContasPagar.IdHistoricoBx := StrToInt (EditBxHist.Text);
+  if EditBxConta.Text <> '' then
+    ContasPagar.IdContaBaixa := StrToInt(EditBxConta.Text);
+  if Edit1.Text <> '' then
+    ContasPagar.VlPago := StrToFloat(Edit1.Text);
+
+  ContasPagar.FlBaixa := 'B';
+  try
+  ContasPagar.ValidarBaixa();
+  ContasPagarController.Alterar(ContasPagar);
+  PanelBaixa.Visible := false;
+  PageControl.Enabled:=true;
+  finally
+  end;
+end;
+
 procedure TFTelaCadastroContasPagar.BitBtnNovoClick(Sender: TObject);
 begin
   inherited;
-  MaskEditComp.SetFocus
+  MaskEditComp.SetFocus;
+  LabeledEditPessoa.Enabled := true;
+  LabeledEditDsPessoa.Enabled := true;
+  BtnPessoa.Enabled := true;
+  LabeledEditConta.Enabled := true;
+  LabeledEditDsConta.Enabled := true;
+  BtnConta.Enabled := true;
+end;
+
+procedure TFTelaCadastroContasPagar.BtnBxContaClick(Sender: TObject);
+var
+  FormPlanoConsulta: TFTelaCadastroPlano;
+begin
+  FormPlanoConsulta := TFTelaCadastroPlano.Create(nil);
+  FormPlanoConsulta.FechaForm := true;
+  FormPlanoConsulta.ShowModal;
+  if (FormPlanoConsulta.ObjetoRetornoVO <> nil) then
+  begin
+    EditBxConta.Text := IntToStr(TPlanoContasVO(FormPlanoConsulta.ObjetoRetornoVO).idPlanoContas);
+    EditBxDsConta.Text := TPlanoContasVO(FormPlanoConsulta.ObjetoRetornoVO).dsConta;
+  end;
+  FormPlanoConsulta.Release;
+end;
+
+procedure TFTelaCadastroContasPagar.BtnBxHistClick(Sender: TObject);
+var
+  FormHistorico: TFTelaCadastroHistorico;
+begin
+  FormHistorico := TFTelaCadastroHistorico.Create(nil);
+  FormHistorico.FechaForm := true;
+  FormHistorico.ShowModal;
+  if (FormHistorico.ObjetoRetornoVO <> nil) then
+  begin
+    EditBxHist.Text := IntToStr(THistoricoVO(FormHistorico.ObjetoRetornoVO).idHistorico);
+    EditBxDsHist.Text := THistoricoVO(FormHistorico.ObjetoRetornoVO).dsHistorico;
+  end;
+  FormHistorico.Release;
 end;
 
 procedure TFTelaCadastroContasPagar.BtnContaClick(Sender: TObject);
@@ -92,6 +242,9 @@ begin
   begin
     LabeledEditConta.Text := IntToStr(TPlanoContasVO(FormPlanoConsulta.ObjetoRetornoVO).idPlanoContas);
     LabeledEditDsConta.Text := TPlanoContasVO(FormPlanoConsulta.ObjetoRetornoVO).dsConta;
+    LabeledEditPessoa.Enabled := false;
+    LabeledEditDsPessoa.Enabled := false;
+    BtnPessoa.Enabled := false;
   end;
   FormPlanoConsulta.Release;
 end;
@@ -137,6 +290,9 @@ begin
   begin
     LabeledEditPessoa.Text := IntToStr(TPessoasVO(FormPessoaConsulta.ObjetoRetornoVO).idpessoa);
     LabeledEditDsPessoa.Text := TPessoasVO(FormPessoaConsulta.ObjetoRetornoVO).nome;
+    LabeledEditConta.Enabled := false;
+    LabeledEditDsConta.Enabled := false;
+    BtnConta.Enabled := false;
   end;
   FormPessoaConsulta.Release;
 end;
@@ -173,7 +329,6 @@ begin
   end;
 end;
 
-
 function TFTelaCadastroContasPagar.DoSalvar: boolean;
 var
   ContasPagar: TContasPagarVO;
@@ -185,6 +340,7 @@ begin
         if (StatusTela = stInserindo) then
         begin
           ContasPagar.idcondominio := FormEmpresaTrab.CodigoEmpLogada;
+          ContasPagar.FlBaixa :='P';
           ContasPagarController.Inserir(ContasPagar);
           result := true;
         end
@@ -207,6 +363,110 @@ begin
     end;
 end;
 
+procedure TFTelaCadastroContasPagar.Edit1Exit(Sender: TObject);
+var
+  ContasPagar: TContasPagarVO;
+begin
+  inherited;
+  ContasPagar := nil;
+  if not CDSGrid.IsEmpty then
+    ContasPagar := ContasPagarController.ConsultarPorId
+      (CDSGrid.FieldByName('IDCONTASPAGAR').AsInteger);
+
+  if Edit1.Text <> '' then
+  begin
+    if (StrToFloat(Edit1.Text) > ContasPagar.VlValor)  then
+    begin
+        if(MessageDlg('Deseja Considerar a diferença como juros?',mterror,mbokcancel,0)=mrok)then
+        begin
+          EditBxValor.Text := FloatToStr(ContasPagar.VlValor);
+          EditBxJuros.Text := FloatToStr((StrToFloat(Edit1.Text) - ContasPagar.VlValor));
+        end;
+    end;
+    if (StrToFloat(Edit1.Text) < ContasPagar.VlValor) then
+    begin
+        if(MessageDlg('Deseja Considerar a diferença como Desconto?',mterror,mbokcancel,0)=mrok)then
+        begin
+          EditBxValor.Text := FloatToStr(ContasPagar.VlValor);
+          EditBxDesc.Text := FloatToStr(ContasPagar.VlValor - (StrToFloat(Edit1.Text) ));
+        end;
+    end;
+  end;
+end;
+
+procedure TFTelaCadastroContasPagar.EditBxContaExit(Sender: TObject);
+var
+  PlanoController:TPlanoContasController;
+  PlanoContasVO: TPlanoContasVO;
+begin
+  if EditBxConta.Text <> '' then
+  begin
+  try
+    PlanoController := TPlanoContasController.Create;
+    PlanoContasVO := PlanoController.ConsultarPorId(StrToInt(EditBxConta.Text));
+    EditBxDsConta.Text := PlanoContasVO.dsConta;
+    PlanoController.Free;
+  except
+    raise Exception.Create('Código Inválido');
+  end;
+  end
+  else
+    EditBxDsConta.Text := '';
+end;
+
+procedure TFTelaCadastroContasPagar.EditBxHistExit(Sender: TObject);
+var
+  HistoricoController:THistoricoController;
+  HistoricoVO: THistoricoVO;
+begin
+  if EditBxHist.Text <> '' then
+  begin
+  try
+    HistoricoController := THistoricoController.Create;
+    HistoricoVO := HistoricoController.ConsultarPorId(StrToInt(EditBxHist.Text));
+    EditBxDsHist.Text := HistoricoVO.DsHistorico;
+    HistoricoController.Free;
+  Except
+    raise Exception.Create('Código Inválido');
+  end;
+  end
+  else
+  begin
+    EditBxDsHist.Text := '';
+  end;
+end;
+{
+procedure TFTelaCadastroContasPagar.EditBxValorExit(Sender: TObject);
+var
+  ContasPagar: TContasPagarVO;
+begin
+  inherited;
+  ContasPagar := nil;
+  if not CDSGrid.IsEmpty then
+    ContasPagar := ContasPagarController.ConsultarPorId
+      (CDSGrid.FieldByName('IDCONTASPAGAR').AsInteger);
+  if True then
+
+
+
+  if (StrToFloat(EditBxValor.Text) > ContasPagar.VlValor)  then
+  begin
+      if(MessageDlg('Deseja Considerar a diferença como juros?',mterror,mbokcancel,0)=mrok)then
+      begin
+        EditBxJuros.Text := FloatToStr((StrToFloat(EditBxValor.Text) - ContasPagar.VlValor));
+      end;
+  end;
+  if (StrToFloat(EditBxValor.Text) < ContasPagar.VlValor) then
+  begin
+      if(MessageDlg('Deseja Considerar a diferença como Desconto?',mterror,mbokcancel,0)=mrok)then
+      begin
+        EditBxDesc.Text := FloatToStr(ContasPagar.VlValor - (StrToFloat(EditBxValor.Text) ));
+      end;
+  end;
+
+
+
+end;  }
 
 function TFTelaCadastroContasPagar.EditsToObject(
   ContasPagar: TContasPagarVO): TContasPagarVO;
@@ -227,13 +487,20 @@ begin
     ContasPagar.IdHistorico := StrToInt(LabeledEditHistorico.Text);
 
   if(LabeledEditPessoa.Text<>'')then
-    ContasPagar.IdPessoa := StrToInt(LabeledEditPessoa.Text);
+    ContasPagar.IdPessoa := StrToInt(LabeledEditPessoa.Text)
+  else
+    ContasPagar.IdPessoa := 0;
 
   if(LabeledEditConta.Text<>'')then
-    ContasPagar.IdConta := StrToInt(LabeledEditConta.Text);
+    ContasPagar.IdConta := StrToInt(LabeledEditConta.Text)
+  else
+    ContasPagar.IdConta := 0;
+
 
   if (LabeledEditContraP.Text<>'') then
-    ContasPagar.IdContraPartida := StrToInt(LabeledEditContraP.Text);
+    ContasPagar.IdContraPartida := StrToInt(LabeledEditContraP.Text)
+  else
+    ContasPagar.IdContraPartida :=0;
 
   Result := ContasPagar;
 end;
@@ -272,6 +539,7 @@ begin
       LabeledEditContraP.Text := IntToStr(ContasPagar.PlanoContasContraPartidaVO.idPlanoContas);
       LabeledEditDsContra.Text := ContasPagar.PlanoContasContraPartidaVO.dsConta;
     end;
+
     if ContasPagar.HistoricoVO <> nil then
     begin
       LabeledEditHistorico.Text := IntToStr(ContasPagar.HistoricoVO.idHistorico);
@@ -284,9 +552,14 @@ begin
     MaskEditComp.Text := DateToStr(ContasPagar.DtCompetencia);
     MaskEditEmissao.Text := DateToStr(ContasPagar.DtEmissao);
     MaskEditVenc.Text := DateToStr(ContasPagar.DtVencimento);
-
-
   end;
+end;
+
+procedure TFTelaCadastroContasPagar.GroupBox2Click(Sender: TObject);
+begin
+  inherited;
+  MaskEditBxEdit.SetFocus;
+
 end;
 
 procedure TFTelaCadastroContasPagar.LabeledEditContaExit(Sender: TObject);
@@ -302,6 +575,7 @@ begin
     LabeledEditDsConta.Text := PlanoContasVO.dsConta;
     PlanoController.Free;
     LabeledEditPessoa.Enabled := false;
+    LabeledEditDsPessoa.Enabled := false;
     BtnPessoa.Enabled := false;
   except
     raise Exception.Create('Código Inválido');
@@ -374,6 +648,7 @@ begin
     LabeledEditPessoa.Text := inttostr(PessoaVO.idPessoa);
     PessoaController.Free;
     LabeledEditConta.Enabled := false;
+    LabeledEditDsConta.Enabled := false;
     BtnConta.Enabled := false;
   except
     raise Exception.Create('Código Inválido');
@@ -383,6 +658,7 @@ begin
   begin
     labeledEditDsPessoa.Text := '';
     labeledEditConta.Enabled := true;
+    labeledEditDsConta.Enabled := true;
     BtnConta.Enabled := true;
   end;
 end;
@@ -417,10 +693,107 @@ begin
       Result := result + ' AND ( UPPER(NRDOCUMENTO) LIKE ' +
         QuotedStr('%' + UpperCase(editBusca.Text) + '%') + ' ) ';
   end;
+end;
+
+procedure TFTelaCadastroContasPagar.ProcessarBaixa1Click(Sender: TObject);
+var
+  ContasPagar: TContasPagarVO;
+  PessoaController:TPessoasController;
+  PlanoController :TPlanoContasController;
+  PlanoDController : TPlanoContasController;
+  PlanoDVo : TPlanoContasVO;
+  HistoricoController : THistoricoController;
+  HistoricoVO : THistoricoVO;
+  PlanoVO : TPlanoContasVO;
+  PessoaVO: TPessoasVO;
+
+begin
+  inherited;
+  ContasPagar := nil;
+
+
+  if not CDSGrid.IsEmpty then
+    ContasPagar := ContasPagarController.ConsultarPorId
+      (CDSGrid.FieldByName('IDCONTASPAGAR').AsInteger);
+
+
+    MaskEdit3.Text := DateToStr(ContasPagar.DtEmissao);
+    EditBxDoc.Text := (ContasPagar.NrDocumento);
+    PessoaController := TPessoasController.Create;
+    PlanoDController := TPlanoContasController.Create;
+    if ContasPagar.IdPessoa <> 0 then
+    begin
+      PessoaVO := PessoaController.ConsultarPorId(ContasPagar.IdPessoa);
+      EditBxCredito.Text := PessoaVO.nome;
+    end;
+    if ContasPagar.IdConta <> 0 then
+    begin
+      PlanoDVO := PlanoDController.ConsultarPorId(ContasPagar.IdConta);
+      EditBxCredito.Text := PlanoDVo.dsConta;
+    end;
+
+    if ContasPagar.DtBaixa <> 0 then
+      MaskEditBxEdit.Text := DateTimeToStr(ContasPagar.DtBaixa)
+    else
+      MaskEditBxEdit.Text := '  /  /    ';
+
+    if ContasPagar.VlPago <> 0 then
+      Edit1.Text := FloatToStr(ContasPagar.VlPago)
+    else
+      Edit1.Text := '';
+
+    if ContasPagar.VlBaixa <> 0 then
+      EditBxValor.Text := FloatToStr(ContasPagar.VlBaixa)
+    else
+      EditBxValor.Text := '';
+
+    if ContasPagar.VlJuros <> 0 then
+      EditBxJuros.Text := FloatToStr(ContasPagar.VlJuros)
+    else
+      EditBxJuros.Text :='';
+    if ContasPagar.VlMulta <> 0 then
+      EditBxMulta.Text := FloatToStr(ContasPagar.VlMulta)
+    else
+      EditBxMulta.Text :='';
+
+    if ContasPagar.VlDesconto <> 0 then
+      EditBxDesc.Text := FloatToStr(ContasPagar.VlDesconto)
+    else
+      EditBxDesc.Text :='';
+
+    if ContasPagar.IdContaBaixa <> 0 then
+    begin
+      EditBxConta.Text := IntToStr(ContasPagar.IdContaBaixa);
+      PlanoController := TPlanoContasController.Create;
+      PlanoVO := PlanoController.ConsultarPorId(ContasPagar.IdContaBaixa);
+      EditBxDsConta.Text := PlanoVO.dsConta;
+    end
+    else
+    begin
+      EditBxConta.Text :='';
+      EditBxDsConta.Text :='';
+    end;
+
+    if ContasPagar.IdHistoricoBx <> 0 then
+    begin
+      EditBxHist.Text := IntToStr(ContasPagar.IdHistoricoBx);
+      HistoricoController := THistoricoController.Create;
+      HistoricoVO := HistoricoController.ConsultarPorId(ContasPagar.IdHistoricoBx);
+      EditBxDsHist.Text := HistoricoVo.DsHistorico;
+    end
+    else
+    begin
+      EditBxHist.Text :='';
+      EditBxDsHist.Text :='';
+    end;
 
 
 
 
+
+
+  PanelBaixa.Visible:=true;
+  PageControl.Enabled:=false;
 end;
 
 end.
