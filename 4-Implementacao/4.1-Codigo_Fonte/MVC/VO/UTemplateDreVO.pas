@@ -49,26 +49,35 @@ type
     [TColumn('total','Total',10,[ldLookup,ldComboBox], False)]
     property total: string  read Ftotal write Ftotal;
 
-    Function ValidarCamposObrigatorios:boolean;
+    procedure ValidarCamposObrigatorios;
 
   end;
 implementation
 
 
 
-function TTemplateDreVO.ValidarCamposObrigatorios: boolean;
+procedure TTemplateDreVO.ValidarCamposObrigatorios;
 begin
-  Result := true;
-  {if (Self.FdsConta = '') then
+  if (self.FidTemplate = 0) then
   begin
-    raise Exception.Create('O campo Descrição é obrigatório!');
-    Result := false;
-  end
-  else if (self.FnrClassificacao = '') then
+    raise Exception.Create('O campo Código é obrigatório!');
+  end;
+  if (Self.Fclassificacao = '') then
   begin
     raise Exception.Create('O campo Classificação é obrigatório!');
-    Result := false;
-  end;    }
+  end;
+  if (Self.Fordem = '' )then
+  begin
+    raise Exception.Create('O campo Ordem é obrigatório!');
+  end;
+  if (self.Fdescricao = '') then
+  begin
+    raise Exception.Create('O campo Descrição é obrigatório!');
+  end;
+  if (self.FflTipo = '') then
+  begin
+    raise Exception.Create('O campo Tipo é obrigatório!');
+  end;
 end;
 end.
 

@@ -65,7 +65,7 @@ type
     property IdHistorico: integer  read FIdHistorico write FIdHistorico;
     [TColumn('IdUnidade','Unidade',0,[ldLookup,ldComboBox], False)]
     property IdUnidade: integer  read FIdUnidade write FIdUnidade;
-    [TColumn('FlBaixa','Baixa',0,[ldLookup,ldComboBox], False)]
+    [TColumn('FlBaixa','Situação',10,[ldGrid,ldLookup,ldComboBox], False)]
     property FlBaixa: String  read FFlBaixa write FFlBaixa;
     [TColumn('IdConta','Id Conta',0,[ldLookup,ldComboBox], False)]
     property IdConta: Integer  read FIdConta write FIdConta;

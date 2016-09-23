@@ -89,7 +89,6 @@
         <DelphiCompile Include="$(MainSource)">
             <MainSource>MainSource</MainSource>
         </DelphiCompile>
-        <DCCReference Include="TestUCondominioController.pas"/>
         <DCCReference Include="..\controle\UCondominioController.pas"/>
         <DCCReference Include="..\controle\UCidadeController.pas"/>
         <DCCReference Include="..\controle\UCnaeController.pas"/>
@@ -117,25 +116,41 @@
         <DCCReference Include="..\VO\UProprietarioUnidadeVO.pas"/>
         <DCCReference Include="..\VO\UTotalGastoMesVO.pas"/>
         <DCCReference Include="..\VO\UUnidadeVO.pas"/>
-        <DCCReference Include="TestUPessoasController.pas"/>
-        <DCCReference Include="TestUUnidadeController.pas"/>
-        <DCCReference Include="TestUInquilinoUnidadeController.pas"/>
-        <DCCReference Include="TestUProprietarioUnidadeController.pas"/>
-        <DCCReference Include="TestUPrecoGasController.pas"/>
         <DCCReference Include="..\controle\UPrecoGasController.pas"/>
         <DCCReference Include="..\VO\UPrecoGasVO.pas"/>
         <DCCReference Include="..\VO\UInquilinoUnidadeVO.pas"/>
         <DCCReference Include="..\controle\UInquilinoUnidadeController.pas"/>
-        <DCCReference Include="TestUCondominioVO.pas"/>
         <DCCReference Include="..\VO\UTemplateFcxVO.pas"/>
         <DCCReference Include="..\VO\UPlanoContasVO.pas"/>
         <DCCReference Include="..\VO\UTemplateDreVO.pas"/>
         <DCCReference Include="..\controle\UPlanoContasController.pas"/>
         <DCCReference Include="..\controle\UTemplateDreController.pas"/>
         <DCCReference Include="..\controle\UTemplateFcxController.pas"/>
-        <DCCReference Include="TestUTemplateDreController.pas"/>
-        <DCCReference Include="TestUTemplateFcxController.pas"/>
-        <DCCReference Include="TestUPlanoContasController.pas"/>
+        <DCCReference Include="..\VO\UContasPagarVO.pas"/>
+        <DCCReference Include="..\VO\UContasReceberVO.pas"/>
+        <DCCReference Include="..\VO\UHistoricoVO.pas"/>
+        <DCCReference Include="..\controle\UContasPagarController.pas"/>
+        <DCCReference Include="..\controle\UContasReceberController.pas"/>
+        <DCCReference Include="..\controle\UHistoricoController.pas"/>
+        <DCCReference Include="TestController\TestUCondominioController.pas"/>
+        <DCCReference Include="TestController\TestUContasPagarController.pas"/>
+        <DCCReference Include="TestController\TestUContasReceberController.pas"/>
+        <DCCReference Include="TestController\TestUHistoricoController.pas"/>
+        <DCCReference Include="TestController\TestUInquilinoUnidadeController.pas"/>
+        <DCCReference Include="TestController\TestUPessoasController.pas"/>
+        <DCCReference Include="TestController\TestUPlanoContasController.pas"/>
+        <DCCReference Include="TestController\TestUPrecoGasController.pas"/>
+        <DCCReference Include="TestController\TestUProprietarioUnidadeController.pas"/>
+        <DCCReference Include="TestController\TestUTemplateDreController.pas"/>
+        <DCCReference Include="TestController\TestUTemplateFcxController.pas"/>
+        <DCCReference Include="TestController\TestUUnidadeController.pas"/>
+        <DCCReference Include="TestVO\TestUCondominioVO.pas"/>
+        <DCCReference Include="TestVO\TestUContasPagarVO.pas"/>
+        <DCCReference Include="TestVO\TestUContasReceberVO.pas"/>
+        <DCCReference Include="TestVO\TestUHistoricoVO.pas"/>
+        <DCCReference Include="TestVO\TestUPlanoContasVO.pas"/>
+        <DCCReference Include="TestVO\TestUTemplateDreVO.pas"/>
+        <DCCReference Include="TestVO\TestUTemplateFcxVO.pas"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

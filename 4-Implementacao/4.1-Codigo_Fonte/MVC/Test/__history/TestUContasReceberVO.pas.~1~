@@ -1,0 +1,124 @@
+unit TestUContasReceberVO;
+
+interface
+
+uses
+  TestFramework, SysUtils, Atributos, UUnidadeVO, UCondominioVO, Generics.Collections,
+  UGenericVO, Classes, Constantes, UHistoricoVO, UPlanoContasVO, UContasReceberVO;
+
+type
+
+
+  TestTContasReceberVO = class(TTestCase)
+  strict private
+    FContasReceberVO: TContasReceberVO;
+  public
+    procedure SetUp; override;
+    procedure TearDown; override;
+  published
+    procedure TestValidarCamposErro;
+    procedure TestValidarCampos;
+    procedure TestValidarBaixaErro;
+    procedure TestValidarBaixa;
+  end;
+
+implementation
+
+procedure TestTContasReceberVO.SetUp;
+begin
+  FContasReceberVO := TContasReceberVO.Create;
+end;
+
+procedure TestTContasReceberVO.TearDown;
+begin
+  FContasReceberVO.Free;
+  FContasReceberVO := nil;
+end;
+
+procedure TestTContasReceberVO.TestValidarCampos;
+var
+  ContasPagar : TContasPagarVO;
+begin
+  ContasPagar:= TContasPagarVO.Create;
+  ContasPagar.DtCompetencia := StrToDate('01/01/2016');
+  ContasPagar.DtEmissao := StrToDate('01/01/2016');
+  ContasPagar.DtVencimento := StrToDate('20/01/2016');
+  ContasPagar.NrDocumento := 'Teste 01';
+  ContasPagar.VlValor := StrToFloat('10,00');
+  try
+     ContasPagar.ValidarCampos;
+     Check(true,'sucesso!')
+  except on E: Exception do
+     Check(false,'Erro');
+  end;
+end;
+
+procedure TestTContasPagarVO.TestValidarCamposErro;
+var
+  ContasPagar : TContasPagarVO;
+begin
+  ContasPagar:= TContasPagarVO.Create;
+  ContasPagar.DtCompetencia := StrToDate('01/01/2016');
+  ContasPagar.DtEmissao := StrToDate('01/01/2016');
+  ContasPagar.DtVencimento := StrToDate('20/01/2016');
+  ContasPagar.NrDocumento := 'Teste 01';
+  ContasPagar.VlValor := StrToFloat('0');
+  try
+     ContasPagar.ValidarCampos;
+     Check(false,'Erro!')
+  except on E: Exception do
+     Check(true,'sucesso!');
+  end;
+end;
+procedure TestTContasPagarVO.TestValidarBaixa;
+var
+  ContasPagar : TContasPagarVO;
+begin
+  ContasPagar := TContasPagarVO.Create;
+  ContasPagar:= TContasPagarVO.Create;
+  ContasPagar.DtCompetencia := StrToDate('01/01/2016');
+  ContasPagar.DtEmissao := StrToDate('01/01/2016');
+  ContasPagar.DtVencimento := StrToDate('20/01/2016');
+  ContasPagar.NrDocumento := 'Teste 01';
+  ContasPagar.VlValor := StrToFloat('10,00');
+  ContasPagar.DtBaixa := StrToDate('20/01/2016');
+  ContasPagar.VlPago := StrToFloat('10,00');
+  ContasPagar.VlBaixa := StrToFloat('10,00');
+  ContasPagar.IdContaBaixa := StrToInt('4');
+  try
+    ContasPagar.ValidarBaixa;
+    Check(True,'Sucesso!')
+
+  except on E: Exception do
+     Check(false,'Erro');
+  end;
+end;
+
+procedure TestTContasPagarVO.TestValidarBaixaErro;
+var
+  ContasPagar : TContasPagarVO;
+begin
+  ContasPagar := TContasPagarVO.Create;
+  ContasPagar:= TContasPagarVO.Create;
+  ContasPagar.DtCompetencia := StrToDate('01/01/2016');
+  ContasPagar.DtEmissao := StrToDate('01/01/2016');
+  ContasPagar.DtVencimento := StrToDate('20/01/2016');
+  ContasPagar.NrDocumento := 'Teste 01';
+  ContasPagar.VlValor := StrToFloat('10,00');
+  ContasPagar.DtBaixa := StrToDate('20/01/2016');
+  ContasPagar.VlPago := StrToFloat('10,00');
+  ContasPagar.VlBaixa := StrToFloat('0');
+  ContasPagar.IdContaBaixa := StrToInt('4');
+  try
+    ContasPagar.ValidarBaixa;
+    Check(false,'Erro!')
+
+  except on E: Exception do
+     Check(true,'Sucesso');
+  end;
+end;
+
+initialization
+  RegisterTest(TestTContasReceberVO.Suite);
+end.
+

@@ -52,26 +52,31 @@ type
     [TColumn('linhatotal','Linhas Totalizadoras',10,[ldLookup,ldComboBox], False)]
     property linhatotal: string  read Flinhatotal write Flinhatotal;
 
-    Function ValidarCamposObrigatorios:boolean;
+    procedure ValidarCamposObrigatorios;
 
   end;
 implementation
 
 
 
-function TTemplateFcxVO.ValidarCamposObrigatorios: boolean;
+procedure TTemplateFcxVO.ValidarCamposObrigatorios;
 begin
-  Result := true;
-  {if (Self.FdsConta = '') then
+  if (self.FidTemplate = 0) then
   begin
     raise Exception.Create('O campo Descrição é obrigatório!');
-    Result := false;
-  end
-  else if (self.FnrClassificacao = '') then
+  end;
+  if (Self.Fclassificacao = '') then
   begin
     raise Exception.Create('O campo Classificação é obrigatório!');
-    Result := false;
-  end;    }
+  end;
+  if (self.Fdescricao = '') then
+  begin
+    raise Exception.Create('O campo Descrição é obrigatório!');
+  end;
+  if (self.FflTipo = '') then
+  begin
+    raise Exception.Create('O campo Tipo é obrigatório!');
+  end;
 end;
 
 end.

@@ -3,9 +3,8 @@ inherited FTelaCadastroTemplateDre: TFTelaCadastroTemplateDre
   PixelsPerInch = 96
   TextHeight = 13
   inherited PageControl: TPageControl
+    ActivePage = DadosCadastrais
     inherited Consulta: TTabSheet
-      ExplicitLeft = 4
-      ExplicitTop = 24
       inherited Panel2: TPanel
         object GroupBox2: TGroupBox
           Left = 63
@@ -48,27 +47,27 @@ inherited FTelaCadastroTemplateDre: TFTelaCadastroTemplateDre
             object Label1: TLabel
               Left = 18
               Top = 144
-              Width = 20
+              Width = 24
               Height = 13
               Caption = 'Tipo'
               Font.Charset = DEFAULT_CHARSET
               Font.Color = clWindowText
               Font.Height = -11
               Font.Name = 'Tahoma'
-              Font.Style = []
+              Font.Style = [fsBold]
               ParentFont = False
             end
             object Telefone_1: TLabel
               Left = 18
               Top = 56
-              Width = 61
+              Width = 72
               Height = 13
               Caption = 'Classifica'#231#227'o'
               Font.Charset = DEFAULT_CHARSET
               Font.Color = clWindowText
               Font.Height = -11
               Font.Name = 'Tahoma'
-              Font.Style = []
+              Font.Style = [fsBold]
               ParentFont = False
             end
             object LabelEditCodigo: TLabeledEdit
@@ -79,14 +78,14 @@ inherited FTelaCadastroTemplateDre: TFTelaCadastroTemplateDre
               Height = 21
               CharCase = ecUpperCase
               Color = clWhite
-              EditLabel.Width = 44
+              EditLabel.Width = 54
               EditLabel.Height = 13
               EditLabel.Caption = 'Template'
               EditLabel.Font.Charset = DEFAULT_CHARSET
               EditLabel.Font.Color = clWindowText
               EditLabel.Font.Height = -11
               EditLabel.Font.Name = 'Tahoma'
-              EditLabel.Font.Style = []
+              EditLabel.Font.Style = [fsBold]
               EditLabel.ParentFont = False
               Font.Charset = DEFAULT_CHARSET
               Font.Color = clBlue
@@ -104,14 +103,14 @@ inherited FTelaCadastroTemplateDre: TFTelaCadastroTemplateDre
               Height = 21
               CharCase = ecUpperCase
               Color = clWhite
-              EditLabel.Width = 46
+              EditLabel.Width = 55
               EditLabel.Height = 13
               EditLabel.Caption = 'Descri'#231#227'o'
               EditLabel.Font.Charset = DEFAULT_CHARSET
               EditLabel.Font.Color = clWindowText
               EditLabel.Font.Height = -11
               EditLabel.Font.Name = 'Tahoma'
-              EditLabel.Font.Style = []
+              EditLabel.Font.Style = [fsBold]
               EditLabel.ParentFont = False
               Font.Charset = DEFAULT_CHARSET
               Font.Color = clBlue
@@ -129,14 +128,14 @@ inherited FTelaCadastroTemplateDre: TFTelaCadastroTemplateDre
               Height = 21
               CharCase = ecUpperCase
               Color = clWhite
-              EditLabel.Width = 32
+              EditLabel.Width = 38
               EditLabel.Height = 13
               EditLabel.Caption = 'Ordem'
               EditLabel.Font.Charset = DEFAULT_CHARSET
               EditLabel.Font.Color = clWindowText
               EditLabel.Font.Height = -11
               EditLabel.Font.Name = 'Tahoma'
-              EditLabel.Font.Style = []
+              EditLabel.Font.Style = [fsBold]
               EditLabel.ParentFont = False
               Font.Charset = DEFAULT_CHARSET
               Font.Color = clBlue

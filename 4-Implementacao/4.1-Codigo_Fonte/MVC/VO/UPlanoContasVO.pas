@@ -34,7 +34,7 @@ type
     property nrClassificacao: string  read FnrClassificacao write FnrClassificacao;
     [TColumn('dsConta','Conta',400,[ldGrid,ldLookup,ldComboBox], False)]
     property dsConta: string  read FdsConta write FdsConta;
-    [TColumn('flTipo','Tipo',10,[ldLookup,ldComboBox], False)]
+    [TColumn('flTipo','Tipo',10,[ldGrid,ldLookup,ldComboBox], False)]
     property flTipo: string  read FflTipo write FflTipo;
     [TColumn('idCondominio','Condomínio',0,[ldLookup,ldComboBox], False)]
     property idcondominio: integer  read Fidcondominio write Fidcondominio;
@@ -45,13 +45,13 @@ type
 
 
     Procedure ValidarCamposObrigatorios;
-    Function Classificacao(Str: String): String;
+ //   Function Classificacao(Str: String): String;
 
   end;
 implementation
 
 
-
+  {
 function TPlanoContasVO.Classificacao(Str: String): String;
 begin
 begin
@@ -63,7 +63,7 @@ begin
      else Result:='99999999999999;0; ';
 end;
 end;
-
+        }
 Procedure TPlanoContasVO.ValidarCamposObrigatorios;
 begin
   if (Self.FdsConta = '') then

@@ -71,6 +71,8 @@ type
     BitBtn1: TBitBtn;
     MaskEdit3: TMaskEdit;
     Edit1: TEdit;
+    Edit2: TEdit;
+    Label15: TLabel;
     procedure FormCreate(Sender: TObject);
     procedure BitBtnNovoClick(Sender: TObject);
     function DoSalvar: boolean; override;
@@ -135,6 +137,7 @@ begin
   if(MessageDlg('Confirma cancelamento',mterror,mbokcancel,0)=mrok)then
   begin
     ContasReceberController.Alterar(ContasReceber);
+    DoConsultar;
     PanelBaixa.Visible := false;
     PageControl.Enabled:=true;
   end;
@@ -190,6 +193,7 @@ begin
   try
   ContasReceber.ValidarBaixa();
   ContasReceberController.Alterar(ContasReceber);
+  DoConsultar;
   PanelBaixa.Visible := false;
   PageControl.Enabled:=true;
   finally
@@ -249,6 +253,9 @@ begin
   begin
     LabeledEditConta.Text := IntToStr(TPlanoContasVO(FormPlanoConsulta.ObjetoRetornoVO).idPlanoContas);
     LabeledEditDsConta.Text := TPlanoContasVO(FormPlanoConsulta.ObjetoRetornoVO).dsConta;
+    LabeledEditPessoa.Enabled := false;
+    LabeledEditDsPessoa.Enabled := false;
+    BtnPessoa.Enabled := false;
   end;
   FormPlanoConsulta.Release;
 end;
@@ -306,6 +313,7 @@ Begin
   inherited;
   PanelBaixa.Visible:=false;
   PageControl.Enabled:=true;
+  DoConsultar;
 end;
 
 procedure TFTelaCadastroContasReceber.DoConsultar;
@@ -692,7 +700,7 @@ begin
     ContasReceber := ContasReceberController.ConsultarPorId
       (CDSGrid.FieldByName('IDCONTASRECEBER').AsInteger);
 
-
+    Edit2.Text := FloatToStr(ContasReceber.VlValor);
     MaskEdit3.Text := DateToStr(ContasReceber.DtCompetencia);
     EditBxDoc.Text := (ContasReceber.NrDocumento);
     UnidadeController := TUnidadeController.Create;

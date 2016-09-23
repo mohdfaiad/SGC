@@ -114,6 +114,8 @@ inherited FTelaCadastroContasReceber: TFTelaCadastroContasReceber
       end
     end
     inherited DadosCadastrais: TTabSheet
+      ExplicitLeft = 4
+      ExplicitTop = 24
       ExplicitWidth = 879
       ExplicitHeight = 449
       inherited PanelBotoes: TPanel
@@ -127,6 +129,8 @@ inherited FTelaCadastroContasReceber: TFTelaCadastroContasReceber
         ExplicitWidth = 879
         ExplicitHeight = 392
         inherited DadosPrincipais: TTabSheet
+          ExplicitLeft = 4
+          ExplicitTop = 24
           ExplicitWidth = 871
           ExplicitHeight = 364
           inherited PanelEdits: TPanel
@@ -350,8 +354,8 @@ inherited FTelaCadastroContasReceber: TFTelaCadastroContasReceber
     ExplicitWidth = 887
   end
   object PanelBaixa: TPanel
-    Left = 134
-    Top = 41
+    Left = 117
+    Top = 73
     Width = 639
     Height = 398
     ParentBackground = False
@@ -513,6 +517,19 @@ inherited FTelaCadastroContasReceber: TFTelaCadastroContasReceber
         Font.Style = [fsBold]
         ParentFont = False
       end
+      object Label15: TLabel
+        Left = 411
+        Top = 30
+        Width = 24
+        Height = 13
+        Caption = 'Valor'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'Tahoma'
+        Font.Style = []
+        ParentFont = False
+      end
       object BtnSair: TBitBtn
         Tag = 2
         Left = 562
@@ -527,7 +544,7 @@ inherited FTelaCadastroContasReceber: TFTelaCadastroContasReceber
       object EditBxCredito: TEdit
         Left = 96
         Top = 49
-        Width = 425
+        Width = 433
         Height = 21
         ReadOnly = True
         TabOrder = 15
@@ -571,14 +588,14 @@ inherited FTelaCadastroContasReceber: TFTelaCadastroContasReceber
       object EditBxDsConta: TEdit
         Left = 191
         Top = 237
-        Width = 330
+        Width = 338
         Height = 21
         ReadOnly = True
         TabOrder = 7
       end
       object BtnBxConta: TBitBtn
-        Left = 527
-        Top = 232
+        Left = 535
+        Top = 233
         Width = 33
         Height = 25
         Caption = 'P'
@@ -624,14 +641,14 @@ inherited FTelaCadastroContasReceber: TFTelaCadastroContasReceber
       object EditBxDsHist: TEdit
         Left = 191
         Top = 264
-        Width = 330
+        Width = 338
         Height = 21
         ReadOnly = True
         TabOrder = 10
       end
       object BtnBxHist: TBitBtn
-        Left = 527
-        Top = 263
+        Left = 535
+        Top = 260
         Width = 33
         Height = 25
         Caption = 'P'
@@ -692,6 +709,7 @@ inherited FTelaCadastroContasReceber: TFTelaCadastroContasReceber
         Height = 21
         EditMask = '!99/99/9999;1;_'
         MaxLength = 10
+        ReadOnly = True
         TabOrder = 17
         Text = '  /  /    '
       end
@@ -701,6 +719,15 @@ inherited FTelaCadastroContasReceber: TFTelaCadastroContasReceber
         Width = 89
         Height = 21
         TabOrder = 1
+        OnExit = Edit1Exit
+      end
+      object Edit2: TEdit
+        Left = 440
+        Top = 22
+        Width = 89
+        Height = 21
+        ReadOnly = True
+        TabOrder = 18
         OnExit = Edit1Exit
       end
     end

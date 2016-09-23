@@ -133,10 +133,33 @@ end;
 function TFTelaCadastroPlano.EditsToObject(
   PlanoContas: TPlanoContasVO): TPlanoContasVO;
 begin
-  PlanoContas.idConta := StrToInt(LabelEditCodigo.Text);
-  PlanoContas.dsConta := LabelEditDescricao.Text;
-  PlanoContas.nrClassificacao := EditClassificacao.Text;
-  PlanoContas.flTipo := IntToStr(comboboxTipo.ItemIndex);
+  if LabelEditCodigo.Text <> '' then
+  begin
+    PlanoContas.idConta := StrToInt(LabelEditCodigo.Text);
+  end;
+  if LabelEditDescricao.Text <> '' then
+  begin
+    PlanoContas.dsConta := LabelEditDescricao.Text;
+  end;
+  if EditClassificacao.Text <> '' then
+  begin
+    PlanoContas.nrClassificacao := EditClassificacao.Text;
+  end;
+  if ComboboxTipo.ItemIndex >= 0 then
+  begin
+    if ComboboxTipo.ItemIndex = 0 then
+      PlanoContas.flTipo :='S';
+    if ComboboxTipo.ItemIndex = 1 then
+      PlanoContas.flTipo :='B';
+    if ComboboxTipo.ItemIndex = 2 then
+      PlanoContas.flTipo :='C';
+    if ComboboxTipo.ItemIndex = 3 then
+      PlanoContas.flTipo :='R';
+    if ComboboxTipo.ItemIndex = 4 then
+      PlanoContas.flTipo :='D';
+    if ComboboxTipo.ItemIndex = 5 then
+      PlanoContas.flTipo :='O';
+  end;
 
   Result := PlanoContas;
 end;
@@ -164,7 +187,22 @@ begin
     LabelEditCodigo.Text := IntToStr(PlanoContas.idConta);
     LabelEditDescricao.Text := PlanoContas.dsConta;
     EditClassificacao.Text := PlanoContas.nrClassificacao;
-//    comboboxTipo.ItemIndex := IntToStr(PlanoContas.flTipo);
+    if PlanoContas.flTipo <> '' then
+    begin
+      if PlanoContas.flTipo = 'S' then
+        comboboxTipo.ItemIndex := 0
+      else if PlanoCONTAS.flTipo = 'B' then
+        ComboboxTipo.ItemIndex := 1
+      else if PlanoContas.flTipo = 'C' then
+        ComboboxTipo.ItemIndex := 2
+      else if PlanoContas.flTipo = 'R' then
+        ComboboxTipo.ItemIndex := 3
+      else if PlanoContas.flTipo = 'D' then
+        ComboboxTipo.ItemIndex := 4
+      else if PlanoContas.flTipo = 'O' then
+        ComboboxTipo.ItemIndex := 5;
+     // ComboBoxTipo.ItemIndex:= Integer(Comboboxtipo.items.indexof(planocontas.flTipo));
+    end;
   end;
 end;
 

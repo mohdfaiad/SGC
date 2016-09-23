@@ -73,6 +73,8 @@ type
     Label13: TLabel;
     Edit1: TEdit;
     Label14: TLabel;
+    Label15: TLabel;
+    Edit2: TEdit;
     procedure FormCreate(Sender: TObject);
     procedure BitBtnNovoClick(Sender: TObject);
     function DoSalvar: boolean; override;
@@ -126,6 +128,7 @@ begin
   inherited;
   PanelBaixa.Visible:=false;
   PageControl.Enabled:=true;
+  DoConsultar;
 end;
 
 procedure TFTelaCadastroContasPagar.BitBtn1Click(Sender: TObject);
@@ -148,8 +151,9 @@ begin
   if(MessageDlg('Confirma cancelamento',mterror,mbokcancel,0)=mrok)then
   begin
     ContasPagarController.Alterar(ContasPagar);
+    DoConsultar;
     PanelBaixa.Visible := false;
-     PageControl.Enabled:=true;
+    PageControl.Enabled:=true;
   end;
 
 end;
@@ -183,6 +187,7 @@ begin
   try
   ContasPagar.ValidarBaixa();
   ContasPagarController.Alterar(ContasPagar);
+  DoConsultar;
   PanelBaixa.Visible := false;
   PageControl.Enabled:=true;
   finally
@@ -716,7 +721,7 @@ begin
     ContasPagar := ContasPagarController.ConsultarPorId
       (CDSGrid.FieldByName('IDCONTASPAGAR').AsInteger);
 
-
+    Edit2.Text := FloatToStr(ContasPagar.VlValor);
     MaskEdit3.Text := DateToStr(ContasPagar.DtEmissao);
     EditBxDoc.Text := (ContasPagar.NrDocumento);
     PessoaController := TPessoasController.Create;

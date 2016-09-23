@@ -91,7 +91,7 @@ begin
     TemplateDre:=EditsToObject(TTemplateDreVO.Create);
     try
       try
-        if (TemplateDre.ValidarCamposObrigatorios()) then
+       TemplateDre.ValidarCamposObrigatorios();
         begin
            if (StatusTela = stInserindo) then
            begin
@@ -106,10 +106,10 @@ begin
             TemplateDre := EditsToObject(TemplateDre);
             TemplateDreController.Alterar(TemplateDre);
             Result := true;
-          end;
-        end
+          end
         else
           Result := false;
+        end;
       except
         on E: Exception do
         begin
@@ -125,12 +125,30 @@ end;
 function TFTelaCadastroTemplateDre.EditsToObject(
   TemplateDre: TTemplateDreVO): TTemplateDreVO;
 begin
-  TemplateDre.idTemplate := StrToInt(LabelEditCodigo.Text);
-  TemplateDre.descricao := LabeledEditDescricao.Text;
-  TemplateDre.Classificacao := EditClassificacao.Text;
-  TemplateDre.flTipo := IntToStr(comboboxTipo.ItemIndex);
-  TemplateDre.ordem := LabeledEditOrdem.Text;
-  TemplateDre.total := LabeledEditTotal.Text;
+  if LabelEditCodigo.Text <> '' then
+  begin
+    TemplateDre.idTemplate := StrToInt(LabelEditCodigo.Text);
+  end;
+  if LabeledEditDescricao.Text <> '' then
+  begin
+    TemplateDre.descricao := LabeledEditDescricao.Text;
+  end;
+  if EditClassificacao.Text <> '' then
+  begin
+    TemplateDre.Classificacao := EditClassificacao.Text;
+  end;
+  if ComboboxTipo.ItemIndex >= 0  then
+  begin
+    TemplateDre.flTipo := IntToStr(comboboxTipo.ItemIndex);
+  end;
+  if LabeledEditOrdem.Text <> '' then
+  begin
+    TemplateDre.ordem := LabeledEditOrdem.Text;
+  end;
+  if LabeledEditTotal.Text <> '' then
+  begin
+    TemplateDre.total := LabeledEditTotal.Text;
+  end;
   Result := TemplateDre;
 
 end;
@@ -160,7 +178,14 @@ begin
     EditClassificacao.Text := TemplateDre.Classificacao;
     LabeledEditOrdem.Text := TemplateDre.ordem;
     LabeledEditTotal.Text := TemplateDre.total;
-//    comboboxTipo.ItemIndex := IntToStr(TemplateDre.flTipo);
+    if templateDre.flTipo <> '' then
+    begin
+      if templateDre.flTipo = '0' then
+        comboboxTipo.ItemIndex := 0
+      else
+        comboboxtipo.ItemIndex := 1;
+    end;
+ //  comboboxTipo.ItemIndex := IntToStr(TemplateDre.flTipo);
   end;
 end;
 

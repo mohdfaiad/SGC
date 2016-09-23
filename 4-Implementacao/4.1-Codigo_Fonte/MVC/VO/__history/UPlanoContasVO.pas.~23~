@@ -1,0 +1,79 @@
+unit UPlanoContasVO;
+
+interface
+
+uses Atributos, Classes, Constantes, Generics.Collections, SysUtils, UGenericVO, UCondominioVO, UUnidadeVO, UPessoasVO;
+
+type
+  [TEntity]
+  [TTable('PlanoContas')]
+  TPlanoContasVO = class(TGenericVO)
+  private
+    FidPlanoContas : Integer;
+    FidConta: Integer;
+    FdsConta : string;
+    FnrClassificacao : string;
+    FflTipo: string;
+    FidCondominio : Integer;
+    FidUnidade : Integer;
+    FidPessoa : Integer;
+  public
+
+    CondominioVO : TCondominioVO;
+    UnidadeVO : TUnidadeVO;
+    PessoaVO : TPessoasVO;
+
+
+    [TId('idPlanoContas')]
+    [TGeneratedValue(sAuto)]
+    property idPlanoContas : Integer  read FidPlanoContas write FidPlanoContas;
+
+    [TColumn('idConta','Código',0,[ldGrid,ldLookup,ldComboBox], False)]
+    property idConta: Integer  read FidConta write FidConta;
+    [TColumn('nrClassificacao','Classificação',200,[ldGrid,ldLookup,ldComboBox], False)]
+    property nrClassificacao: string  read FnrClassificacao write FnrClassificacao;
+    [TColumn('dsConta','Conta',400,[ldGrid,ldLookup,ldComboBox], False)]
+    property dsConta: string  read FdsConta write FdsConta;
+    [TColumn('flTipo','Tipo',10,[ldLookup,ldComboBox], False)]
+    property flTipo: string  read FflTipo write FflTipo;
+    [TColumn('idCondominio','Condomínio',0,[ldLookup,ldComboBox], False)]
+    property idcondominio: integer  read Fidcondominio write Fidcondominio;
+    [TColumn('idUnidade','Unidade',0,[ldLookup,ldComboBox], False)]
+    property idUnidade: integer  read FidUnidade write FidUnidade;
+    [TColumn('idPessoa','Pessoa',0,[ldLookup,ldComboBox], False)]
+    property idPessoa: integer  read FidPessoa write FidPessoa;
+
+
+    Procedure ValidarCamposObrigatorios;
+    Function Classificacao(Str: String): String;
+
+  end;
+implementation
+
+
+
+function TPlanoContasVO.Classificacao(Str: String): String;
+begin
+begin
+  if (Self.FflTipo = '0' ) then
+
+  else
+    if Length(Str)=14 then
+       Result:='99.999.999/9999-99;0; '
+     else Result:='99999999999999;0; ';
+end;
+end;
+
+Procedure TPlanoContasVO.ValidarCamposObrigatorios;
+begin
+  if (Self.FdsConta = '') then
+  begin
+    raise Exception.Create('O campo Descrição é obrigatório!');
+  end
+  else if (self.FnrClassificacao = '') then
+  begin
+    raise Exception.Create('O campo Classificação é obrigatório!');
+  end;
+end;
+end.
+

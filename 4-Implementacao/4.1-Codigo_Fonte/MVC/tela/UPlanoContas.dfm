@@ -1,10 +1,17 @@
 inherited FTelaCadastroPlano: TFTelaCadastroPlano
   Caption = 'Cadastro Plano de Contas'
+  ClientWidth = 797
+  ExplicitWidth = 813
   PixelsPerInch = 96
   TextHeight = 13
   inherited PageControl: TPageControl
+    Width = 797
     inherited Consulta: TTabSheet
+      inherited Grid: TDBGrid
+        Width = 789
+      end
       inherited Panel2: TPanel
+        Width = 789
         inherited GroupBox1: TGroupBox
           Left = 292
           Top = 3
@@ -46,9 +53,22 @@ inherited FTelaCadastroPlano: TFTelaCadastroPlano
       end
     end
     inherited DadosCadastrais: TTabSheet
+      ExplicitLeft = 4
+      ExplicitTop = 24
+      ExplicitWidth = 775
+      ExplicitHeight = 386
+      inherited PanelBotoes: TPanel
+        Width = 789
+      end
       inherited PageControlEdit: TPageControl
+        Width = 789
         inherited DadosPrincipais: TTabSheet
+          ExplicitLeft = 4
+          ExplicitTop = 24
+          ExplicitWidth = 767
+          ExplicitHeight = 301
           inherited PanelEdits: TPanel
+            Width = 781
             object Telefone_1: TLabel
               Left = 18
               Top = 72
@@ -168,5 +188,8 @@ inherited FTelaCadastroPlano: TFTelaCadastroPlano
         end
       end
     end
+  end
+  inherited StatusBar1: TStatusBar
+    Width = 797
   end
 end

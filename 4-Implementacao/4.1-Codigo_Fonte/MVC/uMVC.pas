@@ -4,7 +4,8 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes,
-  Vcl.Graphics,  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, ULogin, Vcl.Menus;
+  Vcl.Graphics,  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, ULogin, Vcl.Menus,
+  pngextra, Vcl.ExtCtrls;
 type
     TFormMenu = class(TForm)
     MainMenu1: TMainMenu;
@@ -32,6 +33,11 @@ type
     ContasaPagar1: TMenuItem;
     Histricos1: TMenuItem;
     ContasaReceber1: TMenuItem;
+    Panel1: TPanel;
+    PNGButton1: TPNGButton;
+    PNGButton2: TPNGButton;
+    PNGButton3: TPNGButton;
+    PNGButton4: TPNGButton;
     procedure FormCreate(Sender: TObject);
     procedure Pessoa1Click(Sender: TObject);
     procedure Sair1Click(Sender: TObject);
@@ -52,6 +58,10 @@ type
     procedure ContasaPagar1Click(Sender: TObject);
     procedure Histricos1Click(Sender: TObject);
     procedure ContasaReceber1Click(Sender: TObject);
+    procedure PNGButton1Click(Sender: TObject);
+    procedure PNGButton2Click(Sender: TObject);
+    procedure PNGButton3Click(Sender: TObject);
+    procedure PNGButton4Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -218,6 +228,36 @@ begin
   Application.CreateForm(TFTelaCadastroPlano,FormPlanoContas);
   FormPlanoContas.ShowModal;
   FormPlanoContas.Close;
+end;
+
+procedure TFormMenu.PNGButton1Click(Sender: TObject);
+var FormCondominio:TFTelaCadastroCondominio;
+begin
+  Application.CreateForm(TFTelaCadastroCondominio,FormCondominio);
+  FormCondominio.ShowModal;
+  FormCondominio.Close;
+end;
+
+procedure TFormMenu.PNGButton2Click(Sender: TObject);
+var FormUnidade:TFTelaCadastroUnidade;
+begin
+  Application.CreateForm(TFTelaCadastroUnidade,FormUnidade);
+  FormUnidade.ShowModal;
+  FormUnidade.Close;
+end;
+procedure TFormMenu.PNGButton3Click(Sender: TObject);
+var FormContasReceber:TFTelaCadastroContasReceber;
+begin
+  Application.CreateForm(TFTelaCadastroContasReceber,FormContasReceber);
+  FormContasReceber.ShowModal;
+  FormContasReceber.Close;
+end;
+procedure TFormMenu.PNGButton4Click(Sender: TObject);
+var FormContasPagar:TFTelaCadastroContasPagar;
+begin
+  Application.CreateForm(TFTelaCadastroContasPagar,FormContasPagar);
+  FormContasPagar.ShowModal;
+  FormContasPagar.Close;
 end;
 
 procedure TFormMenu.PreoGs1Click(Sender: TObject);
