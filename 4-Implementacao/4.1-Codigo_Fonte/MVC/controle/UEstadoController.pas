@@ -13,6 +13,7 @@ type
 
   public
     function ConsultarPorId(id: integer): TEstadoVO;
+    procedure ValidarDados(Objeto:TEstadoVO);override;
   end;
 
 implementation
@@ -32,6 +33,12 @@ begin
   if (P <> nil) then
     P.PaisVO := TDAO.ConsultarPorId<TPaisVO>(P.idPais);
   result := P;
+end;
+
+procedure TEstadoController.ValidarDados(Objeto: TEstadoVO);
+begin
+  inherited;
+
 end;
 
 begin

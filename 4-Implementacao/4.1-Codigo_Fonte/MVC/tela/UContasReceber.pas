@@ -97,6 +97,7 @@ type
     procedure EditBxHistExit(Sender: TObject);
     procedure EditBxContaExit(Sender: TObject);
     procedure Edit1Exit(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
 
 
   private
@@ -109,7 +110,7 @@ type
 
 var
   FTelaCadastroContasReceber: TFTelaCadastroContasReceber;
-  ContasReceberController : TContasReceberController;
+  ControllerContasReceber : TContasReceberController;
 
 implementation
 
@@ -123,7 +124,7 @@ var
 begin
 //  inherited;
   ContasReceber := nil;
-  ContasReceber := ContasReceberController.ConsultarPorId(CDSGrid.FieldByName('IDCONTASRECEBER')
+  ContasReceber := ControllerContasReceber.ConsultarPorId(CDSGrid.FieldByName('IDCONTASRECEBER')
             .AsInteger);
   ContasReceber.DtBaixa := 0;
   ContasReceber.VlBaixa := 0;
@@ -136,7 +137,7 @@ begin
   ContasReceber.FlBaixa := 'P';
   if(MessageDlg('Confirma cancelamento',mterror,mbokcancel,0)=mrok)then
   begin
-    ContasReceberController.Alterar(ContasReceber);
+    ControllerContasReceber.Alterar(ContasReceber);
     DoConsultar;
     PanelBaixa.Visible := false;
     PageControl.Enabled:=true;
@@ -170,29 +171,81 @@ var
 begin
 //  inherited;
   ContasReceber := nil;
-  ContasReceber := ContasReceberController.ConsultarPorId(CDSGrid.FieldByName('IDCONTASRECEBER')
+  ContasReceber := ControllerContasReceber.ConsultarPorId(CDSGrid.FieldByName('IDCONTASRECEBER')
             .AsInteger);
   if (MaskEditBxEdit.Text<> '  /  /    ' ) then
     ContasReceber.DtBaixa := StrToDateTime(MaskEditBxEdit.Text);
-  if EditBxValor.Text <> '' then
-    ContasReceber.VlBaixa := StrToFloat(EditBxValor.Text);
-  if EditBxJuros.Text <> '' then
-    ContasReceber.VlJuros := StrToFloat (EditBxJuros.Text);
-  if EditBxMulta.Text <> '' then
-    ContasReceber.VlMulta := StrToFloat (EditBxMulta.Text);
-  if EditBxDesc.Text <> '' then
-    ContasReceber.VlDesconto := StrToFloat (EditBxDesc.Text);
+  if (EditBxValor.Text <> '') then
+  begin
+    try
+      ContasReceber.VlBaixa := StrToFloat(EditBxValor.Text);
+    except
+      on E:Exception do
+      begin
+        E.Message := 'Valor Baixa não é válido!';
+        raise;
+      end;
+    end;
+  end;
+  if (EditBxJuros.Text <> '') then
+  begin
+    try
+      ContasReceber.VlJuros := StrToFloat(EditBxJuros.Text);
+    except
+      on E:Exception do
+      begin
+        E.Message := 'Valor Juros não é válido!';
+        raise;
+      end;
+    end;
+  end;
+  if (EditBxMulta.Text <> '') then
+  begin
+    try
+      ContasReceber.VlMulta := StrToFloat(EditBxMulta.Text);
+    except
+      on E:Exception do
+      begin
+        E.Message := 'Valor Multa não é válido!';
+        raise;
+      end;
+    end;
+  end;
+  if (EditBxDesc.Text <> '') then
+  begin
+    try
+      ContasReceber.VlDesconto := StrToFloat(EditBxDesc.Text);
+    except
+      on E:Exception do
+      begin
+        E.Message := 'Valor Desconto não é válido!';
+        raise;
+      end;
+    end;
+  end;
+
+ if (Edit1.Text <> '') then
+  begin
+    try
+      ContasReceber.VlPago := StrToFloat(Edit1.Text);
+    except
+      on E:Exception do
+      begin
+        E.Message := 'Valor Pago não é válido!';
+        raise;
+      end;
+    end;
+  end;
   if EditBxHist.Text <> '' then
     ContasReceber.IdHistoricoBx := StrToInt (EditBxHist.Text);
   if EditBxConta.Text <> '' then
     ContasReceber.IdContaBaixa := StrToInt(EditBxConta.Text);
-  if Edit1.Text <> '' then
-    ContasReceber.VlPago := StrToFloat(Edit1.Text);
+
 
   ContasReceber.FlBaixa := 'B';
   try
   ContasReceber.ValidarBaixa();
-  ContasReceberController.Alterar(ContasReceber);
+  ControllerContasReceber.Alterar(ContasReceber);
   DoConsultar;
   PanelBaixa.Visible := false;
   PageControl.Enabled:=true;
@@ -322,7 +375,7 @@ var
   filtro: string;
 begin
   filtro := MontaFiltro;
-  listaContasReceber := ContasReceberController.Consultar(filtro);
+  listaContasReceber := ControllerContasReceber.Consultar(filtro);
   PopulaGrid<TContasReceberVo>(listaContasReceber);
 end;
 
@@ -332,10 +385,18 @@ var
 begin
   try
     try
-      ContasReceber := TContasReceberVo.Create;
-      ContasReceber.idContasReceber := CDSGrid.FieldByName('IDCONTASRECEBER')
-        .AsInteger;
-      ContasReceberController.Excluir(ContasReceber);
+       ContasReceber := TContasReceberVo.Create;
+      ContasReceber := ControllerContasReceber.ConsultarPorId(CDSGrid.FieldByName('IDCONTASRECEBER')
+            .AsInteger);
+   //   ContasPagar.idContasPagar := CDSGrid.FieldByName('IDCONTASPAGAR')
+   //     .AsInteger;
+      if ContasReceber.FlBaixa <> 'B' then
+         ControllerContasReceber.Excluir(ContasReceber)
+      else
+      begin
+        ShowMessage('Para excluir deverá cancelar a baixa!');
+        PageControl.ActivePage := Consulta;
+      end;
     except
       on E: Exception do
       begin
@@ -361,16 +422,24 @@ begin
            begin
               ContasReceber.idcondominio := FormEmpresaTrab.CodigoEmpLogada;
               ContasReceber.FlBaixa := 'P';
-              ContasReceberController.Inserir(ContasReceber);
+              ControllerContasReceber.Inserir(ContasReceber);
               Result := true;
            end
             else if (StatusTela = stEditando) then
              begin
-            ContasReceber := ContasReceberController.ConsultarPorId(CDSGrid.FieldByName('IDCONTASRECEBER')
+            ContasReceber := ControllerContasReceber.ConsultarPorId(CDSGrid.FieldByName('IDCONTASRECEBER')
               .AsInteger);
             ContasReceber := EditsToObject(ContasReceber);
-            ContasReceberController.Alterar(ContasReceber);
+            if ContasReceber.FlBaixa <> 'B' then
+          begin
+            ControllerContasReceber.Alterar(ContasReceber);
             Result := true;
+          end
+          Else
+          begin
+            ShowMessage('Para alterar deverá cancelar a baixa!');
+            PageControl.ActivePage := Consulta;
+          end;
           end
         else
           Result := false;
@@ -393,11 +462,12 @@ begin
   inherited;
   ContasReceber := nil;
   if not CDSGrid.IsEmpty then
-    ContasReceber := ContasReceberController.ConsultarPorId
+    ContasReceber := ControllerContasReceber.ConsultarPorId
       (CDSGrid.FieldByName('IDCONTASRECEBER').AsInteger);
 
   if Edit1.Text <> '' then
   begin
+    try
     if (StrToFloat(Edit1.Text) > ContasReceber.VlValor)  then
     begin
         if(MessageDlg('Deseja Considerar a diferença como juros?',mterror,mbokcancel,0)=mrok)then
@@ -413,6 +483,14 @@ begin
           EditBxValor.Text := FloatToStr(ContasReceber.VlValor);
           EditBxDesc.Text := FloatToStr(ContasReceber.VlValor - (StrToFloat(Edit1.Text) ));
         end;
+    end;
+    except
+      on E:Exception do
+      begin
+        E.Message := 'Valor não é válido!';
+        raise;
+      end;
+
     end;
   end;
 end;
@@ -472,9 +550,18 @@ begin
 
   if (LabeledEditDoc.Text <> '') then
     ContasReceber.NrDocumento := LabeledEditDoc.Text;
-
   if (EditValor.Text <> '') then
-    ContasReceber.VlValor := StrToFloat(EditValor.Text);
+  begin
+    try
+      ContasReceber.VlValor := StrToFloat(EditValor.Text);
+    except
+      on E:Exception do
+      begin
+        E.Message := 'Valor digitado não é válido!';
+        raise;
+      end;
+    end;
+  end;
 
   if (LabeledEditComp.Text <> '') then
     ContasReceber.DsComplemento := LabeledEditComp.Text;
@@ -501,9 +588,17 @@ begin
 
 end;
 
+procedure TFTelaCadastroContasReceber.FormClose(Sender: TObject;
+  var Action: TCloseAction);
+begin
+  inherited;
+  FreeAndNil(ControllerContasReceber);
+end;
+
 procedure TFTelaCadastroContasReceber.FormCreate(Sender: TObject);
 begin
   ClasseObjetoGridVO := TContasReceberVO;
+  ControllerContasReceber := TContasReceberController.Create;
   inherited;
 end;
 
@@ -515,7 +610,7 @@ begin
   ContasReceber := nil;
 
   if not CDSGrid.IsEmpty then
-    ContasReceber := ContasReceberController.ConsultarPorId
+    ContasReceber := ControllerContasReceber.ConsultarPorId
       (CDSGrid.FieldByName('IDCONTASRECEBER').AsInteger);
 
   if ContasReceber <> nil then
@@ -697,7 +792,7 @@ begin
 
 
   if not CDSGrid.IsEmpty then
-    ContasReceber := ContasReceberController.ConsultarPorId
+    ContasReceber := ControllerContasReceber.ConsultarPorId
       (CDSGrid.FieldByName('IDCONTASRECEBER').AsInteger);
 
     Edit2.Text := FloatToStr(ContasReceber.VlValor);

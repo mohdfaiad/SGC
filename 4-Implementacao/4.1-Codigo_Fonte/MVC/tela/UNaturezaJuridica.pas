@@ -24,6 +24,7 @@ type
     procedure DoConsultar; override;
     procedure BitBtnNovoClick(Sender: TObject);
     procedure CarregaObjetoSelecionado; override;
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
 
   private
     { Private declarations }
@@ -38,7 +39,7 @@ type
 
 var
   FTelaCadastroNaturezaJuridica: TFTelaCadastroNaturezaJuridica;
-  NaturezaJuridicaController: TNaturezaJuridicaController;
+  ControllerNaturezaJuridica: TNaturezaJuridicaController;
 
 implementation
 
@@ -71,7 +72,7 @@ var
   filtro: string;
 begin
   filtro := MontaFiltro;
-  listaNaturezaJuridica := NaturezaJuridicaController.Consultar(filtro);
+  listaNaturezaJuridica := ControllerNaturezaJuridica.Consultar(filtro);
   PopulaGrid<TNaturezaJuridicaVo>(listaNaturezaJuridica);
 end;
 
@@ -84,7 +85,7 @@ begin
       NaturezaJuridica := TNaturezaJuridicaVo.Create;
       NaturezaJuridica.idNatureza := CDSGrid.FieldByName('IDNATUREZA')
         .AsInteger;
-      NaturezaJuridicaController.Excluir(NaturezaJuridica);
+      ControllerNaturezaJuridica.Excluir(NaturezaJuridica);
     except
       on E: Exception do
       begin
@@ -108,15 +109,15 @@ begin
         begin
           if (StatusTela = stInserindo) then
           begin
-            NaturezaJuridicaController.Inserir(NaturezaJuridica);
+            ControllerNaturezaJuridica.Inserir(NaturezaJuridica);
             Result := true;
           end
           else if (StatusTela = stEditando) then
           begin
-            NaturezaJuridica := NaturezaJuridicaController.ConsultarPorId(CDSGrid.FieldByName('IDCNAE')
+            NaturezaJuridica := ControllerNaturezaJuridica.ConsultarPorId(CDSGrid.FieldByName('IDNATUREZA')
               .AsInteger);
             NaturezaJuridica := EditsToObject(NaturezaJuridica);
-            NaturezaJuridicaController.Alterar(NaturezaJuridica);
+            ControllerNaturezaJuridica.Alterar(NaturezaJuridica);
             Result := true;
           end;
         end
@@ -140,10 +141,18 @@ begin
   Result := NaturezaJuridica;
 end;
 
+procedure TFTelaCadastroNaturezaJuridica.FormClose(Sender: TObject;
+  var Action: TCloseAction);
+begin
+  inherited;
+  FreeAndNil(ControllerNaturezaJuridica);
+end;
+
 procedure TFTelaCadastroNaturezaJuridica.FormCreate(Sender: TObject);
 begin
   ClasseObjetoGridVO := TNaturezaJuridicaVo;
   RadioButtonNaturezaJuridica.Checked := true;
+  ControllerNaturezaJuridica := TNaturezaJuridicaController.Create;
   inherited;
 end;
 
@@ -154,7 +163,7 @@ begin
   inherited;
 
   if not CDSGrid.IsEmpty then
-    NaturezaJuridica := NaturezaJuridicaController.ConsultarPorId
+    NaturezaJuridica := ControllerNaturezaJuridica.ConsultarPorId
       (CDSGrid.FieldByName('IDNATUREZA').AsInteger);
 
   if Assigned(NaturezaJuridica) then

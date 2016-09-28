@@ -101,6 +101,7 @@ type
     procedure BitBtn1Click(Sender: TObject);
   //  procedure EditBxValorExit(Sender: TObject);
     procedure Edit1Exit(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
 
 
 
@@ -115,7 +116,7 @@ type
 
 var
   FTelaCadastroContasPagar: TFTelaCadastroContasPagar;
-  ContasPagarController : TContasPagarController;
+  ControllerContasPagar : TContasPagarController;
 
 implementation
 
@@ -137,7 +138,7 @@ var
 begin
 //  inherited;
   ContasPagar := nil;
-  ContasPagar := ContasPagarController.ConsultarPorId(CDSGrid.FieldByName('IDCONTASPAGAR')
+  ContasPagar := ControllerContasPagar.ConsultarPorId(CDSGrid.FieldByName('IDCONTASPAGAR')
             .AsInteger);
   ContasPagar.DtBaixa := 0;
   ContasPagar.VlBaixa := 0;
@@ -150,7 +151,7 @@ begin
   ContasPagar.FlBaixa := 'P';
   if(MessageDlg('Confirma cancelamento',mterror,mbokcancel,0)=mrok)then
   begin
-    ContasPagarController.Alterar(ContasPagar);
+    ControllerContasPagar.Alterar(ContasPagar);
     DoConsultar;
     PanelBaixa.Visible := false;
     PageControl.Enabled:=true;
@@ -164,29 +165,86 @@ var
 begin
 //  inherited;
   ContasPagar := nil;
-  ContasPagar := ContasPagarController.ConsultarPorId(CDSGrid.FieldByName('IDCONTASPAGAR')
+  ContasPagar := ControllerContasPagar.ConsultarPorId(CDSGrid.FieldByName('IDCONTASPAGAR')
             .AsInteger);
   if (MaskEditBxEdit.Text<> '  /  /    ' ) then
     ContasPagar.DtBaixa := StrToDateTime(MaskEditBxEdit.Text);
-  if EditBxValor.Text <> '' then
-    ContasPagar.VlBaixa := StrToFloat(EditBxValor.Text);
-  if EditBxJuros.Text <> '' then
-    ContasPagar.VlJuros := StrToFloat (EditBxJuros.Text);
-  if EditBxMulta.Text <> '' then
-    ContasPagar.VlMulta := StrToFloat (EditBxMulta.Text);
-  if EditBxDesc.Text <> '' then
-    ContasPagar.VlDesconto := StrToFloat (EditBxDesc.Text);
+
+  if (EditBxValor.Text <> '') then
+  begin
+    try
+      ContasPagar.VlBaixa := StrToFloat(EditBxValor.Text);
+    except
+      on E:Exception do
+      begin
+        E.Message := 'Valor Baixa não é válido!';
+        raise;
+      end;
+    end;
+  end;
+
+  if (EditBxJuros.Text <> '') then
+  begin
+    try
+      ContasPagar.VlJuros := StrToFloat(EditBxJuros.Text);
+    except
+      on E:Exception do
+      begin
+        E.Message := 'Valor Juros não é válido!';
+        raise;
+      end;
+    end;
+  end;
+
+  if (EditBxMulta.Text <> '') then
+  begin
+    try
+      ContasPagar.VlMulta := StrToFloat(EditBxMulta.Text);
+    except
+      on E:Exception do
+      begin
+        E.Message := 'Valor Multa não é válido!';
+        raise;
+      end;
+    end;
+  end;
+
+  if (EditBxDesc.Text <> '') then
+  begin
+    try
+      ContasPagar.VlDesconto := StrToFloat(EditBxDesc.Text);
+    except
+      on E:Exception do
+      begin
+        E.Message := 'Valor Desconto não é válido!';
+        raise;
+      end;
+    end;
+  end;
+
+  if (Edit1.Text <> '') then
+  begin
+    try
+      ContasPagar.VlPago := StrToFloat(Edit1.Text);
+    except
+      on E:Exception do
+      begin
+        E.Message := 'Valor Pago não é válido!';
+        raise;
+      end;
+    end;
+  end;
+
   if EditBxHist.Text <> '' then
     ContasPagar.IdHistoricoBx := StrToInt (EditBxHist.Text);
   if EditBxConta.Text <> '' then
     ContasPagar.IdContaBaixa := StrToInt(EditBxConta.Text);
-  if Edit1.Text <> '' then
-    ContasPagar.VlPago := StrToFloat(Edit1.Text);
+
 
   ContasPagar.FlBaixa := 'B';
   try
   ContasPagar.ValidarBaixa();
-  ContasPagarController.Alterar(ContasPagar);
+  ControllerContasPagar.Alterar(ContasPagar);
   DoConsultar;
   PanelBaixa.Visible := false;
   PageControl.Enabled:=true;
@@ -308,7 +366,7 @@ var
   filtro: string;
 begin
   filtro := MontaFiltro;
-  listaContasPagar := ContasPagarController.Consultar(filtro);
+  listaContasPagar := ControllerContasPagar.Consultar(filtro);
   PopulaGrid<TContasPagarVo>(listaContasPagar);
 end;
 
@@ -319,9 +377,18 @@ begin
   try
     try
       ContasPagar := TContasPagarVo.Create;
-      ContasPagar.idContasPagar := CDSGrid.FieldByName('IDCONTASPAGAR')
-        .AsInteger;
-      ContasPagarController.Excluir(ContasPagar);
+      ContasPagar := ControllerContasPagar.ConsultarPorId(CDSGrid.FieldByName('IDCONTASPAGAR')
+            .AsInteger);
+   //   ContasPagar.idContasPagar := CDSGrid.FieldByName('IDCONTASPAGAR')
+   //     .AsInteger;
+      if ContasPagar.FlBaixa <> 'B' then
+         ControllerContasPagar.Excluir(ContasPagar)
+      else
+      begin
+        ShowMessage('Para excluir deverá cancelar a baixa!');
+        PageControl.ActivePage := Consulta;
+      end;
+
     except
       on E: Exception do
       begin
@@ -346,16 +413,24 @@ begin
         begin
           ContasPagar.idcondominio := FormEmpresaTrab.CodigoEmpLogada;
           ContasPagar.FlBaixa :='P';
-          ContasPagarController.Inserir(ContasPagar);
+          ControllerContasPagar.Inserir(ContasPagar);
           result := true;
         end
         else if (StatusTela = stEditando) then
         begin
-          ContasPagar := ContasPagarController.ConsultarPorId(CDSGrid.FieldByName('IDCONTASPAGAR')
+          ContasPagar := ControllerContasPagar.ConsultarPorId(CDSGrid.FieldByName('IDCONTASPAGAR')
             .AsInteger);
           ContasPagar := EditsToObject(ContasPagar);
-          ContasPagarController.Alterar(ContasPagar);
-          Result := true;
+          if ContasPagar.FlBaixa <> 'B' then
+          begin
+            ControllerContasPagar.Alterar(ContasPagar);
+            Result := true;
+          end
+          Else
+          begin
+            ShowMessage('Para alterar deverá cancelar a baixa!');
+            PageControl.ActivePage := Consulta;
+          end;
         end
       except
         on E: Exception do
@@ -375,11 +450,12 @@ begin
   inherited;
   ContasPagar := nil;
   if not CDSGrid.IsEmpty then
-    ContasPagar := ContasPagarController.ConsultarPorId
+    ContasPagar := ControllerContasPagar.ConsultarPorId
       (CDSGrid.FieldByName('IDCONTASPAGAR').AsInteger);
 
   if Edit1.Text <> '' then
   begin
+  try
     if (StrToFloat(Edit1.Text) > ContasPagar.VlValor)  then
     begin
         if(MessageDlg('Deseja Considerar a diferença como juros?',mterror,mbokcancel,0)=mrok)then
@@ -395,6 +471,14 @@ begin
           EditBxValor.Text := FloatToStr(ContasPagar.VlValor);
           EditBxDesc.Text := FloatToStr(ContasPagar.VlValor - (StrToFloat(Edit1.Text) ));
         end;
+    end;
+  except
+      on E:Exception do
+      begin
+        E.Message := 'Valor não é válido!';
+        raise;
+      end;
+
     end;
   end;
 end;
@@ -440,42 +524,12 @@ begin
     EditBxDsHist.Text := '';
   end;
 end;
-{
-procedure TFTelaCadastroContasPagar.EditBxValorExit(Sender: TObject);
-var
-  ContasPagar: TContasPagarVO;
-begin
-  inherited;
-  ContasPagar := nil;
-  if not CDSGrid.IsEmpty then
-    ContasPagar := ContasPagarController.ConsultarPorId
-      (CDSGrid.FieldByName('IDCONTASPAGAR').AsInteger);
-  if True then
-
-
-
-  if (StrToFloat(EditBxValor.Text) > ContasPagar.VlValor)  then
-  begin
-      if(MessageDlg('Deseja Considerar a diferença como juros?',mterror,mbokcancel,0)=mrok)then
-      begin
-        EditBxJuros.Text := FloatToStr((StrToFloat(EditBxValor.Text) - ContasPagar.VlValor));
-      end;
-  end;
-  if (StrToFloat(EditBxValor.Text) < ContasPagar.VlValor) then
-  begin
-      if(MessageDlg('Deseja Considerar a diferença como Desconto?',mterror,mbokcancel,0)=mrok)then
-      begin
-        EditBxDesc.Text := FloatToStr(ContasPagar.VlValor - (StrToFloat(EditBxValor.Text) ));
-      end;
-  end;
-
-
-
-end;  }
 
 function TFTelaCadastroContasPagar.EditsToObject(
   ContasPagar: TContasPagarVO): TContasPagarVO;
+
 begin
+
   if(MaskEditComp.Text<> '  /  /    ' )then
     ContasPagar.DtCompetencia := StrToDateTime(MaskEditComp.Text);
   if(MaskEditEmissao.Text<> '  /  /    ' )then
@@ -484,8 +538,20 @@ begin
     ContasPagar.DtVencimento := StrToDateTime(MaskEditVenc.Text);
   if (LabeledEditDoc.Text <> '') then
     ContasPagar.NrDocumento := LabeledEditDoc.Text;
+
   if (EditValor.Text <> '') then
-    ContasPagar.VlValor := StrToFloat(EditValor.Text);
+  begin
+    try
+      ContasPagar.VlValor := StrToFloat(EditValor.Text);
+    except
+      on E:Exception do
+      begin
+        E.Message := 'Valor digitado não é válido!';
+        raise;
+      end;
+    end;
+  end;
+
   if (LabeledEditComp.Text <> '') then
     ContasPagar.DsComplemento := LabeledEditComp.Text;
   if(LabeledEditHistorico.Text<>'')then
@@ -510,9 +576,17 @@ begin
   Result := ContasPagar;
 end;
 
+procedure TFTelaCadastroContasPagar.FormClose(Sender: TObject;
+  var Action: TCloseAction);
+begin
+  inherited;
+  FreeAndNil(ControllerContasPagar);
+end;
+
 procedure TFTelaCadastroContasPagar.FormCreate(Sender: TObject);
 begin
   ClasseObjetoGridVO := TContasPagarVO;
+  ControllerContasPagar := TContasPagarController.Create;
   inherited;
 end;
 
@@ -524,40 +598,42 @@ begin
   ContasPagar := nil;
 
   if not CDSGrid.IsEmpty then
-    ContasPagar := ContasPagarController.ConsultarPorId
+    ContasPagar := ControllerContasPagar.ConsultarPorId
       (CDSGrid.FieldByName('IDCONTASPAGAR').AsInteger);
 
   if ContasPagar <> nil then
   begin
-    if ContasPagar.PessoaVO <> nil then
-    begin
-      LabeledEditPessoa.Text := IntToStr(ContasPagar.PessoaVo.idPessoa);
-      LabeledEditDsPessoa.Text := ContasPagar.PessoaVO.nome;
-    end;
-    if (ContasPagar.PlanoContasContaVO <> nil ) then
-    begin
-      LabeledEditConta.Text := IntToStr(ContasPagar.PlanoContasContaVO.idPlanoContas);
-      LabeledEditDsConta.Text := ContasPagar.PlanoContasContaVO.dsConta;
-    end;
-    if ContasPagar.PlanoContasContraPartidaVO <> nil then
-    begin
-      LabeledEditContraP.Text := IntToStr(ContasPagar.PlanoContasContraPartidaVO.idPlanoContas);
-      LabeledEditDsContra.Text := ContasPagar.PlanoContasContraPartidaVO.dsConta;
+
+        if ContasPagar.PessoaVO <> nil then
+        begin
+          LabeledEditPessoa.Text := IntToStr(ContasPagar.PessoaVo.idPessoa);
+          LabeledEditDsPessoa.Text := ContasPagar.PessoaVO.nome;
+        end;
+        if (ContasPagar.PlanoContasContaVO <> nil ) then
+        begin
+          LabeledEditConta.Text := IntToStr(ContasPagar.PlanoContasContaVO.idPlanoContas);
+          LabeledEditDsConta.Text := ContasPagar.PlanoContasContaVO.dsConta;
+        end;
+        if ContasPagar.PlanoContasContraPartidaVO <> nil then
+        begin
+          LabeledEditContraP.Text := IntToStr(ContasPagar.PlanoContasContraPartidaVO.idPlanoContas);
+          LabeledEditDsContra.Text := ContasPagar.PlanoContasContraPartidaVO.dsConta;
+        end;
+
+        if ContasPagar.HistoricoVO <> nil then
+        begin
+          LabeledEditHistorico.Text := IntToStr(ContasPagar.HistoricoVO.idHistorico);
+          LabeledEditDsHist.Text :=  ContasPagar.HistoricoVO.DsHistorico;
+        end;
+
+        EditValor.Text := FloatToStr(ContasPagar.VlValor);
+        LabeledEditComp.Text := ContasPagar.DsComplemento;
+        LabeledEditDoc.Text := ContasPagar.NrDocumento;
+        MaskEditComp.Text := DateToStr(ContasPagar.DtCompetencia);
+        MaskEditEmissao.Text := DateToStr(ContasPagar.DtEmissao);
+        MaskEditVenc.Text := DateToStr(ContasPagar.DtVencimento);
     end;
 
-    if ContasPagar.HistoricoVO <> nil then
-    begin
-      LabeledEditHistorico.Text := IntToStr(ContasPagar.HistoricoVO.idHistorico);
-      LabeledEditDsHist.Text :=  ContasPagar.HistoricoVO.DsHistorico;
-    end;
-
-    EditValor.Text := FloatToStr(ContasPagar.VlValor);
-    LabeledEditComp.Text := ContasPagar.DsComplemento;
-    LabeledEditDoc.Text := ContasPagar.NrDocumento;
-    MaskEditComp.Text := DateToStr(ContasPagar.DtCompetencia);
-    MaskEditEmissao.Text := DateToStr(ContasPagar.DtEmissao);
-    MaskEditVenc.Text := DateToStr(ContasPagar.DtVencimento);
-  end;
 end;
 
 procedure TFTelaCadastroContasPagar.GroupBox2Click(Sender: TObject);
@@ -718,7 +794,7 @@ begin
 
 
   if not CDSGrid.IsEmpty then
-    ContasPagar := ContasPagarController.ConsultarPorId
+    ContasPagar := ControllerContasPagar.ConsultarPorId
       (CDSGrid.FieldByName('IDCONTASPAGAR').AsInteger);
 
     Edit2.Text := FloatToStr(ContasPagar.VlValor);

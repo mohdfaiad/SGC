@@ -13,6 +13,7 @@ type
 
   public
     function ConsultarPorId(id: integer): TTotalGastoMesVO;
+    procedure ValidarDados(Objeto:TTotalGastoMesVO);override;
   end;
 
 implementation
@@ -27,6 +28,12 @@ var
 begin
   P := TDAO.ConsultarPorId<TTotalGastoMesVO>(id);
   result := P;
+end;
+
+procedure TTotalGastoMesController.ValidarDados(Objeto: TTotalGastoMesVO);
+begin
+  inherited;
+
 end;
 
 begin

@@ -25,6 +25,7 @@ type
     function MontaFiltro: string;
     procedure btnConsultaEstadoClick(Sender: TObject);
     procedure CarregaObjetoSelecionado; override;
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
 
   private
     { Private declarations }
@@ -42,8 +43,7 @@ implementation
 uses UPais, UPaisVO;
 
 var
-  // EstadoController: TController<TEstadoVO>;
-  EstadoController: TEstadoController;
+  ControllerEstado: TEstadoController;
 
 {$R *.dfm}
   { TFTelaCadastroEstado }
@@ -76,7 +76,7 @@ begin
   inherited;
   if (not CDSGrid.IsEmpty) then
   begin
-    ObjetoRetornoVO := EstadoController.ConsultarPorId(CDSGRID.FieldByName('IDESTADO').AsInteger);
+    ObjetoRetornoVO := ControllerEstado.ConsultarPorId(CDSGRID.FieldByName('IDESTADO').AsInteger);
   end;
 end;
 {var
@@ -106,7 +106,7 @@ var
   filtro: string;
 begin
   filtro := MontaFiltro;
-  listaEstado := EstadoController.Consultar(filtro);
+  listaEstado := ControllerEstado.Consultar(filtro);
   PopulaGrid<TEstadoVO>(listaEstado);
 end;
 
@@ -118,7 +118,7 @@ begin
     try
       Estado := TEstadoVO.Create;
       Estado.idEstado := CDSGrid.FieldByName('IDESTADO').AsInteger;
-      EstadoController.Excluir(Estado);
+      ControllerEstado.Excluir(Estado);
     except
       on E: Exception do
       begin
@@ -143,15 +143,15 @@ begin
         begin
           if (StatusTela = stInserindo) then
           begin
-            EstadoController.Inserir(Estado);
+            ControllerEstado.Inserir(Estado);
             Result := true;
           end
           else if (StatusTela = stEditando) then
           begin
-            Estado := EstadoController.ConsultarPorId(CDSGrid.FieldByName('IDESTADO')
+            Estado := ControllerEstado.ConsultarPorId(CDSGrid.FieldByName('IDESTADO')
               .AsInteger);
             Estado := EditsToObject(Estado);
-            EstadoController.Alterar(Estado);
+            ControllerEstado.Alterar(Estado);
             Result := true;
           end;
         end
@@ -178,10 +178,18 @@ begin
   Result := Estado;
 end;
 
+procedure TFTelaCadastroEstado.FormClose(Sender: TObject;
+  var Action: TCloseAction);
+begin
+  inherited;
+  FreeAndNil(ControllerEstado);
+end;
+
 procedure TFTelaCadastroEstado.FormCreate(Sender: TObject);
 begin
   ClasseObjetoGridVO := TEstadoVO;
   RadioButtonNome.Checked := true;
+  ControllerEstado := TEstadoController.Create;
   inherited;
 end;
 
@@ -193,7 +201,7 @@ begin
 
   Estado := nil;
   if not CDSGrid.IsEmpty then
-    Estado := EstadoController.ConsultarPorId(CDSGrid.FieldByName('IDESTADO')
+    Estado := ControllerEstado.ConsultarPorId(CDSGrid.FieldByName('IDESTADO')
       .AsInteger);
 
   if Estado <> nil then

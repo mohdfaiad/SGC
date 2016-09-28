@@ -29,6 +29,7 @@ type
     procedure DoConsultar; override;
     function DoExcluir: boolean; override;
     procedure BitBtnNovoClick(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
   private
     { Private declarations }
   public
@@ -46,7 +47,7 @@ implementation
 
 { TFTelaCadastroTemplateFcx }
 var
-TemplateFcxController : TTemplateFcxController;
+  ControllerTemplateFcx : TTemplateFcxController;
 
 procedure TFTelaCadastroTemplateFcx.BitBtnNovoClick(Sender: TObject);
 begin
@@ -60,7 +61,7 @@ var
   filtro: string;
 begin
   filtro := MontaFiltro;
-  listaTemplateFcx := TemplateFcxController.Consultar(filtro);
+  listaTemplateFcx := ControllerTemplateFcx.Consultar(filtro);
   PopulaGrid<TTemplateFcxVO>(listaTemplateFcx);
 end;
 
@@ -72,7 +73,7 @@ begin
     try
       TemplateFcx := TTemplateFcxVO.Create;
       TemplateFcx.idFcx := CDSGrid.FieldByName('IDFCX').AsInteger;
-      TemplateFcxController.Excluir(TemplateFcx);
+      ControllerTemplateFcx.Excluir(TemplateFcx);
     except
       on E: Exception do
       begin
@@ -100,15 +101,15 @@ begin
            if (StatusTela = stInserindo) then
            begin
               TemplateFcx.idcondominio := FormEmpresaTrab.CodigoEmpLogada;
-              TemplateFcxController.Inserir(TemplateFcx);
+              ControllerTemplateFcx.Inserir(TemplateFcx);
               Result := true;
            end
             else if (StatusTela = stEditando) then
              begin
-            TemplateFcx := TemplateFcxController.ConsultarPorId(CDSGrid.FieldByName('IDFCX')
+            TemplateFcx := ControllerTemplateFcx.ConsultarPorId(CDSGrid.FieldByName('IDFCX')
               .AsInteger);
             TemplateFcx := EditsToObject(TemplateFcx);
-            TemplateFcxController.Alterar(TemplateFcx);
+            ControllerTemplateFcx.Alterar(TemplateFcx);
             Result := true;
           end
         else
@@ -162,9 +163,17 @@ if LabelEditCodigo.Text <> '' then
 
 end;
 
+procedure TFTelaCadastroTemplateFcx.FormClose(Sender: TObject;
+  var Action: TCloseAction);
+begin
+  inherited;
+  FreeAndNil(ControllerTemplateFcx);
+end;
+
 procedure TFTelaCadastroTemplateFcx.FormCreate(Sender: TObject);
 begin
   ClasseObjetoGridVO := TTemplateFcxVO;
+  ControllerTemplateFcx := TTemplateFcxController.Create;
   inherited;
 end;
 
@@ -176,7 +185,7 @@ begin
   TemplateFcx := nil;
 
   if not CDSGrid.IsEmpty then
-    TemplateFcx := TemplateFcxController.ConsultarPorId
+    TemplateFcx := ControllerTemplateFcx.ConsultarPorId
       (CDSGrid.FieldByName('IDFCX').AsInteger);
 
   if TemplateFcx <> nil then

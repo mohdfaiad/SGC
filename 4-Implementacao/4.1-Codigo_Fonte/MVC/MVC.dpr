@@ -80,15 +80,5 @@ begin
   Application.MainFormOnTaskbar := True;
   TStyleManager.TrySetStyle('Amethyst Kamri');
   Application.CreateForm(TFormMenu, FormMenu);
-  Application.CreateForm(TFTelaCadastroProprietario, FTelaCadastroProprietario);
-  Application.CreateForm(TFTelaCadastroInquilino, FTelaCadastroInquilino);
-  Application.CreateForm(TFTelaCadastroTotalGastoMes, FTelaCadastroTotalGastoMes);
-  Application.CreateForm(TFTelaCadastroPrecoGas, FTelaCadastroPrecoGas);
-  Application.CreateForm(TFTelaCadastroPlano, FTelaCadastroPlano);
-  Application.CreateForm(TFTelaCadastroTemplateDre, FTelaCadastroTemplateDre);
-  Application.CreateForm(TFTelaCadastroTemplateFcx, FTelaCadastroTemplateFcx);
-  Application.CreateForm(TFTelaCadastroContasPagar, FTelaCadastroContasPagar);
-  Application.CreateForm(TFTelaCadastroHistorico, FTelaCadastroHistorico);
-  Application.CreateForm(TFTelaCadastroContasReceber, FTelaCadastroContasReceber);
   Application.Run;
 end.

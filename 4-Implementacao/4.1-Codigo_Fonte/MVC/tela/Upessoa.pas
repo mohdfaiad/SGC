@@ -49,6 +49,7 @@ type
     procedure BtnConsultaEstadoClick(Sender: TObject);
     procedure BtnConsultaPaisClick(Sender: TObject);
     procedure CarregaObjetoSelecionado; override;
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
 
   private
 
@@ -67,7 +68,7 @@ implementation
 uses UCnae, UCnaeVO, UCidade, UCidadeVO, UEstado, UEstadoVO, UPais, UPaisVO;
 
 var
-  PessoaController: TPessoasController;
+  ControllerPessoa: TPessoasController;
 
 procedure TFTelaCadastroPessoa.BitBtnNovoClick(Sender: TObject);
 begin
@@ -130,7 +131,7 @@ begin
   inherited;
   if (not CDSGrid.IsEmpty) then
   begin
-    ObjetoRetornoVO := PessoaController.ConsultarPorId(CDSGRID.FieldByName('IDPESSOA').AsInteger);
+    ObjetoRetornoVO := ControllerPessoa.ConsultarPorId(CDSGRID.FieldByName('IDPESSOA').AsInteger);
   end;
 end;
 
@@ -140,7 +141,7 @@ var
   filtro: string;
 begin
   filtro := MontaFiltro;
-  listaPessoa := PessoaController.Consultar(filtro);
+  listaPessoa := ControllerPessoa.Consultar(filtro);
   PopulaGrid<TPessoasVO>(listaPessoa);
 end;
 
@@ -152,7 +153,7 @@ begin
     try
       Pessoa := TPessoasVO.Create;
       Pessoa.idPessoa := CDSGrid.FieldByName('IDPESSOA').AsInteger;
-      PessoaController.Excluir(Pessoa);
+      ControllerPessoa.Excluir(Pessoa);
     except
       on E: Exception do
       begin
@@ -178,15 +179,15 @@ begin
         begin
           pessoa.MascaraCnpjCpf(Pessoa.Cnpjcpf);
 //            Pessoa.Cnpjcpf := MaskEditCNPJCPF.Text;
-          PessoaController.Inserir(pessoa);
+          ControllerPessoa.Inserir(pessoa);
           result := true;
         end
         else if (StatusTela = stEditando) then
         begin
-          Pessoa := PessoaController.ConsultarPorId(CDSGrid.FieldByName('IDPESSOA')
+          Pessoa := ControllerPessoa.ConsultarPorId(CDSGrid.FieldByName('IDPESSOA')
             .AsInteger);
           Pessoa := EditsToObject(Pessoa);
-          PessoaController.Alterar(Pessoa);
+          ControllerPessoa.Alterar(Pessoa);
           Result := true;
         end
       except
@@ -222,10 +223,18 @@ begin
   Result := Pessoa;
 end;
 
+procedure TFTelaCadastroPessoa.FormClose(Sender: TObject;
+  var Action: TCloseAction);
+begin
+  inherited;
+  FreeAndNil(ControllerPessoa);
+end;
+
 procedure TFTelaCadastroPessoa.FormCreate(Sender: TObject);
 begin
   ClasseObjetoGridVO := TPessoasVO;
   RadioButtonNome.Checked := true;
+  ControllerPessoa := TPessoasController.Create;
   inherited;
 end;
 
@@ -237,7 +246,7 @@ begin
 
   Pessoa := nil;
   if not CDSGrid.IsEmpty then
-    Pessoa := PessoaController.ConsultarPorId(CDSGrid.FieldByName('IDPESSOA')
+    Pessoa := ControllerPessoa.ConsultarPorId(CDSGrid.FieldByName('IDPESSOA')
       .AsInteger);
 
   if Pessoa <> nil then

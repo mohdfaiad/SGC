@@ -27,6 +27,7 @@ type
     procedure DoConsultar; override;
     function DoExcluir: boolean; override;
     procedure BitBtnNovoClick(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
   private
     { Private declarations }
   public
@@ -42,7 +43,7 @@ implementation
 
 {$R *.dfm}
 var
-TemplateDreController: TTemplateDreController;
+  ControllerTemplateDre: TTemplateDreController;
 
 procedure TFTelaCadastroTemplateDre.BitBtnNovoClick(Sender: TObject);
 begin
@@ -56,7 +57,7 @@ var
   filtro: string;
 begin
   filtro := MontaFiltro;
-  listaTemplateDre := TemplateDreController.Consultar(filtro);
+  listaTemplateDre := ControllerTemplateDre.Consultar(filtro);
   PopulaGrid<TTemplateDreVO>(listaTemplateDre);
 end;
 
@@ -68,7 +69,7 @@ begin
     try
       TemplateDre := TTemplateDreVO.Create;
       TemplateDre.idDre := CDSGrid.FieldByName('IDDRE').AsInteger;
-      TemplateDreController.Excluir(TemplateDre);
+      ControllerTemplateDre.Excluir(TemplateDre);
     except
       on E: Exception do
       begin
@@ -96,15 +97,15 @@ begin
            if (StatusTela = stInserindo) then
            begin
               TemplateDre.idcondominio := FormEmpresaTrab.CodigoEmpLogada;
-              TemplateDreController.Inserir(TemplateDre);
+              ControllerTemplateDre.Inserir(TemplateDre);
               Result := true;
            end
             else if (StatusTela = stEditando) then
              begin
-            TemplateDre := TemplateDreController.ConsultarPorId(CDSGrid.FieldByName('IDDRE')
+            TemplateDre := ControllerTemplateDre.ConsultarPorId(CDSGrid.FieldByName('IDDRE')
               .AsInteger);
             TemplateDre := EditsToObject(TemplateDre);
-            TemplateDreController.Alterar(TemplateDre);
+            ControllerTemplateDre.Alterar(TemplateDre);
             Result := true;
           end
         else
@@ -153,9 +154,17 @@ begin
 
 end;
 
+procedure TFTelaCadastroTemplateDre.FormClose(Sender: TObject;
+  var Action: TCloseAction);
+begin
+  inherited;
+  FreeAndNil(ControllerTemplateDre);
+end;
+
 procedure TFTelaCadastroTemplateDre.FormCreate(Sender: TObject);
 begin
   ClasseObjetoGridVO := TTemplateDreVO;
+  ControllerTemplateDre := TTemplateDreController.Create;
   inherited;
 
 end;
@@ -168,7 +177,7 @@ begin
   TemplateDre := nil;
 
   if not CDSGrid.IsEmpty then
-    TemplateDre := TemplateDreController.ConsultarPorId
+    TemplateDre := ControllerTemplateDre.ConsultarPorId
       (CDSGrid.FieldByName('IDDRE').AsInteger);
 
   if TemplateDre <> nil then

@@ -25,6 +25,7 @@ type
     function DoExcluir: boolean; override;
     procedure DoConsultar; override;
     procedure BitBtnNovoClick(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
 
 
   private
@@ -40,7 +41,7 @@ type
 
 var
   FTelaCadastroProprietario: TFTelaCadastroProprietario;
-  ProprietarioUnidadeController :TProprietarioUnidadeController;
+  ControllerProprietarioUnidade :TProprietarioUnidadeController;
 
 
 
@@ -76,7 +77,7 @@ var
   filtro: string;
 begin
   filtro := MontaFiltro;
-  listaProprietarioUnidade := ProprietarioUnidadeController.Consultar(filtro);
+  listaProprietarioUnidade := ControllerProprietarioUnidade.Consultar(filtro);
   PopulaGrid<TProprietarioUnidadeVo>(listaProprietarioUnidade);
 end;
 function TFTelaCadastroProprietario.DoExcluir: boolean;
@@ -88,7 +89,7 @@ begin
       ProprietarioUnidade := TProprietarioUnidadeVo.Create;
       ProprietarioUnidade.idproprietarioUnidade := CDSGrid.FieldByName('IDPROPRIETARIOUNIDADE')
         .AsInteger;
-      ProprietarioUnidadeController.Excluir(ProprietarioUnidade);
+      ControllerProprietarioUnidade.Excluir(ProprietarioUnidade);
     except
       on E: Exception do
       begin
@@ -112,15 +113,15 @@ begin
           if (StatusTela = stInserindo) then
           begin
             ProprietarioUnidade.idUnidade := idunidade;
-            ProprietarioUnidadeController.Inserir(ProprietarioUnidade);
+            ControllerProprietarioUnidade.Inserir(ProprietarioUnidade);
             Result := true;
           end
           else if (StatusTela = stEditando) then
           begin
-            ProprietarioUnidade := ProprietarioUnidadeController.ConsultarPorId(CDSGrid.FieldByName('IDPROPRIETARIOUNIDADE')
+            ProprietarioUnidade := ControllerProprietarioUnidade.ConsultarPorId(CDSGrid.FieldByName('IDPROPRIETARIOUNIDADE')
               .AsInteger);
             ProprietarioUnidade := EditsToObject(ProprietarioUnidade);
-            ProprietarioUnidadeController.Alterar(ProprietarioUnidade);
+            ControllerProprietarioUnidade.Alterar(ProprietarioUnidade);
             Result := true;
           end;
       except
@@ -147,11 +148,17 @@ begin
 
 end;
 
+procedure TFTelaCadastroProprietario.FormClose(Sender: TObject;
+  var Action: TCloseAction);
+begin
+  inherited;
+  FreeAndNil(ControllerProprietarioUnidade);
+end;
+
 procedure TFTelaCadastroProprietario.FormCreate(Sender: TObject);
 begin
   ClasseObjetoGridVO := TProprietarioUnidadeVo;
-
-
+  ControllerProprietarioUnidade := TProprietarioUnidadeController.Create;
   inherited;
 
 end;
@@ -163,7 +170,7 @@ begin
   inherited;
 
   if not CDSGrid.IsEmpty then
-    ProprietarioUnidade := ProprietarioUnidadeController.ConsultarPorId
+    ProprietarioUnidade := ControllerProprietarioUnidade.ConsultarPorId
       (CDSGrid.FieldByName('IDPROPRIETARIOUNIDADE').AsInteger);
 
   if Assigned(ProprietarioUnidade) then

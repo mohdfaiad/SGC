@@ -113,10 +113,10 @@ procedure TContasReceberVO.ValidarBaixa;
 begin
  if (Self.FDtBaixa = 0)  then
    raise Exception.Create('O campo Data Baixa é obrigatório!');
-  if (Self.FVlBaixa= 0) then
-    raise Exception.Create('O campo Valor é obrigatório!');
-  if ( Self.FVlPago=0) then
-    raise Exception.Create('O campo Valor Pago é obrigatório!');
+  if ((Self.FVlBaixa <= 0) or (self.FVlBaixa <> self.VlValor)) then
+    raise Exception.Create('O campo Valor Baixa é obrigatório e não pode ser diferente que o valor!');
+  if ( Self.FVlPago<=0) then
+    raise Exception.Create('O campo Valor  é obrigatório!');
   if (self.FDtBaixa < self.DtCompetencia) then
     raise Exception.Create('A data da baixa não pode ser menor que a data de competencia!');
   if (Self.FIdContaBaixa = 0) then
@@ -142,7 +142,7 @@ begin
     raise Exception.Create('O campo Documento é obrigatório!');
   if (Self.FDtVencimento = 0) then
    raise Exception.Create('O campo Data Vencimento é obrigatório!');
-  if (Self.FVlValor= 0) then
+  if (Self.FVlValor<= 0) then
     raise Exception.Create('O campo Valor é obrigatório!');
   if (Self.FDtVencimento < self.FDtCompetencia) then
     raise Exception.Create('A data de Competencia deve ser menor que a data de Vencimento!');

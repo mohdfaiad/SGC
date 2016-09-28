@@ -14,6 +14,7 @@ type
 
   public
     function ConsultarPorId(id: integer): TCondominioVO;
+     procedure ValidarDados(Objeto:TCondominioVO);override;
   end;
 
 implementation
@@ -41,6 +42,12 @@ begin
   end;
   cidadeController.Free;
   result := P;
+end;
+
+procedure TCondominioController.ValidarDados(Objeto: TCondominioVO);
+begin
+  inherited;
+
 end;
 
 begin

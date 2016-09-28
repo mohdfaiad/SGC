@@ -1,10 +1,15 @@
 inherited FTelaCadastroTemplateDre: TFTelaCadastroTemplateDre
   Caption = 'Template Dre'
+  OnClose = FormClose
   PixelsPerInch = 96
   TextHeight = 13
   inherited PageControl: TPageControl
     ActivePage = DadosCadastrais
     inherited Consulta: TTabSheet
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       inherited Panel2: TPanel
         object GroupBox2: TGroupBox
           Left = 63

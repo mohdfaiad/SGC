@@ -1,12 +1,12 @@
 inherited FTelaCadastroTemplateFcx: TFTelaCadastroTemplateFcx
   Caption = 'Cadastro Template Fcx'
   ClientHeight = 473
+  OnClose = FormClose
   ExplicitHeight = 512
   PixelsPerInch = 96
   TextHeight = 13
   inherited PageControl: TPageControl
     Height = 448
-    ActivePage = DadosCadastrais
     ExplicitHeight = 448
     inherited Consulta: TTabSheet
       ExplicitHeight = 420
@@ -133,7 +133,7 @@ inherited FTelaCadastroTemplateFcx: TFTelaCadastroTemplateFcx
               Font.Name = 'Tahoma'
               Font.Style = []
               ParentFont = False
-              TabOrder = 2
+              TabOrder = 3
               Text = ''
             end
             object LabeledEditDescricao: TLabeledEdit
@@ -159,7 +159,7 @@ inherited FTelaCadastroTemplateFcx: TFTelaCadastroTemplateFcx
               Font.Name = 'Tahoma'
               Font.Style = []
               ParentFont = False
-              TabOrder = 3
+              TabOrder = 2
             end
             object ComboBoxTipo: TComboBox
               Left = 18

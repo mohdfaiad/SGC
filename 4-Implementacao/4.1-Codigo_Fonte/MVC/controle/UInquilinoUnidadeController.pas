@@ -14,6 +14,7 @@ type
 
   public
     function ConsultarPorId(id: integer): TInquilinoUnidadeVO;
+    procedure ValidarDados(Objeto:TInquilinoUnidadeVO);override;
   end;
 
 implementation
@@ -37,6 +38,12 @@ begin
   result := P;
 end;
 
+
+procedure TInquilinoUnidadeController.ValidarDados(Objeto: TInquilinoUnidadeVO);
+begin
+  inherited;
+
+end;
 
 begin
 

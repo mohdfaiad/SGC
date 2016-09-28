@@ -13,6 +13,7 @@ type
 
   public
     function ConsultarPorId(id: integer): TPaisVO;
+    procedure ValidarDados(Objeto:TPaisVO);override;
   end;
 
 implementation
@@ -26,6 +27,12 @@ var
 begin
   P := TDAO.ConsultarPorId<TPaisVO>(id);
   result := P;
+end;
+
+procedure TPaisController.ValidarDados(Objeto: TPaisVO);
+begin
+  inherited;
+
 end;
 
 begin

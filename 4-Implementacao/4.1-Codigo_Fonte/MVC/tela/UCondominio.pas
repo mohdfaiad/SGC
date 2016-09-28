@@ -66,6 +66,7 @@ type
     procedure btnConsultaNaturezaClick(Sender: TObject);
     procedure GridParaEdits; override;
     procedure btnConsultaCidadeClick(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
 
   private
     { Private declarations }
@@ -76,7 +77,7 @@ type
 
 var
   FTelaCadastroCondominio: TFTelaCadastroCondominio;
-  CondominioController: TCondominioController;
+  ControllerCondominio: TCondominioController;
 
 implementation
 
@@ -153,7 +154,7 @@ var
   filtro: string;
 begin
   filtro := MontaFiltro;
-  listaCondominio := CondominioController.Consultar(filtro);
+  listaCondominio := ControllerCondominio.Consultar(filtro);
   PopulaGrid<TCondominioVO>(listaCondominio);
 end;
 
@@ -165,7 +166,7 @@ begin
     try
       Condominio := TCondominioVO.Create;
       Condominio.idCondominio := CDSGrid.FieldByName('IDCONDOMINIO').AsInteger;
-      CondominioController.Excluir(Condominio);
+      ControllerCondominio.Excluir(Condominio);
     except
       on E: Exception do
       begin
@@ -189,15 +190,15 @@ begin
         Condominio.ValidarCampos();
          if (StatusTela = stInserindo) then
          begin
-            CondominioController.Inserir(Condominio);
+            ControllerCondominio.Inserir(Condominio);
             Result := true;
          end
          else if (StatusTela = stEditando) then
            begin
-          Condominio := CondominioController.ConsultarPorId(CDSGrid.FieldByName('IDCONDOMINIO')
+          Condominio := ControllerCondominio.ConsultarPorId(CDSGrid.FieldByName('IDCONDOMINIO')
             .AsInteger);
           Condominio := EditsToObject(Condominio);
-          CondominioController.Alterar(Condominio);
+          ControllerCondominio.Alterar(Condominio);
           Result := true;
         end;
       except
@@ -248,10 +249,18 @@ begin
 
 end;
 
+procedure TFTelaCadastroCondominio.FormClose(Sender: TObject;
+  var Action: TCloseAction);
+begin
+  inherited;
+  FreeAndNil(ControllerCondominio);
+end;
+
 procedure TFTelaCadastroCondominio.FormCreate(Sender: TObject);
 begin
   ClasseObjetoGridVO := TCondominioVO;
   RadioButtonNome.Checked := true;
+  ControllerCondominio := TCondominioController.Create;
   inherited;
 end;
 
@@ -282,7 +291,7 @@ begin
 
   Condominio := nil;
   if not CDSGrid.IsEmpty then
-    Condominio := CondominioController.ConsultarPorId(CDSGrid.FieldByName('IDCONDOMINIO')
+    Condominio := ControllerCondominio.ConsultarPorId(CDSGrid.FieldByName('IDCONDOMINIO')
       .AsInteger);
 
   if Condominio <> nil then

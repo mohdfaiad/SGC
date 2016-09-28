@@ -13,6 +13,7 @@ type
 
   public
     function ConsultarPorId(id: integer): TPessoasVO;
+    procedure ValidarDados(Objeto:TPessoasVO);override;
   end;
 
 implementation
@@ -39,6 +40,12 @@ begin
 
   cidadeController.Free;
   result := P;
+end;
+
+procedure TPessoasController.ValidarDados(Objeto: TPessoasVO);
+begin
+  inherited;
+
 end;
 
 begin

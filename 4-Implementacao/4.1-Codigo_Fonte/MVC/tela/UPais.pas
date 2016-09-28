@@ -7,7 +7,7 @@ uses
   System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, UtelaCadastro, Vcl.ComCtrls,
   Vcl.StdCtrls, Vcl.Mask, Vcl.Buttons, Vcl.ExtCtrls, Vcl.Grids, Vcl.DBGrids,
-  UPaisVo, UController, Generics.Collections;
+  UPaisVo, UController, Generics.Collections, UPaisController;
 
 type
   TFTelaCadastroPais = class(TFTelaCadastro)
@@ -21,6 +21,7 @@ type
     function DoExcluir: boolean; override;
     procedure CarregaObjetoSelecionado; override;
     procedure BitBtnNovoClick(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
   private
     { Private declarations }
 
@@ -32,7 +33,7 @@ type
 
 var
   FTelaCadastroPais: TFTelaCadastroPais;
-  PaisController: TController<TPaisVo>;
+  ControllerPais: TPaisController;
 
 implementation
 
@@ -62,7 +63,7 @@ var
   filtro: string;
 begin
   filtro := MontaFiltro;
-  listaPais := PaisController.Consultar(filtro);
+  listaPais := ControllerPais.Consultar(filtro);
   PopulaGrid<TPaisVo>(listaPais);
 end;
 
@@ -74,7 +75,7 @@ begin
     try
       Pais := TPaisVo.Create;
       Pais.idPais := CDSGrid.FieldByName('IDPAIS').AsInteger;
-      PaisController.Excluir(Pais);
+      ControllerPais.Excluir(Pais);
     except
       on E: Exception do
       begin
@@ -98,15 +99,15 @@ begin
         begin
           if (StatusTela = stInserindo) then
           begin
-            PaisController.Inserir(Pais);
+            ControllerPais.Inserir(Pais);
             Result := true;
           end
           else if (StatusTela = stEditando) then
           begin
-            Pais := PaisController.ConsultarPorId(CDSGrid.FieldByName('IDPAIS')
+            Pais := ControllerPais.ConsultarPorId(CDSGrid.FieldByName('IDPAIS')
               .AsInteger);
             Pais := EditsToObject(Pais);
-            PaisController.Alterar(Pais);
+            ControllerPais.Alterar(Pais);
             Result := true;
           end;
         end
@@ -129,10 +130,18 @@ begin
   Result := Pais;
 end;
 
+procedure TFTelaCadastroPais.FormClose(Sender: TObject;
+  var Action: TCloseAction);
+begin
+  inherited;
+  FreeAndNil(ControllerPais);
+end;
+
 procedure TFTelaCadastroPais.FormCreate(Sender: TObject);
 begin
   ClasseObjetoGridVO := TPaisVo;
   RadioButtonNome.Checked := true;
+  ControllerPais := TPaisCOntroller.Create;
   inherited;
 end;
 
@@ -143,7 +152,7 @@ begin
   inherited;
 
   if not CDSGrid.IsEmpty then
-    Pais := PaisController.ConsultarPorId(CDSGrid.FieldByName('IDPAIS')
+    Pais := ControllerPais.ConsultarPorId(CDSGrid.FieldByName('IDPAIS')
       .AsInteger);
 
   if Assigned(Pais) then

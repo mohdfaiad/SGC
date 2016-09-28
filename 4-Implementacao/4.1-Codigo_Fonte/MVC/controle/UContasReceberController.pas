@@ -16,6 +16,7 @@ type
 
   public
     function ConsultarPorId(id: integer): TContasReceberVO;
+    procedure ValidarDados(Objeto:TContasReceberVO);override;
   end;
 
 implementation
@@ -44,6 +45,12 @@ begin
 
 
   result := P;
+end;
+
+procedure TContasReceberController.ValidarDados(Objeto: TContasReceberVO);
+begin
+  inherited;
+
 end;
 
 begin

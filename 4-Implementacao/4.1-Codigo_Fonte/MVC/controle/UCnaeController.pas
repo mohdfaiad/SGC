@@ -13,6 +13,7 @@ type
 
   public
     function ConsultarPorId(id: integer): TCnaeVO;
+    procedure ValidarDados(Objeto:TCnaeVO);override;
   end;
 
 implementation
@@ -26,6 +27,12 @@ var
 begin
   P := TDAO.ConsultarPorId<TCnaeVO>(id);
   result := P;
+end;
+
+procedure TCnaeController.ValidarDados(Objeto: TCnaeVO);
+begin
+  inherited;
+
 end;
 
 begin

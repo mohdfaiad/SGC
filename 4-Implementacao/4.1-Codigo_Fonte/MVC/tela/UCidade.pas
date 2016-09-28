@@ -28,6 +28,7 @@ type
     function MontaFiltro: string;
     procedure btnConsultaPaisClick(Sender: TObject);
     procedure CarregaObjetoSelecionado; override;
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
 
   private
     { Private declarations }
@@ -39,7 +40,7 @@ type
 
 var
   TFTelaCadastroCidade: TTFTelaCadastroCidade;
-  CidadeController: TCidadeController;
+  controllerCidade: TCidadeController;
 
 implementation
 
@@ -92,7 +93,7 @@ begin
   inherited;
   if (not CDSGrid.IsEmpty) then
   begin
-    ObjetoRetornoVO := CidadeController.ConsultarPorId(CDSGRID.FieldByName('IDCIDADE').AsInteger);
+    ObjetoRetornoVO := controllerCidade.ConsultarPorId(CDSGRID.FieldByName('IDCIDADE').AsInteger);
   end;
 end;
 
@@ -102,7 +103,7 @@ var
   filtro: string;
 begin
   filtro := MontaFiltro;
-  listaCidade := CidadeController.Consultar(filtro);
+  listaCidade := controllerCidade.Consultar(filtro);
   PopulaGrid<TCidadeVO>(listaCidade);
 end;
 
@@ -114,7 +115,7 @@ begin
     try
       Cidade := TCidadeVO.Create;
       Cidade.idCidade := CDSGrid.FieldByName('IDCIDADE').AsInteger;
-      CidadeController.Excluir(Cidade);
+      controllerCidade.Excluir(Cidade);
     except
       on E: Exception do
       begin
@@ -139,15 +140,15 @@ begin
         begin
           if (StatusTela = stInserindo) then
           begin
-            CidadeController.Inserir(Cidade);
+            controllerCidade.Inserir(Cidade);
             Result := true;
           end
           else if (StatusTela = stEditando) then
           begin
-            Cidade := CidadeController.ConsultarPorId(CDSGrid.FieldByName('IDCIDADE')
+            Cidade := controllerCidade.ConsultarPorId(CDSGrid.FieldByName('IDCIDADE')
               .AsInteger);
             Cidade := EditsToObject(Cidade);
-            CidadeController.Alterar(Cidade);
+            controllerCidade.Alterar(Cidade);
             Result := true;
           end;
         end
@@ -177,9 +178,17 @@ begin
   Result := Cidade;
 end;
 
+procedure TTFTelaCadastroCidade.FormClose(Sender: TObject;
+  var Action: TCloseAction);
+begin
+  inherited;
+  FreeAndNil(controllerCidade);
+end;
+
 procedure TTFTelaCadastroCidade.FormCreate(Sender: TObject);
 begin
   ClasseObjetoGridVO := TCidadeVO;
+  controllerCidade:=TCidadeController.Create;
   inherited;
 end;
 
@@ -191,9 +200,12 @@ begin
 
   Cidade := nil;
   if not CDSGrid.IsEmpty then
-    Cidade := CidadeController.ConsultarPorId(CDSGrid.FieldByName('IDCIDADE')
+    Cidade := controllerCidade.ConsultarPorId(CDSGrid.FieldByName('IDCIDADE')
       .AsInteger);
-
+    if Assigned(Cidade) then
+    begin
+    LabelEditNome.Text := Cidade.NomeCidade;
+    end;
     if (Cidade.idEstado > 0) then
     begin
       LabelEditEstado.Text := IntToStr(Cidade.EstadoVO.idEstado);
@@ -209,9 +221,11 @@ end;
 
 function TTFTelaCadastroCidade.MontaFiltro: string;
 begin
-  Result := '';
+  result := '';
   if (editBusca.Text <> '') then
-    Result := '( NOME LIKE ' + QuotedStr('%' + editBusca.Text + '%') + ' ) ';
+      Result := '( UPPER(NOME) LIKE ' +
+        QuotedStr('%' + UpperCase(editBusca.Text) + '%') + ' ) ';
+
 end;
 
 

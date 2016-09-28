@@ -2,6 +2,7 @@ inherited FTelaCadastroContasReceber: TFTelaCadastroContasReceber
   Caption = 'Contas a Receber'
   ClientHeight = 502
   ClientWidth = 887
+  OnClose = FormClose
   ExplicitWidth = 903
   ExplicitHeight = 541
   PixelsPerInch = 96

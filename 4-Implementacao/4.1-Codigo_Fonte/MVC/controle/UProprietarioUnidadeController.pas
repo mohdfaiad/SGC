@@ -15,6 +15,7 @@ type
 
   public
     function ConsultarPorId(id: integer): TProprietarioUnidadeVO;
+    procedure ValidarDados(Objeto:TProprietarioUnidadeVO);override;
   end;
 
 implementation
@@ -38,6 +39,13 @@ begin
   result := P;
 end;
 
+
+procedure TProprietarioUnidadeController.ValidarDados(
+  Objeto: TProprietarioUnidadeVO);
+begin
+  inherited;
+
+end;
 
 begin
 

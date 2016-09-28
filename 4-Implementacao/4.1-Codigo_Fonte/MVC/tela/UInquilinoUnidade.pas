@@ -24,6 +24,7 @@ type
     function DoExcluir: boolean; override;
     procedure DoConsultar; override;
     procedure BitBtnNovoClick(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
 
   private
     { Private declarations }
@@ -35,7 +36,7 @@ type
   end;
 var
   FTelaCadastroInquilino: TFTelaCadastroInquilino;
-  InquilinoUnidadeController :TInquilinoUnidadeController;
+  ControllerInquilinoUnidade :TInquilinoUnidadeController;
 
 implementation
 
@@ -70,7 +71,7 @@ var
   filtro: string;
 begin
   filtro := MontaFiltro;
-  listaInquilinoUnidade := InquilinoUnidadeController.Consultar(filtro);
+  listaInquilinoUnidade := ControllerInquilinoUnidade.Consultar(filtro);
   PopulaGrid<TInquilinoUnidadeVO>(listaInquilinoUnidade);
 end;
 
@@ -83,7 +84,7 @@ begin
       InquilinoUnidade := TInquilinoUnidadeVO.Create;
       InquilinoUnidade.idinquilinounidade := CDSGrid.FieldByName('IDINQUILINOUNIDADE')
         .AsInteger;
-      InquilinoUnidadeController.Excluir(InquilinoUnidade);
+      ControllerInquilinoUnidade.Excluir(InquilinoUnidade);
     except
       on E: Exception do
       begin
@@ -109,15 +110,15 @@ begin
           if (StatusTela = stInserindo) then
           begin
             InquilinoUnidade.idUnidade := idunidade;
-            InquilinoUnidadeController.Inserir(InquilinoUnidade);
+            ControllerInquilinoUnidade.Inserir(InquilinoUnidade);
             Result := true;
           end
           else if (StatusTela = stEditando) then
           begin
-            InquilinoUnidade := InquilinoUnidadeController.ConsultarPorId(CDSGrid.FieldByName('IDINQUILINOUNIDADE')
+            InquilinoUnidade := ControllerInquilinoUnidade.ConsultarPorId(CDSGrid.FieldByName('IDINQUILINOUNIDADE')
               .AsInteger);
             InquilinoUnidade := EditsToObject(InquilinoUnidade);
-            InquilinoUnidadeController.Alterar(InquilinoUnidade);
+            ControllerInquilinoUnidade.Alterar(InquilinoUnidade);
             Result := true;
          end;
       except
@@ -149,9 +150,18 @@ begin
 
 end;
 
+procedure TFTelaCadastroInquilino.FormClose(Sender: TObject;
+  var Action: TCloseAction);
+begin
+  inherited;
+  FreeAndNil(ControllerInquilinoUnidade);
+end;
+
 procedure TFTelaCadastroInquilino.FormCreate(Sender: TObject);
 begin
     ClasseObjetoGridVO := TInquilinoUnidadeVo;
+    ControllerInquilinoUnidade := TInquilinoUnidadeController.Create;
+
   inherited;
 end;
 
@@ -164,7 +174,7 @@ begin
   inherited;
 
   if not CDSGrid.IsEmpty then
-    InquilinoUnidade := InquilinoUnidadeController.ConsultarPorId
+    InquilinoUnidade := ControllerInquilinoUnidade.ConsultarPorId
       (CDSGrid.FieldByName('IDINQUILINOUNIDADE').AsInteger);
 
   if Assigned(InquilinoUnidade) then

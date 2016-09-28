@@ -22,6 +22,7 @@ type
     procedure DoConsultar; override;
     procedure CarregaObjetoSelecionado; override;
     procedure BitBtnNovoClick(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
 
   private
     { Private declarations }
@@ -33,7 +34,7 @@ type
 
 var
   FTelaCadastroHistorico: TFTelaCadastroHistorico;
-  HistoricoController : THistoricoController;
+  ControllerHistorico : THistoricoController;
 
 implementation
 
@@ -66,7 +67,7 @@ var
   filtro: string;
 begin
   filtro := MontaFiltro;
-  listaHistorico := HistoricoController.Consultar(filtro);
+  listaHistorico := ControllerHistorico.Consultar(filtro);
   PopulaGrid<THistoricoVo>(listaHistorico);
 end;
 
@@ -78,7 +79,7 @@ begin
     try
       Historico := THistoricoVo.Create;
       Historico.idhistorico := CDSGrid.FieldByName('IDHISTORICO').AsInteger;
-      HistoricoController.Excluir(Historico);
+      ControllerHistorico.Excluir(Historico);
     except
       on E: Exception do
       begin
@@ -101,15 +102,15 @@ begin
         Historico.ValidarCamposObrigatorios();
         if (StatusTela = stInserindo) then
         begin
-          HistoricoController.Inserir(Historico);
+          ControllerHistorico.Inserir(Historico);
           result := true;
         end
         else if (StatusTela = stEditando) then
         begin
-          Historico := HistoricoController.ConsultarPorId(CDSGrid.FieldByName('IDHISTORICO')
+          Historico := ControllerHistorico.ConsultarPorId(CDSGrid.FieldByName('IDHISTORICO')
             .AsInteger);
           Historico := EditsToObject(Historico);
-          HistoricoController.Alterar(Historico);
+          ControllerHistorico.Alterar(Historico);
           Result := true;
         end
       except
@@ -131,10 +132,18 @@ begin
   Result := Historico;
 end;
 
+procedure TFTelaCadastroHistorico.FormClose(Sender: TObject;
+  var Action: TCloseAction);
+begin
+  inherited;
+  FreeAndNil(ControllerHistorico);
+end;
+
 procedure TFTelaCadastroHistorico.FormCreate(Sender: TObject);
 begin
   ClasseObjetoGridVO := THistoricoVo;
   RadioButtonDescricao.Checked := true;
+  ControllerHistorico := THistoricoController.Create;
   inherited;
 end;
 
@@ -145,7 +154,7 @@ begin
   inherited;
 
   if not CDSGrid.IsEmpty then
-    Historico := HistoricoController.ConsultarPorId(CDSGrid.FieldByName('IDHISTORICO')
+    Historico := ControllerHistorico.ConsultarPorId(CDSGrid.FieldByName('IDHISTORICO')
       .AsInteger);
 
   if Assigned(Historico) then

@@ -1,11 +1,10 @@
 inherited FTelaCadastroHistorico: TFTelaCadastroHistorico
   Caption = 'Cadastro de Hist'#243'ricos'
+  OnClose = FormClose
   PixelsPerInch = 96
   TextHeight = 13
   inherited PageControl: TPageControl
     inherited Consulta: TTabSheet
-      ExplicitLeft = 4
-      ExplicitTop = 24
       inherited Panel2: TPanel
         object GroupBox2: TGroupBox
           Left = 63

@@ -24,6 +24,7 @@ type
     procedure DoConsultar; override;
     procedure CarregaObjetoSelecionado; override;
     procedure BitBtnNovoClick(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
 
   private
     { Private declarations }
@@ -35,7 +36,7 @@ type
 
 var
   FTelaCadastroCnae: TFTelaCadastroCnae;
-  CnaeController: TCnaeController;
+  ControllerCnae: TCnaeController;
 
 implementation
 
@@ -67,7 +68,7 @@ var
   filtro: string;
 begin
   filtro := MontaFiltro;
-  listaCnae := CnaeController.Consultar(filtro);
+  listaCnae := ControllerCnae.Consultar(filtro);
   PopulaGrid<TCnaeVo>(listaCnae);
 end;
 
@@ -79,7 +80,7 @@ begin
     try
       Cnae := TCnaeVo.Create;
       Cnae.idCnae := CDSGrid.FieldByName('IDCNAE').AsInteger;
-      CnaeController.Excluir(Cnae);
+      ControllerCnae.Excluir(Cnae);
     except
       on E: Exception do
       begin
@@ -103,15 +104,15 @@ begin
         begin
           if (StatusTela = stInserindo) then
           begin
-            CnaeController.Inserir(Cnae);
+            ControllerCnae.Inserir(Cnae);
             Result := true;
           end
           else if (StatusTela = stEditando) then
           begin
-            Cnae := CnaeController.ConsultarPorId(CDSGrid.FieldByName('IDCNAE')
+            Cnae := ControllerCnae.ConsultarPorId(CDSGrid.FieldByName('IDCNAE')
               .AsInteger);
             Cnae := EditsToObject(Cnae);
-            CnaeController.Alterar(Cnae);
+            ControllerCnae.Alterar(Cnae);
             Result := true;
           end;
         end
@@ -135,10 +136,19 @@ begin
   Result := Cnae;
 end;
 
+procedure TFTelaCadastroCnae.FormClose(Sender: TObject;
+  var Action: TCloseAction);
+begin
+  inherited;
+  FreeAndNil(ControllerCnae);
+
+end;
+
 procedure TFTelaCadastroCnae.FormCreate(Sender: TObject);
 begin
   ClasseObjetoGridVO := TCnaeVo;
   RadioButtonCnae.Checked := true;
+  ControllerCnae := TCnaeController.create;
   inherited;
 end;
 
@@ -147,15 +157,16 @@ var
   Cnae: TCnaeVo;
 begin
   inherited;
+  Cnae := nil;
 
   if not CDSGrid.IsEmpty then
-    Cnae := CnaeController.ConsultarPorId(CDSGrid.FieldByName('IDCNAE')
+    Cnae := ControllerCnae.ConsultarPorId(CDSGrid.FieldByName('IDCNAE')
       .AsInteger);
 
   if Assigned(Cnae) then
   begin
     MaskEditCnae.Text := Cnae.codigoCnae;
-    LabelEditDescricao.Text := Cnae.codigoCnae;
+    LabelEditDescricao.Text := Cnae.descricao;
   end;
 end;
 

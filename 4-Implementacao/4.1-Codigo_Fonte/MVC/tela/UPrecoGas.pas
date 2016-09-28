@@ -21,6 +21,7 @@ type
     function DoExcluir: boolean; override;
     procedure BitBtnNovoClick(Sender: TObject);
     procedure GridParaEdits; override;
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
   private
     { Private declarations }
   public
@@ -30,7 +31,7 @@ type
 
 var
   FTelaCadastroPrecoGas: TFTelaCadastroPrecoGas;
-  PrecoGasController : TPrecoGasController;
+  ControllerPrecoGas : TPrecoGasController;
 
 implementation
 
@@ -50,7 +51,7 @@ var
   filtro: string;
 begin
   filtro := MontaFiltro;
-  listaPrecoGas := PrecoGasController.Consultar(filtro);
+  listaPrecoGas := ControllerPrecoGas.Consultar(filtro);
   PopulaGrid<TPrecoGasVo>(listaPrecoGas);
 end;
 
@@ -63,7 +64,7 @@ begin
       PrecoGas := TPrecoGasVo.Create;
       PrecoGas.idPrecoGas := CDSGrid.FieldByName('IDPRECOGAS')
         .AsInteger;
-      PrecoGasController.Excluir(PrecoGas);
+      ControllerPrecoGas.Excluir(PrecoGas);
     except
       on E: Exception do
       begin
@@ -90,15 +91,15 @@ begin
            if (StatusTela = stInserindo) then
            begin
               PrecoGas.idcondominio := FormEmpresaTrab.CodigoEmpLogada;
-              PrecoGasController.Inserir(PrecoGas);
+              ControllerPrecoGas.Inserir(PrecoGas);
               Result := true;
            end
             else if (StatusTela = stEditando) then
              begin
-            PrecoGas := PrecoGasController.ConsultarPorId(CDSGrid.FieldByName('IDPRECOGAS')
+            PrecoGas := ControllerPrecoGas.ConsultarPorId(CDSGrid.FieldByName('IDPRECOGAS')
               .AsInteger);
             PrecoGas := EditsToObject(PrecoGas);
-            PrecoGasController.Alterar(PrecoGas);
+            ControllerPrecoGas.Alterar(PrecoGas);
             Result := true;
           end;
         end
@@ -123,9 +124,18 @@ begin
   Result := PrecoGas;
 end;
 
+procedure TFTelaCadastroPrecoGas.FormClose(Sender: TObject;
+  var Action: TCloseAction);
+begin
+  inherited;
+  FreeAndNil(ControllerPrecoGas);
+
+end;
+
 procedure TFTelaCadastroPrecoGas.FormCreate(Sender: TObject);
 begin
   ClasseObjetoGridVO := TPrecoGasVO;
+  ControllerPrecoGas := TPrecoGasController.Create;
   inherited;
 end;
 
@@ -135,7 +145,7 @@ var
 begin
   inherited;
   if not CDSGrid.IsEmpty then
-    PrecoGas := PrecoGasController.ConsultarPorId
+    PrecoGas := ControllerPrecoGas.ConsultarPorId
       (CDSGrid.FieldByName('IDPRECOGAS').AsInteger);
 
   if Assigned(PrecoGas) then

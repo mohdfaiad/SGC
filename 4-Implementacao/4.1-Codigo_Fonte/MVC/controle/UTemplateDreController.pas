@@ -14,6 +14,7 @@ type
 
   public
     function ConsultarPorId(id: integer): TTemplateDreVO;
+    procedure ValidarDados(Objeto:TTemplateDreVO);override;
   end;
 
 implementation
@@ -38,6 +39,11 @@ begin
   condominioController.Free;
   result := P;
 end;
+procedure TTemplateDreController.ValidarDados(Objeto: TTemplateDreVO);
+begin
+  inherited;
+end;
+
 begin
 
 

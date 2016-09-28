@@ -1,12 +1,9 @@
 inherited FTelaCadastroProprietario: TFTelaCadastroProprietario
   Caption = 'Cadastro de Propriet'#225'rio'
+  OnClose = FormClose
   PixelsPerInch = 96
   TextHeight = 13
   inherited PageControl: TPageControl
-    inherited Consulta: TTabSheet
-      ExplicitLeft = 4
-      ExplicitTop = 24
-    end
     inherited DadosCadastrais: TTabSheet
       ExplicitLeft = 4
       ExplicitTop = 24

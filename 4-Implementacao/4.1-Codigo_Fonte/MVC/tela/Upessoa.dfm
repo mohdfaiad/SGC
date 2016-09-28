@@ -2,6 +2,7 @@ inherited FTelaCadastroPessoa: TFTelaCadastroPessoa
   Caption = 'Cadastro de Pessoas'
   ClientHeight = 470
   ClientWidth = 787
+  OnClose = FormClose
   ExplicitWidth = 803
   ExplicitHeight = 509
   PixelsPerInch = 96
@@ -12,8 +13,6 @@ inherited FTelaCadastroPessoa: TFTelaCadastroPessoa
     ExplicitWidth = 787
     ExplicitHeight = 445
     inherited Consulta: TTabSheet
-      ExplicitLeft = 4
-      ExplicitTop = 24
       ExplicitWidth = 779
       ExplicitHeight = 417
       inherited Grid: TDBGrid

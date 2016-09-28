@@ -29,6 +29,7 @@ type
 
     function MontaFiltro: string;
     procedure CarregaObjetoSelecionado; override;
+    procedure FormDestroy(Sender: TObject);
   private
     { Private declarations }
   public
@@ -39,7 +40,7 @@ type
 
 var
   FTelaCadastroPlano: TFTelaCadastroPlano;
-  PlanoContasController : TPlanoContasController;
+  controllerPlanoConta : TPlanoContasController;
 implementation
 
 {$R *.dfm}
@@ -55,7 +56,7 @@ begin
   inherited;
   if (not CDSGrid.IsEmpty) then
   begin
-    ObjetoRetornoVO := PlanoContasController.ConsultarPorId(CDSGRID.FieldByName('IDPLANOCONTAS').AsInteger);
+    ObjetoRetornoVO := controllerPlanoConta.ConsultarPorId(CDSGRID.FieldByName('IDPLANOCONTAS').AsInteger);
   end;
 end;
 
@@ -65,7 +66,7 @@ var
   filtro: string;
 begin
   filtro := MontaFiltro;
-  listaPlanoContas := PlanoContasController.Consultar(filtro);
+  listaPlanoContas := controllerPlanoConta.Consultar(filtro);
   PopulaGrid<TPlanoContasVo>(listaPlanoContas);
 end;
 
@@ -78,7 +79,7 @@ begin
       PlanoContas := TPlanoContasVo.Create;
       PlanoContas.idPlanoContas := CDSGrid.FieldByName('IDPLANOCONTAS')
         .AsInteger;
-      PlanoContasController.Excluir(PlanoContas);
+      controllerPlanoConta.Excluir(PlanoContas);
     except
       on E: Exception do
       begin
@@ -104,15 +105,15 @@ begin
            if (StatusTela = stInserindo) then
            begin
               PlanoContas.idcondominio := FormEmpresaTrab.CodigoEmpLogada;
-              PlanoContasController.Inserir(PlanoContas);
+              controllerPlanoConta.Inserir(PlanoContas);
               Result := true;
            end
             else if (StatusTela = stEditando) then
              begin
-            PlanoContas := PlanoContasController.ConsultarPorId(CDSGrid.FieldByName('IDPLANOCONTAS')
+            PlanoContas := controllerPlanoConta.ConsultarPorId(CDSGrid.FieldByName('IDPLANOCONTAS')
               .AsInteger);
             PlanoContas := EditsToObject(PlanoContas);
-            PlanoContasController.Alterar(PlanoContas);
+            controllerPlanoConta.Alterar(PlanoContas);
             Result := true;
           end
         else
@@ -132,6 +133,7 @@ end;
 
 function TFTelaCadastroPlano.EditsToObject(
   PlanoContas: TPlanoContasVO): TPlanoContasVO;
+var  classAux:String;
 begin
   if LabelEditCodigo.Text <> '' then
   begin
@@ -143,7 +145,8 @@ begin
   end;
   if EditClassificacao.Text <> '' then
   begin
-    PlanoContas.nrClassificacao := EditClassificacao.Text;
+    classAux:=EditClassificacao.Text;
+    PlanoContas.nrClassificacao := Copy(classAux,0,classaux.IndexOf(' ')-1);
   end;
   if ComboboxTipo.ItemIndex >= 0 then
   begin
@@ -167,8 +170,15 @@ end;
 procedure TFTelaCadastroPlano.FormCreate(Sender: TObject);
 begin
   ClasseObjetoGridVO := TPlanoContasVO;
+  controllerPlanoConta:=TPlanoContasController.Create;
   inherited;
 
+end;
+
+procedure TFTelaCadastroPlano.FormDestroy(Sender: TObject);
+begin
+  inherited;
+  FreeAndNil(controllerPlanoConta);
 end;
 
 procedure TFTelaCadastroPlano.GridParaEdits;
@@ -179,7 +189,7 @@ begin
   PlanoContas := nil;
 
   if not CDSGrid.IsEmpty then
-    PlanoContas := PlanoContasController.ConsultarPorId
+    PlanoContas := controllerPlanoConta.ConsultarPorId
       (CDSGrid.FieldByName('IDPLANOCONTAS').AsInteger);
 
   if PlanoContas <> nil then

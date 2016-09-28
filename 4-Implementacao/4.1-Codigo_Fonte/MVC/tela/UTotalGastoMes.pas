@@ -21,6 +21,7 @@ type
     function DoExcluir: boolean; override;
     procedure BitBtnNovoClick(Sender: TObject);
     procedure GridParaEdits; override;
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
   private
     { Private declarations }
   public
@@ -31,7 +32,7 @@ type
 
 var
   FTelaCadastroTotalGastoMes: TFTelaCadastroTotalGastoMes;
-  TotalGastoMesController : TTotalGastoMesController;
+  ControllerTotalGastoMes : TTotalGastoMesController;
 
 implementation
 
@@ -52,7 +53,7 @@ var
   filtro: string;
 begin
   filtro := MontaFiltro;
-  listaTotalGastoMes := TotalGastoMesController.Consultar(filtro);
+  listaTotalGastoMes := ControllerTotalGastoMes.Consultar(filtro);
   PopulaGrid<TTotalGastoMesVo>(listaTotalGastoMes);
 end;
 
@@ -65,7 +66,7 @@ begin
       TotalGastoMes := TTotalGastoMesVo.Create;
       TotalGastoMes.idToTalGastoMes := CDSGrid.FieldByName('IDTOTALGASTOMES')
         .AsInteger;
-      TotalGastoMesController.Excluir(TotalGastoMes);
+      ControllerTotalGastoMes.Excluir(TotalGastoMes);
     except
       on E: Exception do
       begin
@@ -90,15 +91,15 @@ begin
         if (StatusTela = stInserindo) then
         begin
               TotalGastoMes.idcondominio := FormEmpresaTrab.CodigoEmpLogada;
-              TotalGastoMesController.Inserir(TotalGastoMes);
+              ControllerTotalGastoMes.Inserir(TotalGastoMes);
               Result := true;
            end
             else if (StatusTela = stEditando) then
              begin
-            TotalGastoMes := TotalGastoMesController.ConsultarPorId(CDSGrid.FieldByName('IDTOTALGASTOMES')
+            TotalGastoMes := ControllerTotalGastoMes.ConsultarPorId(CDSGrid.FieldByName('IDTOTALGASTOMES')
               .AsInteger);
             TotalGastoMes := EditsToObject(TotalGastoMes);
-           TotalGastoMesController.Alterar(TotalGastoMes);
+           ControllerTotalGastoMes.Alterar(TotalGastoMes);
             Result := true;
           end;
       except
@@ -124,9 +125,17 @@ begin
 
 end;
 
+procedure TFTelaCadastroTotalGastoMes.FormClose(Sender: TObject;
+  var Action: TCloseAction);
+begin
+  inherited;
+  FreeAndNil(ControllerTotalGastoMes);
+end;
+
 procedure TFTelaCadastroTotalGastoMes.FormCreate(Sender: TObject);
 begin
   ClasseObjetoGridVO := TTotalGastoMesVO;
+  ControllerTotalGastoMes := TTotalGastoMesController.Create;
   inherited;
 end;
 
@@ -137,7 +146,7 @@ begin
   inherited;
 
   if not CDSGrid.IsEmpty then
-    TotalGastoMes := TotalGastoMesController.ConsultarPorId
+    TotalGastoMes := ControllerTotalGastoMes.ConsultarPorId
       (CDSGrid.FieldByName('IDTOTALGASTOMES').AsInteger);
 
   if Assigned(TotalGastoMes) then

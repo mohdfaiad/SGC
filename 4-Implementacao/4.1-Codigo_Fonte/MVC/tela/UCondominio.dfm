@@ -2,6 +2,7 @@ inherited FTelaCadastroCondominio: TFTelaCadastroCondominio
   Caption = 'Cadastro de Condom'#237'nio'
   ClientHeight = 504
   ClientWidth = 784
+  OnClose = FormClose
   ExplicitWidth = 800
   ExplicitHeight = 543
   PixelsPerInch = 96
@@ -12,8 +13,6 @@ inherited FTelaCadastroCondominio: TFTelaCadastroCondominio
     ExplicitWidth = 784
     ExplicitHeight = 479
     inherited Consulta: TTabSheet
-      ExplicitLeft = 4
-      ExplicitTop = 24
       ExplicitWidth = 776
       ExplicitHeight = 451
       inherited Grid: TDBGrid

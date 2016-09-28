@@ -1,9 +1,9 @@
 inherited FTelaCadastroPais: TFTelaCadastroPais
   Caption = 'Cadastro Pa'#237's'
+  OnClose = FormClose
   PixelsPerInch = 96
   TextHeight = 13
   inherited PageControl: TPageControl
-    ActivePage = Consulta
     inherited Consulta: TTabSheet
       inherited Panel2: TPanel
         inherited BotaoConsultar: TBitBtn
@@ -40,7 +40,6 @@ inherited FTelaCadastroPais: TFTelaCadastroPais
           ExplicitWidth = 767
           ExplicitHeight = 301
           inherited PanelEdits: TPanel
-            ExplicitTop = 0
             object LabelEditNome: TLabeledEdit
               Tag = 16
               Left = 16

@@ -40,6 +40,7 @@ type
     procedure PageControlChange(Sender: TObject);
     procedure BitBtnAlteraClick(Sender: TObject);
     procedure CarregaObjetoSelecionado; override;
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
 
 
   private
@@ -52,7 +53,7 @@ type
 
 var
   FTelaCadastroUnidade: TFTelaCadastroUnidade;
-  UnidadeController: TUnidadeController;
+  ControllerUnidade: TUnidadeController;
   FormPessoaConsulta : TFTelaCadastroPessoa;
   PessoaController : TPessoasController;
 
@@ -138,7 +139,7 @@ begin
   inherited;
   if (not CDSGrid.IsEmpty) then
   begin
-    ObjetoRetornoVO := UnidadeController.ConsultarPorId(CDSGRID.FieldByName('IDUNIDADE').AsInteger);
+    ObjetoRetornoVO := ControllerUnidade.ConsultarPorId(CDSGRID.FieldByName('IDUNIDADE').AsInteger);
   end;
 end;
 
@@ -148,7 +149,7 @@ var
   filtro: string;
 begin
   filtro := MontaFiltro;
-  listaUnidade := UnidadeController.Consultar(filtro);
+  listaUnidade := ControllerUnidade.Consultar(filtro);
   PopulaGrid<TUnidadeVO>(listaUnidade);
 end;
 
@@ -161,7 +162,7 @@ begin
     try
       Unidade := TUnidadeVO.Create;
       Unidade.idUnidade := CDSGrid.FieldByName('IDUNIDADE').AsInteger;
-      UnidadeController.Excluir(Unidade);
+      ControllerUnidade.Excluir(Unidade);
     except
       on E: Exception do
       begin
@@ -187,15 +188,15 @@ begin
         if (StatusTela = stInserindo) then
            begin
               Unidade.idcondominio := FormEmpresaTrab.CodigoEmpLogada;
-              UnidadeController.Inserir(Unidade);
+              ControllerUnidade.Inserir(Unidade);
               Result := true;
            end
             else if (StatusTela = stEditando) then
             begin
-              Unidade := UnidadeController.ConsultarPorId(CDSGrid.FieldByName('IDUNIDADE')
+              Unidade := ControllerUnidade.ConsultarPorId(CDSGrid.FieldByName('IDUNIDADE')
               .AsInteger);
               Unidade := EditsToObject(Unidade);
-              UnidadeController.Alterar(Unidade);
+              ControllerUnidade.Alterar(Unidade);
               Result := true;
           end;
       except
@@ -230,10 +231,19 @@ end;
 
 
 
+procedure TFTelaCadastroUnidade.FormClose(Sender: TObject;
+  var Action: TCloseAction);
+begin
+  inherited;
+  FreeAndNil(ControllerUnidade);
+
+end;
+
 procedure TFTelaCadastroUnidade.FormCreate(Sender: TObject);
 begin
   ClasseObjetoGridVO := TUnidadeVO;
   RadioButton1.Checked := true;
+  ControllerUnidade := TUnidadeController.Create;
 
   inherited;
 end;
@@ -246,7 +256,7 @@ begin
 
   Unidade := nil;
   if not CDSGrid.IsEmpty then
-    Unidade := UnidadeController.ConsultarPorId(CDSGrid.FieldByName('IDUNIDADE')
+    Unidade := ControllerUnidade.ConsultarPorId(CDSGrid.FieldByName('IDUNIDADE')
       .AsInteger);
 
   if Unidade <> nil then
