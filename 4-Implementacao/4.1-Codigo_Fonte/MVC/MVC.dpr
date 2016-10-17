@@ -71,7 +71,10 @@ uses
   UContasReceber in 'tela\UContasReceber.pas' {FTelaCadastroContasReceber},
   Vcl.Themes,
   Vcl.Styles,
-  PNGExtra in '..\..\..\..\..\..\Downloads\PNGExtra.pas';
+  PNGExtra in '..\..\..\..\..\..\Downloads\PNGExtra.pas',
+  ULoteVO in 'VO\ULoteVO.pas',
+  ULoteController in 'controle\ULoteController.pas',
+  ULote in 'tela\ULote.pas' {FTelaCadastroLote};
 
 {$R *.res}
 
@@ -80,5 +83,6 @@ begin
   Application.MainFormOnTaskbar := True;
   TStyleManager.TrySetStyle('Amethyst Kamri');
   Application.CreateForm(TFormMenu, FormMenu);
+  Application.CreateForm(TFTelaCadastroLote, FTelaCadastroLote);
   Application.Run;
 end.

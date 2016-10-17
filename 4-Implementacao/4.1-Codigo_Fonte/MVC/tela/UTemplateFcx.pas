@@ -6,7 +6,7 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, UtelaCadastro, Vcl.StdCtrls,
   Vcl.ExtCtrls, Vcl.ComCtrls, Vcl.Mask, Vcl.Buttons, Vcl.Grids, Vcl.DBGrids, UTemplateFcxVO,
-  UEmpresaTrab, UTemplateFcxController, Generics.Collections;
+  UEmpresaTrab, UTemplateFcxController, Generics.Collections, UPlanoContas, UPlanoContasVO;
 
 type
   TFTelaCadastroTemplateFcx = class(TFTelaCadastro)
@@ -23,6 +23,7 @@ type
     Label1: TLabel;
     EditClassificacaoFcx: TMaskEdit;
     Label2: TLabel;
+    BtnBxConta: TBitBtn;
     procedure FormCreate(Sender: TObject);
     function DoSalvar: boolean; override;
     function MontaFiltro: string;
@@ -30,6 +31,7 @@ type
     function DoExcluir: boolean; override;
     procedure BitBtnNovoClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure BtnBxContaClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -53,6 +55,21 @@ procedure TFTelaCadastroTemplateFcx.BitBtnNovoClick(Sender: TObject);
 begin
    inherited;
    LabelEditCodigo.SetFocus;
+end;
+
+procedure TFTelaCadastroTemplateFcx.BtnBxContaClick(Sender: TObject);
+var
+  FormPlanoConsulta: TFTelaCadastroPlano;
+begin
+  FormPlanoConsulta := TFTelaCadastroPlano.Create(nil);
+  FormPlanoConsulta.FechaForm := true;
+  FormPlanoConsulta.ShowModal;
+  if (FormPlanoConsulta.ObjetoRetornoVO <> nil) then
+  begin
+    EditClassificacao.Text := (TPlanoContasVO(FormPlanoConsulta.ObjetoRetornoVO).nrClassificacao);
+    //EditBxDsConta.Text := TPlanoContasVO(FormPlanoConsulta.ObjetoRetornoVO).dsConta;
+  end;
+  FormPlanoConsulta.Release;
 end;
 
 procedure TFTelaCadastroTemplateFcx.DoConsultar;

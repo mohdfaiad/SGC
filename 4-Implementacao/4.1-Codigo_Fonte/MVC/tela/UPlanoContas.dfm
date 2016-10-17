@@ -57,10 +57,7 @@ inherited FTelaCadastroPlano: TFTelaCadastroPlano
       end
     end
     inherited DadosCadastrais: TTabSheet
-      ExplicitLeft = 4
-      ExplicitTop = 24
       ExplicitWidth = 789
-      ExplicitHeight = 386
       inherited PanelBotoes: TPanel
         Width = 789
         ExplicitWidth = 789
@@ -69,10 +66,7 @@ inherited FTelaCadastroPlano: TFTelaCadastroPlano
         Width = 789
         ExplicitWidth = 789
         inherited DadosPrincipais: TTabSheet
-          ExplicitLeft = 4
-          ExplicitTop = 24
           ExplicitWidth = 781
-          ExplicitHeight = 301
           inherited PanelEdits: TPanel
             Width = 781
             ExplicitWidth = 781

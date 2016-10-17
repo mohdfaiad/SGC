@@ -232,6 +232,12 @@
             <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="..\..\..\..\..\..\Downloads\PNGExtra.pas"/>
+        <DCCReference Include="VO\ULoteVO.pas"/>
+        <DCCReference Include="controle\ULoteController.pas"/>
+        <DCCReference Include="tela\ULote.pas">
+            <Form>FTelaCadastroLote</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

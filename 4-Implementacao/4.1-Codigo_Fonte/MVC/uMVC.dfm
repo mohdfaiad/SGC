@@ -26,7 +26,6 @@ object FormMenu: TFormMenu
     Align = alTop
     BevelKind = bkSoft
     TabOrder = 0
-    ExplicitWidth = 937
     object PNGButton1: TPNGButton
       Left = 0
       Top = 0
@@ -5621,6 +5620,13 @@ object FormMenu: TFormMenu
     end
     object Movimento1: TMenuItem
       Caption = 'Movimento'
+      object Lanamentos1: TMenuItem
+        Caption = 'Lan'#231'amentos'
+        OnClick = Lanamentos1Click
+      end
+      object N4: TMenuItem
+        Caption = '-'
+      end
       object ContasaPagar1: TMenuItem
         Caption = 'Contas a Pagar'
         OnClick = ContasaPagar1Click

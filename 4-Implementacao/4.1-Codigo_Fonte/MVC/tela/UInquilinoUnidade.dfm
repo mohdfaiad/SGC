@@ -5,10 +5,6 @@ inherited FTelaCadastroInquilino: TFTelaCadastroInquilino
   TextHeight = 13
   inherited PageControl: TPageControl
     inherited DadosCadastrais: TTabSheet
-      ExplicitLeft = 4
-      ExplicitTop = 24
-      ExplicitWidth = 775
-      ExplicitHeight = 386
       inherited PanelBotoes: TPanel
         inherited BitBtnGrava: TBitBtn
           Left = 105
@@ -17,10 +13,6 @@ inherited FTelaCadastroInquilino: TFTelaCadastroInquilino
       end
       inherited PageControlEdit: TPageControl
         inherited DadosPrincipais: TTabSheet
-          ExplicitLeft = 4
-          ExplicitTop = 24
-          ExplicitWidth = 767
-          ExplicitHeight = 301
           inherited PanelEdits: TPanel
             object Label1: TLabel
               Left = 446

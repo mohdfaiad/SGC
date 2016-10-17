@@ -54,8 +54,8 @@ type
 var
   FTelaCadastroUnidade: TFTelaCadastroUnidade;
   ControllerUnidade: TUnidadeController;
-  FormPessoaConsulta : TFTelaCadastroPessoa;
-  PessoaController : TPessoasController;
+ // FormPessoaConsulta : TFTelaCadastroPessoa;
+// PessoaController : TPessoasController;
 
 implementation
 

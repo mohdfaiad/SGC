@@ -12,11 +12,10 @@ inherited FTelaCadastro: TFTelaCadastro
     Height = 414
     TabOrder = 1
     OnChange = PageControlChange
+    ExplicitTop = -6
     ExplicitWidth = 783
     ExplicitHeight = 414
     inherited Consulta: TTabSheet
-      ExplicitLeft = 4
-      ExplicitTop = 24
       ExplicitWidth = 775
       ExplicitHeight = 386
       inherited Grid: TDBGrid
@@ -30,7 +29,7 @@ inherited FTelaCadastro: TFTelaCadastro
         Width = 775
         ExplicitWidth = 775
         object BitBtnIncluirC: TBitBtn [2]
-          Left = 6
+          Left = 4
           Top = 6
           Width = 51
           Height = 43
@@ -220,6 +219,7 @@ inherited FTelaCadastro: TFTelaCadastro
             Align = alClient
             ParentBackground = False
             TabOrder = 0
+            ExplicitTop = 2
           end
         end
       end

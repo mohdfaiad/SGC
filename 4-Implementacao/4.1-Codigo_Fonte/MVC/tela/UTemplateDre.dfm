@@ -4,12 +4,8 @@ inherited FTelaCadastroTemplateDre: TFTelaCadastroTemplateDre
   PixelsPerInch = 96
   TextHeight = 13
   inherited PageControl: TPageControl
-    ActivePage = DadosCadastrais
+    ActivePage = Consulta
     inherited Consulta: TTabSheet
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
       inherited Panel2: TPanel
         object GroupBox2: TGroupBox
           Left = 63
@@ -38,16 +34,8 @@ inherited FTelaCadastroTemplateDre: TFTelaCadastroTemplateDre
       end
     end
     inherited DadosCadastrais: TTabSheet
-      ExplicitLeft = 4
-      ExplicitTop = 24
-      ExplicitWidth = 775
-      ExplicitHeight = 386
       inherited PageControlEdit: TPageControl
         inherited DadosPrincipais: TTabSheet
-          ExplicitLeft = 4
-          ExplicitTop = 24
-          ExplicitWidth = 767
-          ExplicitHeight = 301
           inherited PanelEdits: TPanel
             object Label1: TLabel
               Left = 18
@@ -192,17 +180,28 @@ inherited FTelaCadastroTemplateDre: TFTelaCadastroTemplateDre
               Tag = 1
               Left = 18
               Top = 75
-              Width = 235
+              Width = 234
               Height = 21
               Color = clWhite
+              EditMask = '!9.9.99.99.999.999;1;_'
               Font.Charset = DEFAULT_CHARSET
               Font.Color = clBlue
               Font.Height = -11
               Font.Name = 'Tahoma'
               Font.Style = []
+              MaxLength = 17
               ParentFont = False
               TabOrder = 1
-              Text = ''
+              Text = ' . .  .  .   .   '
+            end
+            object BtnBxConta: TBitBtn
+              Left = 259
+              Top = 73
+              Width = 33
+              Height = 25
+              Caption = 'P'
+              TabOrder = 6
+              OnClick = BtnBxContaClick
             end
           end
         end
