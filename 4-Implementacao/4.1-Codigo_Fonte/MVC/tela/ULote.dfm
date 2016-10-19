@@ -6,12 +6,29 @@ inherited FTelaCadastroLote: TFTelaCadastroLote
   ExplicitHeight = 607
   PixelsPerInch = 96
   TextHeight = 13
+  object Label9: TLabel [0]
+    Left = 18
+    Top = 190
+    Width = 56
+    Height = 13
+    Caption = 'Hist'#243'rico :'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -11
+    Font.Name = 'Tahoma'
+    Font.Style = [fsBold]
+    ParentFont = False
+  end
   inherited PageControl: TPageControl
     Width = 873
     Height = 543
+    ActivePage = DadosCadastrais
+    ExplicitTop = 0
     ExplicitWidth = 873
     ExplicitHeight = 543
     inherited Consulta: TTabSheet
+      ExplicitLeft = 4
+      ExplicitTop = 24
       ExplicitWidth = 865
       ExplicitHeight = 515
       inherited Grid: TDBGrid
@@ -22,8 +39,6 @@ inherited FTelaCadastroLote: TFTelaCadastroLote
       inherited Panel2: TPanel
         Width = 865
         Height = 121
-        ExplicitLeft = 16
-        ExplicitTop = -6
         ExplicitWidth = 865
         ExplicitHeight = 121
         inherited BitBtn2: TBitBtn
@@ -299,12 +314,12 @@ inherited FTelaCadastroLote: TFTelaCadastroLote
       end
     end
     inherited DadosCadastrais: TTabSheet
+      ExplicitLeft = 4
+      ExplicitTop = 24
       ExplicitWidth = 865
       ExplicitHeight = 515
       inherited PanelBotoes: TPanel
         Width = 865
-        ExplicitLeft = 3
-        ExplicitTop = 128
         ExplicitWidth = 865
       end
       inherited PageControlEdit: TPageControl
@@ -313,13 +328,211 @@ inherited FTelaCadastroLote: TFTelaCadastroLote
         ExplicitWidth = 865
         ExplicitHeight = 458
         inherited DadosPrincipais: TTabSheet
+          ExplicitLeft = 4
+          ExplicitTop = 24
           ExplicitWidth = 857
           ExplicitHeight = 430
           inherited PanelEdits: TPanel
             Width = 857
             Height = 430
+            ExplicitLeft = 2
             ExplicitWidth = 857
             ExplicitHeight = 430
+            object Label1: TLabel
+              Left = 23
+              Top = 112
+              Width = 43
+              Height = 13
+              Caption = 'D'#233'bito :'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'Tahoma'
+              Font.Style = [fsBold]
+              ParentFont = False
+            end
+            object Label2: TLabel
+              Left = 33
+              Top = 78
+              Width = 33
+              Height = 13
+              Caption = 'Data :'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'Tahoma'
+              Font.Style = [fsBold]
+              ParentFont = False
+            end
+            object Label5: TLabel
+              Left = 19
+              Top = 147
+              Width = 47
+              Height = 13
+              Caption = 'Cr'#233'dito :'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'Tahoma'
+              Font.Style = [fsBold]
+              ParentFont = False
+            end
+            object Label6: TLabel
+              Left = 10
+              Top = 182
+              Width = 56
+              Height = 13
+              Caption = 'Hist'#243'rico :'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'Tahoma'
+              Font.Style = [fsBold]
+              ParentFont = False
+            end
+            object Label7: TLabel
+              Left = 31
+              Top = 216
+              Width = 35
+              Height = 15
+              Caption = 'Valor :'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'Tahoma'
+              Font.Style = [fsBold]
+              ParentFont = False
+            end
+            object Label8: TLabel
+              Left = 154
+              Top = 216
+              Width = 85
+              Height = 13
+              Caption = 'Complemento :'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'Tahoma'
+              Font.Style = [fsBold]
+              ParentFont = False
+            end
+            object MaskEdit2: TMaskEdit
+              Left = 84
+              Top = 75
+              Width = 64
+              Height = 21
+              Color = clWhite
+              EditMask = '!99/99/9999;1;_'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clBlue
+              Font.Height = -11
+              Font.Name = 'Tahoma'
+              Font.Style = []
+              MaxLength = 10
+              ParentFont = False
+              TabOrder = 0
+              Text = '  /  /    '
+            end
+            object Edit2: TEdit
+              Left = 84
+              Top = 109
+              Width = 64
+              Height = 21
+              MaxLength = 10
+              TabOrder = 1
+            end
+            object Edit3: TEdit
+              Left = 84
+              Top = 144
+              Width = 64
+              Height = 21
+              MaxLength = 10
+              TabOrder = 2
+            end
+            object Edit4: TEdit
+              Left = 84
+              Top = 179
+              Width = 64
+              Height = 21
+              MaxLength = 10
+              TabOrder = 3
+            end
+            object Edit5: TEdit
+              Left = 84
+              Top = 213
+              Width = 64
+              Height = 21
+              MaxLength = 10
+              TabOrder = 4
+            end
+            object EditBxDsConta: TEdit
+              Left = 193
+              Top = 109
+              Width = 352
+              Height = 21
+              ReadOnly = True
+              TabOrder = 5
+            end
+            object BtnBxConta: TBitBtn
+              Left = 154
+              Top = 107
+              Width = 33
+              Height = 25
+              Caption = 'P'
+              TabOrder = 6
+            end
+            object BitBtn1: TBitBtn
+              Left = 154
+              Top = 142
+              Width = 33
+              Height = 25
+              Caption = 'P'
+              TabOrder = 7
+            end
+            object Edit6: TEdit
+              Left = 193
+              Top = 144
+              Width = 352
+              Height = 21
+              ReadOnly = True
+              TabOrder = 8
+            end
+            object Edit8: TEdit
+              Left = 245
+              Top = 213
+              Width = 300
+              Height = 21
+              ReadOnly = True
+              TabOrder = 9
+            end
+            object BitBtn3: TBitBtn
+              Left = 154
+              Top = 177
+              Width = 33
+              Height = 25
+              Caption = 'P'
+              TabOrder = 10
+            end
+            object Edit7: TEdit
+              Left = 193
+              Top = 179
+              Width = 352
+              Height = 21
+              ReadOnly = True
+              TabOrder = 11
+            end
+            object DBGrid1: TDBGrid
+              Left = 10
+              Top = 272
+              Width = 839
+              Height = 145
+              TabOrder = 12
+              TitleFont.Charset = DEFAULT_CHARSET
+              TitleFont.Color = clWindowText
+              TitleFont.Height = -11
+              TitleFont.Name = 'Tahoma'
+              TitleFont.Style = []
+            end
           end
         end
       end

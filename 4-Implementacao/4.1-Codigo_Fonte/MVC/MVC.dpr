@@ -74,7 +74,8 @@ uses
   PNGExtra in '..\..\..\..\..\..\Downloads\PNGExtra.pas',
   ULoteVO in 'VO\ULoteVO.pas',
   ULoteController in 'controle\ULoteController.pas',
-  ULote in 'tela\ULote.pas' {FTelaCadastroLote};
+  ULote in 'tela\ULote.pas' {FTelaCadastroLote},
+  ULancamentoContabilVO in 'VO\ULancamentoContabilVO.pas';
 
 {$R *.res}
 
