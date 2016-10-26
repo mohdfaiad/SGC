@@ -10,9 +10,9 @@ inherited FTelaCadastro: TFTelaCadastro
   inherited PageControl: TPageControl
     Width = 783
     Height = 414
+    ActivePage = DadosCadastrais
     TabOrder = 1
     OnChange = PageControlChange
-    ExplicitTop = -6
     ExplicitWidth = 783
     ExplicitHeight = 414
     inherited Consulta: TTabSheet
@@ -219,7 +219,6 @@ inherited FTelaCadastro: TFTelaCadastro
             Align = alClient
             ParentBackground = False
             TabOrder = 0
-            ExplicitTop = 2
           end
         end
       end

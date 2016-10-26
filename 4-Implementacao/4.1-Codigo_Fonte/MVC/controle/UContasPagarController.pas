@@ -28,8 +28,6 @@ function TContasPagarController.ConsultarPorId(id: integer): TContasPagarVO;
 var
   P: TContasPagarVO;
 
-
-
 begin
   P := TDAO.ConsultarPorId<TContasPagarVO>(id);
 

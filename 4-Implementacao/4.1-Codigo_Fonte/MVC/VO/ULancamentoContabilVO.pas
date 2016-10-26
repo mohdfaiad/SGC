@@ -20,6 +20,7 @@ type
     FidContasPagar : Integer;
     FidHistorico : Integer;
     FidLote : Integer;
+    FidCondominio : integer;
 
   public
 
@@ -33,22 +34,39 @@ type
 
 
 
-    [TId('idLote')]
+    [TId('idLcto')]
     [TGeneratedValue(sAuto)]
-    property idLote : Integer  read FidLote write FidLote;
+    property idLcto : Integer  read FidLcto write FidLcto;
 
     [TColumn('dtLcto','Data',0,[ldGrid,ldLookup,ldComboBox], False)]
     property dtLcto: TDateTime  read FdtLcto write FdtLcto;
 
-    [TColumn('nrLote','Lote',50,[ldGrid,ldLookup,ldComboBox], False)]
-    property nrLote: String  read FnrLote write FnrLote;
+    [TColumn('valor','Valor',30,[ldGrid,ldLookup,ldComboBox], False)]
+    property valor: Currency  read FValor write FValor;
 
-    [TColumn('dsLote','Descrição',400,[ldGrid,ldLookup,ldComboBox], False)]
-    property dsLote: string  read FdsLote write FdsLote;
+    [TColumn('complemento','Complemento',400,[ldGrid,ldLookup,ldComboBox], False)]
+    property complemento: string  read FComplemento write Fcomplemento;
 
     [TColumn('idCondominio','Condominio',0,[ldLookup,ldComboBox], False)]
     property idCondominio: integer  read FidCondominio write FidCondominio;
 
+    [TColumn('idcontacredito','Crédito',0,[ldLookup,ldComboBox], False)]
+    property idContaCredito: integer  read FidContaCredito write FidContaCredito;
+
+    [TColumn('idcontadebito','Débito',0,[ldLookup,ldComboBox], False)]
+    property idcontadebito: integer  read FidContaDebito write FidContaDebito;
+
+    [TColumn('idcontasreceber','ContasReceber',0,[ldLookup,ldComboBox], False)]
+    property idContasReceber: integer  read FidContasReceber write FidContasReceber;
+
+    [TColumn('idcontaspagar','ContasPagar',0,[ldLookup,ldComboBox], False)]
+    property idContasPagar: integer  read FidContasPagar write FidContasPagar;
+
+    [TColumn('idlote','idLote',0,[ldLookup,ldComboBox], False)]
+    property idLote: integer  read FIdLote write FIdLote;
+
+    [TColumn('idHistorico','idHistorico',0,[ldLookup,ldComboBox], False)]
+    property idHistorico: integer  read FIdHistorico write FIdHistorico;
 
     procedure ValidarCamposObrigatorios;
 
@@ -56,16 +74,14 @@ type
 implementation
 
 
-procedure TLoteVO.ValidarCamposObrigatorios;
+
+{ TLancamentoContabilVO }
+
+procedure TLancamentoContabilVO.ValidarCamposObrigatorios;
 begin
-  if (self.FDtLote = 0) then
-  begin
-    raise Exception.Create('O campo Data é obrigatório!');
-  end;
-  if (Self.FnrLote = '') then
-  begin
-    raise Exception.Create('O campo Lote é obrigatório!');
-  end;
+
+
 end;
+
 end.
 

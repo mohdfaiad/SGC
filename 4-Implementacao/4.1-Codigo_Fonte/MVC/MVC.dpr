@@ -75,7 +75,8 @@ uses
   ULoteVO in 'VO\ULoteVO.pas',
   ULoteController in 'controle\ULoteController.pas',
   ULote in 'tela\ULote.pas' {FTelaCadastroLote},
-  ULancamentoContabilVO in 'VO\ULancamentoContabilVO.pas';
+  ULancamentoContabilVO in 'VO\ULancamentoContabilVO.pas',
+  ULancamentoContabilController in 'controle\ULancamentoContabilController.pas';
 
 {$R *.res}
 
