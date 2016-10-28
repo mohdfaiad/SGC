@@ -13,6 +13,8 @@ inherited FTelaCadastroPessoa: TFTelaCadastroPessoa
     ExplicitWidth = 787
     ExplicitHeight = 445
     inherited Consulta: TTabSheet
+      ExplicitLeft = 0
+      ExplicitTop = 0
       ExplicitWidth = 779
       ExplicitHeight = 417
       inherited Grid: TDBGrid
@@ -59,8 +61,6 @@ inherited FTelaCadastroPessoa: TFTelaCadastroPessoa
       end
     end
     inherited DadosCadastrais: TTabSheet
-      ExplicitLeft = 4
-      ExplicitTop = 24
       ExplicitWidth = 779
       ExplicitHeight = 417
       inherited PanelBotoes: TPanel
@@ -88,13 +88,13 @@ inherited FTelaCadastroPessoa: TFTelaCadastroPessoa
         ExplicitWidth = 779
         ExplicitHeight = 360
         inherited DadosPrincipais: TTabSheet
-          ExplicitLeft = 4
-          ExplicitTop = 24
           ExplicitWidth = 771
           ExplicitHeight = 332
           inherited PanelEdits: TPanel
             Width = 771
             Height = 332
+            ExplicitLeft = 0
+            ExplicitTop = 0
             ExplicitWidth = 771
             ExplicitHeight = 332
             object ScrollBox1: TScrollBox

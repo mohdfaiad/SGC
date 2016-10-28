@@ -219,6 +219,8 @@ inherited FTelaCadastro: TFTelaCadastro
             Align = alClient
             ParentBackground = False
             TabOrder = 0
+            ExplicitLeft = 2
+            ExplicitTop = 2
           end
         end
       end

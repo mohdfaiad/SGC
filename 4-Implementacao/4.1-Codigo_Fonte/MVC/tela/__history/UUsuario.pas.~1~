@@ -1,0 +1,39 @@
+unit UUsuario;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, UtelaCadastro, Vcl.StdCtrls,
+  Vcl.ComCtrls, Vcl.Mask, Vcl.Buttons, Vcl.ExtCtrls, Vcl.Grids, Vcl.DBGrids;
+
+type
+  TFTelaCadastroUsuario = class(TFTelaCadastro)
+    Label1: TLabel;
+    LabeledEditLogin: TEdit;
+    Label5: TLabel;
+    LabeledEditSenha: TEdit;
+    Label6: TLabel;
+    LabeledEditPessoa: TEdit;
+    BitBtn3: TBitBtn;
+    LabeledEditNomePessoa: TEdit;
+    GroupBox3: TGroupBox;
+    RadioButtonPessoa: TRadioButton;
+    procedure Label1Click(Sender: TObject);
+    procedure GroupBox3Click(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  FTelaCadastroUsuario: TFTelaCadastroUsuario;
+
+implementation
+
+{$R *.dfm}
+
+
+
+end.

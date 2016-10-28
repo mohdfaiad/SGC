@@ -643,7 +643,7 @@ var
   Tipo: TRttiType;
   Atributo: TCustomAttribute;
   Propriedade: TRttiProperty;
-  ConsultaSQL, FiltroSQL, Campo, NomeTabelaPrincipal, Joins: String;
+  ConsultaSQL, FiltroSQL, Campo, NomeTabelaPrincipal, Joins, aliasTable, aliasColumn: String;
   DBXConnection: TDBXConnection;
   DBXCommand: TDBXCommand;
   DBXReader: TDBXReader;
@@ -688,13 +688,20 @@ begin
               begin
                 //Campo := StringReplace(Campo, '.', '', [rfReplaceAll]);
                 Campo:= (Atributo as TColumn).Name;
-                ConsultaSQL := ConsultaSQL + ', ' + (Atributo as TColumn).TableName + '.' +(Atributo as TColumn).Name +
+                aliasTable := (Atributo as TColumn).AliasTable;
+                if(aliasTable='')then
+                  aliasTable:=(Atributo as TColumn).TableName;
+
+                aliasColumn :=(Atributo as TColumn).AliasColumn;
+                if(aliasColumn='')then
+                  aliasColumn:=(Atributo as TColumn).Name;
+
+                ConsultaSQL := ConsultaSQL + ', ' + aliasTable + '.' + aliasColumn +
                   ' AS ' + Campo;
                 Joins := Joins + ' ' + 'LEFT JOIN ' + (Atributo as TColumn)
-                  .TableName + ' ON ' + NomeTabelaPrincipal + '.' +
+                  .TableName + ' AS '+ aliasTable + ' ON ' + NomeTabelaPrincipal + '.' +
                   (Atributo as TColumn).LocalColumn + ' = ' +
-                  (Atributo as TColumn).TableName + '.' + (Atributo as TColumn)
-                  .ForeingColumn;
+                  aliasTable + '.' + (Atributo as TColumn).ForeingColumn;
                 ConsultaTransiente := True;
               end;
             end;

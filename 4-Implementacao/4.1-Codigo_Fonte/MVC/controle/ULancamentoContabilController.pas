@@ -24,6 +24,12 @@ implementation
 uses
   UDao, Constantes, Vcl.Dialogs;
 
+procedure TLancamentoContabilController.ValidarDados(
+  Objeto: TLancamentoContabilVO);
+begin
+  inherited;
+end;
+
 function TLancamentoContabilController.ConsultarPorId(id: integer): TLancamentoContabilVO;
 var
   P: TLancamentoContabilVO;
@@ -35,7 +41,6 @@ begin
 
   if (P <> nil) then
   begin
-      p.CondominioVO := TDAO.ConsultarPorId<TCondominioVO>(P.IdCondominio);
       p.ContaDebitoVo := TDao.ConsultarPorId<TPlanoContasVO>(P.idcontadebito);
       p.ContaCreditoVO := TDAO.ConsultarPorId<TPlanoContasVO>(P.idContaCredito);
       p.ContasReceberVO := TDAO.ConsultarPorId<TContasReceberVO>(p.idContasReceber);
@@ -48,11 +53,5 @@ begin
 
 end;
 
-procedure TLancamentoContabilController.ValidarDados(
-  Objeto: TLancamentoContabilVO);
-begin
-  inherited;
-
-end;
 
 end.

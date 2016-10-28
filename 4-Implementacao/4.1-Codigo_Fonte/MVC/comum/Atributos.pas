@@ -47,6 +47,8 @@ type
     FLocalDisplay: TLocalDisplayColumn;
     FTransiente: Boolean;
     FTableName: String;
+    FAliasTable: String;
+    FAliasColumn: String;
     FLocalColumn: String;
     FForeingColumn: String;
   public
@@ -61,6 +63,7 @@ type
     constructor Create(pName: String; pCaption: String; pUnique: Boolean; pLength: Integer; pLocalDisplay: TLocalDisplayColumn; pTransiente: Boolean); overload;
     constructor Create(pName: String; pCaption: String; pLength: Integer; pLocalDisplay: TLocalDisplayColumn; pTransiente: Boolean); overload;
     constructor Create(pName: String; pCaption: String; pLength: Integer; pLocalDisplay: TLocalDisplayColumn; pTransiente: Boolean; pTableName: String; pLocalColumn: String; pForeingColumn: String); overload;
+    constructor Create(pName: String; pCaption: String; pLength: Integer; pLocalDisplay: TLocalDisplayColumn; pTransiente: Boolean; pTableName: String; pLocalColumn: String; pForeingColumn: String; pAliasTable:String; pAliasColumn:String); overload;
 
     property Name: String read FName write FName;
     property Caption: String read FCaption write FCaption;
@@ -70,6 +73,10 @@ type
     property Transiente: Boolean read FTransiente write FTransiente;
     { Para informar o nome da tabela da da coluna transiente }
     property TableName: String read FTableName write FTableName;
+
+    property AliasTable: String read FAliasTable write FAliasTable;
+    property AliasColumn: String read FAliasColumn write FAliasColumn;
+
     { Campo da tabela local utilizado para montar o Join }
     property LocalColumn: String read FLocalColumn write FLocalColumn;
     { Campo da tabela estrangeira utilizado para montar o Join }
@@ -336,6 +343,18 @@ begin
   FTableName := pTableName;
   FLocalColumn := pLocalColumn;
   FForeingColumn := pForeingColumn;
+end;
+
+constructor TColumn.Create(pName: String; pCaption: String; pLength: Integer; pLocalDisplay: TLocalDisplayColumn; pTransiente: Boolean; pTableName: String; pLocalColumn: String; pForeingColumn: String; pAliasTable:String; pAliasColumn:String);
+begin
+  Create(pName, pCaption, pLocalDisplay, pTransiente);
+
+  FLength := pLength;
+  FTableName := pTableName;
+  FLocalColumn := pLocalColumn;
+  FForeingColumn := pForeingColumn;
+  FAliasTable:= pAliasTable;
+  FAliasColumn:= pAliasColumn;
 end;
 
 constructor TColumn.Create(pName, pCaption: String; pLocalDisplay: TLocalDisplayColumn; pTransiente: Boolean);

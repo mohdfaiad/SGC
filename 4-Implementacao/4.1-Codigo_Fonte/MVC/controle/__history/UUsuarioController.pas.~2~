@@ -1,0 +1,30 @@
+unit UUsuarioController;
+
+interface
+
+uses
+  Classes, SQLExpr, SysUtils, Generics.Collections, DBXJSON, DBXCommon,
+  ConexaoBD,
+  UController, DBClient, DB, UUsuarioVO,UPessoasVo, UPessoasController;
+
+
+type
+  TUsuarioController = class(TController<TUsuarioVO>)
+  private
+
+  public
+    function ConsultarPorId(id: integer): TLoteVO;
+    procedure ValidarDados(Objeto:TLoteVO);override;
+  end;
+
+implementation
+
+uses
+  UDao, Constantes, Vcl.Dialogs;
+
+
+
+begin
+
+
+end.

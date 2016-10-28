@@ -10,6 +10,7 @@ inherited FTelaCadastroCondominio: TFTelaCadastroCondominio
   inherited PageControl: TPageControl
     Width = 784
     Height = 479
+    ActivePage = Consulta
     ExplicitWidth = 784
     ExplicitHeight = 479
     inherited Consulta: TTabSheet
@@ -49,8 +50,6 @@ inherited FTelaCadastroCondominio: TFTelaCadastroCondominio
       end
     end
     inherited DadosCadastrais: TTabSheet
-      ExplicitLeft = 4
-      ExplicitTop = 24
       ExplicitWidth = 776
       ExplicitHeight = 451
       inherited PanelBotoes: TPanel
@@ -71,6 +70,31 @@ inherited FTelaCadastroCondominio: TFTelaCadastroCondominio
         inherited BitBtnCancela: TBitBtn
           TabOrder = 3
         end
+        object BtnContador: TBitBtn
+          Left = 440
+          Top = 6
+          Width = 96
+          Height = 45
+          Cancel = True
+          Caption = 'Contador'
+          Glyph.Data = {
+            76010000424D7601000000000000760000002800000020000000100000000100
+            04000000000000010000120B0000120B00001000000000000000000000000000
+            800000800000008080008000000080008000808000007F7F7F00BFBFBF000000
+            FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00333333000000
+            000033333377777777773333330FFFFFFFF03FF3FF7FF33F3FF700300000FF0F
+            00F077F777773F737737E00BFBFB0FFFFFF07773333F7F3333F7E0BFBF000FFF
+            F0F077F3337773F3F737E0FBFBFBF0F00FF077F3333FF7F77F37E0BFBF00000B
+            0FF077F3337777737337E0FBFBFBFBF0FFF077F33FFFFFF73337E0BF0000000F
+            FFF077FF777777733FF7000BFB00B0FF00F07773FF77373377373330000B0FFF
+            FFF03337777373333FF7333330B0FFFF00003333373733FF777733330B0FF00F
+            0FF03333737F37737F373330B00FFFFF0F033337F77F33337F733309030FFFFF
+            00333377737FFFFF773333303300000003333337337777777333}
+          Layout = blGlyphTop
+          NumGlyphs = 2
+          TabOrder = 5
+          OnClick = BtnContadorClick
+        end
       end
       inherited PageControlEdit: TPageControl
         Width = 776
@@ -78,13 +102,13 @@ inherited FTelaCadastroCondominio: TFTelaCadastroCondominio
         ExplicitWidth = 776
         ExplicitHeight = 394
         inherited DadosPrincipais: TTabSheet
-          ExplicitLeft = 4
-          ExplicitTop = 24
           ExplicitWidth = 768
           ExplicitHeight = 366
           inherited PanelEdits: TPanel
             Width = 768
             Height = 366
+            ExplicitLeft = 0
+            ExplicitTop = 0
             ExplicitWidth = 768
             ExplicitHeight = 366
             object Cep: TLabel

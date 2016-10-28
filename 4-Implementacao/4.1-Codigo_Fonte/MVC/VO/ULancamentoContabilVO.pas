@@ -12,7 +12,7 @@ type
   private
     FidLcto : Integer;
     FdtLcto : TDateTime;
-    FValor : currency;
+    FVlValor : currency;
     FComplemento : String;
     FidContaDebito : Integer;
     FidContaCredito : Integer;
@@ -20,7 +20,10 @@ type
     FidContasPagar : Integer;
     FidHistorico : Integer;
     FidLote : Integer;
-    FidCondominio : integer;
+
+    FDsContaDebito : String;
+    FDsContaCredito : String;
+    FDsHistorico : String;
 
   public
 
@@ -41,14 +44,11 @@ type
     [TColumn('dtLcto','Data',0,[ldGrid,ldLookup,ldComboBox], False)]
     property dtLcto: TDateTime  read FdtLcto write FdtLcto;
 
-    [TColumn('valor','Valor',30,[ldGrid,ldLookup,ldComboBox], False)]
-    property valor: Currency  read FValor write FValor;
+    [TColumn('vlValor','Valor',30,[ldGrid,ldLookup,ldComboBox], False)]
+    property VlValor: Currency  read FVlValor write FVlValor;
 
-    [TColumn('complemento','Complemento',400,[ldGrid,ldLookup,ldComboBox], False)]
+    [TColumn('dscomplemento','Complemento',80,[ldGrid,ldLookup,ldComboBox], False)]
     property complemento: string  read FComplemento write Fcomplemento;
-
-    [TColumn('idCondominio','Condominio',0,[ldLookup,ldComboBox], False)]
-    property idCondominio: integer  read FidCondominio write FidCondominio;
 
     [TColumn('idcontacredito','Crédito',0,[ldLookup,ldComboBox], False)]
     property idContaCredito: integer  read FidContaCredito write FidContaCredito;
@@ -68,6 +68,15 @@ type
     [TColumn('idHistorico','idHistorico',0,[ldLookup,ldComboBox], False)]
     property idHistorico: integer  read FIdHistorico write FIdHistorico;
 
+    [TColumn('DSCONTADEBITO','ContaDebito',0,[], True, 'PlanoContas', 'idContaDebito', 'idPlanoContas', 'PlanoDebito', 'DSCONTA')]
+    property DsContaDebito: string  read FDsContaDebito write FDsContaDebito;
+
+    [TColumn('DSCONTACREDITO','ContaCredito',0,[], True, 'PlanoContas', 'idContaCredito', 'idPlanoContas', 'PlanoCredito', 'DSCONTA')]
+    property DsContaCredito: string  read FDsContaCredito write FDsContaCredito;
+
+    [TColumn('DSHISTORICO','',0,[], True, 'Historicos', 'idHistorico', 'idHistorico')]
+    property DsHistorico: string  read FDsHistorico write FDsHistorico;
+
     procedure ValidarCamposObrigatorios;
 
   end;
@@ -79,8 +88,22 @@ implementation
 
 procedure TLancamentoContabilVO.ValidarCamposObrigatorios;
 begin
-
-
+  if (self.FDtLcto = 0) then
+  begin
+    raise Exception.Create('O campo Data é obrigatório!');
+  end;
+  if ((self.FidContaDebito = 0) and (self.idContaCredito = 0))then
+  begin
+      raise Exception.Create('O campo Conta débito ou conta crédito  é obrigatório!');
+  end;
+  if (Self.FidHistorico = 0) then
+  begin
+    raise Exception.Create('O campo Histórico é obrigatório!');
+  end;
+  if (Self.FVlValor <= 0) then
+  begin
+     raise Exception.Create('O campo Valor é obrigatório!');
+  end;
 end;
 
 end.

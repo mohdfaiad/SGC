@@ -1,0 +1,46 @@
+unit UUsuarioVO;
+
+interface
+
+uses Atributos, Classes, Constantes, Generics.Collections, SysUtils, UGenericVO, UPessoasVO;
+
+type
+  [TEntity]
+  [TTable('Usuario')]
+  TUsuarioVO = class(TGenericVO)
+  private
+    FidUsuario : Integer;
+    FLogin : String;
+    FSenha : String;
+    FidPessoa : Integer;
+
+  public
+
+    PessoaVO : TPessoasVO;
+
+    [TId('idUsuario')]
+    [TGeneratedValue(sAuto)]
+    property idUsuario : Integer  read FidUsuario write FidUsuario;
+
+    [TColumn('login','Login',50,[ldGrid,ldLookup,ldComboBox], False)]
+    property Login: String  read FLogin write FLogin;
+
+    [TColumn('senha','Senha',50,[ldLookup,ldComboBox], False)]
+    property senha: string  read FSenha write FSenha;
+
+    [TColumn('idPessoa','Pessoa',0,[ldLookup,ldComboBox], False)]
+    property idPessoa: integer  read FidPessoa write FidPessoa;
+
+
+    procedure ValidarCamposObrigatorios;
+
+  end;
+implementation
+
+
+procedure TLoteVO.ValidarCamposObrigatorios;
+begin
+
+end;
+end.
+

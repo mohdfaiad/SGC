@@ -7,7 +7,8 @@ uses
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, UtelaCadastro, Vcl.StdCtrls,
   Vcl.ComCtrls, Vcl.Mask, Vcl.Buttons, Vcl.ExtCtrls, Vcl.Grids, Vcl.DBGrids,
   Generics.Collections, ULoteVO, ULoteController, UEmpresaTrab, ULancamentoContabilVO,
-  UlancamentoCOntabilController, UPlanoContas, UHistorico, UPlanoContasVO, UHistoricoVO;
+  UlancamentoCOntabilController, UPlanoContas,UPlanoContasController, UHistorico, UHistoricoController,
+  UPlanoContasVO, UHistoricoVO, Data.DB, Datasnap.DBClient;
 
 type
   TFTelaCadastroLote = class(TFTelaCadastro)
@@ -28,26 +29,42 @@ type
     Label3: TLabel;
     Edit1: TEdit;
     BtnNovo: TBitBtn;
+    Label9: TLabel;
+    GridLcto: TDBGrid;
+    CDSLcto: TClientDataSet;
+    DSLcto: TDataSource;
+    CDSLctoIDLCTO: TIntegerField;
+    CDSLctoDTLCTO: TDateField;
+    CDSLctoIDCONTADEBITO: TIntegerField;
+    CDSLctoIDCONTACREDITO: TIntegerField;
+    CDSLctoDSCONTADEBITO: TStringField;
+    CDSLctoDSCONTACREDITO: TStringField;
+    CDSLctoIDHISTORICO: TIntegerField;
+    CDSLctoVALOR: TFloatField;
+    CDSLctoDSCOMPLEMENTO: TStringField;
+    CDSLctoDSHISTORICO: TStringField;
+    PanelLcto: TPanel;
+    Label2: TLabel;
     MaskEdit2: TMaskEdit;
     Label1: TLabel;
     LabeledEditConta: TEdit;
-    Label2: TLabel;
+    BtnConta: TBitBtn;
+    LabeledEditDsConta: TEdit;
     Label5: TLabel;
     LabeledEditContraP: TEdit;
-    Label6: TLabel;
-    LabeledEditHistorico: TEdit;
-    Label7: TLabel;
-    Edit5: TEdit;
-    LabeledEditDsConta: TEdit;
-    BtnConta: TBitBtn;
     BtnContra: TBitBtn;
     LabeledEditDsContra: TEdit;
-    Label8: TLabel;
-    Label9: TLabel;
-    Edit8: TEdit;
+    Label6: TLabel;
+    LabeledEditHistorico: TEdit;
     BitBtn3: TBitBtn;
     LabeledEditDsHist: TEdit;
-    DBGrid1: TDBGrid;
+    Label7: TLabel;
+    Edit5: TEdit;
+    Label8: TLabel;
+    Edit8: TEdit;
+    Label10: TLabel;
+    editidlcto: TEdit;
+    editidlote: TEdit;
     procedure FormCreate(Sender: TObject);
     function DoSalvar: boolean; override;
     function DoSalvarLcto : boolean;
@@ -55,12 +72,7 @@ type
     procedure DoConsultar; override;
     function DoExcluir: boolean; override;
     function DoExcluirLcto : boolean;
-  //  procedure BitBtnNovoClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
-  //  procedure BitBtnGravaClick(Sender: TObject);
-    procedure SetStatusTela(const Value: TStatusTela);
- //   procedure BitBtnAlteraClick(Sender: TObject);
- //   procedure BitBtnExcluiClick(Sender: TObject);
     procedure BitBtnIncluirCClick(Sender: TObject);
     procedure BtnCancelarCClick(Sender: TObject);
     procedure BtnContaClick(Sender: TObject);
@@ -72,9 +84,13 @@ type
     procedure BitBtnGravaClick(Sender: TObject);
     procedure BitBtnNovoClick(Sender: TObject);
     procedure BitBtnAlteraClick(Sender: TObject);
-    procedure BitBtnExcluiClick(Sender: TObject);
     procedure BitBtnCancelaClick(Sender: TObject);
-//    procedure BitBtnCancelaClick(Sender: TObject);
+    procedure LabeledEditContaExit(Sender: TObject);
+    procedure LabeledEditContraPExit(Sender: TObject);
+    procedure LabeledEditHistoricoExit(Sender: TObject);
+    procedure PageControlChange(Sender: TObject);
+    procedure CDSLctoAfterScroll(DataSet: TDataSet);
+    procedure BitBtnExcluiClick(Sender: TObject);
 
 
   private
@@ -83,9 +99,12 @@ type
   public
     { Public declarations }
     procedure GridParaEdits; override;
+    procedure GridParaEditsLcto;
     function EditsToObject(Lote: TLoteVO): TLoteVO;
     function EditsToObjectLcto (Lcto : TLancamentoContabilVO) : TLancamentoContabilVO;
-    property StatusTela: TStatusTela read FStatusTela write SetStatusTela;
+    procedure PopulaGridLcto;
+    procedure VerificaBotoesLcto( StatusTela: TStatusTela);
+    procedure VerificaBotoesLote(StatusTela: TStatusTela);
  //   function ConsultaLote (Lote:TLoteVO) : TLoteVO;
 
   end;
@@ -124,28 +143,26 @@ end;
 
 procedure TFTelaCadastroLote.BitBtnAlteraClick(Sender: TObject);
 begin
-  if CDSGrid.IsEmpty then
+  if CDSLcto.IsEmpty then
     Application.MessageBox('Não existe registro selecionado.', 'Erro',
       MB_OK + MB_ICONERROR)
   else
   begin
-    StatusTela := stEditando;
+    VerificaBotoesLcto(stEditando);
   end;
 
 end;
 
 procedure TFTelaCadastroLote.BitBtnCancelaClick(Sender: TObject);
 begin
-  if (StatusTela = TStatusTela.stInserindo) then
-    PageControl.ActivePage := Consulta;
-
-  SetStatusTela(TStatusTela.stNavegandoGrid);
+  VerificaBotoesLcto(TStatusTela.stNavegandoGrid);
+  limparCampos;
   DadosCadastrais.TabVisible := true;
 end;
 
 procedure TFTelaCadastroLote.BitBtnExcluiClick(Sender: TObject);
 begin
- if CDSGrid.IsEmpty then
+  if CDSLcto.IsEmpty then
     Application.MessageBox('Não existe registro selecionado.', 'Erro',
       MB_OK + MB_ICONERROR)
   else
@@ -156,9 +173,8 @@ begin
     begin
       if (DoExcluirLcto) then
       begin
-        PageControl.ActivePage := Consulta;
-        DoConsultar;
-        SetStatusTela(TStatusTela.stNavegandoGrid);
+        PopulaGridLcto;
+        verificaBotoesLote(TStatusTela.stNavegandoGrid);
       end;
     end;
   end;
@@ -168,18 +184,19 @@ procedure TFTelaCadastroLote.BitBtnGravaClick(Sender: TObject);
 begin
   if (DoSalvarLcto) then
   begin
-    PageControl.ActivePage := Consulta;
-    DoConsultar;
-    SetStatusTela(TStatusTela.stNavegandoGrid);
+    populagridlcto;
+    VerificaBotoesLcto(TStatusTela.stNavegandoGrid);
   end;
+
 
 end;
 
 procedure TFTelaCadastroLote.BitBtnIncluirCClick(Sender: TObject);
 begin
   LimparCampos;
-  StatusTela := stInserindo;
+  VerificaBotoesLote(stInserindo);
   MaskEditDtInicio.SetFocus;
+
 end;
 
 
@@ -187,7 +204,7 @@ end;
 procedure TFTelaCadastroLote.BitBtnNovoClick(Sender: TObject);
 begin
   LimparCampos;
-  StatusTela := stInserindo;
+  VerificaBotoesLcto(stInserindo);
   PageControl.ActivePage := DadosCadastrais;
   BitBtnGrava.Enabled := True;
   MaskEdit2.SetFocus;
@@ -200,18 +217,16 @@ begin
       MB_OK + MB_ICONERROR)
   else
   begin
-    StatusTela := stEditando;
+    VerificaBotoesLote(stEditando);
     GridParaEdits;
    end;
 end;
 
 procedure TFTelaCadastroLote.BtnCancelarCClick(Sender: TObject);
 begin
-  if (StatusTela = TStatusTela.stInserindo) then
-    PageControl.ActivePage := Consulta;
-
-  SetStatusTela(TStatusTela.stNavegandoGrid);
+  VerificaBotoesLote(stNavegandoGrid);
   DadosCadastrais.TabVisible := true;
+  LimparCampos;
 
 end;
 
@@ -247,15 +262,41 @@ end;
 
 procedure TFTelaCadastroLote.BtnExcluirLClick(Sender: TObject);
 begin
-  inherited;
+  if CDSGrid.IsEmpty then
+    Application.MessageBox('Não existe registro selecionado.', 'Erro',
+      MB_OK + MB_ICONERROR)
+  else
+  begin
+    if Application.MessageBox
+      ('Deseja realmente excluir o registro selecionado?', 'Confirmação',
+      MB_YESNO + MB_ICONQUESTION) = IDYES then
+    begin
+      if (DoExcluir) then
+      begin
+        PageControl.ActivePage := Consulta;
+        DoConsultar;
+        verificaBotoesLote(TStatusTela.stNavegandoGrid);
+      end;
+    end;
+  end;
   DadosCadastrais.TabVisible := true;
 end;
 
 procedure TFTelaCadastroLote.BtnGravarLClick(Sender: TObject);
 begin
+  if (DoSalvar) then
+  begin
+    PageControl.ActivePage := Consulta;
+    DoConsultar;
+    VerificaBotoesLote(TStatusTela.stNavegandoGrid);
+    DadosCadastrais.TabVisible := true;
+  end;
+end;
+
+procedure TFTelaCadastroLote.CDSLctoAfterScroll(DataSet: TDataSet);
+begin
   inherited;
-  SetStatusTela(TStatusTela.stNavegandoGrid);
-  DadosCadastrais.TabVisible := true;
+  GridParaEditsLcto;
 end;
 
 procedure TFTelaCadastroLote.DoConsultar;
@@ -271,12 +312,24 @@ end;
 function TFTelaCadastroLote.DoExcluir: boolean;
 var
   Lote: TLoteVO;
+  query : string;
+  listaLcto: TObjectList<TLancamentoContabilVO>;
 begin
   try
     try
       Lote := TLoteVO.Create;
       Lote.idLote := CDSGrid.FieldByName('IDLOTE').AsInteger;
-      ControllerLote.Excluir(Lote);
+      Query:=' idlote = '+ CDSGRID.FieldByName('IDLOTE').AsString;
+      listaLcto := ControllerLcto.Consultar(query);
+      if ListaLcto.Count = 0  then
+         ControllerLote.Excluir(Lote)
+      else
+      begin
+        ShowMessage('Para excluir lote deverá excluir os lançamentos do lote!');
+        PageControl.ActivePage := Consulta;
+      end;
+
+
     except
       on E: Exception do
       begin
@@ -296,7 +349,7 @@ begin
   try
     try
       Lcto := TLancamentoContabilVO.Create;
-      Lcto.idLcto := CDSGrid.FieldByName('IDLCTO').AsInteger;
+      Lcto.idLcto := CDSLcto.FieldByName('IDLCTO').AsInteger;
       ControllerLcto.Excluir(Lcto);
     except
       on E: Exception do
@@ -320,22 +373,19 @@ begin
       try
        Lote.ValidarCamposObrigatorios();
         begin
-           if (StatusTela = stInserindo) then
+           if editidlote.Text= '' then
            begin
               Lote.idcondominio := FormEmpresaTrab.CodigoEmpLogada;
               ControllerLote.Inserir(Lote);
               Result := true;
            end
-            else if (StatusTela = stEditando) then
+            else
              begin
-              Lote := ControllerLote.ConsultarPorId(CDSGrid.FieldByName('IDLOTE')
-              .AsInteger);
+              Lote := ControllerLote.ConsultarPorId(strtoint(editidlote.Text));
               Lote := EditsToObject(Lote);
               ControllerLote.Alterar(Lote);
             Result := true;
           end
-        else
-          Result := false;
         end;
       except
         on E: Exception do
@@ -360,22 +410,18 @@ begin
       try
        LctoContabil.ValidarCamposObrigatorios();
         begin
-           if (StatusTela = stInserindo) then
+           if (editidlcto.text='') then
            begin
-         //     LctoContabil.idcondominio := FormEmpresaTrab.CodigoEmpLogada;
               ControllerLcto.Inserir(LctoContabil);
               Result := true;
            end
-            else if (StatusTela = stEditando) then
+           else
              begin
-              LctoContabil := ControllerLcto.ConsultarPorId(CDSGrid.FieldByName('IDLCTO')
-              .AsInteger);
+              LctoContabil := ControllerLcto.ConsultarPorId(strtoint(editidlcto.Text));
               LctoContabil := EditsToObjectLcto(LctoContabil);
               ControllerLcto.Alterar(LctoContabil);
-            Result := true;
-          end
-        else
-          Result := false;
+              Result := true;
+            end
         end;
       except
         on E: Exception do
@@ -409,9 +455,15 @@ end;
 function TFTelaCadastroLote.EditsToObjectLcto(
   Lcto: TLancamentoContabilVO): TLancamentoContabilVO;
 begin
+
    if not CDSGrid.IsEmpty then
    begin
     lcto.idLote := CDSGrid.FieldByName('IDLOTE').AsInteger;
+   end;
+
+   if (editidlcto.Text<>'') then
+   begin
+     lcto.idLcto := strtoint(editidlcto.Text);
    end;
    if (maskEdit2.Text <> '  /  /    ' ) then
    begin
@@ -431,12 +483,14 @@ begin
    end;
    if (Edit5.Text <> '') then
    begin
-      lcto.valor := StrToFloat(Edit5.Text);
+      lcto.Vlvalor := StrToFloat(Edit5.Text);
    end;
    if Edit8.Text <> '' then
    begin
       lcto.complemento := Edit8.Text;
    end;
+
+   result:=lcto;
 end;
 
 procedure TFTelaCadastroLote.FormClose(Sender: TObject;
@@ -444,13 +498,16 @@ procedure TFTelaCadastroLote.FormClose(Sender: TObject;
 begin
  inherited;
   FreeAndNil(ControllerLote);
+  FreeAndNil(ControllerLcto);
 end;
 
 procedure TFTelaCadastroLote.FormCreate(Sender: TObject);
 begin
   ClasseObjetoGridVO := TLoteVO;
   ControllerLote := TLoteController.Create;
+  ControllerLcto := TLancamentoContabilController.Create;
   RadioButton1.Checked := true;
+  self.VerificaBotoesLote(TStatusTela.stNavegandoGrid);
   inherited;
 
 end;
@@ -471,9 +528,108 @@ begin
     MaskEditDtInicio.Text := DateTimeToStr(Lote.dtLote);
     EdtValor.Text := Lote.nrLote;
     Edit1.Text := Lote.dsLote;
+    editidlote.Text:=inttostr(lote.idLote);
   end;
 end;
 
+procedure TFTelaCadastroLote.GridParaEditsLcto;
+begin
+  if not CDSLcto.IsEmpty then
+  begin
+      LimparCampos;
+      if (CDSLctoIDCONTADEBITO.AsInteger>0) then
+      begin
+        LabeledEditConta.Text := CDSLctoIDCONTADEBITO.AsString;
+        LabeledEditDsConta.Text := CDSLctoDSCONTADEBITO.AsString;
+      end;
+      if (CDSLctoIDCONTACREDITO.AsInteger>0) then
+      begin
+        LabeledEditContraP.Text := CDSLctoIDCONTACREDITO.AsString;
+        LabeledEditDsContra.Text := CDSLctoDSCONTACREDITO.asstring;
+      end;
+
+      if (CDSLctoIDHISTORICO.AsInteger>0) then
+      begin
+        LabeledEditHistorico.Text := CDSLctoIDHISTORICO.AsString;
+        LabeledEditDsHist.Text :=  CDSLctodsHistorico.asstring;
+      end;
+
+
+
+      Edit5.Text := FloatToStr(CDSLctoVALOR.AsFloat);
+      Edit8.Text := CDSLctoDSCOMPLEMENTO.AsString;
+      editidlcto.Text:=CDSLctoIDLCTO.AsString;
+
+      if(not CDSLctoDTLCTO.IsNull)then
+        MaskEdit2.Text := DateToStr(CDSLctoDTLCTO.AsDateTime);
+    end;
+end;
+
+
+procedure TFTelaCadastroLote.LabeledEditContaExit(Sender: TObject);
+var
+  PlanoController:TPlanoContasController;
+  PlanoContasVO: TPlanoContasVO;
+begin
+  if LabeledEditConta.Text <> '' then
+  begin
+  try
+    PlanoController := TPlanoContasController.Create;
+    PlanoContasVO := PlanoController.ConsultarPorId(StrToInt(LabeledEditConta.Text));
+    LabeledEditDsConta.Text := PlanoContasVO.dsConta;
+    PlanoController.Free;
+  except
+    raise Exception.Create('Código Inválido');
+  end;
+  end;
+end;
+
+
+
+procedure TFTelaCadastroLote.LabeledEditContraPExit(Sender: TObject);
+var
+  PlanoController:TPlanoContasController;
+  PlanoContasVO: TPlanoContasVO;
+begin
+  if LabeledEditContraP.Text <> '' then
+  begin
+  try
+    PlanoController := TPlanoContasController.Create;
+    PlanoContasVO := PlanoController.ConsultarPorId(StrToInt(LabeledEditContraP.Text));
+    LabeledEditDsContra.Text := PlanoContasVO.dsConta;
+    PlanoController.Free;
+  except
+    raise Exception.Create('Código Inválido');
+  end;
+  end
+  else
+  begin
+    LabeledEditDsContra.Text := '';
+  end;
+end;
+
+procedure TFTelaCadastroLote.LabeledEditHistoricoExit(Sender: TObject);
+var
+  HistoricoController:THistoricoController;
+  HistoricoVO: THistoricoVO;
+begin
+  if LabeledEditHistorico.Text <> '' then
+  begin
+  try
+    HistoricoController := THistoricoController.Create;
+    HistoricoVO := HistoricoController.ConsultarPorId(StrToInt(LabeledEditHistorico.Text));
+    LabeledEditDsHist.Text := HistoricoVO.DsHistorico;
+    HistoricoController.Free;
+  Except
+    raise Exception.Create('Código Inválido');
+  end;
+  end
+  else
+  begin
+    LabeledEditDsHist.Text := '';
+  end;
+
+end;
 function TFTelaCadastroLote.MontaFiltro: string;
 begin
 
@@ -497,21 +653,55 @@ begin
 
 end;
 
-procedure TFTelaCadastroLote.SetStatusTela(const Value: TStatusTela);
+procedure TFTelaCadastroLote.PageControlChange(Sender: TObject);
 begin
-  FStatusTela := Value;
-  BtnNovo.Enabled := True;
+   limparCampos;
+   PopulaGridLcto;
+   PanelEdits.Enabled:=true;
+   self.VerificaBotoesLote(TStatusTela.stNavegandoGrid);
+   self.VerificaBotoesLcto(TStatusTela.stNavegandoGrid);
+   CDSLctoAfterScroll(nil);
+end;
+
+procedure TFTelaCadastroLote.PopulaGridLcto;
+var
+  Query:STring;
+  listaLcto: TObjectList<TLancamentoContabilVO>;
+  i:integer;
+begin
+   Query:=' idlote = '+ CDSGRID.FieldByName('IDLOTE').AsString;
+   listaLcto := ControllerLcto.Consultar(query);
+   CDSLcto.EmptyDataSet;
+   for I := 0 to listaLcto.Count-1 do
+   begin
+      CDSLcto.Append;
+      CDSLctoIDLCTO.AsInteger:= listaLcto[i].idLcto;
+      CDSLctoDTLCTO.AsDateTime := listaLcto[i].dtLcto;
+      CDSLctoIDCONTADEBITO.AsInteger := listaLcto[i].idcontadebito;
+      CDSLctoDSCONTADEBITO.AsString := listaLcto[i].DsContaDebito;
+      CDSLctoIDCONTACREDITO.AsInteger := listaLcto[i].idContaCredito;
+      CDSLctoDSCONTACREDITO.AsString := listaLcto[i].DsContaCredito;
+      CDSLctoIDHISTORICO.AsInteger:= listaLcto[i].idHistorico;
+      CDSLctoDSHISTORICO.AsString := listaLcto[i].DsHistorico;
+      CDSLctoDSCOMPLEMENTO.AsString:= listaLcto[i].complemento;
+      CDSLctoVALOR.AsCurrency:= listaLcto[i].VlValor;
+      CDSLcto.Post;
+   end;
+end;
+
+
+procedure TFTelaCadastroLote.VerificaBotoesLote(StatusTela: TStatusTela);
+begin
+  BitBtnIncluirC.Enabled := True;
   BtnAlterarL.Enabled := True;
   BtnGravarL.Enabled := True;
   BtnExcluirL.Enabled := True;
   BtnCancelarC.Enabled := false;
 
-  PanelEdits.Enabled := True;
-  case Value of
+  case StatusTela of
     stNavegandoGrid:
       begin
-        PanelEdits.Enabled := false;
-        BtnNovo.Enabled := True;
+        BitBtnIncluirC.Enabled := True;
         BtnAlterarL.Enabled := True;
         BtnGravarL.Enabled := false;
         BtnExcluirL.Enabled := True;
@@ -519,16 +709,49 @@ begin
       end;
     stInserindo, stEditando:
       begin
-        DadosCadastrais.TabVisible := false;
-        PanelEdits.Enabled := True;
-        BtnNovo.Enabled := false;
+        BitBtnIncluirC.Enabled := false;
         BtnAlterarL.Enabled := false;
         BtnGravarL.Enabled := True;
         BtnExcluirL.Enabled := false;
         BtnCancelarC.Enabled := True;
       end;
   end;
+end;
 
+procedure TFTelaCadastroLote.VerificaBotoesLcto(StatusTela: TStatusTela);
+begin
+  BitBtnNovo.Enabled := True;
+  BitBtnIncluirC.Enabled := True;
+  BitBtnAltera.Enabled := True;
+  BitBtnGrava.Enabled := True;
+  BitBtnExclui.Enabled := True;
+  BitBtnCancela.Enabled := false;
+
+  PanelLcto.Enabled := True;
+  GridLcto.Enabled:=true;
+  case StatusTela of
+    stNavegandoGrid:
+      begin
+        PanelLcto.Enabled := false;
+        BitBtnNovo.Enabled := True;
+        BitBtnIncluirC.Enabled := True;
+        BitBtnAltera.Enabled := True;
+        BitBtnGrava.Enabled := false;
+        BitBtnExclui.Enabled := True;
+        BitBtnCancela.Enabled := false;
+      end;
+    stInserindo, stEditando:
+      begin
+        GridLcto.Enabled:=false;
+        PanelLcto.Enabled := True;
+        BitBtnNovo.Enabled := false;
+        BitBtnIncluirC.Enabled := false;
+        BitBtnAltera.Enabled := false;
+        BitBtnGrava.Enabled := True;
+        BitBtnExclui.Enabled := false;
+        BitBtnCancela.Enabled := True;
+      end;
+  end;
 end;
 
 end.

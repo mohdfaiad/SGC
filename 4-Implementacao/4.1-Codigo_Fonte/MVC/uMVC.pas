@@ -40,6 +40,8 @@ type
     PNGButton4: TPNGButton;
     Lanamentos1: TMenuItem;
     N4: TMenuItem;
+    N5: TMenuItem;
+    Usurios1: TMenuItem;
     procedure FormCreate(Sender: TObject);
     procedure Pessoa1Click(Sender: TObject);
     procedure Sair1Click(Sender: TObject);
@@ -65,6 +67,7 @@ type
     procedure PNGButton3Click(Sender: TObject);
     procedure PNGButton4Click(Sender: TObject);
     procedure Lanamentos1Click(Sender: TObject);
+    procedure Usurios1Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -84,7 +87,7 @@ implementation
 
 uses Upessoa, UPais, UCnae, UNaturezaJuridica, UEstado, UCidade, UCondominio, UUnidade, UEmpresaTrab,
 UTotalGastoMes, UPrecoGas, UPlanoContas, UTemplateDre, UtemplateFcx, UContasPagar, UHistorico,
-ULote, UContasReceber;
+ULote, UContasReceber, UUsuario;
 
 
 procedure TFormMenu.Cidade1Click(Sender: TObject);
@@ -291,6 +294,14 @@ begin
   Application.CreateForm(TFTelaCadastroUnidade,FormUnidade);
   FormUnidade.ShowModal;
   FormUnidade.Close;
+end;
+
+procedure TFormMenu.Usurios1Click(Sender: TObject);
+var FormUsuario:TFTelaCadastroUsuario;
+begin
+  Application.CreateForm(TFTelaCadastroUsuario,FormUsuario);
+  FormUsuario.ShowModal;
+  FormUsuario.Close;
 end;
 
 end.

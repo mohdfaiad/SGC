@@ -110,8 +110,6 @@ inherited FTelaCadastroContasPagar: TFTelaCadastroContasPagar
       end
     end
     inherited DadosCadastrais: TTabSheet
-      ExplicitLeft = 4
-      ExplicitTop = 24
       ExplicitWidth = 879
       ExplicitHeight = 469
       inherited PanelBotoes: TPanel
@@ -139,8 +137,6 @@ inherited FTelaCadastroContasPagar: TFTelaCadastroContasPagar
         ExplicitWidth = 879
         ExplicitHeight = 412
         inherited DadosPrincipais: TTabSheet
-          ExplicitLeft = 4
-          ExplicitTop = 24
           ExplicitWidth = 871
           ExplicitHeight = 384
           inherited PanelEdits: TPanel
@@ -345,7 +341,7 @@ inherited FTelaCadastroContasPagar: TFTelaCadastroContasPagar
             end
             object LabeledEditdsPessoa: TEdit
               Left = 102
-              Top = 125
+              Top = 127
               Width = 331
               Height = 21
               ReadOnly = True
@@ -390,7 +386,7 @@ inherited FTelaCadastroContasPagar: TFTelaCadastroContasPagar
     ExplicitWidth = 887
   end
   object PanelBaixa: TPanel
-    Left = 110
+    Left = 95
     Top = 79
     Width = 639
     Height = 398

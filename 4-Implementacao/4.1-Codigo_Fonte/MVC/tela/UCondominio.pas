@@ -9,7 +9,7 @@ uses
   Vcl.StdCtrls, Vcl.Mask, Vcl.Buttons, Vcl.ExtCtrls, Vcl.Grids, Vcl.DBGrids,
   UCnaeVO, UCnae, UCidade, UEstado, UPais, UCidadeVO, UEstadoVO, UPaisVO,
   UNaturezaJuridicaVO, UNaturezaJuridica, UCondominioVO, Generics.Collections,
-  UCondominioController;
+  UCondominioController, UContador;
 
 type
   TFTelaCadastroCondominio = class(TFTelaCadastro)
@@ -55,6 +55,7 @@ type
     LabeledEditRegimeTrib: TLabeledEdit;
     MaskEditDtInicioAtividade: TMaskEdit;
     Label3: TLabel;
+    BtnContador: TBitBtn;
     procedure FormCreate(Sender: TObject);
     function DoSalvar: boolean; override;
 //    function ValidarTela: boolean;
@@ -67,6 +68,7 @@ type
     procedure GridParaEdits; override;
     procedure btnConsultaCidadeClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure BtnContadorClick(Sender: TObject);
 
   private
     { Private declarations }
@@ -146,6 +148,16 @@ begin
   end;
   FormNaturezaConsulta.Release;
 
+end;
+
+procedure TFTelaCadastroCondominio.BtnContadorClick(Sender: TObject);
+var
+  FormContador: TFTelaCadastroContador;
+begin
+  FormContador := TFTelaCadastroContador.Create(nil);
+  FormContador.FechaForm := true;
+  FormContador.idCondominio := CDSGrid.FieldByName('IDCONDOMINIO').AsInteger;
+  FormContador.ShowModal;
 end;
 
 procedure TFTelaCadastroCondominio.DoConsultar;
