@@ -5,7 +5,7 @@ interface
 uses
   Classes, SQLExpr, SysUtils, Generics.Collections, DBXJSON, DBXCommon,
   ConexaoBD,
-  UController, DBClient, DB, UTemplateDreVO, UCondominioController;
+  UController, DBClient, DB, UTemplateDreVO, UCondominioController, UCondominioVO;
 
 
 type
@@ -29,14 +29,16 @@ var
 
 begin
   P := TDAO.ConsultarPorId<TTemplateDreVO>(id);
-  condominioController := TCondominioController.Create;
 
 
-  if (P <> nil) then
+condominioController := TCondominioController.Create;
+ if (P <> nil) then
   begin
       p.CondominioVO := condominioController.ConsultarPorId(p.idcondominio);
   end;
   condominioController.Free;
+
+
   result := P;
 end;
 procedure TTemplateDreController.ValidarDados(Objeto: TTemplateDreVO);

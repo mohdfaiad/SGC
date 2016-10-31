@@ -12,7 +12,8 @@ type
   private
   public
     function Inserir(Objeto: T): integer;
-    function Consultar(condicao: String): TObjectList<T>;
+    function Consultar(condicao: String): TObjectList<T>;overload;
+    function Consultar(condicao: String; orderby:String): TObjectList<T>;overload;
     function ConsultarPorId(id: integer): T;
     function Alterar(Objeto: T): boolean;
     function Excluir(Objeto: T): boolean;
@@ -36,7 +37,12 @@ end;
 
 function TController<T>.Consultar(condicao: String): TObjectList<T>;
 begin
-  Result := TDAO.Consultar<T>(condicao, 0, true);
+  Result := TDAO.Consultar<T>(condicao,'', 0, true);
+end;
+
+function TController<T>.Consultar(condicao: String; orderby:String): TObjectList<T>;
+begin
+  Result := TDAO.Consultar<T>(condicao,orderby, 0, true);
 end;
 
 function TController<T>.ConsultarPorId(id: integer): T;

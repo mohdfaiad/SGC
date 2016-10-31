@@ -21,6 +21,7 @@ type
 
 
 
+
     [TId('idLote')]
     [TGeneratedValue(sAuto)]
     property idLote : Integer  read FidLote write FidLote;

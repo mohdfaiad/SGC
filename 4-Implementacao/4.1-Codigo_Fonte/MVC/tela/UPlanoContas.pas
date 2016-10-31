@@ -6,7 +6,7 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, UtelaCadastro, Vcl.ComCtrls,
   Vcl.StdCtrls, Vcl.Mask, Vcl.Buttons, Vcl.ExtCtrls, Vcl.Grids, Vcl.DBGrids, UPlanoContasVO,UPlanoContasController,
-  Generics.Collections, UEmpresaTrab;
+  Generics.Collections,UEmpresaTrab;
 
 type
   TFTelaCadastroPlano = class(TFTelaCadastro)
@@ -66,7 +66,7 @@ var
   filtro: string;
 begin
   filtro := MontaFiltro;
-  listaPlanoContas := controllerPlanoConta.Consultar(filtro);
+  listaPlanoContas := controllerPlanoConta.Consultar(filtro, 'ORDER BY NRCLASSIFICACAO');
   PopulaGrid<TPlanoContasVo>(listaPlanoContas);
 end;
 

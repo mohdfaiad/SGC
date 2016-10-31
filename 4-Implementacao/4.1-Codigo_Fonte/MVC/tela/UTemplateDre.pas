@@ -6,7 +6,7 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, UtelaCadastro, Vcl.ComCtrls,
   Vcl.StdCtrls, Vcl.Mask, Vcl.Buttons, Vcl.ExtCtrls, Vcl.Grids, Vcl.DBGrids, UTemplateDreVO,
-  Generics.Collections,UTemplateDreController, UEmpresaTrab, UPlanoContas, UPlanoContasVO;
+  Generics.Collections, UTemplateDreController, UPlanoContas, UPlanoContasVO, UEmpresaTrab;
 
 type
   TFTelaCadastroTemplateDre = class(TFTelaCadastro)
@@ -30,12 +30,14 @@ type
     procedure BitBtnNovoClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure BtnBxContaClick(Sender: TObject);
+    procedure CarregaObjetoSelecionado; override;
   private
     { Private declarations }
   public
     { Public declarations }
     procedure GridParaEdits; override;
     function EditsToObject(TemplateDre: TTemplateDreVO): TTemplateDreVO;
+
   end;
 
 var
@@ -44,6 +46,8 @@ var
 implementation
 
 {$R *.dfm}
+
+
 var
   ControllerTemplateDre: TTemplateDreController;
 
@@ -66,6 +70,15 @@ begin
     //EditBxDsConta.Text := TPlanoContasVO(FormPlanoConsulta.ObjetoRetornoVO).dsConta;
   end;
   FormPlanoConsulta.Release;
+end;
+
+procedure TFTelaCadastroTemplateDre.CarregaObjetoSelecionado;
+begin
+  inherited;
+  if (not CDSGrid.IsEmpty) then
+  begin
+    ObjetoRetornoVO := ControllerTemplateDre.ConsultarPorId(CDSGRID.FieldByName('IDDRE').AsInteger);
+  end;
 end;
 
 procedure TFTelaCadastroTemplateDre.DoConsultar;
@@ -217,7 +230,7 @@ end;
 
 function TFTelaCadastroTemplateDre.MontaFiltro: string;
 begin
-  Result := ' ( IDCONDOMINIO = '+inttostr(FormEmpresaTrab.CodigoEmpLogada)+ ' ) ';
+ // Result := ' ( IDCONDOMINIO = '+inttostr(FormEmpresaTrab.CodigoEmpLogada)+ ' ) ';
   if (RadioButtonCodigo.Checked = true) then
   begin
     if (editBusca.Text <> '') then

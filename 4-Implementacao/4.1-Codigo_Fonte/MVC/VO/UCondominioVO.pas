@@ -3,7 +3,7 @@ unit UCondominioVO;
 interface
 
 uses Atributos, Classes, Constantes, Generics.Collections, SysUtils, UGenericVO,UCnaeVO, UNaturezaJuridicaVO,
- UPaisVO, UEstadoVO, UCidadeVO;
+ UPaisVO, UEstadoVO, UCidadeVO, UPrecoGasVO;
 
 type
   [TEntity]
@@ -31,6 +31,9 @@ type
     FIdPais : integer;
     FIdCnae: integer;
     FIdNatureza : integer;
+    FidPrecoGas : Integer;
+    FTemplateDre : String;
+
 
   public
     CnaeVO: TCnaeVO;
@@ -38,6 +41,8 @@ type
     CidadeVO : TCidadeVO;
     EstadoVO : TEstadoVO;
     PaisVO   : TPaisVO;
+    PrecoGasVo : TPrecoGasVO;
+
 
     [TId('idcondominio')]
     [TGeneratedValue(sAuto)]
@@ -79,7 +84,11 @@ type
     [TColumn('DtInicioAtividade','Inicio Atividade',0,[ldLookup,ldComboBox], False)]
     property DtInicioAtividade: TDateTime  read FDtInicioAtividade write FDtInicioAtividade;
 
+    [TColumn('idPrecoGas','idPrecoGas',0,[ldLookup,ldComboBox], False)]
+    property idPrecoGas: integer  read FidPrecoGas write FidPrecoGas;
 
+    [TColumn('parametroDre','TemplateDre',0,[ldLookup,ldComboBox], False)]
+    property parametroDRE: string  read FTemplateDre write FTemplateDre;
 
     [TColumn('idCidade','idCidade',0,[ldLookup,ldComboBox], False)]
     property IdCidade: integer  read FIdCidade write FIdCidade;

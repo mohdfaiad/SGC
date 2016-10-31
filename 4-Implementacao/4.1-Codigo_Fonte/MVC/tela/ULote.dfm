@@ -22,8 +22,6 @@ inherited FTelaCadastroLote: TFTelaCadastroLote
   inherited PageControl: TPageControl
     Width = 873
     Height = 543
-    ActivePage = Consulta
-    ExplicitTop = -6
     ExplicitWidth = 873
     ExplicitHeight = 543
     inherited Consulta: TTabSheet
@@ -322,6 +320,8 @@ inherited FTelaCadastroLote: TFTelaCadastroLote
       end
     end
     inherited DadosCadastrais: TTabSheet
+      ExplicitLeft = 4
+      ExplicitTop = 24
       ExplicitWidth = 865
       ExplicitHeight = 515
       inherited PanelBotoes: TPanel
@@ -364,12 +364,15 @@ inherited FTelaCadastroLote: TFTelaCadastroLote
         ExplicitWidth = 865
         ExplicitHeight = 458
         inherited DadosPrincipais: TTabSheet
+          ExplicitLeft = 4
+          ExplicitTop = 24
           ExplicitWidth = 857
           ExplicitHeight = 430
           inherited PanelEdits: TPanel
             Width = 857
             Height = 430
             ExplicitLeft = 0
+            ExplicitTop = 0
             ExplicitWidth = 857
             ExplicitHeight = 430
             object GridLcto: TDBGrid
@@ -443,10 +446,10 @@ inherited FTelaCadastroLote: TFTelaCadastroLote
               BevelOuter = bvNone
               TabOrder = 1
               object Label2: TLabel
-                Left = 33
-                Top = 87
+                Left = 53
+                Top = 71
                 Width = 33
-                Height = 19
+                Height = 13
                 Caption = 'Data :'
                 Font.Charset = DEFAULT_CHARSET
                 Font.Color = clWindowText
@@ -456,7 +459,7 @@ inherited FTelaCadastroLote: TFTelaCadastroLote
                 ParentFont = False
               end
               object Label1: TLabel
-                Left = 23
+                Left = 43
                 Top = 112
                 Width = 43
                 Height = 13
@@ -469,7 +472,7 @@ inherited FTelaCadastroLote: TFTelaCadastroLote
                 ParentFont = False
               end
               object Label5: TLabel
-                Left = 19
+                Left = 39
                 Top = 147
                 Width = 47
                 Height = 13
@@ -482,7 +485,7 @@ inherited FTelaCadastroLote: TFTelaCadastroLote
                 ParentFont = False
               end
               object Label6: TLabel
-                Left = 10
+                Left = 30
                 Top = 182
                 Width = 56
                 Height = 13
@@ -495,7 +498,7 @@ inherited FTelaCadastroLote: TFTelaCadastroLote
                 ParentFont = False
               end
               object Label7: TLabel
-                Left = 31
+                Left = 51
                 Top = 216
                 Width = 35
                 Height = 13
@@ -508,7 +511,7 @@ inherited FTelaCadastroLote: TFTelaCadastroLote
                 ParentFont = False
               end
               object Label8: TLabel
-                Left = 154
+                Left = 170
                 Top = 216
                 Width = 85
                 Height = 13
@@ -521,11 +524,11 @@ inherited FTelaCadastroLote: TFTelaCadastroLote
                 ParentFont = False
               end
               object Label10: TLabel
-                Left = 4
-                Top = 52
-                Width = 70
+                Left = 10
+                Top = 35
+                Width = 76
                 Height = 13
-                Caption = 'Lancamento'
+                Caption = 'Lancamento :'
                 Font.Charset = DEFAULT_CHARSET
                 Font.Color = clWindowText
                 Font.Height = -11
@@ -534,9 +537,22 @@ inherited FTelaCadastroLote: TFTelaCadastroLote
                 ParentFont = False
                 Visible = False
               end
+              object Label11: TLabel
+                Left = 170
+                Top = 71
+                Width = 30
+                Height = 13
+                Caption = 'LPA : '
+                Font.Charset = DEFAULT_CHARSET
+                Font.Color = clWindowText
+                Font.Height = -11
+                Font.Name = 'Tahoma'
+                Font.Style = [fsBold]
+                ParentFont = False
+              end
               object MaskEdit2: TMaskEdit
-                Left = 84
-                Top = 82
+                Left = 100
+                Top = 68
                 Width = 64
                 Height = 21
                 Color = clWhite
@@ -552,108 +568,126 @@ inherited FTelaCadastroLote: TFTelaCadastroLote
                 Text = '  /  /    '
               end
               object LabeledEditConta: TEdit
-                Left = 84
+                Left = 100
                 Top = 109
                 Width = 64
                 Height = 21
                 MaxLength = 10
-                TabOrder = 1
+                TabOrder = 3
                 OnExit = LabeledEditContaExit
               end
               object BtnConta: TBitBtn
-                Left = 154
+                Left = 170
                 Top = 107
                 Width = 33
                 Height = 25
                 Caption = 'P'
-                TabOrder = 2
+                TabOrder = 5
                 OnClick = BtnContaClick
               end
               object LabeledEditDsConta: TEdit
-                Left = 193
+                Left = 209
                 Top = 109
                 Width = 352
                 Height = 21
                 ReadOnly = True
-                TabOrder = 3
+                TabOrder = 4
               end
               object LabeledEditContraP: TEdit
-                Left = 84
+                Left = 100
                 Top = 144
                 Width = 64
                 Height = 21
                 MaxLength = 10
-                TabOrder = 4
+                TabOrder = 6
                 OnExit = LabeledEditContraPExit
               end
               object BtnContra: TBitBtn
-                Left = 154
+                Left = 170
                 Top = 142
                 Width = 33
                 Height = 25
                 Caption = 'P'
-                TabOrder = 5
+                TabOrder = 7
                 OnClick = BtnContraClick
               end
               object LabeledEditDsContra: TEdit
-                Left = 193
+                Left = 209
                 Top = 144
                 Width = 352
                 Height = 21
                 ReadOnly = True
-                TabOrder = 6
+                TabOrder = 8
               end
               object LabeledEditHistorico: TEdit
-                Left = 84
+                Left = 100
                 Top = 179
                 Width = 64
                 Height = 21
                 MaxLength = 10
-                TabOrder = 7
+                TabOrder = 9
                 OnExit = LabeledEditHistoricoExit
               end
               object BitBtn3: TBitBtn
-                Left = 154
+                Left = 170
                 Top = 177
                 Width = 33
                 Height = 25
                 Caption = 'P'
-                TabOrder = 8
+                TabOrder = 10
                 OnClick = BitBtn3Click
               end
               object LabeledEditDsHist: TEdit
-                Left = 193
+                Left = 209
                 Top = 179
                 Width = 352
                 Height = 21
                 ReadOnly = True
-                TabOrder = 9
+                TabOrder = 11
               end
               object Edit5: TEdit
-                Left = 84
+                Left = 100
                 Top = 213
                 Width = 64
                 Height = 21
                 MaxLength = 10
-                TabOrder = 10
+                TabOrder = 12
               end
               object Edit8: TEdit
-                Left = 245
+                Left = 261
                 Top = 213
                 Width = 300
                 Height = 21
-                TabOrder = 11
+                TabOrder = 13
               end
               object editidlcto: TEdit
-                Left = 85
-                Top = 49
+                Left = 100
+                Top = 32
                 Width = 64
                 Height = 21
                 MaxLength = 10
                 ReadOnly = True
-                TabOrder = 12
+                TabOrder = 14
                 Visible = False
                 OnExit = LabeledEditContaExit
+              end
+              object Edit2: TEdit
+                Left = 209
+                Top = 68
+                Width = 64
+                Height = 21
+                MaxLength = 10
+                TabOrder = 1
+                OnExit = Edit2Exit
+              end
+              object BitBtn1: TBitBtn
+                Left = 279
+                Top = 66
+                Width = 33
+                Height = 25
+                Caption = 'P'
+                TabOrder = 2
+                OnClick = BitBtn1Click
               end
             end
           end

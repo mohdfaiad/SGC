@@ -60,6 +60,10 @@ inherited FTelaCadastro: TFTelaCadastro
     object DadosCadastrais: TTabSheet
       Caption = 'Dados Cadastrais'
       ImageIndex = 1
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object PanelBotoes: TPanel
         Left = 0
         Top = 0
@@ -211,6 +215,10 @@ inherited FTelaCadastro: TFTelaCadastro
         TabOrder = 1
         object DadosPrincipais: TTabSheet
           Caption = 'Dados Principais'
+          ExplicitLeft = 0
+          ExplicitTop = 0
+          ExplicitWidth = 0
+          ExplicitHeight = 0
           object PanelEdits: TPanel
             Left = 0
             Top = 0

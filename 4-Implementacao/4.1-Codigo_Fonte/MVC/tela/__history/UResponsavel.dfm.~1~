@@ -1,0 +1,11 @@
+inherited FTelaCadastro1: TFTelaCadastro1
+  Caption = 'FTelaCadastro1'
+  PixelsPerInch = 96
+  TextHeight = 13
+  inherited PageControl: TPageControl
+    inherited Consulta: TTabSheet
+      ExplicitWidth = 0
+      ExplicitHeight = 0
+    end
+  end
+end

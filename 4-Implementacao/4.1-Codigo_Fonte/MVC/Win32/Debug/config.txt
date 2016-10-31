@@ -12,3 +12,5 @@ CommitRetain=False
 WaitOnLocks=True
 IsolationLevel=ReadCommitted
 Trim Char=False
+
+

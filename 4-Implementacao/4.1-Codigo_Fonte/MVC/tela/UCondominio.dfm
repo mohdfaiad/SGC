@@ -1,28 +1,29 @@
 inherited FTelaCadastroCondominio: TFTelaCadastroCondominio
   Caption = 'Cadastro de Condom'#237'nio'
-  ClientHeight = 504
-  ClientWidth = 784
+  ClientHeight = 561
+  ClientWidth = 791
   OnClose = FormClose
-  ExplicitWidth = 800
-  ExplicitHeight = 543
+  ExplicitWidth = 807
+  ExplicitHeight = 600
   PixelsPerInch = 96
   TextHeight = 13
   inherited PageControl: TPageControl
-    Width = 784
-    Height = 479
-    ActivePage = Consulta
-    ExplicitWidth = 784
-    ExplicitHeight = 479
+    Width = 791
+    Height = 536
+    ExplicitWidth = 791
+    ExplicitHeight = 536
     inherited Consulta: TTabSheet
-      ExplicitWidth = 776
-      ExplicitHeight = 451
+      ExplicitLeft = 4
+      ExplicitTop = 24
+      ExplicitWidth = 783
+      ExplicitHeight = 508
       inherited Grid: TDBGrid
-        Width = 776
-        Height = 395
+        Width = 783
+        Height = 452
       end
       inherited Panel2: TPanel
-        Width = 776
-        ExplicitWidth = 776
+        Width = 783
+        ExplicitWidth = 783
         object GroupBox2: TGroupBox
           Left = 86
           Top = 3
@@ -50,11 +51,13 @@ inherited FTelaCadastroCondominio: TFTelaCadastroCondominio
       end
     end
     inherited DadosCadastrais: TTabSheet
-      ExplicitWidth = 776
-      ExplicitHeight = 451
+      ExplicitLeft = 4
+      ExplicitTop = 24
+      ExplicitWidth = 783
+      ExplicitHeight = 508
       inherited PanelBotoes: TPanel
-        Width = 776
-        ExplicitWidth = 776
+        Width = 783
+        ExplicitWidth = 783
         inherited BitBtnNovo: TBitBtn
           TabOrder = 0
         end
@@ -95,22 +98,50 @@ inherited FTelaCadastroCondominio: TFTelaCadastroCondominio
           TabOrder = 5
           OnClick = BtnContadorClick
         end
+        object BitBtn1: TBitBtn
+          Left = 542
+          Top = 6
+          Width = 96
+          Height = 45
+          Cancel = True
+          Caption = 'Respons'#225'vel'
+          Glyph.Data = {
+            76010000424D7601000000000000760000002800000020000000100000000100
+            04000000000000010000120B0000120B00001000000000000000000000000000
+            800000800000008080008000000080008000808000007F7F7F00BFBFBF000000
+            FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00333333000000
+            000033333377777777773333330FFFFFFFF03FF3FF7FF33F3FF700300000FF0F
+            00F077F777773F737737E00BFBFB0FFFFFF07773333F7F3333F7E0BFBF000FFF
+            F0F077F3337773F3F737E0FBFBFBF0F00FF077F3333FF7F77F37E0BFBF00000B
+            0FF077F3337777737337E0FBFBFBFBF0FFF077F33FFFFFF73337E0BF0000000F
+            FFF077FF777777733FF7000BFB00B0FF00F07773FF77373377373330000B0FFF
+            FFF03337777373333FF7333330B0FFFF00003333373733FF777733330B0FF00F
+            0FF03333737F37737F373330B00FFFFF0F033337F77F33337F733309030FFFFF
+            00333377737FFFFF773333303300000003333337337777777333}
+          Layout = blGlyphTop
+          NumGlyphs = 2
+          TabOrder = 6
+          OnClick = BitBtn1Click
+        end
       end
       inherited PageControlEdit: TPageControl
-        Width = 776
-        Height = 394
-        ExplicitWidth = 776
-        ExplicitHeight = 394
+        Width = 783
+        Height = 451
+        ActivePage = TabSheet1
+        ExplicitWidth = 783
+        ExplicitHeight = 451
         inherited DadosPrincipais: TTabSheet
-          ExplicitWidth = 768
-          ExplicitHeight = 366
+          ExplicitLeft = 4
+          ExplicitTop = 24
+          ExplicitWidth = 775
+          ExplicitHeight = 423
           inherited PanelEdits: TPanel
-            Width = 768
-            Height = 366
+            Width = 775
+            Height = 423
             ExplicitLeft = 0
             ExplicitTop = 0
-            ExplicitWidth = 768
-            ExplicitHeight = 366
+            ExplicitWidth = 775
+            ExplicitHeight = 423
             object Cep: TLabel
               Left = 610
               Top = 9
@@ -401,8 +432,8 @@ inherited FTelaCadastroCondominio: TFTelaCadastroCondominio
             end
             object LabelEditCodCnae: TLabeledEdit
               Tag = 1
-              Left = 371
-              Top = 341
+              Left = 379
+              Top = 389
               Width = 71
               Height = 21
               EditLabel.Width = 25
@@ -465,8 +496,8 @@ inherited FTelaCadastroCondominio: TFTelaCadastroCondominio
             end
             object LabelEditCodNatureza: TLabeledEdit
               Tag = 1
-              Left = 447
-              Top = 341
+              Left = 455
+              Top = 389
               Width = 71
               Height = 21
               EditLabel.Width = 44
@@ -528,8 +559,8 @@ inherited FTelaCadastroCondominio: TFTelaCadastroCondominio
               TabOrder = 9
             end
             object BtnConsultaEstado: TBitBtn
-              Left = 267
-              Top = 337
+              Left = 275
+              Top = 385
               Width = 30
               Height = 25
               Caption = 'P'
@@ -555,8 +586,8 @@ inherited FTelaCadastroCondominio: TFTelaCadastroCondominio
               TabOrder = 11
             end
             object BtnConsultaPais: TBitBtn
-              Left = 315
-              Top = 337
+              Left = 323
+              Top = 385
               Width = 30
               Height = 25
               Caption = 'P'
@@ -565,8 +596,8 @@ inherited FTelaCadastroCondominio: TFTelaCadastroCondominio
             end
             object LabeledEditCidade: TLabeledEdit
               Tag = 1
-              Left = 524
-              Top = 341
+              Left = 532
+              Top = 389
               Width = 71
               Height = 21
               EditLabel.Width = 33
@@ -584,8 +615,8 @@ inherited FTelaCadastroCondominio: TFTelaCadastroCondominio
             end
             object LabeledEditEstado: TLabeledEdit
               Tag = 1
-              Left = 601
-              Top = 341
+              Left = 609
+              Top = 389
               Width = 71
               Height = 21
               EditLabel.Width = 33
@@ -603,8 +634,8 @@ inherited FTelaCadastroCondominio: TFTelaCadastroCondominio
             end
             object LabeledEditPais: TLabeledEdit
               Tag = 1
-              Left = 678
-              Top = 341
+              Left = 686
+              Top = 389
               Width = 71
               Height = 21
               EditLabel.Width = 19
@@ -707,13 +738,76 @@ inherited FTelaCadastroCondominio: TFTelaCadastroCondominio
             end
           end
         end
+        object TabSheet1: TTabSheet
+          Caption = 'Dados Adicionais'
+          ImageIndex = 1
+          object Panel1: TPanel
+            Left = 0
+            Top = 0
+            Width = 775
+            Height = 423
+            Align = alClient
+            ParentBackground = False
+            TabOrder = 0
+            object GroupBox3: TGroupBox
+              Left = 13
+              Top = 18
+              Width = 720
+              Height = 65
+              Caption = 'Fornecedor Pre'#231'o G'#225's : '
+              TabOrder = 0
+              object Edit1: TEdit
+                Left = 12
+                Top = 28
+                Width = 62
+                Height = 21
+                MaxLength = 10
+                TabOrder = 0
+                OnExit = Edit1Exit
+              end
+              object BitBtn4: TBitBtn
+                Left = 80
+                Top = 26
+                Width = 31
+                Height = 25
+                Caption = 'P'
+                TabOrder = 1
+                OnClick = BitBtn4Click
+              end
+              object Edit2: TEdit
+                Left = 119
+                Top = 28
+                Width = 396
+                Height = 21
+                ReadOnly = True
+                TabOrder = 2
+              end
+            end
+            object GroupBox4: TGroupBox
+              Left = 13
+              Top = 89
+              Width = 90
+              Height = 65
+              Caption = 'Template DRE'
+              TabOrder = 1
+              object Edit3: TEdit
+                Left = 12
+                Top = 28
+                Width = 62
+                Height = 21
+                MaxLength = 10
+                TabOrder = 0
+              end
+            end
+          end
+        end
       end
     end
   end
   inherited StatusBar1: TStatusBar
-    Top = 479
-    Width = 784
-    ExplicitTop = 479
-    ExplicitWidth = 784
+    Top = 536
+    Width = 791
+    ExplicitTop = 536
+    ExplicitWidth = 791
   end
 end

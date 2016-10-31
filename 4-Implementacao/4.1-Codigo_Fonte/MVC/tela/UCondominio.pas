@@ -9,7 +9,7 @@ uses
   Vcl.StdCtrls, Vcl.Mask, Vcl.Buttons, Vcl.ExtCtrls, Vcl.Grids, Vcl.DBGrids,
   UCnaeVO, UCnae, UCidade, UEstado, UPais, UCidadeVO, UEstadoVO, UPaisVO,
   UNaturezaJuridicaVO, UNaturezaJuridica, UCondominioVO, Generics.Collections,
-  UCondominioController, UContador;
+  UCondominioController, UContador, UResponsavel, UPrecoGas, UPrecoGasController, UPrecoGasVO;
 
 type
   TFTelaCadastroCondominio = class(TFTelaCadastro)
@@ -56,6 +56,15 @@ type
     MaskEditDtInicioAtividade: TMaskEdit;
     Label3: TLabel;
     BtnContador: TBitBtn;
+    BitBtn1: TBitBtn;
+    TabSheet1: TTabSheet;
+    Panel1: TPanel;
+    GroupBox3: TGroupBox;
+    Edit1: TEdit;
+    BitBtn4: TBitBtn;
+    Edit2: TEdit;
+    GroupBox4: TGroupBox;
+    Edit3: TEdit;
     procedure FormCreate(Sender: TObject);
     function DoSalvar: boolean; override;
 //    function ValidarTela: boolean;
@@ -69,12 +78,18 @@ type
     procedure btnConsultaCidadeClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure BtnContadorClick(Sender: TObject);
+    procedure BitBtn1Click(Sender: TObject);
+    procedure BitBtn4Click(Sender: TObject);
+    procedure Edit1Exit(Sender: TObject);
 
   private
     { Private declarations }
+    FStatusTela: TStatusTela;
   public
     { Public declarations }
     function EditsToObject(Condominio: TCondominioVO): TCondominioVO;
+    procedure SetStatusTela(const Value: TStatusTela); override;
+
   end;
 
 var
@@ -86,10 +101,37 @@ implementation
 {$R *.dfm}
 { TFTelaCadastroCondominio }
 
+procedure TFTelaCadastroCondominio.BitBtn1Click(Sender: TObject);
+var
+  FormResponsavel: TFTelaCadastroResponsavel;
+begin
+  FormResponsavel := TFTelaCadastroResponsavel.Create(nil);
+  FormResponsavel.FechaForm := true;
+  FormResponsavel.idCondominio := CDSGrid.FieldByName('IDCONDOMINIO').AsInteger;
+  FormResponsavel.ShowModal;
+end;
+
+
+procedure TFTelaCadastroCondominio.BitBtn4Click(Sender: TObject);
+var
+  FormPrecoGas: TFTelaCadastroPrecoGas;
+begin
+  FormPrecoGas := TFTelaCadastroPrecoGas.Create(nil);
+  FormPrecoGas.FechaForm := true;
+  FormPrecoGas.ShowModal;
+  if (FormPrecoGas.ObjetoRetornoVO <> nil) then
+  begin
+    edit1.Text := IntToStr(TPrecoGasVO(FormPrecoGas.ObjetoRetornoVO).idPrecoGas);
+    Edit2.Text := TPrecoGasVO(FormPrecoGas.ObjetoRetornoVO).PessoaVo.nome;
+  end;
+  FormPrecoGas.Release;
+end;
 procedure TFTelaCadastroCondominio.BitBtnNovoClick(Sender: TObject);
 begin
   inherited;
-  LabelEditNome.SetFocus;
+   PageControlEdit.ActivePage := DadosPrincipais;
+   LabelEditNome.SetFocus;
+
 end;
 
 procedure TFTelaCadastroCondominio.btnConsultaCidadeClick(Sender: TObject);
@@ -226,6 +268,25 @@ end;
 end;
 
 
+procedure TFTelaCadastroCondominio.Edit1Exit(Sender: TObject);
+var
+  PrecoGasController:TPrecoGasController;
+  PrecoGasVO: TPrecoGasVO;
+begin
+  if Edit1.Text <> '' then
+  begin
+  try
+    PrecoGasController := TPrecoGasController.Create;
+    PrecoGasVO := PrecoGasController.ConsultarPorId(StrToInt(Edit1.Text));
+    Edit1.Text := PrecoGasVO.nome;
+    Edit1.Text := inttostr(PrecoGasVO.idPessoa);
+    PrecoGasController.Free;
+  except
+    raise Exception.Create('Código Inválido');
+    end;
+  end;
+end;
+
 function TFTelaCadastroCondominio.EditsToObject(Condominio: TCondominioVO)
   : TCondominioVO;
 begin
@@ -257,6 +318,10 @@ begin
     Condominio.idEstado := strtoint(LabeledEditEstado.Text);
   if (LabeledEditPais.Text<>'') then
     Condominio.idPais := strtoint(LabeledEditPais.Text);
+  if Edit1.Text <> '' then
+    Condominio.idPrecoGas := StrToInt(Edit1.Text);
+  if Edit3.Text <> '' then
+    Condominio.parametroDRE := Edit3.Text;
   Result := Condominio;
 
 end;
@@ -293,6 +358,45 @@ begin
       Result := '( UPPER(NOME) LIKE ' +
         QuotedStr('%' + UpperCase(editBusca.Text) + '%') + ' ) ';
   end;
+end;
+
+procedure TFTelaCadastroCondominio.SetStatusTela(const Value: TStatusTela);
+begin
+FStatusTela := Value;
+  BitBtnNovo.Enabled := True;
+  BitBtnIncluirC.Enabled := True;
+  BitBtnAltera.Enabled := True;
+  BitBtnGrava.Enabled := True;
+  BitBtnExclui.Enabled := True;
+  BitBtnCancela.Enabled := false;
+
+  PanelEdits.Enabled := True;
+  Panel1.Enabled := True;
+  case Value of
+    stNavegandoGrid:
+      begin
+        PanelEdits.Enabled := false;
+        Panel1.Enabled := false;
+        BitBtnNovo.Enabled := True;
+        BitBtnIncluirC.Enabled := True;
+        BitBtnAltera.Enabled := True;
+        BitBtnGrava.Enabled := false;
+        BitBtnExclui.Enabled := True;
+        BitBtnCancela.Enabled := false;
+      end;
+    stInserindo, stEditando:
+      begin
+        PanelEdits.Enabled := True;
+        Panel1.Enabled := true;
+        BitBtnNovo.Enabled := false;
+        BitBtnIncluirC.Enabled := false;
+        BitBtnAltera.Enabled := false;
+        BitBtnGrava.Enabled := True;
+        BitBtnExclui.Enabled := false;
+        BitBtnCancela.Enabled := True;
+      end;
+  end;
+
 end;
 
 procedure TFTelaCadastroCondominio.GridParaEdits;
@@ -352,6 +456,14 @@ begin
       LabeledEditPais.Text := IntToStr(Condominio.CidadeVO.PaisVO.idPais);
       LabeledEditDescPais.Text := Condominio.CidadeVO.PaisVO.NomePais;
     end;
+    if Condominio.idPrecoGas > 0  then
+    begin
+      Edit1.Text := IntToStr(Condominio.PrecoGasVo.idPrecoGas);
+      Edit2.Text := Condominio.PrecoGasVo.PessoaVo.nome;
+    end;
+   if Condominio.parametroDRE <> '' then
+      Edit3.Text := Condominio.parametroDRE;
+
   end;
 end;
 end.

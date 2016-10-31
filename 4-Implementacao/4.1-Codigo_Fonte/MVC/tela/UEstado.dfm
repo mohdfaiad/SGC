@@ -5,6 +5,8 @@ inherited FTelaCadastroEstado: TFTelaCadastroEstado
   TextHeight = 13
   inherited PageControl: TPageControl
     inherited Consulta: TTabSheet
+      ExplicitLeft = 4
+      ExplicitTop = 24
       inherited Panel2: TPanel
         inherited BotaoConsultar: TBitBtn
           Top = 10
@@ -40,6 +42,8 @@ inherited FTelaCadastroEstado: TFTelaCadastroEstado
           ExplicitWidth = 767
           ExplicitHeight = 301
           inherited PanelEdits: TPanel
+            ExplicitLeft = 0
+            ExplicitTop = 0
             object LabelEditNome: TLabeledEdit
               Tag = 16
               Left = 16
@@ -94,7 +98,7 @@ inherited FTelaCadastroEstado: TFTelaCadastroEstado
             end
             object LabelEditPais: TLabeledEdit
               Tag = 1
-              Left = 304
+              Left = 312
               Top = 93
               Width = 71
               Height = 21

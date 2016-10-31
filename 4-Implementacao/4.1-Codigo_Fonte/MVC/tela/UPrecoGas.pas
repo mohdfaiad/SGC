@@ -6,7 +6,7 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, UtelaCadastro, Vcl.StdCtrls,
   Vcl.ComCtrls, Vcl.Mask, Vcl.Buttons, Vcl.ExtCtrls, Vcl.Grids, Vcl.DBGrids, UPrecoGasVO,
-  Generics.Collections, UPrecoGasController, UEmpresaTrab;
+  Generics.Collections, UPrecoGasController,  UPessoa,  UPessoasVO, UPessoasController;
 
 type
   TFTelaCadastroPrecoGas = class(TFTelaCadastro)
@@ -14,6 +14,10 @@ type
     Label1: TLabel;
     EdtValor: TEdit;
     Label2: TLabel;
+    Label6: TLabel;
+    LabeledEditPessoa: TEdit;
+    LabeledEditNomePessoa: TEdit;
+    BitBtn3: TBitBtn;
     procedure FormCreate(Sender: TObject);
     function DoSalvar: boolean; override;
     function MontaFiltro: string;
@@ -22,6 +26,9 @@ type
     procedure BitBtnNovoClick(Sender: TObject);
     procedure GridParaEdits; override;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure BitBtn3Click(Sender: TObject);
+    procedure LabeledEditPessoaExit(Sender: TObject);
+    procedure CarregaObjetoSelecionado; override;
   private
     { Private declarations }
   public
@@ -37,12 +44,42 @@ implementation
 
 {$R *.dfm}
 
+uses UEmpresaTrab;
+
 { TFTelaCadastro1 }
+
+
+
+procedure TFTelaCadastroPrecoGas.BitBtn3Click(Sender: TObject);
+var
+  FormPessoaConsulta: TFTelaCadastroPessoa;
+begin
+  FormPessoaConsulta := TFTelaCadastroPessoa.Create(nil);
+  FormPessoaConsulta.FechaForm := true;
+  FormPessoaConsulta.ShowModal;
+  if (FormPessoaConsulta.ObjetoRetornoVO <> nil) then
+  begin
+    LabeledEditPessoa.Text := IntToStr(TPessoasVO(FormPessoaConsulta.ObjetoRetornoVO).idpessoa);
+    LabeledEditNomePessoa.Text := TPessoasVO(FormPessoaConsulta.ObjetoRetornoVO).nome;
+  end;
+  FormPessoaConsulta.Release;
+end;
+
+
 
 procedure TFTelaCadastroPrecoGas.BitBtnNovoClick(Sender: TObject);
 begin
   inherited;
   MaskEditDtInicio.SetFocus;
+end;
+
+procedure TFTelaCadastroPrecoGas.CarregaObjetoSelecionado;
+begin
+  inherited;
+  if (not CDSGrid.IsEmpty) then
+  begin
+    ObjetoRetornoVO := ControllerPrecoGas.ConsultarPorId(CDSGRID.FieldByName('IDPRECOGAS').AsInteger);
+  end;
 end;
 
 procedure TFTelaCadastroPrecoGas.DoConsultar;
@@ -86,11 +123,9 @@ begin
     PrecoGas:=EditsToObject(TPrecoGasVo.Create);
     try
       try
-        if (PrecoGas.ValidarCamposObrigatorios()) then
-        begin
-           if (StatusTela = stInserindo) then
+        PrecoGas.ValidarCamposObrigatorios();
+        if (StatusTela = stInserindo) then
            begin
-              PrecoGas.idcondominio := FormEmpresaTrab.CodigoEmpLogada;
               ControllerPrecoGas.Inserir(PrecoGas);
               Result := true;
            end
@@ -101,8 +136,7 @@ begin
             PrecoGas := EditsToObject(PrecoGas);
             ControllerPrecoGas.Alterar(PrecoGas);
             Result := true;
-          end;
-        end
+          end
         else
           Result := false;
       except
@@ -119,8 +153,13 @@ end;
 
 function TFTelaCadastroPrecoGas.EditsToObject(PrecoGas: TPrecoGasVO): TPrecoGasVO;
 begin
-  PrecoGas.vlGas := StrToFloat(EdtValor.Text);
-  PrecoGas.dtMesAno := StrToDateTime(MaskEditDtInicio.Text);
+  if EdtValor.Text <> '' then
+    PrecoGas.vlGas := StrToFloat(EdtValor.Text);
+  if MaskEditDtInicio.Text <> '' then
+    PrecoGas.dtMesAno := StrToDateTime(MaskEditDtInicio.Text);
+  if (LabeledEditPessoa.Text <> '') then
+    PrecoGas.idPessoa := strtoint(LabeledEditPessoa.Text);
+
   Result := PrecoGas;
 end;
 
@@ -148,10 +187,35 @@ begin
     PrecoGas := ControllerPrecoGas.ConsultarPorId
       (CDSGrid.FieldByName('IDPRECOGAS').AsInteger);
 
-  if Assigned(PrecoGas) then
+  if PrecoGas <> nil then
   begin
+    if PrecoGas.PessoaVO <> nil then
+    begin
+      LabeledEditPessoa.Text := IntToStr(PrecoGas.PessoaVO.idPessoa);
+      LabeledEditNomePessoa.Text := PrecoGas.PessoaVO.nome;
+    end;
     EdtValor.Text := FloatToStr(PrecoGas.vlGas);
     MaskEditDtInicio.Text := DateTimeToStr(PrecoGas.dtMesAno);
+
+  end;
+end;
+
+procedure TFTelaCadastroPrecoGas.LabeledEditPessoaExit(Sender: TObject);
+var
+  PessoaController:TPessoasController;
+  PessoaVO: TPessoasVO;
+begin
+  if LabeledEditPessoa.Text <> '' then
+  begin
+  try
+    PessoaController := TPessoasController.Create;
+    PessoaVO := PessoaController.ConsultarPorId(StrToInt(LabeledEditPessoa.Text));
+    labeledEditNomePessoa.Text := PessoaVO.nome;
+    LabeledEditPessoa.Text := inttostr(PessoaVO.idPessoa);
+    PessoaController.Free;
+  except
+    raise Exception.Create('Código Inválido');
+    end;
   end;
 end;
 

@@ -1,0 +1,36 @@
+unit UResponsavel;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, UtelaCadastro, Vcl.ComCtrls,
+  Vcl.StdCtrls, Vcl.Mask, Vcl.Buttons, Vcl.ExtCtrls, Vcl.Grids, Vcl.DBGrids;
+
+type
+  TFTelaCadastroResponsavel = class(TFTelaCadastro)
+    GroupBox3: TGroupBox;
+    RadioButton1: TRadioButton;
+    Label6: TLabel;
+    LabeledEditPessoa: TEdit;
+    BitBtn3: TBitBtn;
+    LabeledEditNomePessoa: TEdit;
+    Label3: TLabel;
+    MaskEditDtInicio: TMaskEdit;
+    Label7: TLabel;
+    MaskEdit1: TMaskEdit;
+    CheckBox1: TCheckBox;
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  FTelaCadastroResponsavel: TFTelaCadastroResponsavel;
+
+implementation
+
+{$R *.dfm}
+
+end.

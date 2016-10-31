@@ -9,7 +9,10 @@ inherited FTelaCadastroPlano: TFTelaCadastroPlano
     Width = 797
     ExplicitWidth = 797
     inherited Consulta: TTabSheet
+      ExplicitLeft = 0
+      ExplicitTop = 0
       ExplicitWidth = 789
+      ExplicitHeight = 0
       inherited Grid: TDBGrid
         Width = 789
       end

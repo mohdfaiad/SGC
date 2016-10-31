@@ -4,6 +4,10 @@ inherited FTelaCadastroTotalGastoMes: TFTelaCadastroTotalGastoMes
   PixelsPerInch = 96
   TextHeight = 13
   inherited PageControl: TPageControl
+    inherited Consulta: TTabSheet
+      ExplicitWidth = 0
+      ExplicitHeight = 0
+    end
     inherited DadosCadastrais: TTabSheet
       ExplicitLeft = 4
       ExplicitTop = 24

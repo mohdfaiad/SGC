@@ -119,7 +119,7 @@ function TFTelaCadastroTotalGastoMes.EditsToObject(
 begin
   if(EdtValor.Text<>'')then
     TotalGastoMes.vlTotal := StrToFloat(EdtValor.Text);
-  if(MaskEditDtInicio.Text<>'')then
+  if(MaskEditDtInicio.Text<>'  /  /    ')then
     TotalGastoMes.dtMesAno := StrToDateTime(MaskEditDtInicio.Text);
   Result := TotalGastoMes;
 

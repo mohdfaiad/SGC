@@ -14,6 +14,10 @@ type
     FidPessoa : Integer;
     FCrc : String;
     FOcupacao : String;
+    FdtEntrada : TDateTime;
+    FdtSaida : TDateTime;
+    FCertidaoReg : String;
+    FdtValidade : TDateTime;
 
     Fnome : String;
 
@@ -41,6 +45,18 @@ type
     [TColumn('Ocupacao','Ocupação',180,[ldGrid,ldLookup,ldComboBox], False)]
     property Ocupacao: string  read FOcupacao write FOcupacao;
 
+    [TColumn('dtEntrada','Data Entrada',20,[ldGrid, ldLookup,ldComboBox], False)]
+    property dtEntrada: TDateTime  read FdtEntrada write FdtEntrada;
+
+    [TColumn('dtSaida','Data Saida',0,[ ldLookup,ldComboBox], False)]
+    property dtSaida: TDateTime  read FdtSaida write FdtSaida;
+
+    [TColumn('certidaoReg','Certidão',100,[ldLookup,ldComboBox], False)]
+    property CertidaoReg: String  read FCertidaoReg write FCertidaoReg;
+
+    [TColumn('dtValidade','Data Validade',0,[ldLookup,ldComboBox], False)]
+    property dtValidade: TDateTime  read FdtValidade write FdtValidade;
+
     procedure ValidarCamposObrigatorios;
 
   end;
@@ -55,6 +71,14 @@ begin
   if (Self.FidPessoa =  0) then
   begin
     raise Exception.Create('O campo Pessoa é obrigatório!');
+  end;
+  if (Self.Crc =  '') then
+  begin
+    raise Exception.Create('O campo CRC é obrigatório!');
+  end;
+  if (Self.dtEntrada=  0) then
+  begin
+    raise Exception.Create('O campo Data Entrada   é obrigatório!');
   end;
 end;
 

@@ -5,7 +5,7 @@ interface
 uses
   Classes, SQLExpr, SysUtils, Generics.Collections, DBXJSON, DBXCommon,
   ConexaoBD,
-  UController, DBClient, DB, UContadorVO,UPessoasVo, UPessoasController;
+  UController, DBClient, DB, UContadorVO,UPessoasVo, UPessoasController ;
 
 
 type
@@ -43,9 +43,16 @@ begin
 end;
 
 procedure TContadorController.ValidarDados(Objeto: TContadorVO);
+var
+  query, data, idContador : string;
+  listaContador :TObjectList<TContadorVO>;
 begin
-  inherited;
-
+    data := DateToStr(Objeto.dtEntrada);
+    idContador := IntToStr(Objeto.idContador);
+    Query :=  ' dtEntrada = ' +QuotedStr(Data) + 'and idcontador <> '+QuotedStr(idcontador);
+    listaContador := self.Consultar(query);
+    if (ListaContador.Count > 0) then
+      raise Exception.Create('Ja existe contador informado nessa data');
 end;
 
 begin

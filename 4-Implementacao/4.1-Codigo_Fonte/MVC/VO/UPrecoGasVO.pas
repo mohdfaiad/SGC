@@ -2,7 +2,7 @@ unit UPrecoGasVO;
 
 interface
 
-uses Atributos, Classes, Constantes, Generics.Collections, SysUtils, UGenericVO,UCnaeVO, UCidadeVO, UEstadoVO, UPaisVO;
+uses Atributos, Classes, Constantes, Generics.Collections, SysUtils, UGenericVO,UCnaeVO, UCidadeVO, UEstadoVO, UPaisVO, UPessoasVO;
 
 type
   [TEntity]
@@ -12,41 +12,42 @@ type
     FidPrecoGas: Integer;
     FdtMesAno : TdateTime;
     FvlGas : currency;
-    FidCondominio: Integer;
+    FNome : String;
+    FidPessoa : Integer;
   public
+    PessoaVo : TPessoasVO;
 
     [TId('idprecogas')]
     [TGeneratedValue(sAuto)]
     property idPrecoGas: Integer  read FidPrecoGas write FidPrecoGas;
+    [TColumn('dtMesAno','Data Inicio',0,[ldLookup,ldComboBox], False)]
+    property dtMesAno: TDateTime  read FdtMesAno write FdtMesAno;
+
+    [TColumn('idPessoa','Pessoa',0,[ldLookup,ldComboBox], False)]
+    property idPessoa: integer  read FidPessoa write FidPessoa;
+
+    [TColumn('nome','Fornecedor',350,[ldGrid], True, 'Pessoa', 'idPessoa', 'idPessoa')]
+    property Nome: string  read FNome write FNome;
 
     [TColumn('vlGas','Valor Total',50,[ldGrid,ldLookup,ldComboBox], False)]
     property vlGas: currency  read FvlGas write FvlGas;
-    [TColumn('dtMesAno','Data Inicio',0,[ldLookup,ldComboBox], False)]
-    property dtMesAno: TDateTime  read FdtMesAno write FdtMesAno;
-    [TColumn('idcondominio','Condominio',0,[ldLookup,ldComboBox], False)]
-    property idCondominio: integer  read FidCondominio write FidCondominio;
 
-
-    Function ValidarCamposObrigatorios:boolean;
+    Procedure ValidarCamposObrigatorios;
 
   end;
 implementation
 
 { TPrecoGasVO }
 
-function TPrecoGasVO.ValidarCamposObrigatorios: boolean;
+Procedure TPrecoGasVO.ValidarCamposObrigatorios;
 begin
-  Result := true;
   if (Self.FvlGas = 0) then
-  begin
-    raise Exception.Create('O campo Valor do Gás é obrigatório!');
-    Result := false;
-  end
+    raise Exception.Create('O campo Valor do Gás é obrigatório!')
   else if (self.FdtMesAno = 0) then
-  begin
-    raise Exception.Create('O campo data é obrigatório!');
-    Result := false;
-  end;
+    raise Exception.Create('O campo data é obrigatório!')
+  else if (self.idPessoa = 0 ) then
+    raise Exception.Create('O campo Fornecedor é obrigatório!');
+
 end;
 end.
 

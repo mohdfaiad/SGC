@@ -3,7 +3,8 @@ unit UTemplateDreVO;
 
 interface
 
-uses Atributos, Classes, Constantes, Generics.Collections, SysUtils, UGenericVO, UCondominioVO;
+uses Atributos, Classes, Constantes, Generics.Collections, SysUtils, UGenericVO,
+UCondominioVO;
 
 type
   [TEntity]

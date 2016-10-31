@@ -6,7 +6,7 @@ uses
   Classes, SQLExpr, SysUtils, Generics.Collections, DBXJSON, DBXCommon,
   ConexaoBD,
   UPessoasVO, UController, DBClient, DB, UCnaeVO, UCondominioVO,
-  UNaturezaJuridicaVO, UCidadeController;
+  UNaturezaJuridicaVO, UCidadeController, UPrecoGasVO, UPrecoGasController ;
 
 type
   TCondominioController = class(TController<TCondominioVO>)
@@ -30,6 +30,7 @@ function TCondominioController.ConsultarPorId(id: integer): TCondominioVO;
 var
   P: TCondominioVO;
   cidadeController:TCidadeController;
+  PrecoGasController : TPrecoGasController;
 begin
   P := TDAO.ConsultarPorId<TCondominioVO>(id);
   cidadeController:=TCidadeController.Create;
@@ -39,6 +40,7 @@ begin
     P.NaturezaVO := TDAO.ConsultarPorId<TNaturezaJuridicaVO>
       (P.idNaturezaJuridica);
     P.CidadeVO := cidadeController.ConsultarPorId(P.idCidade);
+    P.PrecoGasVO := PrecoGasController.ConsultarPorId(p.idPrecoGas);
   end;
   cidadeController.Free;
   result := P;

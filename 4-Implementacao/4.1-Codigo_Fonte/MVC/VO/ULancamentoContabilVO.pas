@@ -3,7 +3,7 @@ unit ULancamentoContabilVO;
 interface
 
 uses Atributos, Classes, Constantes, Generics.Collections, SysUtils, UGenericVO,
-UPlanoContasVO, UContasReceberVO, UContasPagarVO,UhistoricoVO, ULoteVO, UCondominioVO;
+UPlanoContasVO, UContasReceberVO, UContasPagarVO,UhistoricoVO, ULoteVO, UCondominioVO, ULancamentoPadraoVO;
 
 type
   [TEntity]
@@ -34,6 +34,7 @@ type
     HistoricoVO : THistoricoVO;
     LoteVO : TLoteVo;
     CondominioVO : TCondominioVO;
+    LctoPadraoVo : TLancamentoPadraoVO;
 
 
 

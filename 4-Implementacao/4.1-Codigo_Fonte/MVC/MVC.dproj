@@ -252,6 +252,18 @@
             <Form>FTelaCadastroContador</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="VO\UResponsavelVO.pas"/>
+        <DCCReference Include="controle\UResponsavelController.pas"/>
+        <DCCReference Include="tela\UResponsavel.pas">
+            <Form>FTelaCadastroResponsavel</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="VO\ULancamentoPadraoVO.pas"/>
+        <DCCReference Include="controle\ULancamentoPadraoController.pas"/>
+        <DCCReference Include="tela\ULancamentoPadrao.pas">
+            <Form>FTelaCadastroLancamentoPadrao</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

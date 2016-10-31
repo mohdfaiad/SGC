@@ -24,7 +24,7 @@ type
     PanelEdits: TPanel;
     BitBtnIncluirC: TBitBtn;
     procedure PageControlChange(Sender: TObject);
-    procedure SetStatusTela(const Value: TStatusTela);
+    procedure SetStatusTela(const Value: TStatusTela); virtual;
     procedure BitBtnNovoClick(Sender: TObject);
     procedure BitBtnAlteraClick(Sender: TObject);
     procedure BitBtnCancelaClick(Sender: TObject);

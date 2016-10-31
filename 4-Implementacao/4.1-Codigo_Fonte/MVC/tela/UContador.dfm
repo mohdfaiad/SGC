@@ -1,66 +1,101 @@
 inherited FTelaCadastroContador: TFTelaCadastroContador
   Caption = 'Cadastro de Contador'
-  ClientWidth = 655
-  ExplicitWidth = 671
+  ClientWidth = 703
+  ExplicitWidth = 719
   PixelsPerInch = 96
   TextHeight = 13
+  object Label4: TLabel [0]
+    Left = 496
+    Top = 193
+    Width = 50
+    Height = 13
+    Caption = 'Entrada :'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -11
+    Font.Name = 'Tahoma'
+    Font.Style = [fsBold]
+    ParentFont = False
+  end
   inherited PageControl: TPageControl
-    Width = 655
-    ActivePage = Consulta
+    Width = 703
+    ExplicitWidth = 703
     inherited Consulta: TTabSheet
+      ExplicitLeft = 4
+      ExplicitTop = 24
+      ExplicitWidth = 695
       inherited Grid: TDBGrid
-        Width = 647
+        Width = 695
       end
       inherited Panel2: TPanel
-        Width = 647
+        Width = 695
+        ExplicitWidth = 695
         inherited BitBtn2: TBitBtn
-          Left = 580
+          Left = 628
           Top = 10
-          ExplicitLeft = 580
+          ExplicitLeft = 628
           ExplicitTop = 10
         end
         inherited GroupBox1: TGroupBox
-          Left = 173
+          Left = 221
           Top = 5
-          ExplicitLeft = 173
+          ExplicitLeft = 221
           ExplicitTop = 5
         end
         inherited BotaoConsultar: TBitBtn
-          Left = 501
+          Left = 549
           Top = 10
-          ExplicitLeft = 501
+          ExplicitLeft = 549
           ExplicitTop = 10
         end
         object GroupBox3: TGroupBox
           Left = 61
-          Top = 3
-          Width = 92
+          Top = 5
+          Width = 154
           Height = 47
           Caption = 'Tipo'
           TabOrder = 4
           object RadioButtonPessoa: TRadioButton
-            Left = 14
-            Top = 16
-            Width = 54
-            Height = 28
+            Left = 88
+            Top = 19
+            Width = 41
+            Height = 25
             Caption = 'CRC'
             TabOrder = 0
+          end
+          object RadioButton1: TRadioButton
+            Left = 22
+            Top = 19
+            Width = 51
+            Height = 25
+            Caption = 'Nome'
+            TabOrder = 1
           end
         end
       end
     end
     inherited DadosCadastrais: TTabSheet
+      ExplicitLeft = 4
+      ExplicitTop = 24
+      ExplicitWidth = 695
+      ExplicitHeight = 386
       inherited PanelBotoes: TPanel
-        Width = 647
-        ExplicitTop = -6
+        Width = 695
+        ExplicitWidth = 695
       end
       inherited PageControlEdit: TPageControl
-        Width = 647
+        Width = 695
+        ExplicitWidth = 695
         inherited DadosPrincipais: TTabSheet
+          ExplicitLeft = 4
+          ExplicitTop = 24
+          ExplicitWidth = 687
+          ExplicitHeight = 301
           inherited PanelEdits: TPanel
-            Width = 639
+            Width = 687
             ExplicitLeft = 0
             ExplicitTop = 0
+            ExplicitWidth = 687
             object Label6: TLabel
               Left = 32
               Top = 46
@@ -75,7 +110,7 @@ inherited FTelaCadastroContador: TFTelaCadastroContador
               ParentFont = False
             end
             object Label1: TLabel
-              Left = 50
+              Left = 58
               Top = 88
               Width = 28
               Height = 13
@@ -90,14 +125,66 @@ inherited FTelaCadastroContador: TFTelaCadastroContador
             object Label5: TLabel
               Left = 17
               Top = 123
-              Width = 61
+              Width = 55
               Height = 13
               Caption = 'Ocupa'#231#227'o :'
               Font.Charset = DEFAULT_CHARSET
               Font.Color = clWindowText
               Font.Height = -11
               Font.Name = 'Tahoma'
+              Font.Style = []
+              ParentFont = False
+            end
+            object Label2: TLabel
+              Left = 11
+              Top = 160
+              Width = 71
+              Height = 13
+              Caption = 'Certid'#227'o Reg.:'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'Tahoma'
+              Font.Style = []
+              ParentFont = False
+            end
+            object Label3: TLabel
+              Left = 325
+              Top = 88
+              Width = 50
+              Height = 13
+              Caption = 'Entrada :'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'Tahoma'
               Font.Style = [fsBold]
+              ParentFont = False
+            end
+            object Label7: TLabel
+              Left = 488
+              Top = 88
+              Width = 33
+              Height = 13
+              Caption = 'Sa'#237'da :'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'Tahoma'
+              Font.Style = []
+              ParentFont = False
+            end
+            object Label8: TLabel
+              Left = 322
+              Top = 160
+              Width = 47
+              Height = 13
+              Caption = 'Validade :'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'Tahoma'
+              Font.Style = []
               ParentFont = False
             end
             object LabeledEditPessoa: TEdit
@@ -121,7 +208,7 @@ inherited FTelaCadastroContador: TFTelaCadastroContador
             object LabeledEditNomePessoa: TEdit
               Left = 211
               Top = 43
-              Width = 352
+              Width = 398
               Height = 21
               ReadOnly = True
               TabOrder = 2
@@ -140,7 +227,66 @@ inherited FTelaCadastroContador: TFTelaCadastroContador
               Width = 197
               Height = 21
               MaxLength = 80
+              TabOrder = 6
+            end
+            object Edit1: TEdit
+              Left = 102
+              Top = 157
+              Width = 197
+              Height = 21
+              MaxLength = 80
+              TabOrder = 7
+            end
+            object MaskEditDtInicio: TMaskEdit
+              Left = 382
+              Top = 85
+              Width = 64
+              Height = 21
+              Color = clWhite
+              EditMask = '!99/99/9999;1;_'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clBlue
+              Font.Height = -11
+              Font.Name = 'Tahoma'
+              Font.Style = []
+              MaxLength = 10
+              ParentFont = False
               TabOrder = 4
+              Text = '  /  /    '
+            end
+            object MaskEdit1: TMaskEdit
+              Left = 544
+              Top = 85
+              Width = 64
+              Height = 21
+              Color = clWhite
+              EditMask = '!99/99/9999;1;_'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clBlue
+              Font.Height = -11
+              Font.Name = 'Tahoma'
+              Font.Style = []
+              MaxLength = 10
+              ParentFont = False
+              TabOrder = 5
+              Text = '  /  /    '
+            end
+            object MaskEdit2: TMaskEdit
+              Left = 382
+              Top = 157
+              Width = 64
+              Height = 21
+              Color = clWhite
+              EditMask = '!99/99/9999;1;_'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clBlue
+              Font.Height = -11
+              Font.Name = 'Tahoma'
+              Font.Style = []
+              MaxLength = 10
+              ParentFont = False
+              TabOrder = 8
+              Text = '  /  /    '
             end
           end
         end
@@ -148,6 +294,7 @@ inherited FTelaCadastroContador: TFTelaCadastroContador
     end
   end
   inherited StatusBar1: TStatusBar
-    Width = 655
+    Width = 703
+    ExplicitWidth = 703
   end
 end
