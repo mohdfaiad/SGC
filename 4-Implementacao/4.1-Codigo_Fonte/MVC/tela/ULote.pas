@@ -9,7 +9,7 @@ uses
   Generics.Collections, ULoteVO, ULoteController, UEmpresaTrab, ULancamentoContabilVO,
   UlancamentoCOntabilController, UPlanoContas,UPlanoContasController, UHistorico, UHistoricoController,
   UPlanoContasVO, UHistoricoVO, Data.DB, Datasnap.DBClient,
-  ULancamentoPadrao, ULancamentoPadraoVO, ULancamentoPadraoController;
+  ULancamentoPadrao, ULancamentoPadraoVO, ULancamentoPadraoController, Biblioteca;
 
 type
   TFTelaCadastroLote = class(TFTelaCadastro)
@@ -97,6 +97,9 @@ type
     procedure BitBtnExcluiClick(Sender: TObject);
     procedure BitBtn1Click(Sender: TObject);
     procedure Edit2Exit(Sender: TObject);
+    procedure MaskEditDtInicioExit(Sender: TObject);
+    procedure MaskEdit2Exit(Sender: TObject);
+    procedure Edit5KeyPress(Sender: TObject; var Key: Char);
 
 
   private
@@ -480,6 +483,11 @@ begin
   end;
 end;
 
+procedure TFTelaCadastroLote.Edit5KeyPress(Sender: TObject; var Key: Char);
+begin
+  EventoFormataCurrency(Sender,key);
+end;
+
 function TFTelaCadastroLote.EditsToObject(Lote: TLoteVO): TLoteVO;
 begin
   if Edit1.Text <> '' then
@@ -675,6 +683,16 @@ begin
   end;
 
 end;
+procedure TFTelaCadastroLote.MaskEdit2Exit(Sender: TObject);
+begin
+    EventoValidaData(sender);
+end;
+
+procedure TFTelaCadastroLote.MaskEditDtInicioExit(Sender: TObject);
+begin
+    EventoValidaData(sender);
+end;
+
 function TFTelaCadastroLote.MontaFiltro: string;
 begin
 

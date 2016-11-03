@@ -10,9 +10,12 @@ inherited FTelaCadastroContasPagar: TFTelaCadastroContasPagar
   inherited PageControl: TPageControl
     Width = 887
     Height = 497
+    ActivePage = Consulta
     ExplicitWidth = 887
     ExplicitHeight = 497
     inherited Consulta: TTabSheet
+      ExplicitLeft = 4
+      ExplicitTop = 24
       ExplicitWidth = 879
       ExplicitHeight = 469
       inherited Grid: TDBGrid
@@ -63,6 +66,7 @@ inherited FTelaCadastroContasPagar: TFTelaCadastroContasPagar
             MaxLength = 10
             TabOrder = 0
             Text = '  /  /    '
+            OnExit = MaskEdit1Exit
           end
           object MaskEdit2: TMaskEdit
             Left = 79
@@ -73,6 +77,7 @@ inherited FTelaCadastroContasPagar: TFTelaCadastroContasPagar
             MaxLength = 10
             TabOrder = 1
             Text = '  /  /    '
+            OnExit = MaskEdit2Exit
           end
         end
         object GroupBox3: TGroupBox
@@ -110,6 +115,8 @@ inherited FTelaCadastroContasPagar: TFTelaCadastroContasPagar
       end
     end
     inherited DadosCadastrais: TTabSheet
+      ExplicitLeft = 4
+      ExplicitTop = 24
       ExplicitWidth = 879
       ExplicitHeight = 469
       inherited PanelBotoes: TPanel
@@ -137,11 +144,15 @@ inherited FTelaCadastroContasPagar: TFTelaCadastroContasPagar
         ExplicitWidth = 879
         ExplicitHeight = 412
         inherited DadosPrincipais: TTabSheet
+          ExplicitLeft = 4
+          ExplicitTop = 24
           ExplicitWidth = 871
           ExplicitHeight = 384
           inherited PanelEdits: TPanel
             Width = 871
             Height = 384
+            ExplicitLeft = 0
+            ExplicitTop = 0
             ExplicitWidth = 871
             ExplicitHeight = 384
             object Label1: TLabel
@@ -205,6 +216,7 @@ inherited FTelaCadastroContasPagar: TFTelaCadastroContasPagar
               MaxLength = 10
               TabOrder = 0
               Text = '  /  /    '
+              OnExit = MaskEditCompExit
             end
             object MaskEditEmissao: TMaskEdit
               Left = 102
@@ -215,6 +227,7 @@ inherited FTelaCadastroContasPagar: TFTelaCadastroContasPagar
               MaxLength = 10
               TabOrder = 1
               Text = '  /  /    '
+              OnExit = MaskEditEmissaoExit
             end
             object MaskEditVenc: TMaskEdit
               Left = 186
@@ -225,6 +238,7 @@ inherited FTelaCadastroContasPagar: TFTelaCadastroContasPagar
               MaxLength = 10
               TabOrder = 2
               Text = '  /  /    '
+              OnExit = MaskEditVencExit
             end
             object LabeledEditDoc: TLabeledEdit
               Left = 16
@@ -240,6 +254,7 @@ inherited FTelaCadastroContasPagar: TFTelaCadastroContasPagar
               EditLabel.Font.Name = 'Tahoma'
               EditLabel.Font.Style = [fsBold]
               EditLabel.ParentFont = False
+              MaxLength = 20
               TabOrder = 3
             end
             object LabeledEditConta: TLabeledEdit
@@ -281,6 +296,7 @@ inherited FTelaCadastroContasPagar: TFTelaCadastroContasPagar
               Width = 80
               Height = 21
               TabOrder = 12
+              OnKeyPress = EditValorKeyPress
             end
             object LabeledEditComp: TLabeledEdit
               Left = 102
@@ -290,6 +306,7 @@ inherited FTelaCadastroContasPagar: TFTelaCadastroContasPagar
               EditLabel.Width = 65
               EditLabel.Height = 13
               EditLabel.Caption = 'Complemento'
+              MaxLength = 50
               TabOrder = 13
             end
             object LabeledEditPessoa: TLabeledEdit
@@ -386,7 +403,7 @@ inherited FTelaCadastroContasPagar: TFTelaCadastroContasPagar
     ExplicitWidth = 887
   end
   object PanelBaixa: TPanel
-    Left = 95
+    Left = 120
     Top = 79
     Width = 639
     Height = 398
@@ -588,6 +605,7 @@ inherited FTelaCadastroContasPagar: TFTelaCadastroContasPagar
         Width = 89
         Height = 21
         TabOrder = 2
+        OnKeyPress = EditBxValorKeyPress
       end
       object EditBxJuros: TEdit
         Left = 96
@@ -595,6 +613,7 @@ inherited FTelaCadastroContasPagar: TFTelaCadastroContasPagar
         Width = 89
         Height = 21
         TabOrder = 3
+        OnKeyPress = EditBxJurosKeyPress
       end
       object EditBxMulta: TEdit
         Left = 96
@@ -602,6 +621,7 @@ inherited FTelaCadastroContasPagar: TFTelaCadastroContasPagar
         Width = 89
         Height = 21
         TabOrder = 4
+        OnKeyPress = EditBxMultaKeyPress
       end
       object EditBxDesc: TEdit
         Left = 96
@@ -609,6 +629,7 @@ inherited FTelaCadastroContasPagar: TFTelaCadastroContasPagar
         Width = 89
         Height = 21
         TabOrder = 5
+        OnKeyPress = EditBxDescKeyPress
       end
       object EditBxConta: TEdit
         Left = 96
@@ -697,12 +718,14 @@ inherited FTelaCadastroContasPagar: TFTelaCadastroContasPagar
         MaxLength = 10
         TabOrder = 0
         Text = '  /  /    '
+        OnExit = MaskEditBxEditExit
       end
       object EditBxDoc: TEdit
         Left = 96
         Top = 22
         Width = 89
         Height = 21
+        MaxLength = 20
         ReadOnly = True
         TabOrder = 16
       end
@@ -745,6 +768,7 @@ inherited FTelaCadastroContasPagar: TFTelaCadastroContasPagar
         ReadOnly = True
         TabOrder = 17
         Text = '  /  /    '
+        OnExit = MaskEdit3Exit
       end
       object Edit1: TEdit
         Left = 96
@@ -753,6 +777,7 @@ inherited FTelaCadastroContasPagar: TFTelaCadastroContasPagar
         Height = 21
         TabOrder = 1
         OnExit = Edit1Exit
+        OnKeyPress = Edit1KeyPress
       end
       object Edit2: TEdit
         Left = 441
@@ -762,6 +787,7 @@ inherited FTelaCadastroContasPagar: TFTelaCadastroContasPagar
         ReadOnly = True
         TabOrder = 18
         OnExit = Edit1Exit
+        OnKeyPress = Edit2KeyPress
       end
     end
   end

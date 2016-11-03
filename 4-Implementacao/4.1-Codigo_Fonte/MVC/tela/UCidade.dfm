@@ -4,7 +4,11 @@ inherited TFTelaCadastroCidade: TTFTelaCadastroCidade
   PixelsPerInch = 96
   TextHeight = 13
   inherited PageControl: TPageControl
-    ActivePage = DadosCadastrais
+    ActivePage = Consulta
+    inherited Consulta: TTabSheet
+      ExplicitLeft = 4
+      ExplicitTop = 24
+    end
     inherited DadosCadastrais: TTabSheet
       ExplicitLeft = 4
       ExplicitTop = 24
@@ -17,6 +21,8 @@ inherited TFTelaCadastroCidade: TTFTelaCadastroCidade
           ExplicitWidth = 767
           ExplicitHeight = 301
           inherited PanelEdits: TPanel
+            ExplicitLeft = 0
+            ExplicitTop = 0
             object LabelEditNome: TLabeledEdit
               Tag = 16
               Left = 16
@@ -39,6 +45,7 @@ inherited TFTelaCadastroCidade: TTFTelaCadastroCidade
               Font.Height = -11
               Font.Name = 'Tahoma'
               Font.Style = []
+              MaxLength = 250
               ParentFont = False
               TabOrder = 0
             end

@@ -1,0 +1,61 @@
+unit UUsuarioController;
+
+interface
+
+uses
+  Classes, SQLExpr, SysUtils, Generics.Collections, DBXJSON, DBXCommon,
+  ConexaoBD,
+  UController, DBClient, DB, UUsuarioVO,UPessoasVo, UPessoasController;
+
+
+type
+  TUsuarioController = class(TController<TUsuarioVO>)
+  private
+
+  public
+    function ConsultarPorId(id: integer): TUsuarioVO;
+    procedure ValidarDados(Objeto:TUsuarioVO);override;
+  end;
+
+implementation
+
+uses
+  UDao, Constantes, Vcl.Dialogs;
+
+
+
+{ TUsuarioController }
+
+function TUsuarioController.ConsultarPorId(id: integer): TUsuarioVO;
+var
+  P: TUsuarioVO;
+  PessoaController : TPessoasController;
+
+begin
+  P := TDAO.ConsultarPorId<TUsuarioVO>(id);
+
+
+  if (P <> nil) then
+  begin
+     p.PessoaVo := TDAO.ConsultarPorId<TPessoasVO>(P.idPessoa);
+  end;
+  result := P;
+end;
+
+procedure TUsuarioController.ValidarDados(Objeto: TUsuarioVO);
+var
+  query, data, Pessoa, idUsuario : string;
+  listaUsuario :TObjectList<TUsuarioVO>;
+begin
+    Pessoa := intToStr(Objeto.idPessoa);
+   // idusuario := IntToStr(Objeto.idUsuario);
+    Query :=  ' usuario.idPessoa = ' +QuotedStr(Pessoa);
+    listaUsuario := self.Consultar(query);
+    if (listaUsuario.Count > 0) then
+      raise Exception.Create('Ja existe Pessoa com usuário e senha cadastrada');
+end;
+
+begin
+
+
+end.

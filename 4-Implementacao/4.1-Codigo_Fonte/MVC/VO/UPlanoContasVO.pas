@@ -28,7 +28,7 @@ type
     [TGeneratedValue(sAuto)]
     property idPlanoContas : Integer  read FidPlanoContas write FidPlanoContas;
 
-    [TColumn('idConta','Código',0,[ldGrid,ldLookup,ldComboBox], False)]
+    [TColumn('idConta','Código',0,[ldLookup,ldComboBox], False)]
     property idConta: Integer  read FidConta write FidConta;
     [TColumn('nrClassificacao','Classificação',200,[ldGrid,ldLookup,ldComboBox], False)]
     property nrClassificacao: string  read FnrClassificacao write FnrClassificacao;

@@ -30,6 +30,7 @@ type
 
   public
     CodigoEmpLogada:integer;
+    IdUsuario:integer;
     DescricaoEmpLogada,cnpjEmpLogada:String;
   end;
 

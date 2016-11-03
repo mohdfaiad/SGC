@@ -9,7 +9,7 @@ uses
   Vcl.StdCtrls, Vcl.Mask, Vcl.Buttons, Vcl.ExtCtrls, Vcl.Grids, Vcl.DBGrids,
   UCnaeVO, UCnae, UCidade, UEstado, UPais, UCidadeVO, UEstadoVO, UPaisVO,
   UNaturezaJuridicaVO, UNaturezaJuridica, UCondominioVO, Generics.Collections,
-  UCondominioController, UContador, UResponsavel, UPrecoGas, UPrecoGasController, UPrecoGasVO;
+  UCondominioController, UContador, UResponsavel, UPrecoGas, UPrecoGasController, UPrecoGasVO, Biblioteca;
 
 type
   TFTelaCadastroCondominio = class(TFTelaCadastro)
@@ -81,10 +81,10 @@ type
     procedure BitBtn1Click(Sender: TObject);
     procedure BitBtn4Click(Sender: TObject);
     procedure Edit1Exit(Sender: TObject);
+    procedure MaskEditDtInicioAtividadeExit(Sender: TObject);
 
   private
     { Private declarations }
-    FStatusTela: TStatusTela;
   public
     { Public declarations }
     function EditsToObject(Condominio: TCondominioVO): TCondominioVO;
@@ -131,6 +131,45 @@ begin
   inherited;
    PageControlEdit.ActivePage := DadosPrincipais;
    LabelEditNome.SetFocus;
+
+end;
+
+procedure TFTelaCadastroCondominio.SetStatusTela(const Value: TStatusTela);
+begin
+  FStatusTela := Value;
+  BitBtnNovo.Enabled := True;
+  BitBtnIncluirC.Enabled := True;
+  BitBtnAltera.Enabled := True;
+  BitBtnGrava.Enabled := True;
+  BitBtnExclui.Enabled := True;
+  BitBtnCancela.Enabled := false;
+
+  PanelEdits.Enabled := True;
+  Panel1.Enabled := True;
+  case Value of
+    stNavegandoGrid:
+      begin
+        PanelEdits.Enabled := false;
+        Panel1.Enabled := false;
+        BitBtnNovo.Enabled := True;
+        BitBtnIncluirC.Enabled := True;
+        BitBtnAltera.Enabled := True;
+        BitBtnGrava.Enabled := false;
+        BitBtnExclui.Enabled := True;
+        BitBtnCancela.Enabled := false;
+      end;
+    stInserindo, stEditando:
+      begin
+        PanelEdits.Enabled := True;
+        Panel1.Enabled := true;
+        BitBtnNovo.Enabled := false;
+        BitBtnIncluirC.Enabled := false;
+        BitBtnAltera.Enabled := false;
+        BitBtnGrava.Enabled := True;
+        BitBtnExclui.Enabled := false;
+        BitBtnCancela.Enabled := True;
+      end;
+  end;
 
 end;
 
@@ -284,7 +323,13 @@ begin
   except
     raise Exception.Create('Código Inválido');
     end;
+  end
+  else
+  begin
+    Edit1.Text := '';
+    Edit2.Text := '';
   end;
+
 end;
 
 function TFTelaCadastroCondominio.EditsToObject(Condominio: TCondominioVO)
@@ -318,8 +363,10 @@ begin
     Condominio.idEstado := strtoint(LabeledEditEstado.Text);
   if (LabeledEditPais.Text<>'') then
     Condominio.idPais := strtoint(LabeledEditPais.Text);
-  if Edit1.Text <> '' then
-    Condominio.idPrecoGas := StrToInt(Edit1.Text);
+ if Edit1.Text <> '' then
+    Condominio.idPrecoGas := StrToInt(Edit1.Text)
+ else
+    Condominio.idPrecoGas := 0;
   if Edit3.Text <> '' then
     Condominio.parametroDRE := Edit3.Text;
   Result := Condominio;
@@ -341,6 +388,12 @@ begin
   inherited;
 end;
 
+procedure TFTelaCadastroCondominio.MaskEditDtInicioAtividadeExit(
+  Sender: TObject);
+begin
+  EventoValidaData(sender);
+end;
+
 function TFTelaCadastroCondominio.MontaFiltro: string;
 begin
   Result := '';
@@ -360,44 +413,7 @@ begin
   end;
 end;
 
-procedure TFTelaCadastroCondominio.SetStatusTela(const Value: TStatusTela);
-begin
-FStatusTela := Value;
-  BitBtnNovo.Enabled := True;
-  BitBtnIncluirC.Enabled := True;
-  BitBtnAltera.Enabled := True;
-  BitBtnGrava.Enabled := True;
-  BitBtnExclui.Enabled := True;
-  BitBtnCancela.Enabled := false;
 
-  PanelEdits.Enabled := True;
-  Panel1.Enabled := True;
-  case Value of
-    stNavegandoGrid:
-      begin
-        PanelEdits.Enabled := false;
-        Panel1.Enabled := false;
-        BitBtnNovo.Enabled := True;
-        BitBtnIncluirC.Enabled := True;
-        BitBtnAltera.Enabled := True;
-        BitBtnGrava.Enabled := false;
-        BitBtnExclui.Enabled := True;
-        BitBtnCancela.Enabled := false;
-      end;
-    stInserindo, stEditando:
-      begin
-        PanelEdits.Enabled := True;
-        Panel1.Enabled := true;
-        BitBtnNovo.Enabled := false;
-        BitBtnIncluirC.Enabled := false;
-        BitBtnAltera.Enabled := false;
-        BitBtnGrava.Enabled := True;
-        BitBtnExclui.Enabled := false;
-        BitBtnCancela.Enabled := True;
-      end;
-  end;
-
-end;
 
 procedure TFTelaCadastroCondominio.GridParaEdits;
 var
@@ -429,34 +445,34 @@ begin
     LabeledEditInsMunicipal.Text := Condominio.inscricaoMunicipal;
     LabeledEditNomeFantasia.Text := Condominio.nomeFantasia;
     LabeledEditMetragem.Text := Condominio.metragem;
-   if (condominio.idCnae > 0) then
+   if (condominio.CnaeVO <> nil) then
    begin
     LabelEditCodCnae.Text := IntToStr(Condominio.CnaeVO.idCnae);
     LabelEditDescCnae.Text := Condominio.CnaeVO.descricao;
     LabelEditCnae.Text := Condominio.CnaeVO.codigoCnae;
    end;
-   if (Condominio.idNaturezaJuridica > 0) then
+   if (Condominio.NaturezaVO <> nil) then
    begin
      LabelEditCodNatureza.Text := IntToStr(Condominio.NaturezaVO.idNatureza);
      LabelEditDescNatureza.Text := condominio.NaturezaVO.descricao;
      LabelEditNatureza.Text := condominio.NaturezaVO.codigoNatureza;
    end;
-   if (Condominio.idCidade > 0) then
+   if (Condominio.CidadeVO <> nil) then
     begin
       LabeledEditCidade.Text := IntToStr(Condominio.CidadeVO.idCidade);
       LabeledEditDescCidade.Text := Condominio.CidadeVO.NomeCidade;
     end;
-    if (Condominio.idEstado > 0) then
+    if (Condominio.EstadoVO <> nil) then
     begin
       LabeledEditEstado.Text := IntToStr(Condominio.CidadeVO.EstadoVO.idEstado);
       LabeledEditDescEstado.Text := Condominio.CidadeVO.EstadoVO.NomeEstado;
     end;
-     if (Condominio.idPais > 0) then
+     if (Condominio.PaisVO <> nil) then
     begin
       LabeledEditPais.Text := IntToStr(Condominio.CidadeVO.PaisVO.idPais);
       LabeledEditDescPais.Text := Condominio.CidadeVO.PaisVO.NomePais;
     end;
-    if Condominio.idPrecoGas > 0  then
+    if Condominio.PrecoGasVo <> nil  then
     begin
       Edit1.Text := IntToStr(Condominio.PrecoGasVo.idPrecoGas);
       Edit2.Text := Condominio.PrecoGasVo.PessoaVo.nome;

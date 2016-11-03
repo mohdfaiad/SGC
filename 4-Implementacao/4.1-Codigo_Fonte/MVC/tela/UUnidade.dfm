@@ -10,12 +10,12 @@ inherited FTelaCadastroUnidade: TFTelaCadastroUnidade
   inherited PageControl: TPageControl
     Width = 793
     Height = 478
-    ActivePage = DadosCadastrais
+    ActivePage = Consulta
     ExplicitWidth = 793
     ExplicitHeight = 478
     inherited Consulta: TTabSheet
-      ExplicitLeft = 0
-      ExplicitTop = 0
+      ExplicitLeft = 4
+      ExplicitTop = 24
       ExplicitWidth = 785
       ExplicitHeight = 450
       inherited Grid: TDBGrid
@@ -84,6 +84,8 @@ inherited FTelaCadastroUnidade: TFTelaCadastroUnidade
           inherited PanelEdits: TPanel
             Width = 777
             Height = 365
+            ExplicitLeft = 0
+            ExplicitTop = 0
             ExplicitWidth = 777
             ExplicitHeight = 365
             object Label2: TLabel
@@ -148,6 +150,7 @@ inherited FTelaCadastroUnidade: TFTelaCadastroUnidade
               Font.Height = -11
               Font.Name = 'Tahoma'
               Font.Style = []
+              NumbersOnly = True
               ParentFont = False
               TabOrder = 0
             end
@@ -173,11 +176,12 @@ inherited FTelaCadastroUnidade: TFTelaCadastroUnidade
               Font.Height = -11
               Font.Name = 'Tahoma'
               Font.Style = []
+              MaxLength = 50
               ParentFont = False
               TabOrder = 1
             end
             object EditAreaTotal: TEdit
-              Left = 18
+              Left = 20
               Top = 88
               Width = 93
               Height = 21
@@ -188,6 +192,7 @@ inherited FTelaCadastroUnidade: TFTelaCadastroUnidade
               Font.Style = []
               ParentFont = False
               TabOrder = 2
+              OnKeyPress = EditAreaTotalKeyPress
             end
             object EditFracaoIdeal: TEdit
               Left = 128
@@ -219,6 +224,7 @@ inherited FTelaCadastroUnidade: TFTelaCadastroUnidade
               Font.Height = -11
               Font.Name = 'Tahoma'
               Font.Style = []
+              MaxLength = 500
               ParentFont = False
               TabOrder = 5
             end

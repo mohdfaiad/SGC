@@ -6,7 +6,7 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, UtelaCadastro, Vcl.StdCtrls,
   Vcl.ComCtrls, Vcl.Mask, Vcl.Buttons, Vcl.ExtCtrls, Vcl.Grids, Vcl.DBGrids, Generics.Collections,
-  UUsuarioController, UUsuarioVO, UPessoa, UPessoasVo, UPessoasController;
+  UUsuarioController, UUsuarioVO, UPessoa, UPessoasVo, UPessoasController, UEmpresaTrab;
 
 type
   TFTelaCadastroUsuario = class(TFTelaCadastro)
@@ -210,15 +210,29 @@ end;
 
 function TFTelaCadastroUsuario.MontaFiltro: string;
 begin
-  Result := '';
-  if (RadioButtonPessoa.Checked = true) then
+ // Result := '';
+  if formEmpresaTrab.idUsuario = 1 then
   begin
-    if (editBusca.Text <> '') then
+    if (RadioButtonPessoa.Checked = true) then
     begin
-      Result := '( UPPER(LOGIN) LIKE ' +
+      if (editBusca.Text <> '') then
+      begin
+        Result := '( UPPER(LOGIN) LIKE ' +
         QuotedStr('%' + UpperCase(editBusca.Text) + '%') + ' ) ';
+      end;
     end;
-  end;
+  end
+  else if(RadioButtonPessoa.Checked = true) then
+    begin
+      Result:=' usuario.idusuario = '+IntToStr(FormEmpresaTrab.idUsuario);
+      if (editBusca.Text <> '') then
+      begin
+        Result := result + ' AND ( UPPER(LOGIN) LIKE ' +QuotedStr('%' + UpperCase(editBusca.Text) + '%') + ' )';
+      end;
+
+    end;
+
+
 end;
 
 end.

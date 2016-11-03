@@ -6,7 +6,7 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, UtelaCadastro, Vcl.StdCtrls, Generics.Collections,
   Vcl.ComCtrls, Vcl.Mask, Vcl.Buttons, Vcl.ExtCtrls, Vcl.Grids, Vcl.DBGrids, UTotalGastoMesVO,
-  UTotalGastoMesController;
+  UTotalGastoMesController, Biblioteca;
 
 type
   TFTelaCadastroTotalGastoMes = class(TFTelaCadastro)
@@ -22,6 +22,8 @@ type
     procedure BitBtnNovoClick(Sender: TObject);
     procedure GridParaEdits; override;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure MaskEditDtInicioExit(Sender: TObject);
+    procedure EdtValorKeyPress(Sender: TObject; var Key: Char);
   private
     { Private declarations }
   public
@@ -53,7 +55,7 @@ var
   filtro: string;
 begin
   filtro := MontaFiltro;
-  listaTotalGastoMes := ControllerTotalGastoMes.Consultar(filtro);
+  listaTotalGastoMes := ControllerTotalGastoMes.Consultar(filtro, 'ORDER BY DTMESANO DESC');
   PopulaGrid<TTotalGastoMesVo>(listaTotalGastoMes);
 end;
 
@@ -125,6 +127,12 @@ begin
 
 end;
 
+procedure TFTelaCadastroTotalGastoMes.EdtValorKeyPress(Sender: TObject;
+  var Key: Char);
+begin
+  EventoFormataCurrency(Sender,key);
+end;
+
 procedure TFTelaCadastroTotalGastoMes.FormClose(Sender: TObject;
   var Action: TCloseAction);
 begin
@@ -156,10 +164,17 @@ begin
   end;
 end;
 
+procedure TFTelaCadastroTotalGastoMes.MaskEditDtInicioExit(Sender: TObject);
+begin
+  EventoValidaData(sender);
+end;
+
 function TFTelaCadastroTotalGastoMes.MontaFiltro: string;
 begin
   result := '';
-
+  if (editBusca.Text <> '') then
+      Result := ' VLTOTAL LIKE ' +
+        QuotedStr('%' + UpperCase(editBusca.Text) + '%');
 end;
 
 end.

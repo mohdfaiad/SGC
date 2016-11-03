@@ -10,10 +10,12 @@ inherited FTelaCadastroContasReceber: TFTelaCadastroContasReceber
   inherited PageControl: TPageControl
     Width = 887
     Height = 477
-    ActivePage = DadosCadastrais
+    ActivePage = Consulta
     ExplicitWidth = 887
     ExplicitHeight = 477
     inherited Consulta: TTabSheet
+      ExplicitLeft = 4
+      ExplicitTop = 24
       ExplicitWidth = 879
       ExplicitHeight = 449
       inherited Grid: TDBGrid
@@ -68,6 +70,7 @@ inherited FTelaCadastroContasReceber: TFTelaCadastroContasReceber
             MaxLength = 10
             TabOrder = 0
             Text = '  /  /    '
+            OnExit = MaskEdit1Exit
           end
           object MaskEdit2: TMaskEdit
             Left = 79
@@ -78,6 +81,7 @@ inherited FTelaCadastroContasReceber: TFTelaCadastroContasReceber
             MaxLength = 10
             TabOrder = 1
             Text = '  /  /    '
+            OnExit = MaskEdit2Exit
           end
         end
         object GroupBox3: TGroupBox
@@ -137,6 +141,8 @@ inherited FTelaCadastroContasReceber: TFTelaCadastroContasReceber
           inherited PanelEdits: TPanel
             Width = 871
             Height = 364
+            ExplicitLeft = 0
+            ExplicitTop = 0
             ExplicitWidth = 871
             ExplicitHeight = 364
             object Label1: TLabel
@@ -187,6 +193,7 @@ inherited FTelaCadastroContasReceber: TFTelaCadastroContasReceber
               MaxLength = 10
               TabOrder = 0
               Text = '  /  /    '
+              OnExit = MaskEditCompExit
             end
             object MaskEditVenc: TMaskEdit
               Left = 102
@@ -197,6 +204,7 @@ inherited FTelaCadastroContasReceber: TFTelaCadastroContasReceber
               MaxLength = 10
               TabOrder = 1
               Text = '  /  /    '
+              OnExit = MaskEditVencExit
             end
             object LabeledEditDoc: TLabeledEdit
               Left = 16
@@ -212,6 +220,7 @@ inherited FTelaCadastroContasReceber: TFTelaCadastroContasReceber
               EditLabel.Font.Name = 'Tahoma'
               EditLabel.Font.Style = [fsBold]
               EditLabel.ParentFont = False
+              MaxLength = 20
               TabOrder = 2
             end
             object LabeledEditPessoa: TLabeledEdit
@@ -300,6 +309,7 @@ inherited FTelaCadastroContasReceber: TFTelaCadastroContasReceber
               Width = 80
               Height = 21
               TabOrder = 11
+              OnKeyPress = EditValorKeyPress
             end
             object LabeledEditComp: TLabeledEdit
               Left = 102
@@ -309,6 +319,7 @@ inherited FTelaCadastroContasReceber: TFTelaCadastroContasReceber
               EditLabel.Width = 65
               EditLabel.Height = 13
               EditLabel.Caption = 'Complemento'
+              MaxLength = 50
               TabOrder = 12
             end
             object LabeledEditDsPessoa: TEdit
@@ -355,7 +366,7 @@ inherited FTelaCadastroContasReceber: TFTelaCadastroContasReceber
     ExplicitWidth = 887
   end
   object PanelBaixa: TPanel
-    Left = 117
+    Left = 110
     Top = 73
     Width = 639
     Height = 398
@@ -556,6 +567,7 @@ inherited FTelaCadastroContasReceber: TFTelaCadastroContasReceber
         Width = 89
         Height = 21
         TabOrder = 2
+        OnKeyPress = EditBxValorKeyPress
       end
       object EditBxJuros: TEdit
         Left = 96
@@ -563,6 +575,7 @@ inherited FTelaCadastroContasReceber: TFTelaCadastroContasReceber
         Width = 89
         Height = 21
         TabOrder = 3
+        OnKeyPress = EditBxJurosKeyPress
       end
       object EditBxMulta: TEdit
         Left = 96
@@ -570,6 +583,7 @@ inherited FTelaCadastroContasReceber: TFTelaCadastroContasReceber
         Width = 89
         Height = 21
         TabOrder = 4
+        OnKeyPress = EditBxMultaKeyPress
       end
       object EditBxDesc: TEdit
         Left = 96
@@ -577,6 +591,7 @@ inherited FTelaCadastroContasReceber: TFTelaCadastroContasReceber
         Width = 89
         Height = 21
         TabOrder = 5
+        OnKeyPress = EditBxDescKeyPress
       end
       object EditBxConta: TEdit
         Left = 96
@@ -665,6 +680,7 @@ inherited FTelaCadastroContasReceber: TFTelaCadastroContasReceber
         MaxLength = 10
         TabOrder = 0
         Text = '  /  /    '
+        OnExit = MaskEditBxEditExit
       end
       object EditBxDoc: TEdit
         Left = 96
@@ -713,6 +729,7 @@ inherited FTelaCadastroContasReceber: TFTelaCadastroContasReceber
         ReadOnly = True
         TabOrder = 17
         Text = '  /  /    '
+        OnExit = MaskEdit3Exit
       end
       object Edit1: TEdit
         Left = 96
@@ -721,6 +738,7 @@ inherited FTelaCadastroContasReceber: TFTelaCadastroContasReceber
         Height = 21
         TabOrder = 1
         OnExit = Edit1Exit
+        OnKeyPress = Edit1KeyPress
       end
       object Edit2: TEdit
         Left = 440
@@ -730,6 +748,7 @@ inherited FTelaCadastroContasReceber: TFTelaCadastroContasReceber
         ReadOnly = True
         TabOrder = 18
         OnExit = Edit1Exit
+        OnKeyPress = Edit2KeyPress
       end
     end
   end

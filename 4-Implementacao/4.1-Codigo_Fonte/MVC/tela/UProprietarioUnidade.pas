@@ -7,7 +7,7 @@ uses
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, UPessoa, UPessoasVO, UtelaCadastro,
   Vcl.StdCtrls, Vcl.ExtCtrls, Vcl.ComCtrls, Vcl.Mask, Vcl.Buttons, Vcl.Grids,
   Vcl.DBGrids, UProprietarioUnidadeVO, UProprietarioUnidadeController,
-  UGenericVO, Generics.Collections, UPessoasController;
+  UGenericVO, Generics.Collections, UPessoasController, biblioteca;
 
 
 type
@@ -26,6 +26,7 @@ type
     procedure DoConsultar; override;
     procedure BitBtnNovoClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure MaskEditDtInicioExit(Sender: TObject);
 
 
   private
@@ -77,7 +78,7 @@ var
   filtro: string;
 begin
   filtro := MontaFiltro;
-  listaProprietarioUnidade := ControllerProprietarioUnidade.Consultar(filtro);
+  listaProprietarioUnidade := ControllerProprietarioUnidade.Consultar(filtro, 'ORDER BY DTINICIO DESC');
   PopulaGrid<TProprietarioUnidadeVo>(listaProprietarioUnidade);
 end;
 function TFTelaCadastroProprietario.DoExcluir: boolean;
@@ -179,6 +180,11 @@ begin
     LabelNome.Caption := ProprietarioUnidade.PessoaVo.nome;
     MaskEditDtInicio.Text := datetostr(ProprietarioUnidade.DtInicio);
   end;
+end;
+
+procedure TFTelaCadastroProprietario.MaskEditDtInicioExit(Sender: TObject);
+begin
+    EventoValidaData(sender);
 end;
 
 function TFTelaCadastroProprietario.MontaFiltro: string;

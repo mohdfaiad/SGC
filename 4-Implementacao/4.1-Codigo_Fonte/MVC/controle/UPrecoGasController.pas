@@ -35,8 +35,16 @@ begin
 end;
 
 procedure TPrecoGasController.ValidarDados(Objeto: TPrecoGasVO);
+var
+  query, data, idPrecoGas : string;
+  listaPrecoGas :TObjectList<TPrecoGasVO>;
 begin
-  inherited;
+    data := DateToStr(Objeto.dtmesano);
+    idPrecoGas := IntToStr(Objeto.idPrecoGas);
+    Query :=  ' dtmesano = ' +QuotedStr(Data) + 'and idprecogas <> '+QuotedStr(idPrecoGas);
+    listaPrecoGas := self.Consultar(query);
+    if (listaPrecoGas.Count > 0) then
+      raise Exception.Create('Ja existe Preço Gás informado nessa data');
 
 end;
 

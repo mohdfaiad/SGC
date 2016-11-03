@@ -72,6 +72,7 @@ type
     { Private declarations }
   public
 
+    idUsuario:integer;
     { Public declarations }
 
     function DoLogin: Boolean;
@@ -138,6 +139,7 @@ begin
   try
     FormLogin.ShowModal;
     Result := FormLogin.Logado;
+    idUsuario:=FormLogin.idUsuario;
   finally
     FormLogin.Free;
   end;
@@ -185,6 +187,7 @@ begin
   else
   begin
       Application.CreateForm(TFormEmpresaTrab, FormEmpresaTrab);
+      FormEmpresaTrab.idUsuario:=idusuario;
       FormEmpresaTrab.ShowModal;
   end;
 end;

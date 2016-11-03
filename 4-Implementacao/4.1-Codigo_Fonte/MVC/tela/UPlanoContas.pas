@@ -30,6 +30,8 @@ type
     function MontaFiltro: string;
     procedure CarregaObjetoSelecionado; override;
     procedure FormDestroy(Sender: TObject);
+    procedure BitBtnAlteraClick(Sender: TObject);
+    procedure BitBtnExcluiClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -45,10 +47,27 @@ implementation
 
 {$R *.dfm}
 
+procedure TFTelaCadastroPlano.BitBtnAlteraClick(Sender: TObject);
+begin
+  if(CDSGrid.FieldByName('FLTIPO').AsString='U')then
+    showmessage('Contas do tipo Unidade não podem ser alteradas')
+  else
+    inherited;
+end;
+
+procedure TFTelaCadastroPlano.BitBtnExcluiClick(Sender: TObject);
+begin
+  if(CDSGrid.FieldByName('FLTIPO').AsString='U')then
+    showmessage('Contas do tipo Unidade não podem ser excluídas pelo plano de contas')
+  else
+    inherited;
+end;
+
 procedure TFTelaCadastroPlano.BitBtnNovoClick(Sender: TObject);
 begin
   inherited;
-  LabelEditCodigo.SetFocus;
+  LabelEditDescricao.setFocus;
+//  LabelEditCodigo.SetFocus;
 end;
 
 procedure TFTelaCadastroPlano.CarregaObjetoSelecionado;
@@ -162,6 +181,8 @@ begin
       PlanoContas.flTipo :='D';
     if ComboboxTipo.ItemIndex = 5 then
       PlanoContas.flTipo :='O';
+    if ComboboxTipo.ItemIndex = 6 then
+      PlanoContas.flTipo :='U';
   end;
 
   Result := PlanoContas;
@@ -210,7 +231,9 @@ begin
       else if PlanoContas.flTipo = 'D' then
         ComboboxTipo.ItemIndex := 4
       else if PlanoContas.flTipo = 'O' then
-        ComboboxTipo.ItemIndex := 5;
+        ComboboxTipo.ItemIndex := 5
+      else if PlanoContas.flTipo = 'U' then
+        ComboboxTipo.ItemIndex := 6;
      // ComboBoxTipo.ItemIndex:= Integer(Comboboxtipo.items.indexof(planocontas.flTipo));
     end;
   end;
@@ -223,7 +246,7 @@ begin
   begin
     if (editBusca.Text <> '') then
     begin
-      Result := '( UPPER(IDCONTA) LIKE ' +
+      Result := '( UPPER(IDPLANOCONTAS) LIKE ' +
         QuotedStr('%' + UpperCase(editBusca.Text) + '%') + ' ) ';
     end;
   end

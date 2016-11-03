@@ -4,6 +4,7 @@ inherited FTelaCadastroEstado: TFTelaCadastroEstado
   PixelsPerInch = 96
   TextHeight = 13
   inherited PageControl: TPageControl
+    ActivePage = Consulta
     inherited Consulta: TTabSheet
       ExplicitLeft = 4
       ExplicitTop = 24
@@ -66,6 +67,7 @@ inherited FTelaCadastroEstado: TFTelaCadastroEstado
               Font.Height = -11
               Font.Name = 'Tahoma'
               Font.Style = []
+              MaxLength = 250
               ParentFont = False
               TabOrder = 0
             end

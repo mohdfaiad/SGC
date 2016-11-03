@@ -31,8 +31,10 @@ type
     procedure BitBtnExcluiClick(Sender: TObject);
     procedure BitBtnGravaClick(Sender: TObject);
   private
-    FStatusTela: TStatusTela;
+
   public
+    FStatusTela: TStatusTela;
+
     { Public declarations }
     function DoInserir: Boolean; virtual;
     function DoEditar: Boolean; virtual;

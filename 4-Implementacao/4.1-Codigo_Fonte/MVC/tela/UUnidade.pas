@@ -8,7 +8,7 @@ uses
   Vcl.ExtCtrls, Vcl.ComCtrls, Vcl.Mask, Vcl.Buttons, Vcl.Grids, Vcl.DBGrids, UUnidadeVO, UGenericVO,
   Generics.Collections, UUnidadeController, UPessoa, UPessoasController, UPessoasVO,
   UProprietarioUnidade, UProprietarioUnidadeVO, UInquilinoUnidade, UInquilinoUnidadeVO,
-  IWVCLBaseControl, IWBaseControl, IWBaseHTMLControl, IWControl, IWCompEdit,
+  IWVCLBaseControl, IWBaseControl, IWBaseHTMLControl, IWControl, IWCompEdit, Biblioteca,
   IWDBStdCtrls;
 
 type
@@ -41,6 +41,7 @@ type
     procedure BitBtnAlteraClick(Sender: TObject);
     procedure CarregaObjetoSelecionado; override;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure EditAreaTotalKeyPress(Sender: TObject; var Key: Char);
 
 
   private
@@ -209,6 +210,12 @@ begin
     finally
     end;
 end;
+end;
+
+procedure TFTelaCadastroUnidade.EditAreaTotalKeyPress(Sender: TObject;
+  var Key: Char);
+begin
+  EventoFormataCurrency(Sender,key);
 end;
 
 function TFTelaCadastroUnidade.EditsToObject(Unidade: TUnidadeVO): TUnidadeVO;

@@ -6,7 +6,7 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, UtelaCadastro, Vcl.ComCtrls,
   Vcl.StdCtrls, Vcl.Mask, Vcl.Buttons, Vcl.ExtCtrls, Vcl.Grids, Vcl.DBGrids, UResponsavelVO,
-  UResponsavelCOntroller, Generics.Collections, UPessoa, UPessoasVO, UPessoasController;
+  UResponsavelCOntroller, Generics.Collections, UPessoa, UPessoasVO, UPessoasController, biblioteca;
 
 type
   TFTelaCadastroResponsavel = class(TFTelaCadastro)
@@ -32,6 +32,8 @@ type
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure BitBtn3Click(Sender: TObject);
     procedure LabeledEditPessoaExit(Sender: TObject);
+    procedure MaskEditDtInicioExit(Sender: TObject);
+    procedure MaskEdit1Exit(Sender: TObject);
 
   private
     { Private declarations }
@@ -80,7 +82,7 @@ var
   filtro: string;
 begin
   filtro := MontaFiltro;
-  listaResponsavel := ControllerResponsavel.Consultar(filtro);
+  listaResponsavel := ControllerResponsavel.Consultar(filtro, 'ORDER BY DTENTRADA DESC');
   PopulaGrid<TResponsavelVO>(listaResponsavel);
 end;
 
@@ -222,6 +224,16 @@ begin
     raise Exception.Create('Código Inválido');
     end;
   end;
+end;
+
+procedure TFTelaCadastroResponsavel.MaskEdit1Exit(Sender: TObject);
+begin
+  EventoValidaData(sender);
+end;
+
+procedure TFTelaCadastroResponsavel.MaskEditDtInicioExit(Sender: TObject);
+begin
+  EventoValidaData(sender);
 end;
 
 function TFTelaCadastroResponsavel.MontaFiltro: string;

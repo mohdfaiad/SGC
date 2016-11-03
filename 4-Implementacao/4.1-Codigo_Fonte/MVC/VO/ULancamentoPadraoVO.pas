@@ -73,7 +73,7 @@ begin
       raise Exception.Create('O campo Conta débito ou conta crédito  é obrigatório!');
   end;
 
-  if (Self.Fobservacao = 0) then
+  if (Self.Fobservacao = '') then
   begin
     raise Exception.Create('O campo Observação é obrigatório!');
   end;

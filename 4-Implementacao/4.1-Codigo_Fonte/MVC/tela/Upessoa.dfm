@@ -10,11 +10,12 @@ inherited FTelaCadastroPessoa: TFTelaCadastroPessoa
   inherited PageControl: TPageControl
     Width = 787
     Height = 445
+    ActivePage = Consulta
     ExplicitWidth = 787
     ExplicitHeight = 445
     inherited Consulta: TTabSheet
-      ExplicitLeft = 0
-      ExplicitTop = 0
+      ExplicitLeft = 4
+      ExplicitTop = 24
       ExplicitWidth = 779
       ExplicitHeight = 417
       inherited Grid: TDBGrid
@@ -61,6 +62,8 @@ inherited FTelaCadastroPessoa: TFTelaCadastroPessoa
       end
     end
     inherited DadosCadastrais: TTabSheet
+      ExplicitLeft = 4
+      ExplicitTop = 24
       ExplicitWidth = 779
       ExplicitHeight = 417
       inherited PanelBotoes: TPanel
@@ -88,6 +91,8 @@ inherited FTelaCadastroPessoa: TFTelaCadastroPessoa
         ExplicitWidth = 779
         ExplicitHeight = 360
         inherited DadosPrincipais: TTabSheet
+          ExplicitLeft = 4
+          ExplicitTop = 24
           ExplicitWidth = 771
           ExplicitHeight = 332
           inherited PanelEdits: TPanel
@@ -160,6 +165,7 @@ inherited FTelaCadastroPessoa: TFTelaCadastroPessoa
                 Font.Height = -11
                 Font.Name = 'Tahoma'
                 Font.Style = []
+                MaxLength = 250
                 ParentFont = False
                 TabOrder = 0
               end
@@ -175,6 +181,7 @@ inherited FTelaCadastroPessoa: TFTelaCadastroPessoa
                 Font.Height = -11
                 Font.Name = 'Tahoma'
                 Font.Style = []
+                MaxLength = 50
                 ParentFont = False
                 TabOrder = 1
                 Text = ''
@@ -213,6 +220,7 @@ inherited FTelaCadastroPessoa: TFTelaCadastroPessoa
                 Font.Height = -11
                 Font.Name = 'Tahoma'
                 Font.Style = []
+                MaxLength = 250
                 ParentFont = False
                 TabOrder = 3
               end
@@ -232,6 +240,7 @@ inherited FTelaCadastroPessoa: TFTelaCadastroPessoa
                 Font.Height = -11
                 Font.Name = 'Tahoma'
                 Font.Style = []
+                MaxLength = 50
                 ParentFont = False
                 TabOrder = 4
               end
@@ -251,6 +260,7 @@ inherited FTelaCadastroPessoa: TFTelaCadastroPessoa
                 Font.Height = -11
                 Font.Name = 'Tahoma'
                 Font.Style = []
+                MaxLength = 250
                 ParentFont = False
                 TabOrder = 5
               end
@@ -270,6 +280,7 @@ inherited FTelaCadastroPessoa: TFTelaCadastroPessoa
                 Font.Height = -11
                 Font.Name = 'Tahoma'
                 Font.Style = []
+                MaxLength = 250
                 ParentFont = False
                 TabOrder = 6
               end
@@ -294,7 +305,7 @@ inherited FTelaCadastroPessoa: TFTelaCadastroPessoa
               object MaskEditTelefone2: TMaskEdit
                 Tag = 1
                 Left = 131
-                Top = 161
+                Top = 163
                 Width = 102
                 Height = 21
                 Color = clWhite
@@ -323,6 +334,7 @@ inherited FTelaCadastroPessoa: TFTelaCadastroPessoa
                 Font.Height = -11
                 Font.Name = 'Tahoma'
                 Font.Style = []
+                MaxLength = 250
                 ParentFont = False
                 TabOrder = 15
               end
@@ -425,6 +437,7 @@ inherited FTelaCadastroPessoa: TFTelaCadastroPessoa
                 Font.Name = 'Tahoma'
                 Font.Style = []
                 ParentFont = False
+                ReadOnly = True
                 TabOrder = 9
               end
               object BtnConsultaEstado: TBitBtn
@@ -452,6 +465,7 @@ inherited FTelaCadastroPessoa: TFTelaCadastroPessoa
                 Font.Name = 'Tahoma'
                 Font.Style = []
                 ParentFont = False
+                ReadOnly = True
                 TabOrder = 11
               end
               object BtnConsultaPais: TBitBtn

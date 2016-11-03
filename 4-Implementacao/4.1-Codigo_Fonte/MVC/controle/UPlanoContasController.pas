@@ -62,9 +62,10 @@ begin
 end;}
 
 procedure TPlanoContasController.ValidarDados(Objeto:TplanoContasVO);
-var classificacaoAnterior,WhereQuery:STring;
+var classificacaoAnterior,WhereQuery :STring;
     objetosretorno:TObjectList<TPlanoContasVO>;
 begin
+
   if(objeto.flTipo<>'S')THEN
   begin
     classificacaoAnterior:= Copy(objeto.nrClassificacao,0, Objeto.nrClassificacao.LastIndexOf('.'));
@@ -73,6 +74,8 @@ begin
     if(objetosRetorno.Count<=0)then
       raise Exception.Create('A conta informada não possui conta sintética a ser referenciada!');
   end;
+
+
 
 
 end;

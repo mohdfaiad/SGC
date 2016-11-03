@@ -42,9 +42,16 @@ end;
 
 procedure TProprietarioUnidadeController.ValidarDados(
   Objeto: TProprietarioUnidadeVO);
+var
+  query, data, idProprietario : string;
+  listaProprietario :TObjectList<TProprietarioUnidadeVO>;
 begin
-  inherited;
-
+    data := DateToStr(Objeto.dtInicio);
+    idProprietario := IntToStr(Objeto.idProprietarioUnidade);
+    Query :=  ' dtInicio = ' +QuotedStr(Data) + 'and idProprietarioUnidade <> '+QuotedStr(idProprietario);
+    listaProprietario := self.Consultar(query);
+    if (listaProprietario.Count > 0) then
+      raise Exception.Create('Ja existe Proprietário informado nessa data');
 end;
 
 begin

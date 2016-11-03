@@ -4,7 +4,10 @@ inherited FTelaCadastroUsuario: TFTelaCadastroUsuario
   PixelsPerInch = 96
   TextHeight = 13
   inherited PageControl: TPageControl
+    ActivePage = Consulta
     inherited Consulta: TTabSheet
+      ExplicitLeft = 4
+      ExplicitTop = 24
       inherited Panel2: TPanel
         object GroupBox3: TGroupBox
           Left = 61
@@ -25,8 +28,16 @@ inherited FTelaCadastroUsuario: TFTelaCadastroUsuario
       end
     end
     inherited DadosCadastrais: TTabSheet
+      ExplicitLeft = 4
+      ExplicitTop = 24
+      ExplicitWidth = 775
+      ExplicitHeight = 386
       inherited PageControlEdit: TPageControl
         inherited DadosPrincipais: TTabSheet
+          ExplicitLeft = 4
+          ExplicitTop = 24
+          ExplicitWidth = 767
+          ExplicitHeight = 301
           inherited PanelEdits: TPanel
             ExplicitLeft = 0
             ExplicitTop = 0
@@ -79,7 +90,7 @@ inherited FTelaCadastroUsuario: TFTelaCadastroUsuario
             end
             object LabeledEditSenha: TEdit
               Left = 84
-              Top = 120
+              Top = 112
               Width = 197
               Height = 21
               MaxLength = 50
@@ -92,6 +103,7 @@ inherited FTelaCadastroUsuario: TFTelaCadastroUsuario
               Width = 64
               Height = 21
               MaxLength = 10
+              NumbersOnly = True
               TabOrder = 0
               OnExit = LabeledEditPessoaExit
             end

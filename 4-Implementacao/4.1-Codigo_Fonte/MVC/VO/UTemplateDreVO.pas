@@ -29,7 +29,7 @@ type
     [TGeneratedValue(sAuto)]
     property idDre : Integer  read FidDre write FidDre;
 
-    [TColumn('idTemplate','Template',0,[ldGrid,ldLookup,ldComboBox], False)]
+    [TColumn('idTemplate','Template',0,[ldLookup,ldComboBox], False)]
     property idTemplate: Integer  read FidTemplate write FidTemplate;
 
     [TColumn('classificacao','Classificação',200,[ldGrid,ldLookup,ldComboBox], False)]
@@ -59,10 +59,10 @@ implementation
 
 procedure TTemplateDreVO.ValidarCamposObrigatorios;
 begin
-  if (self.FidTemplate = 0) then
+ { if (self.FidTemplate = 0) then
   begin
     raise Exception.Create('O campo Código é obrigatório!');
-  end;
+  end;}
   if (Self.Fclassificacao = '') then
   begin
     raise Exception.Create('O campo Classificação é obrigatório!');

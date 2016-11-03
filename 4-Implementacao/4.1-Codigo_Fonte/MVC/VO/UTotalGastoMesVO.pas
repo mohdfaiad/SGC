@@ -18,10 +18,10 @@ type
     [TId('idtotalgastomes')]
     [TGeneratedValue(sAuto)]
     property idTotalGastoMes: Integer  read FidTotalGastoMes write FidTotalGastoMes;
+    [TColumn('dtMesAno','Data Inicio',0,[ldGrid,ldLookup,ldComboBox], False)]
+    property dtMesAno: TDateTime  read FdtMesAno write FdtMesAno;
     [TColumn('vltotal','Valor Total',50,[ldGrid,ldLookup,ldComboBox], False)]
     property vlTotal: currency  read FvlTotal write FvlTotal;
-    [TColumn('dtMesAno','Data Inicio',0,[ldLookup,ldComboBox], False)]
-    property dtMesAno: TDateTime  read FdtMesAno write FdtMesAno;
     [TColumn('idcondominio','Condominio',0,[ldLookup,ldComboBox], False)]
     property idCondominio: integer  read FidCondominio write FidCondominio;
 

@@ -4,7 +4,10 @@ inherited FTelaCadastroNaturezaJuridica: TFTelaCadastroNaturezaJuridica
   PixelsPerInch = 96
   TextHeight = 13
   inherited PageControl: TPageControl
+    ActivePage = Consulta
     inherited Consulta: TTabSheet
+      ExplicitLeft = 4
+      ExplicitTop = 24
       inherited Panel2: TPanel
         object GroupBox2: TGroupBox
           Left = 86
@@ -44,6 +47,8 @@ inherited FTelaCadastroNaturezaJuridica: TFTelaCadastroNaturezaJuridica
           ExplicitWidth = 767
           ExplicitHeight = 301
           inherited PanelEdits: TPanel
+            ExplicitLeft = 0
+            ExplicitTop = 0
             object LabelEditDescricao: TLabeledEdit
               Tag = 16
               Left = 16
@@ -66,6 +71,7 @@ inherited FTelaCadastroNaturezaJuridica: TFTelaCadastroNaturezaJuridica
               Font.Height = -11
               Font.Name = 'Tahoma'
               Font.Style = []
+              MaxLength = 250
               ParentFont = False
               TabOrder = 1
             end
@@ -91,6 +97,7 @@ inherited FTelaCadastroNaturezaJuridica: TFTelaCadastroNaturezaJuridica
               Font.Height = -11
               Font.Name = 'Tahoma'
               Font.Style = [fsBold]
+              MaxLength = 50
               ParentFont = False
               TabOrder = 0
             end

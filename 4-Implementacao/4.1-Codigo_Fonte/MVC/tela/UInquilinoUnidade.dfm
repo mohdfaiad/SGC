@@ -4,7 +4,16 @@ inherited FTelaCadastroInquilino: TFTelaCadastroInquilino
   PixelsPerInch = 96
   TextHeight = 13
   inherited PageControl: TPageControl
+    ActivePage = Consulta
+    inherited Consulta: TTabSheet
+      ExplicitLeft = 4
+      ExplicitTop = 24
+    end
     inherited DadosCadastrais: TTabSheet
+      ExplicitLeft = 4
+      ExplicitTop = 24
+      ExplicitWidth = 775
+      ExplicitHeight = 386
       inherited PanelBotoes: TPanel
         inherited BitBtnGrava: TBitBtn
           Left = 105
@@ -13,7 +22,13 @@ inherited FTelaCadastroInquilino: TFTelaCadastroInquilino
       end
       inherited PageControlEdit: TPageControl
         inherited DadosPrincipais: TTabSheet
+          ExplicitLeft = 4
+          ExplicitTop = 24
+          ExplicitWidth = 767
+          ExplicitHeight = 301
           inherited PanelEdits: TPanel
+            ExplicitLeft = 0
+            ExplicitTop = 0
             object Label1: TLabel
               Left = 446
               Top = 24
@@ -61,6 +76,7 @@ inherited FTelaCadastroInquilino: TFTelaCadastroInquilino
               Font.Height = -11
               Font.Name = 'Tahoma'
               Font.Style = []
+              NumbersOnly = True
               ParentFont = False
               ReadOnly = True
               TabOrder = 0
@@ -90,6 +106,7 @@ inherited FTelaCadastroInquilino: TFTelaCadastroInquilino
               ParentFont = False
               TabOrder = 2
               Text = '  /  /    '
+              OnExit = MaskEditDtInicioExit
             end
           end
         end

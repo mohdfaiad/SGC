@@ -6,7 +6,7 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, UtelaCadastro, Vcl.ComCtrls,
   Vcl.StdCtrls, Vcl.Mask, Vcl.Buttons, Vcl.ExtCtrls, Vcl.Grids, Vcl.DBGrids,  UGenericVO, Generics.Collections,
-  UInquilinoUnidadeController,  UPessoa, UPessoasVO,  UUnidadeVO, UPessoasController,
+  UInquilinoUnidadeController,  UPessoa, UPessoasVO,  UUnidadeVO, UPessoasController, Biblioteca,
   UInquilinoUnidadeVO;
 
 type
@@ -25,6 +25,7 @@ type
     procedure DoConsultar; override;
     procedure BitBtnNovoClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure MaskEditDtInicioExit(Sender: TObject);
 
   private
     { Private declarations }
@@ -71,7 +72,7 @@ var
   filtro: string;
 begin
   filtro := MontaFiltro;
-  listaInquilinoUnidade := ControllerInquilinoUnidade.Consultar(filtro);
+  listaInquilinoUnidade := ControllerInquilinoUnidade.Consultar(filtro, 'ORDER BY DTINICIO DESC');
   PopulaGrid<TInquilinoUnidadeVO>(listaInquilinoUnidade);
 end;
 
@@ -183,6 +184,11 @@ begin
     LabelNome.Caption := InquilinoUnidade.PessoaVo.nome;
     MaskEditDtInicio.Text := DateTimeToStr(InquilinoUnidade.DtInicio);
   end;
+end;
+
+procedure TFTelaCadastroInquilino.MaskEditDtInicioExit(Sender: TObject);
+begin
+   EventoValidaData(sender);
 end;
 
 function TFTelaCadastroInquilino.MontaFiltro: string;

@@ -6,7 +6,7 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, UtelaCadastro, Vcl.StdCtrls,
   Vcl.ComCtrls, Vcl.Mask, Vcl.Buttons, Vcl.ExtCtrls, Vcl.Grids, Vcl.DBGrids, UPrecoGasVO,
-  Generics.Collections, UPrecoGasController,  UPessoa,  UPessoasVO, UPessoasController;
+  Generics.Collections, UPrecoGasController,  UPessoa,  UPessoasVO, UPessoasController, Biblioteca;
 
 type
   TFTelaCadastroPrecoGas = class(TFTelaCadastro)
@@ -18,6 +18,8 @@ type
     LabeledEditPessoa: TEdit;
     LabeledEditNomePessoa: TEdit;
     BitBtn3: TBitBtn;
+    GroupBox3: TGroupBox;
+    RadioButton1: TRadioButton;
     procedure FormCreate(Sender: TObject);
     function DoSalvar: boolean; override;
     function MontaFiltro: string;
@@ -29,6 +31,8 @@ type
     procedure BitBtn3Click(Sender: TObject);
     procedure LabeledEditPessoaExit(Sender: TObject);
     procedure CarregaObjetoSelecionado; override;
+    procedure EdtValorKeyPress(Sender: TObject; var Key: Char);
+    procedure MaskEditDtInicioExit(Sender: TObject);
   private
     { Private declarations }
   public
@@ -88,7 +92,7 @@ var
   filtro: string;
 begin
   filtro := MontaFiltro;
-  listaPrecoGas := ControllerPrecoGas.Consultar(filtro);
+  listaPrecoGas := ControllerPrecoGas.Consultar(filtro, 'ORDER BY DTMESANO DESC');
   PopulaGrid<TPrecoGasVo>(listaPrecoGas);
 end;
 
@@ -155,12 +159,18 @@ function TFTelaCadastroPrecoGas.EditsToObject(PrecoGas: TPrecoGasVO): TPrecoGasV
 begin
   if EdtValor.Text <> '' then
     PrecoGas.vlGas := StrToFloat(EdtValor.Text);
-  if MaskEditDtInicio.Text <> '' then
+  if MaskEditDtInicio.Text <> '  /  /    ' then
     PrecoGas.dtMesAno := StrToDateTime(MaskEditDtInicio.Text);
   if (LabeledEditPessoa.Text <> '') then
     PrecoGas.idPessoa := strtoint(LabeledEditPessoa.Text);
 
   Result := PrecoGas;
+end;
+
+procedure TFTelaCadastroPrecoGas.EdtValorKeyPress(Sender: TObject;
+  var Key: Char);
+begin
+  EventoFormataCurrency(Sender,key);
 end;
 
 procedure TFTelaCadastroPrecoGas.FormClose(Sender: TObject;
@@ -175,6 +185,7 @@ procedure TFTelaCadastroPrecoGas.FormCreate(Sender: TObject);
 begin
   ClasseObjetoGridVO := TPrecoGasVO;
   ControllerPrecoGas := TPrecoGasController.Create;
+  RadioButton1.Checked := true;
   inherited;
 end;
 
@@ -219,9 +230,21 @@ begin
   end;
 end;
 
+procedure TFTelaCadastroPrecoGas.MaskEditDtInicioExit(Sender: TObject);
+begin
+  EventoValidaData(sender);
+end;
+
 function TFTelaCadastroPrecoGas.MontaFiltro: string;
 begin
-    result := '';
+    if (RadioButton1.Checked = true) then
+  begin
+    if (editBusca.Text <> '') then
+    begin
+      Result :=  '( UPPER(NOME) LIKE ' +
+        QuotedStr('%' + UpperCase(editBusca.Text) + '%') + ') ';
+    end;
+  end;
 end;
 
 end.

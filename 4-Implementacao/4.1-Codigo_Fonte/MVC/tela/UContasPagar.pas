@@ -8,7 +8,7 @@ uses
   Vcl.StdCtrls, Vcl.ExtCtrls, Vcl.ComCtrls, Vcl.Mask, Vcl.Grids, Vcl.DBGrids, UContasPagarVO,
   UContasPagarController, Generics.Collections, UEmpresaTrab, UPessoa, UPessoasVO,
   UPlanoContas, UPlanoContasVO,UPlanoContasController, UHistoricoController, UPessoasController,UGenericVO, UHistoricoVO, UHistorico,
-  Vcl.Menus;
+  Vcl.Menus, biblioteca;
 
 type
   TFTelaCadastroContasPagar = class(TFTelaCadastro)
@@ -102,6 +102,20 @@ type
   //  procedure EditBxValorExit(Sender: TObject);
     procedure Edit1Exit(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure MaskEdit3Exit(Sender: TObject);
+    procedure MaskEditBxEditExit(Sender: TObject);
+    procedure MaskEditCompExit(Sender: TObject);
+    procedure MaskEditEmissaoExit(Sender: TObject);
+    procedure MaskEditVencExit(Sender: TObject);
+    procedure Edit2KeyPress(Sender: TObject; var Key: Char);
+    procedure Edit1KeyPress(Sender: TObject; var Key: Char);
+    procedure EditBxValorKeyPress(Sender: TObject; var Key: Char);
+    procedure EditBxJurosKeyPress(Sender: TObject; var Key: Char);
+    procedure EditBxMultaKeyPress(Sender: TObject; var Key: Char);
+    procedure EditBxDescKeyPress(Sender: TObject; var Key: Char);
+    procedure EditValorKeyPress(Sender: TObject; var Key: Char);
+    procedure MaskEdit1Exit(Sender: TObject);
+    procedure MaskEdit2Exit(Sender: TObject);
 
 
 
@@ -483,6 +497,18 @@ begin
   end;
 end;
 
+procedure TFTelaCadastroContasPagar.Edit1KeyPress(Sender: TObject;
+  var Key: Char);
+begin
+  EventoFormataCurrency(Sender,key);
+end;
+
+procedure TFTelaCadastroContasPagar.Edit2KeyPress(Sender: TObject;
+  var Key: Char);
+begin
+  EventoFormataCurrency(Sender,key);
+end;
+
 procedure TFTelaCadastroContasPagar.EditBxContaExit(Sender: TObject);
 var
   PlanoController:TPlanoContasController;
@@ -501,6 +527,12 @@ begin
   end
   else
     EditBxDsConta.Text := '';
+end;
+
+procedure TFTelaCadastroContasPagar.EditBxDescKeyPress(Sender: TObject;
+  var Key: Char);
+begin
+  EventoFormataCurrency(Sender,key);
 end;
 
 procedure TFTelaCadastroContasPagar.EditBxHistExit(Sender: TObject);
@@ -523,6 +555,24 @@ begin
   begin
     EditBxDsHist.Text := '';
   end;
+end;
+
+procedure TFTelaCadastroContasPagar.EditBxJurosKeyPress(Sender: TObject;
+  var Key: Char);
+begin
+  EventoFormataCurrency(Sender,key);
+end;
+
+procedure TFTelaCadastroContasPagar.EditBxMultaKeyPress(Sender: TObject;
+  var Key: Char);
+begin
+  EventoFormataCurrency(Sender,key);
+end;
+
+procedure TFTelaCadastroContasPagar.EditBxValorKeyPress(Sender: TObject;
+  var Key: Char);
+begin
+  EventoFormataCurrency(Sender,key);
 end;
 
 function TFTelaCadastroContasPagar.EditsToObject(
@@ -574,6 +624,12 @@ begin
     ContasPagar.IdContraPartida :=0;
 
   Result := ContasPagar;
+end;
+
+procedure TFTelaCadastroContasPagar.EditValorKeyPress(Sender: TObject;
+  var Key: Char);
+begin
+  EventoFormataCurrency(Sender,key);
 end;
 
 procedure TFTelaCadastroContasPagar.FormClose(Sender: TObject;
@@ -742,6 +798,43 @@ begin
     labeledEditDsConta.Enabled := true;
     BtnConta.Enabled := true;
   end;
+end;
+
+procedure TFTelaCadastroContasPagar.MaskEdit1Exit(Sender: TObject);
+begin
+  EventoValidaData(sender);
+end;
+
+procedure TFTelaCadastroContasPagar.MaskEdit2Exit(Sender: TObject);
+begin
+  EventoValidaData(sender);
+end;
+
+procedure TFTelaCadastroContasPagar.MaskEdit3Exit(Sender: TObject);
+begin
+  EventoValidaData(sender);
+end;
+
+procedure TFTelaCadastroContasPagar.MaskEditBxEditExit(Sender: TObject);
+begin
+  EventoValidaData(sender);
+end;
+
+procedure TFTelaCadastroContasPagar.MaskEditCompExit(Sender: TObject);
+begin
+  EventoValidaData(sender);
+end;
+
+procedure TFTelaCadastroContasPagar.MaskEditEmissaoExit(Sender: TObject);
+begin
+  EventoValidaData(sender);
+
+end;
+
+procedure TFTelaCadastroContasPagar.MaskEditVencExit(Sender: TObject);
+begin
+  EventoValidaData(sender);
+
 end;
 
 function TFTelaCadastroContasPagar.MontaFiltro: string;

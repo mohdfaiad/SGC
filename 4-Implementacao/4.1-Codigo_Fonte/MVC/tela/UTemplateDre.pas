@@ -54,7 +54,7 @@ var
 procedure TFTelaCadastroTemplateDre.BitBtnNovoClick(Sender: TObject);
 begin
   inherited;
-  LabelEditCodigo.SetFocus;
+//  LabelEditCodigo.SetFocus;
 end;
 
 procedure TFTelaCadastroTemplateDre.BtnBxContaClick(Sender: TObject);

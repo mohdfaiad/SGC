@@ -3,7 +3,7 @@ unit ConexaoBD;
 interface
 
 uses Classes, SQLExpr, WideStrings, DB, SysUtils, DBXFirebird,
-  IWSystem, Inifiles;
+  IWSystem, Inifiles, Data.DBXCommon;
 
 type
 
@@ -11,6 +11,7 @@ type
   private
     class var Banco: String;
     class var Conexao: TSQLConnection;
+    class var Transacao: TDBXTransaction;
     class procedure ConfigurarConexao(var pConexao: TSQLConnection;
       pBD: String);
   public
@@ -18,6 +19,9 @@ type
     class procedure Desconectar;
     class function getConexao: TSQLConnection;
     class function getBanco: String;
+    class procedure IniciaTransacao;
+    class procedure ComitaTransacao;
+    class procedure RollBackTransacao;
   end;
 
 implementation
@@ -45,6 +49,21 @@ end;
 class function TDBExpress.getConexao: TSQLConnection;
 begin
   Result := Conexao;
+end;
+
+class procedure TDBExpress.ComitaTransacao;
+begin
+  Conexao.CommitFreeAndNil(Transacao);
+end;
+
+class procedure TDBExpress.IniciaTransacao;
+begin
+  Transacao:= Conexao.BeginTransaction;
+end;
+
+class procedure TDBExpress.RollBackTransacao;
+begin
+  Conexao.RollbackIncompleteFreeAndNil(Transacao);
 end;
 
 class procedure TDBExpress.ConfigurarConexao(var pConexao: TSQLConnection;

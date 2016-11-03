@@ -5,7 +5,8 @@ interface
 uses
   Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs, Windows,
   Dbtables, Inifiles, DBClient, DB, SqlExpr, DBXMySql, Grids, DBGrids,
-  IdHashMessageDigest, Constantes, Math, Rtti, TypInfo,Atributos, StrUtils,UGenericVO;
+  IdHashMessageDigest, Constantes, Math, Rtti, TypInfo,Atributos, StrUtils,UGenericVO,
+  Vcl.StdCtrls, Vcl.Mask;
 
 //Function ValidaCNPJ(xCNPJ: String): Boolean;
 //Function ValidaCPF(xCPF: String): Boolean;
@@ -20,11 +21,42 @@ function ExtraiCamposFiltro(pFiltro: String): TStringList;
 function VerificaInteiro(Value: String): Boolean;
 function MascaraCnpjCpf(Str: String): String;
 function FormatFloatComPonto(const value:extended):string;
+procedure EventoFormataCurrency(Sender: TObject; var Key: Char);
+procedure EventoValidaData(Sender:TObject);
 
 var
   InString: String;
 
 implementation
+
+
+procedure EventoFormataCurrency(Sender: TObject; var Key: Char);
+begin
+  if not (Key in [#8, '0'..'9', '-', FormatSettings.DecimalSeparator]) then
+    Key := #0
+  else if ((Key = FormatSettings.DecimalSeparator) or (Key = '-')) and
+          (Pos(Key, (Sender as TEdit).Text) > 0) then
+    Key := #0
+  else if ((Key = '-') and ((Sender as TEdit).SelStart <> 0)) then
+    Key := #0
+end;
+
+procedure EventoValidaData(Sender:TObject);
+var valorDigitado:String;
+begin
+  valorDigitado:=(Sender as TMaskEdit).Text;
+  if(valordigitado.Replace('/','').Trim()<>'')then
+  begin
+    try
+      StrToDate(valorDigitado);
+      except
+      begin
+        showmessage('Data inválida');
+        (Sender as TMaskEdit).Text:='';
+      end;
+    end;
+  end;
+end;
 
 function FormatFloatComPonto(const value:extended):string;
 var myformatsettings:TformatSettings;

@@ -20,7 +20,7 @@ type
     [TId('idprecogas')]
     [TGeneratedValue(sAuto)]
     property idPrecoGas: Integer  read FidPrecoGas write FidPrecoGas;
-    [TColumn('dtMesAno','Data Inicio',0,[ldLookup,ldComboBox], False)]
+    [TColumn('dtMesAno','Data Inicio',20,[ldGrid,ldLookup,ldComboBox], False)]
     property dtMesAno: TDateTime  read FdtMesAno write FdtMesAno;
 
     [TColumn('idPessoa','Pessoa',0,[ldLookup,ldComboBox], False)]
@@ -41,7 +41,7 @@ implementation
 
 Procedure TPrecoGasVO.ValidarCamposObrigatorios;
 begin
-  if (Self.FvlGas = 0) then
+  if (Self.FvlGas <= 0) then
     raise Exception.Create('O campo Valor do Gás é obrigatório!')
   else if (self.FdtMesAno = 0) then
     raise Exception.Create('O campo data é obrigatório!')

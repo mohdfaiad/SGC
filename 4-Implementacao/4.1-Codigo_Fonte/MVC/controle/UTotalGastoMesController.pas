@@ -31,9 +31,16 @@ begin
 end;
 
 procedure TTotalGastoMesController.ValidarDados(Objeto: TTotalGastoMesVO);
+var
+  query, data, idTotalGastoMes : string;
+  listaTotalGastoMes :TObjectList<TTotalGastoMesVO>;
 begin
-  inherited;
-
+    data := DateToStr(Objeto.dtMesAno);
+    idTotalGastoMes := IntToStr(Objeto.idTotalGastoMes);
+    Query :=  ' dtMesAno = ' +QuotedStr(Data) + 'and idTotalGastoMes <> '+QuotedStr(idTotalGastoMes);
+    listaTotalGastoMes := self.Consultar(query);
+    if (listaTotalGastoMes.Count > 0) then
+      raise Exception.Create('Ja existe Total Gasto Mês informado nessa data');
 end;
 
 begin

@@ -43,9 +43,16 @@ begin
 end;
 
 procedure TUsuarioController.ValidarDados(Objeto: TUsuarioVO);
+var
+  query, data, Pessoa, idUsuario : string;
+  listaUsuario :TObjectList<TUsuarioVO>;
 begin
-  inherited;
-
+    Pessoa := intToStr(Objeto.idPessoa);
+   // idusuario := IntToStr(Objeto.idUsuario);
+    Query :=  ' usuario.idPessoa = ' +QuotedStr(Pessoa) + ' and idusuario <> '+ (IntTOStr(Objeto.idUsuario));
+    listaUsuario := self.Consultar(query);
+    if (listaUsuario.Count > 0) then
+      raise Exception.Create('Ja existe Pessoa com usuário e senha cadastrada');
 end;
 
 begin

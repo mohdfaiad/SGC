@@ -7,12 +7,12 @@ inherited FTelaCadastroPlano: TFTelaCadastroPlano
   TextHeight = 13
   inherited PageControl: TPageControl
     Width = 797
+    ActivePage = Consulta
     ExplicitWidth = 797
     inherited Consulta: TTabSheet
-      ExplicitLeft = 0
-      ExplicitTop = 0
+      ExplicitLeft = 4
+      ExplicitTop = 24
       ExplicitWidth = 789
-      ExplicitHeight = 0
       inherited Grid: TDBGrid
         Width = 789
       end
@@ -60,7 +60,10 @@ inherited FTelaCadastroPlano: TFTelaCadastroPlano
       end
     end
     inherited DadosCadastrais: TTabSheet
+      ExplicitLeft = 4
+      ExplicitTop = 24
       ExplicitWidth = 789
+      ExplicitHeight = 386
       inherited PanelBotoes: TPanel
         Width = 789
         ExplicitWidth = 789
@@ -69,9 +72,14 @@ inherited FTelaCadastroPlano: TFTelaCadastroPlano
         Width = 789
         ExplicitWidth = 789
         inherited DadosPrincipais: TTabSheet
+          ExplicitLeft = 4
+          ExplicitTop = 24
           ExplicitWidth = 781
+          ExplicitHeight = 301
           inherited PanelEdits: TPanel
             Width = 781
+            ExplicitLeft = 0
+            ExplicitTop = 0
             ExplicitWidth = 781
             object Telefone_1: TLabel
               Left = 18
@@ -100,7 +108,7 @@ inherited FTelaCadastroPlano: TFTelaCadastroPlano
               ParentFont = False
             end
             object Label2: TLabel
-              Left = 91
+              Left = 18
               Top = 25
               Width = 55
               Height = 13
@@ -114,8 +122,8 @@ inherited FTelaCadastroPlano: TFTelaCadastroPlano
             end
             object LabelEditCodigo: TLabeledEdit
               Tag = 16
-              Left = 18
-              Top = 40
+              Left = 474
+              Top = 44
               Width = 67
               Height = 21
               CharCase = ecUpperCase
@@ -134,8 +142,10 @@ inherited FTelaCadastroPlano: TFTelaCadastroPlano
               Font.Height = -11
               Font.Name = 'Tahoma'
               Font.Style = []
+              NumbersOnly = True
               ParentFont = False
               TabOrder = 0
+              Visible = False
             end
             object EditClassificacao: TMaskEdit
               Tag = 1
@@ -161,9 +171,9 @@ inherited FTelaCadastroPlano: TFTelaCadastroPlano
               Width = 145
               Height = 21
               Style = csDropDownList
-              ItemIndex = 5
+              ItemIndex = 0
               TabOrder = 3
-              Text = 'O - Outras'
+              Text = 'S - Sint'#233'tica'
               Items.Strings = (
                 'S - Sint'#233'tica'
                 'B - Banco'
@@ -174,8 +184,8 @@ inherited FTelaCadastroPlano: TFTelaCadastroPlano
             end
             object LabelEditDescricao: TMaskEdit
               Tag = 1
-              Left = 91
-              Top = 40
+              Left = 18
+              Top = 44
               Width = 342
               Height = 21
               Color = clWhite
@@ -184,6 +194,7 @@ inherited FTelaCadastroPlano: TFTelaCadastroPlano
               Font.Height = -11
               Font.Name = 'Tahoma'
               Font.Style = []
+              MaxLength = 50
               ParentFont = False
               TabOrder = 1
               Text = ''
