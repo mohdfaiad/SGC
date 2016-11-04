@@ -519,8 +519,11 @@ begin
   try
     PlanoController := TPlanoContasController.Create;
     PlanoContasVO := PlanoController.ConsultarPorId(StrToInt(EditBxConta.Text));
-    EditBxDsConta.Text := PlanoContasVO.dsConta;
-    PlanoController.Free;
+    if PlanoContasVO.flTipo <> 'S' then
+    begin
+      EditBxDsConta.Text := PlanoContasVO.dsConta;
+      PlanoController.Free;
+    end;
   except
     raise Exception.Create('Código Inválido');
   end;
@@ -709,11 +712,14 @@ begin
   try
     PlanoController := TPlanoContasController.Create;
     PlanoContasVO := PlanoController.ConsultarPorId(StrToInt(LabeledEditConta.Text));
-    LabeledEditDsConta.Text := PlanoContasVO.dsConta;
-    PlanoController.Free;
-    LabeledEditPessoa.Enabled := false;
-    LabeledEditDsPessoa.Enabled := false;
-    BtnPessoa.Enabled := false;
+    if PlanoContasVO.flTipo <> 'S' then
+    begin
+      LabeledEditDsConta.Text := PlanoContasVO.dsConta;
+      PlanoController.Free;
+      LabeledEditPessoa.Enabled := false;
+      LabeledEditDsPessoa.Enabled := false;
+      BtnPessoa.Enabled := false;
+    end;
   except
     raise Exception.Create('Código Inválido');
   end;
@@ -736,8 +742,11 @@ begin
   try
     PlanoController := TPlanoContasController.Create;
     PlanoContasVO := PlanoController.ConsultarPorId(StrToInt(LabeledEditContraP.Text));
-    LabeledEditDsContra.Text := PlanoContasVO.dsConta;
-    PlanoController.Free;
+    if PlanoContasVO.flTipo <> 'S' then
+    begin
+      LabeledEditDsContra.Text := PlanoContasVO.dsConta;
+      PlanoController.Free;
+    end;
   except
     raise Exception.Create('Código Inválido');
   end;

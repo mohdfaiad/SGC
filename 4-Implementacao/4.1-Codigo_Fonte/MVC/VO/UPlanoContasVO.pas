@@ -24,6 +24,7 @@ type
     PessoaVO : TPessoasVO;
 
 
+
     [TId('idPlanoContas')]
     [TGeneratedValue(sAuto)]
     property idPlanoContas : Integer  read FidPlanoContas write FidPlanoContas;

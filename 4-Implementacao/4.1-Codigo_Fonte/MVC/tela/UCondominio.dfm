@@ -127,7 +127,6 @@ inherited FTelaCadastroCondominio: TFTelaCadastroCondominio
       inherited PageControlEdit: TPageControl
         Width = 783
         Height = 451
-        ActivePage = TabSheet1
         ExplicitWidth = 783
         ExplicitHeight = 451
         inherited DadosPrincipais: TTabSheet

@@ -42,6 +42,7 @@ type
     procedure CarregaObjetoSelecionado; override;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure EditAreaTotalKeyPress(Sender: TObject; var Key: Char);
+    procedure EditFracaoIdealKeyPress(Sender: TObject; var Key: Char);
 
 
   private
@@ -213,6 +214,12 @@ end;
 end;
 
 procedure TFTelaCadastroUnidade.EditAreaTotalKeyPress(Sender: TObject;
+  var Key: Char);
+begin
+  EventoFormataCurrency(Sender,key);
+end;
+
+procedure TFTelaCadastroUnidade.EditFracaoIdealKeyPress(Sender: TObject;
   var Key: Char);
 begin
   EventoFormataCurrency(Sender,key);

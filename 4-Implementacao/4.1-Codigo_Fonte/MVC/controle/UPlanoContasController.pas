@@ -74,10 +74,6 @@ begin
     if(objetosRetorno.Count<=0)then
       raise Exception.Create('A conta informada não possui conta sintética a ser referenciada!');
   end;
-
-
-
-
 end;
 
 end.

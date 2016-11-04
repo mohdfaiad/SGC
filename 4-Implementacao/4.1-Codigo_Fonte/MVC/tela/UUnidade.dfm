@@ -10,7 +10,6 @@ inherited FTelaCadastroUnidade: TFTelaCadastroUnidade
   inherited PageControl: TPageControl
     Width = 793
     Height = 478
-    ActivePage = Consulta
     ExplicitWidth = 793
     ExplicitHeight = 478
     inherited Consulta: TTabSheet
@@ -206,6 +205,7 @@ inherited FTelaCadastroUnidade: TFTelaCadastroUnidade
               Font.Style = []
               ParentFont = False
               TabOrder = 3
+              OnKeyPress = EditFracaoIdealKeyPress
             end
             object EditQtdGas: TEdit
               Left = 240

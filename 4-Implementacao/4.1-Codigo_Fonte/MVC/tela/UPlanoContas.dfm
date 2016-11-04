@@ -7,7 +7,6 @@ inherited FTelaCadastroPlano: TFTelaCadastroPlano
   TextHeight = 13
   inherited PageControl: TPageControl
     Width = 797
-    ActivePage = Consulta
     ExplicitWidth = 797
     inherited Consulta: TTabSheet
       ExplicitLeft = 4
@@ -180,7 +179,12 @@ inherited FTelaCadastroPlano: TFTelaCadastroPlano
                 'C - Caixa'
                 'R - Receitas'
                 'D - Despesas'
-                'O - Outras')
+                'O - Outras'
+                'U - Unidade'
+                'F - Fornecedor'
+                'L - Cliente'
+                ''
+                '')
             end
             object LabelEditDescricao: TMaskEdit
               Tag = 1

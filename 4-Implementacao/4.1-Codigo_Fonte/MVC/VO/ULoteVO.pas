@@ -32,7 +32,7 @@ type
     [TColumn('nrLote','Lote',50,[ldGrid,ldLookup,ldComboBox], False)]
     property nrLote: String  read FnrLote write FnrLote;
 
-    [TColumn('dsLote','Descrição',400,[ldGrid,ldLookup,ldComboBox], False)]
+    [TColumn('dsLote','Descrição',600,[ldGrid,ldLookup,ldComboBox], False)]
     property dsLote: string  read FdsLote write FdsLote;
 
     [TColumn('idCondominio','Condominio',0,[ldLookup,ldComboBox], False)]

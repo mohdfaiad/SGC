@@ -183,6 +183,10 @@ begin
       PlanoContas.flTipo :='O';
     if ComboboxTipo.ItemIndex = 6 then
       PlanoContas.flTipo :='U';
+    if ComboboxTipo.ItemIndex = 7 then
+      PlanoContas.flTipo :='F';
+    if ComboboxTipo.ItemIndex = 8 then
+      PlanoContas.flTipo := 'L'
   end;
 
   Result := PlanoContas;
@@ -233,7 +237,12 @@ begin
       else if PlanoContas.flTipo = 'O' then
         ComboboxTipo.ItemIndex := 5
       else if PlanoContas.flTipo = 'U' then
-        ComboboxTipo.ItemIndex := 6;
+        ComboboxTipo.ItemIndex := 6
+      else if PlanoContas.flTipo = 'F' then
+        ComboboxTipo.ItemIndex := 7
+      else if PlanoContas.flTipo = 'L' then
+        ComboboxTipo.ItemIndex := 8
+
      // ComboBoxTipo.ItemIndex:= Integer(Comboboxtipo.items.indexof(planocontas.flTipo));
     end;
   end;

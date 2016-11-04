@@ -10,7 +10,6 @@ inherited FTelaCadastroContasPagar: TFTelaCadastroContasPagar
   inherited PageControl: TPageControl
     Width = 887
     Height = 497
-    ActivePage = Consulta
     ExplicitWidth = 887
     ExplicitHeight = 497
     inherited Consulta: TTabSheet
