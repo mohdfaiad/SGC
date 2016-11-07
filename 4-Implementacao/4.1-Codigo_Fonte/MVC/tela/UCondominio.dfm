@@ -127,6 +127,7 @@ inherited FTelaCadastroCondominio: TFTelaCadastroCondominio
       inherited PageControlEdit: TPageControl
         Width = 783
         Height = 451
+        ActivePage = TabSheet1
         ExplicitWidth = 783
         ExplicitHeight = 451
         inherited DadosPrincipais: TTabSheet
@@ -814,6 +815,248 @@ inherited FTelaCadastroCondominio: TFTelaCadastroCondominio
                 NumbersOnly = True
                 TabOrder = 0
                 Visible = False
+              end
+            end
+            object GroupBox5: TGroupBox
+              Left = 13
+              Top = 89
+              Width = 720
+              Height = 312
+              Caption = 'Par'#226'metros de Lan'#231'amentos '
+              TabOrder = 2
+              object Label4: TLabel
+                Left = 13
+                Top = 25
+                Width = 58
+                Height = 13
+                Caption = 'Juros Pagos'
+                Font.Charset = DEFAULT_CHARSET
+                Font.Color = clWindowText
+                Font.Height = -11
+                Font.Name = 'Tahoma'
+                Font.Style = []
+                ParentFont = False
+              end
+              object Label5: TLabel
+                Left = 13
+                Top = 121
+                Width = 63
+                Height = 13
+                Caption = 'Multas Pagas'
+                Font.Charset = DEFAULT_CHARSET
+                Font.Color = clWindowText
+                Font.Height = -11
+                Font.Name = 'Tahoma'
+                Font.Style = []
+                ParentFont = False
+              end
+              object Label6: TLabel
+                Left = 14
+                Top = 218
+                Width = 108
+                Height = 13
+                Caption = 'Descontos Concedidos'
+                Font.Charset = DEFAULT_CHARSET
+                Font.Color = clWindowText
+                Font.Height = -11
+                Font.Name = 'Tahoma'
+                Font.Style = []
+                ParentFont = False
+              end
+              object Label7: TLabel
+                Left = 14
+                Top = 269
+                Width = 90
+                Height = 13
+                Caption = 'Descontos Obtidos'
+                Font.Charset = DEFAULT_CHARSET
+                Font.Color = clWindowText
+                Font.Height = -11
+                Font.Name = 'Tahoma'
+                Font.Style = []
+                ParentFont = False
+              end
+              object Label8: TLabel
+                Left = 14
+                Top = 75
+                Width = 78
+                Height = 13
+                Caption = 'Juros Recebidos'
+                Font.Charset = DEFAULT_CHARSET
+                Font.Color = clWindowText
+                Font.Height = -11
+                Font.Name = 'Tahoma'
+                Font.Style = []
+                ParentFont = False
+              end
+              object Label9: TLabel
+                Left = 13
+                Top = 167
+                Width = 83
+                Height = 13
+                Caption = 'Multas Recebidas'
+                Font.Charset = DEFAULT_CHARSET
+                Font.Color = clWindowText
+                Font.Height = -11
+                Font.Name = 'Tahoma'
+                Font.Style = []
+                ParentFont = False
+              end
+              object Juros: TEdit
+                Left = 13
+                Top = 44
+                Width = 89
+                Height = 21
+                TabOrder = 0
+                OnExit = JurosExit
+              end
+              object Edit5: TEdit
+                Left = 332
+                Top = 44
+                Width = 338
+                Height = 21
+                ReadOnly = True
+                TabOrder = 1
+                Visible = False
+              end
+              object BitBtn3: TBitBtn
+                Left = 109
+                Top = 40
+                Width = 33
+                Height = 25
+                Caption = 'P'
+                TabOrder = 2
+                OnClick = BitBtn3Click
+              end
+              object Multa: TEdit
+                Left = 13
+                Top = 140
+                Width = 89
+                Height = 21
+                TabOrder = 3
+                OnExit = MultaExit
+              end
+              object Edit7: TEdit
+                Left = 332
+                Top = 140
+                Width = 338
+                Height = 21
+                ReadOnly = True
+                TabOrder = 4
+                Visible = False
+              end
+              object BitBtn5: TBitBtn
+                Left = 109
+                Top = 136
+                Width = 33
+                Height = 25
+                Caption = 'P'
+                TabOrder = 5
+                OnClick = BitBtn5Click
+              end
+              object DescConc: TEdit
+                Left = 14
+                Top = 237
+                Width = 89
+                Height = 21
+                TabOrder = 6
+                OnExit = DescConcExit
+              end
+              object Edit9: TEdit
+                Left = 333
+                Top = 237
+                Width = 338
+                Height = 21
+                ReadOnly = True
+                TabOrder = 7
+                Visible = False
+              end
+              object BitBtn6: TBitBtn
+                Left = 110
+                Top = 233
+                Width = 33
+                Height = 25
+                Caption = 'P'
+                TabOrder = 8
+                OnClick = BitBtn6Click
+              end
+              object DescObt: TEdit
+                Left = 14
+                Top = 288
+                Width = 89
+                Height = 21
+                TabOrder = 9
+                OnExit = DescObtExit
+              end
+              object Edit11: TEdit
+                Left = 333
+                Top = 288
+                Width = 338
+                Height = 21
+                ReadOnly = True
+                TabOrder = 10
+                Visible = False
+              end
+              object BitBtn7: TBitBtn
+                Left = 110
+                Top = 284
+                Width = 33
+                Height = 25
+                Caption = 'P'
+                TabOrder = 11
+                OnClick = BitBtn7Click
+              end
+              object JurosRec: TEdit
+                Left = 14
+                Top = 94
+                Width = 89
+                Height = 21
+                TabOrder = 12
+                OnExit = JurosRecExit
+              end
+              object Edit6: TEdit
+                Left = 333
+                Top = 92
+                Width = 338
+                Height = 21
+                ReadOnly = True
+                TabOrder = 13
+                Visible = False
+              end
+              object BitBtn8: TBitBtn
+                Left = 109
+                Top = 90
+                Width = 33
+                Height = 25
+                Caption = 'P'
+                TabOrder = 14
+                OnClick = BitBtn8Click
+              end
+              object MultaRec: TEdit
+                Left = 13
+                Top = 186
+                Width = 89
+                Height = 21
+                TabOrder = 15
+                OnExit = MultaRecExit
+              end
+              object Edit8: TEdit
+                Left = 332
+                Top = 186
+                Width = 338
+                Height = 21
+                ReadOnly = True
+                TabOrder = 16
+                Visible = False
+              end
+              object BitBtn9: TBitBtn
+                Left = 109
+                Top = 182
+                Width = 33
+                Height = 25
+                Caption = 'P'
+                TabOrder = 17
+                OnClick = BitBtn9Click
               end
             end
           end

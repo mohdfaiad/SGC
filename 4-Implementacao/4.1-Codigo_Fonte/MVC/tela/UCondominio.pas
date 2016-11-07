@@ -9,7 +9,8 @@ uses
   Vcl.StdCtrls, Vcl.Mask, Vcl.Buttons, Vcl.ExtCtrls, Vcl.Grids, Vcl.DBGrids,
   UCnaeVO, UCnae, UCidade, UEstado, UPais, UCidadeVO, UEstadoVO, UPaisVO,
   UNaturezaJuridicaVO, UNaturezaJuridica, UCondominioVO, Generics.Collections,
-  UCondominioController, UContador, UResponsavel, UPrecoGas, UPrecoGasController, UPrecoGasVO, Biblioteca;
+  UCondominioController, UContador, UResponsavel, UPrecoGas, UPrecoGasController, UPrecoGasVO, Biblioteca,
+  UPlanoContasController, UPlanoContasVO;
 
 type
   TFTelaCadastroCondominio = class(TFTelaCadastro)
@@ -65,6 +66,31 @@ type
     Edit2: TEdit;
     GroupBox4: TGroupBox;
     Edit3: TEdit;
+    GroupBox5: TGroupBox;
+    Label4: TLabel;
+    Juros: TEdit;
+    Edit5: TEdit;
+    BitBtn3: TBitBtn;
+    Label5: TLabel;
+    Multa: TEdit;
+    Edit7: TEdit;
+    BitBtn5: TBitBtn;
+    Label6: TLabel;
+    DescConc: TEdit;
+    Edit9: TEdit;
+    BitBtn6: TBitBtn;
+    Label7: TLabel;
+    DescObt: TEdit;
+    Edit11: TEdit;
+    BitBtn7: TBitBtn;
+    Label8: TLabel;
+    JurosRec: TEdit;
+    Edit6: TEdit;
+    BitBtn8: TBitBtn;
+    Label9: TLabel;
+    MultaRec: TEdit;
+    Edit8: TEdit;
+    BitBtn9: TBitBtn;
     procedure FormCreate(Sender: TObject);
     function DoSalvar: boolean; override;
 //    function ValidarTela: boolean;
@@ -82,6 +108,19 @@ type
     procedure BitBtn4Click(Sender: TObject);
     procedure Edit1Exit(Sender: TObject);
     procedure MaskEditDtInicioAtividadeExit(Sender: TObject);
+    procedure JurosExit(Sender: TObject);
+    procedure MultaExit(Sender: TObject);
+    procedure DescConcExit(Sender: TObject);
+    procedure DescObtExit(Sender: TObject);
+    procedure JurosRecExit(Sender: TObject);
+    procedure MultaRecExit(Sender: TObject);
+    procedure BitBtn3Click(Sender: TObject);
+    procedure BitBtn8Click(Sender: TObject);
+    procedure BitBtn5Click(Sender: TObject);
+    procedure BitBtn9Click(Sender: TObject);
+    procedure BitBtn6Click(Sender: TObject);
+    procedure BitBtn7Click(Sender: TObject);
+    procedure JurosChange(Sender: TObject);
 
   private
     { Private declarations }
@@ -98,6 +137,8 @@ var
 
 implementation
 
+uses UPlanoCOntas;
+
 {$R *.dfm}
 { TFTelaCadastroCondominio }
 
@@ -111,6 +152,26 @@ begin
   FormResponsavel.ShowModal;
 end;
 
+
+procedure TFTelaCadastroCondominio.BitBtn3Click(Sender: TObject);
+var
+  FormPlanoConsulta: TFTelaCadastroPlano;
+begin
+  FormPlanoConsulta := TFTelaCadastroPlano.Create(nil);
+  FormPlanoConsulta.FechaForm := true;
+  FormPlanoConsulta.ShowModal;
+  if (FormPlanoConsulta.ObjetoRetornoVO <> nil) then
+  begin
+    if TPlanoContasVO(FormPlanoConsulta.ObjetoRetornoVO).flTipo <> 'S' then
+    begin
+      Juros.Text := IntToStr(TPlanoContasVO(FormPlanoConsulta.ObjetoRetornoVO).idPlanoContas);
+      Edit5.Text := TPlanoContasVO(FormPlanoConsulta.ObjetoRetornoVO).dsConta;
+    end
+    else
+      ShowMessage('Conta Sintética');
+  end;
+  FormPlanoConsulta.Release;
+end;
 
 procedure TFTelaCadastroCondominio.BitBtn4Click(Sender: TObject);
 var
@@ -126,6 +187,106 @@ begin
   end;
   FormPrecoGas.Release;
 end;
+procedure TFTelaCadastroCondominio.BitBtn5Click(Sender: TObject);
+var
+  FormPlanoConsulta: TFTelaCadastroPlano;
+begin
+  FormPlanoConsulta := TFTelaCadastroPlano.Create(nil);
+  FormPlanoConsulta.FechaForm := true;
+  FormPlanoConsulta.ShowModal;
+  if (FormPlanoConsulta.ObjetoRetornoVO <> nil) then
+  begin
+    if TPlanoContasVO(FormPlanoConsulta.ObjetoRetornoVO).flTipo <> 'S' then
+    begin
+        Multa.Text := IntToStr(TPlanoContasVO(FormPlanoConsulta.ObjetoRetornoVO).idPlanoContas);
+        Edit7.Text := TPlanoContasVO(FormPlanoConsulta.ObjetoRetornoVO).dsConta;
+    end
+    Else
+      ShowMessage('Conta Sintética');
+  end;
+  FormPlanoConsulta.Release;
+end;
+
+procedure TFTelaCadastroCondominio.BitBtn6Click(Sender: TObject);
+var
+  FormPlanoConsulta: TFTelaCadastroPlano;
+begin
+  FormPlanoConsulta := TFTelaCadastroPlano.Create(nil);
+  FormPlanoConsulta.FechaForm := true;
+  FormPlanoConsulta.ShowModal;
+  if (FormPlanoConsulta.ObjetoRetornoVO <> nil) then
+  begin
+    if TPlanoContasVO(FormPlanoConsulta.ObjetoRetornoVO).flTipo <> 'S' then
+    begin
+     DescConc.Text := IntToStr(TPlanoContasVO(FormPlanoConsulta.ObjetoRetornoVO).idPlanoContas);
+     Edit9.Text := TPlanoContasVO(FormPlanoConsulta.ObjetoRetornoVO).dsConta;
+    end
+    Else
+      ShowMessage('Conta Sintética');
+  end;
+  FormPlanoConsulta.Release;
+end;
+
+procedure TFTelaCadastroCondominio.BitBtn7Click(Sender: TObject);
+var
+  FormPlanoConsulta: TFTelaCadastroPlano;
+begin
+  FormPlanoConsulta := TFTelaCadastroPlano.Create(nil);
+  FormPlanoConsulta.FechaForm := true;
+  FormPlanoConsulta.ShowModal;
+  if (FormPlanoConsulta.ObjetoRetornoVO <> nil) then
+  begin
+    if TPlanoContasVO(FormPlanoConsulta.ObjetoRetornoVO).flTipo <> 'S' then
+    begin
+      DescObt.Text := IntToStr(TPlanoContasVO(FormPlanoConsulta.ObjetoRetornoVO).idPlanoContas);
+      Edit11.Text := TPlanoContasVO(FormPlanoConsulta.ObjetoRetornoVO).dsConta;
+    end
+    Else
+      ShowMessage('Conta Sintética');
+  end;
+  FormPlanoConsulta.Release;
+end;
+
+procedure TFTelaCadastroCondominio.BitBtn8Click(Sender: TObject);
+var
+  FormPlanoConsulta: TFTelaCadastroPlano;
+begin
+  FormPlanoConsulta := TFTelaCadastroPlano.Create(nil);
+  FormPlanoConsulta.FechaForm := true;
+  FormPlanoConsulta.ShowModal;
+  if (FormPlanoConsulta.ObjetoRetornoVO <> nil) then
+  begin
+    if TPlanoContasVO(FormPlanoConsulta.ObjetoRetornoVO).flTipo <> 'S' then
+    begin
+      JurosRec.Text := IntToStr(TPlanoContasVO(FormPlanoConsulta.ObjetoRetornoVO).idPlanoContas);
+      Edit6.Text := TPlanoContasVO(FormPlanoConsulta.ObjetoRetornoVO).dsConta;
+    end
+    else
+      ShowMessage('Conta Sintética');
+  end;
+  FormPlanoConsulta.Release;
+end;
+
+procedure TFTelaCadastroCondominio.BitBtn9Click(Sender: TObject);
+var
+  FormPlanoConsulta: TFTelaCadastroPlano;
+begin
+  FormPlanoConsulta := TFTelaCadastroPlano.Create(nil);
+  FormPlanoConsulta.FechaForm := true;
+  FormPlanoConsulta.ShowModal;
+  if (FormPlanoConsulta.ObjetoRetornoVO <> nil) then
+  begin
+    if TPlanoContasVO(FormPlanoConsulta.ObjetoRetornoVO).flTipo <> 'S' then
+    begin
+      MultaRec.Text := IntToStr(TPlanoContasVO(FormPlanoConsulta.ObjetoRetornoVO).idPlanoContas);
+      Edit8.Text := TPlanoContasVO(FormPlanoConsulta.ObjetoRetornoVO).dsConta;
+    end
+    else
+      ShowMessage('Conta Sintética');
+  end;
+  FormPlanoConsulta.Release;
+end;
+
 procedure TFTelaCadastroCondominio.BitBtnNovoClick(Sender: TObject);
 begin
   inherited;
@@ -241,6 +402,52 @@ begin
   FormContador.ShowModal;
 end;
 
+procedure TFTelaCadastroCondominio.DescConcExit(Sender: TObject);
+var
+  PlanoController:TPlanoContasController;
+  PlanoContasVO: TPlanoContasVO;
+begin
+  if DescConc.Text <> '' then
+  begin
+  try
+    PlanoController := TPlanoContasController.Create;
+    PlanoContasVO := PlanoController.ConsultarPorId(StrToInt(DescConc.Text));
+    if PlanoContasVO.flTipo <> 'S' then
+    begin
+      edit9.Text := PlanoContasVO.dsConta;
+      PlanoController.Free;
+    end;
+  except
+    raise Exception.Create('Código Inválido');
+  end;
+  end
+  else
+    DescConc.Text := '';
+end;
+
+procedure TFTelaCadastroCondominio.DescObtExit(Sender: TObject);
+var
+  PlanoController:TPlanoContasController;
+  PlanoContasVO: TPlanoContasVO;
+begin
+  if DescObt.Text <> '' then
+  begin
+  try
+    PlanoController := TPlanoContasController.Create;
+    PlanoContasVO := PlanoController.ConsultarPorId(StrToInt(DescObt.Text));
+    if PlanoContasVO.flTipo <> 'S' then
+    begin
+      Edit11.Text := PlanoContasVO.dsConta;
+      PlanoController.Free;
+    end;
+  except
+    raise Exception.Create('Código Inválido');
+  end;
+  end
+  else
+    DescObt.Text := '';
+end;
+
 procedure TFTelaCadastroCondominio.DoConsultar;
 var
   listaCondominio: TObjectList<TCondominioVO>;
@@ -332,6 +539,79 @@ begin
 
 end;
 
+procedure TFTelaCadastroCondominio.JurosChange(Sender: TObject);
+var
+  PlanoController:TPlanoContasController;
+  PlanoContasVO: TPlanoContasVO;
+begin
+  if Juros.Text <> '' then
+  begin
+  try
+    PlanoController := TPlanoContasController.Create;
+    PlanoContasVO := PlanoController.ConsultarPorId(StrToInt(Juros.Text));
+    if PlanoContasVO.flTipo <> 'S' then
+    begin
+      Edit5.Text := PlanoContasVO.dsConta;
+      PlanoController.Free;
+    end
+    else
+      ShowMessage('Conta Sintética');
+  except
+    raise Exception.Create('Código Inválido');
+  end;
+  end
+  else
+    Juros.Text := '';
+end;
+
+procedure TFTelaCadastroCondominio.JurosExit(Sender: TObject);
+var
+  PlanoController:TPlanoContasController;
+  PlanoContasVO: TPlanoContasVO;
+begin
+  if Juros.Text <> '' then
+  begin
+  try
+    PlanoController := TPlanoContasController.Create;
+    PlanoContasVO := PlanoController.ConsultarPorId(StrToInt(Juros.Text));
+    if PlanoContasVO.flTipo <> 'S' then
+    begin
+      Edit5.Text := PlanoContasVO.dsConta;
+      PlanoController.Free;
+    end
+    else
+      ShowMessage('Conta Sintética');
+  except
+    raise Exception.Create('Código Inválido');
+  end;
+  end
+  else
+    Juros.Text := '';
+end;
+
+procedure TFTelaCadastroCondominio.JurosRecExit(Sender: TObject);
+var
+  PlanoController:TPlanoContasController;
+  PlanoContasVO: TPlanoContasVO;
+begin
+  if JurosRec.Text <> '' then
+  begin
+  try
+    PlanoController := TPlanoContasController.Create;
+    PlanoContasVO := PlanoController.ConsultarPorId(StrToInt(JurosRec.Text));
+    if PlanoContasVO.flTipo <> 'S' then
+    begin
+      Edit6.Text := PlanoContasVO.dsConta;
+      PlanoController.Free;
+    end;
+  except
+    raise Exception.Create('Código Inválido');
+  end;
+  end
+  else
+    JurosRec.Text := '';
+end;
+
 function TFTelaCadastroCondominio.EditsToObject(Condominio: TCondominioVO)
   : TCondominioVO;
 begin
@@ -363,12 +643,27 @@ begin
     Condominio.idEstado := strtoint(LabeledEditEstado.Text);
   if (LabeledEditPais.Text<>'') then
     Condominio.idPais := strtoint(LabeledEditPais.Text);
- if Edit1.Text <> '' then
+  if Edit1.Text <> '' then
     Condominio.idPrecoGas := StrToInt(Edit1.Text)
- else
+  else
     Condominio.idPrecoGas := 0;
-  if Edit3.Text <> '' then
-    Condominio.parametroDRE := Edit3.Text;
+ // if Edit3.Text <> '' then
+  //  Condominio.parametroDRE := Edit3.Text;
+
+  if Juros.Text <> '' then
+    Condominio.idCtjurosP := StrToInt(Juros.Text);
+  if JurosRec.Text <> '' then
+    Condominio.idCtjuros := StrToInt(JurosRec.Text);
+  if Multa.Text <> '' then
+    Condominio.idCtMultaP := StrToInt(Multa.Text);
+  if MultaRec.Text <> '' then
+    Condominio.idCtMulta := StrToInt(MultaRec.Text);
+  if DescConc.Text <> '' then
+    Condominio.idCtDesconto := StrToInt(DescConc.Text);
+  if DescObt.Text <> '' then
+    Condominio.idCtDescontoObt := StrToInt(DescObt.Text);
+
+
   Result := Condominio;
 
 end;
@@ -414,6 +709,52 @@ begin
 end;
 
 
+
+procedure TFTelaCadastroCondominio.MultaExit(Sender: TObject);
+var
+  PlanoController:TPlanoContasController;
+  PlanoContasVO: TPlanoContasVO;
+begin
+  if Multa.Text <> '' then
+  begin
+  try
+    PlanoController := TPlanoContasController.Create;
+    PlanoContasVO := PlanoController.ConsultarPorId(StrToInt(Multa.Text));
+    if PlanoContasVO.flTipo <> 'S' then
+    begin
+      EDIT7.Text := PlanoContasVO.dsConta;
+      PlanoController.Free;
+    end;
+  except
+    raise Exception.Create('Código Inválido');
+  end;
+  end
+  else
+    Multa.Text := '';
+end;
+
+procedure TFTelaCadastroCondominio.MultaRecExit(Sender: TObject);
+var
+  PlanoController:TPlanoContasController;
+  PlanoContasVO: TPlanoContasVO;
+begin
+  if MultaRec.Text <> '' then
+  begin
+  try
+    PlanoController := TPlanoContasController.Create;
+    PlanoContasVO := PlanoController.ConsultarPorId(StrToInt(MultaRec.Text));
+    if PlanoContasVO.flTipo <> 'S' then
+    begin
+      eDIT8.Text := PlanoContasVO.dsConta;
+      PlanoController.Free;
+    end;
+  except
+    raise Exception.Create('Código Inválido');
+  end;
+  end
+  else
+    MultaRec.Text := '';
+end;
 
 procedure TFTelaCadastroCondominio.GridParaEdits;
 var
@@ -477,8 +818,25 @@ begin
       Edit1.Text := IntToStr(Condominio.PrecoGasVo.idPrecoGas);
       Edit2.Text := Condominio.PrecoGasVo.PessoaVo.nome;
     end;
-   if Condominio.parametroDRE <> '' then
-      Edit3.Text := Condominio.parametroDRE;
+  // if Condominio.parametroDRE <> '' then
+    //  Edit3.Text := Condominio.parametroDRE;
+
+   if Condominio.idCtJurosP <> 0 then
+   begin
+      Juros.Text := IntToStr(COndominio.idCtjurosP);
+   //   Edit5.Text := Condominio.PlanoVO.dsConta;
+   end;
+
+   if Condominio.idCtJuros <> 0 then
+      JurosRec.Text := IntToStr(COndominio.idCtjuros);
+   if Condominio.idCtMultaP <> 0 then
+      Multa.Text := IntToStr(COndominio.idCtMultaP);
+   if Condominio.idCtMulta <> 0 then
+      MultaRec.Text := IntToStr(COndominio.idCtMulta);
+   if Condominio.idCtDesconto <> 0 then
+      DescConc.Text := IntToStr(COndominio.idCtDesconto);
+   if Condominio.idCtDescontoObt <> 0 then
+      DescObt.Text := IntToStr(COndominio.idCtDescontoObt);
 
   end;
 end;

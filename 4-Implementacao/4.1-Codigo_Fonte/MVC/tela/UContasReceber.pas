@@ -287,8 +287,13 @@ begin
   FormPlanoConsulta.ShowModal;
   if (FormPlanoConsulta.ObjetoRetornoVO <> nil) then
   begin
-    EditBxConta.Text := IntToStr(TPlanoContasVO(FormPlanoConsulta.ObjetoRetornoVO).idPlanoContas);
-    EditBxDsConta.Text := TPlanoContasVO(FormPlanoConsulta.ObjetoRetornoVO).dsConta;
+    if TPlanoContasVO(FormPlanoCOnsulta.ObjetoRetornoVO).flTipo <> 'S' then
+    begin
+      EditBxConta.Text := IntToStr(TPlanoContasVO(FormPlanoConsulta.ObjetoRetornoVO).idPlanoContas);
+      EditBxDsConta.Text := TPlanoContasVO(FormPlanoConsulta.ObjetoRetornoVO).dsConta;
+    end
+    Else
+      ShowMessage('Conta Sintética');
   end;
   FormPlanoConsulta.Release;
 end;
@@ -317,11 +322,16 @@ begin
   FormPlanoConsulta.ShowModal;
   if (FormPlanoConsulta.ObjetoRetornoVO <> nil) then
   begin
-    LabeledEditConta.Text := IntToStr(TPlanoContasVO(FormPlanoConsulta.ObjetoRetornoVO).idPlanoContas);
-    LabeledEditDsConta.Text := TPlanoContasVO(FormPlanoConsulta.ObjetoRetornoVO).dsConta;
-    LabeledEditPessoa.Enabled := false;
-    LabeledEditDsPessoa.Enabled := false;
-    BtnPessoa.Enabled := false;
+    if TPlanoContasVO(FormPlanoCOnsulta.ObjetoRetornoVO).flTipo <> 'S' then
+    begin
+      LabeledEditConta.Text := IntToStr(TPlanoContasVO(FormPlanoConsulta.ObjetoRetornoVO).idPlanoContas);
+      LabeledEditDsConta.Text := TPlanoContasVO(FormPlanoConsulta.ObjetoRetornoVO).dsConta;
+      LabeledEditPessoa.Enabled := false;
+      LabeledEditDsPessoa.Enabled := false;
+      BtnPessoa.Enabled := false;
+    end
+    Else
+      ShowMessage('Conta Sintética');
   end;
   FormPlanoConsulta.Release;
 end;
@@ -335,8 +345,13 @@ begin
   FormPlanoConsulta.ShowModal;
   if (FormPlanoConsulta.ObjetoRetornoVO <> nil) then
   begin
-    LabeledEditContraP.Text := IntToStr(TPlanoContasVO(FormPlanoConsulta.ObjetoRetornoVO).idPlanoContas);
-    LabeledEditDsContra.Text := TPlanoContasVO(FormPlanoConsulta.ObjetoRetornoVO).dsConta;
+    if TPlanoContasVO(FormPlanoCOnsulta.ObjetoRetornoVO).flTipo <> 'S' then
+    begin
+      LabeledEditContraP.Text := IntToStr(TPlanoContasVO(FormPlanoConsulta.ObjetoRetornoVO).idPlanoContas);
+      LabeledEditDsContra.Text := TPlanoContasVO(FormPlanoConsulta.ObjetoRetornoVO).dsConta;
+    end
+    else
+      ShowMessage('Conta Sintética');
   end;
   FormPlanoConsulta.Release;
 end;

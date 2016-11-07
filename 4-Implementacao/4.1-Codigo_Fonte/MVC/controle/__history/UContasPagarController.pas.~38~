@@ -16,7 +16,6 @@ type
     function ConsultarPorId(id: integer): TContasPagarVO;
     procedure ValidarDados(Objeto:TContasPagarVO);override;
     function Inserir(ContasPagar: TContasPagarVO): integer;
-    function InserirBaixa(ContasPagar : TContasPagarVO) : integer;
     function Excluir(ContasPagar: TContasPagarVO): boolean;
     function Alterar(ContasPagar: TContasPagarVO): boolean;
 
@@ -122,13 +121,12 @@ end;
 
 function TContasPagarController.Inserir(ContasPagar: TContasPagarVO): integer;
 var contaPlano:TPlanoContasVO;
+    Lancamento : TLancamentoContabilVO;
     PessoaVo : TPessoASvo;
     listaConta :TObjectList<TPlanoContasVO>;
     Query : String;
     idcontafor, idcontadebito,idcontacredito:integer;
     PlanoContasController : TPlanoContasController;
-    Lancamento : TLancamentoContabilVO;
-
 begin
   try
     idcontafor:=0;
@@ -172,33 +170,6 @@ begin
   finally
     TDBExpress.RollBackTransacao;
   end;
-end;
-
-function TContasPagarController.InserirBaixa(ContasPagar: TContasPagarVO): integer;
-var
-   Lancamentos : TLancamentoContabilVO;
-begin
-{    TDBExpress.IniciaTransacao;
-    Result := TDAO.Alterar(ContasPagar);
-   Lancamentos:= TDAO.Consultar<TLancamentoContabilVO>(' LANCAMENTOCONTABIL.IDCONTASPAGAR = '+inttostr(ContasPagar.idContasPagar) + , '',0,true);
-    if(Lancamentos.Count>0)then
-    begin
-      TDAO.Excluir(Lancamentos.First);
-    end;
-
-    Lancamentos := TLancamentoContabilVo.Create;
-    Lancamentos.idcontadebito := idContaDebito;
-    Lancamentos.idContaCredito := idContaCredito;
-    Lancamentos.complemento := COntasPagar.DsComplemento;
-    Lancamentos.dtLcto := ContasPagar.DtEmissao;
-    Lancamentos.VlValor := ContasPagar.VlValor;
-    Lancamentos.idContasPagar := ContasPagar.idContasPagar;
-    Lancamentos.idHistorico := ContasPagar.IdHistorico;
-    TDao.Inserir(Lancamentos);
-    TDBExpress.ComitaTransacao;
-
- }
-
 end;
 
 procedure TContasPagarController.ValidarDados(Objeto: TContasPagarVO);

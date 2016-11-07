@@ -10,6 +10,7 @@ inherited FTelaCadastroContasPagar: TFTelaCadastroContasPagar
   inherited PageControl: TPageControl
     Width = 887
     Height = 497
+    ActivePage = Consulta
     ExplicitWidth = 887
     ExplicitHeight = 497
     inherited Consulta: TTabSheet
@@ -402,8 +403,8 @@ inherited FTelaCadastroContasPagar: TFTelaCadastroContasPagar
     ExplicitWidth = 887
   end
   object PanelBaixa: TPanel
-    Left = 120
-    Top = 79
+    Left = 130
+    Top = 87
     Width = 639
     Height = 398
     ParentBackground = False
@@ -423,6 +424,8 @@ inherited FTelaCadastroContasPagar: TFTelaCadastroContasPagar
       Caption = ' Processar Baixa '
       TabOrder = 0
       OnClick = GroupBox2Click
+      ExplicitLeft = 304
+      ExplicitTop = 58
       object Label5: TLabel
         Left = 6
         Top = 57

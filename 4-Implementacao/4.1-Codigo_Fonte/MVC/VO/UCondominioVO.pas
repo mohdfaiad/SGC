@@ -34,6 +34,24 @@ type
     FidPrecoGas : Integer;
     FTemplateDre : String;
 
+    FidCtJuros : integer;
+    FDsCtJuros : String;
+
+    FidCtMulta : Integer;
+    FDsMulta : String;
+
+    FidCtDesconto : Integer;
+    FDsDesconto : String;
+
+    FidCtJurosP : Integer;
+    FDsJurosP : String;
+
+    FidCtMultaP : Integer;
+    FDsMultaP : String;
+
+    FidCtDescontoObt : Integer;
+    FDsDescontoObt : String;
+
 
   public
     CnaeVO: TCnaeVO;
@@ -42,6 +60,7 @@ type
     EstadoVO : TEstadoVO;
     PaisVO   : TPaisVO;
     PrecoGasVo : TPrecoGasVO;
+  //  PlanoVO : TPlanoContasVO;
 
 
     [TId('idcondominio')]
@@ -87,8 +106,33 @@ type
     [TColumn('idPrecoGas','idPrecoGas',0,[ldLookup,ldComboBox], False)]
     property idPrecoGas: integer  read FidPrecoGas write FidPrecoGas;
 
-    [TColumn('parametroDre','TemplateDre',0,[ldLookup,ldComboBox], False)]
-    property parametroDRE: string  read FTemplateDre write FTemplateDre;
+//    [TColumn('parametroDre','TemplateDre',0,[ldLookup,ldComboBox], False)]
+//    property parametroDRE: string  read FTemplateDre write FTemplateDre;
+
+    [TColumn('idCtJuros','Juros',0,[ldLookup,ldComboBox], False)]
+    property idCtjuros: integer  read FidCtjuros write FidCtjuros;
+
+    [TColumn('DSCONTA','DSJuros',0,[], True, 'PlanoContas', 'idCtJuros', 'idPlanoContas')]
+    property DsCtJuros: string  read FDsCtJuros write FDsCtJuros;
+
+  //  [TColumn('DSCONTADEBITO','ContaDebito',0,[], True, 'PlanoContas', 'idContaDebito', 'idPlanoContas', 'PlanoDebito', 'DSCONTA')]
+  //  property DsContaDebito: string  read FDsContaDebito write FDsContaDebito;
+
+
+    [TColumn('idCtJurosP','JurosP',0,[ldLookup,ldComboBox], False)]
+    property idCtjurosP: integer  read FidCtjurosP write FidCtjurosP;
+
+    [TColumn('idCtMulta','Multa',0,[ldLookup,ldComboBox], False)]
+    property idCtMulta: integer  read FidCtMulta write FidCtMulta;
+
+    [TColumn('idCtMultaP','MultaP',0,[ldLookup,ldComboBox], False)]
+    property idCtMultaP: integer  read FidCtMultaP write FidCtMultaP;
+
+    [TColumn('idCtDesconto','Desconto Recebido',0,[ldLookup,ldComboBox], False)]
+    property idCtDesconto: integer  read FidCtDesconto write FidCtDesconto;
+
+    [TColumn('idCtDescontoObt','Desconto Obtido',0,[ldLookup,ldComboBox], False)]
+    property idCtDescontoObt: integer  read FidCtDescontoObt write FidCtDescontoObt;
 
     [TColumn('idCidade','idCidade',0,[ldLookup,ldComboBox], False)]
     property IdCidade: integer  read FIdCidade write FIdCidade;
@@ -97,11 +141,14 @@ type
     [TColumn('idPais','idPais',0,[ldLookup,ldComboBox], False)]
     property idPais: integer  read FIdPais write FIdPais;
 
+
+
     procedure ValidarCampos;
     Function ValidaCNPJ(xCNPJ: String): Boolean;
 
   end;
 implementation
+
 
 { TCondominioVO }
 

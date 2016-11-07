@@ -127,7 +127,6 @@ inherited FTelaCadastroCondominio: TFTelaCadastroCondominio
       inherited PageControlEdit: TPageControl
         Width = 783
         Height = 451
-        ActivePage = TabSheet1
         ExplicitWidth = 783
         ExplicitHeight = 451
         inherited DadosPrincipais: TTabSheet
@@ -799,12 +798,13 @@ inherited FTelaCadastroCondominio: TFTelaCadastroCondominio
               end
             end
             object GroupBox4: TGroupBox
-              Left = 13
-              Top = 89
+              Left = 643
+              Top = 18
               Width = 90
               Height = 65
               Caption = 'Template DRE'
               TabOrder = 1
+              Visible = False
               object Edit3: TEdit
                 Left = 12
                 Top = 28
@@ -813,6 +813,7 @@ inherited FTelaCadastroCondominio: TFTelaCadastroCondominio
                 MaxLength = 10
                 NumbersOnly = True
                 TabOrder = 0
+                Visible = False
               end
             end
           end

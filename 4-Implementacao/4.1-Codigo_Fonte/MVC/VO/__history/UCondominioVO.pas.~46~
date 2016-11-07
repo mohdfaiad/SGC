@@ -3,7 +3,7 @@ unit UCondominioVO;
 interface
 
 uses Atributos, Classes, Constantes, Generics.Collections, SysUtils, UGenericVO,UCnaeVO, UNaturezaJuridicaVO,
- UPaisVO, UEstadoVO, UCidadeVO, UPrecoGas;
+ UPaisVO, UEstadoVO, UCidadeVO, UPrecoGasVO;
 
 type
   [TEntity]
@@ -31,6 +31,15 @@ type
     FIdPais : integer;
     FIdCnae: integer;
     FIdNatureza : integer;
+    FidPrecoGas : Integer;
+    FTemplateDre : String;
+    FidCtJuros : integer;
+    FidCtMulta : Integer;
+    FidCtDescontoRec : Integer;
+    FidCtJurosP : Integer;
+    FidCtMultaP : Integer;
+    FidCtDescontoObt : Integer;
+
 
   public
     CnaeVO: TCnaeVO;
@@ -39,6 +48,7 @@ type
     EstadoVO : TEstadoVO;
     PaisVO   : TPaisVO;
     PrecoGasVo : TPrecoGasVO;
+
 
     [TId('idcondominio')]
     [TGeneratedValue(sAuto)]
@@ -80,7 +90,29 @@ type
     [TColumn('DtInicioAtividade','Inicio Atividade',0,[ldLookup,ldComboBox], False)]
     property DtInicioAtividade: TDateTime  read FDtInicioAtividade write FDtInicioAtividade;
 
+    [TColumn('idPrecoGas','idPrecoGas',0,[ldLookup,ldComboBox], False)]
+    property idPrecoGas: integer  read FidPrecoGas write FidPrecoGas;
 
+    [TColumn('parametroDre','TemplateDre',0,[ldLookup,ldComboBox], False)]
+    property parametroDRE: string  read FTemplateDre write FTemplateDre;
+
+    [TColumn('idCtJuros','Juros',0,[ldLookup,ldComboBox], False)]
+    property idCtjuros: integer  read FidCtjuros write FidCtjuros;
+
+    [TColumn('idCtJurosP','JurosP',0,[ldLookup,ldComboBox], False)]
+    property idCtjurosP: integer  read FidCtjurosP write FidCtjurosP;
+
+    [TColumn('idCtMulta','Multa',0,[ldLookup,ldComboBox], False)]
+    property idCtMulta: integer  read FidCtMulta write FidCtMulta;
+
+    [TColumn('idCtMultaP','MultaP',0,[ldLookup,ldComboBox], False)]
+    property idCtMultaP: integer  read FidCtMultaP write FidCtMultaP;
+
+    [TColumn('idCtDescontoRec','Desconto Recebido',0,[ldLookup,ldComboBox], False)]
+    property idCtDescontoRec: integer  read FidCtDescontoRec write FidCtDescontoRec;
+
+    [TColumn('idCtDescontoObt','Desconto Obtido',0,[ldLookup,ldComboBox], False)]
+    property idCtDescontoObt: integer  read FidCtDescontoObt write FidCtDescontoObt;
 
     [TColumn('idCidade','idCidade',0,[ldLookup,ldComboBox], False)]
     property IdCidade: integer  read FIdCidade write FIdCidade;
