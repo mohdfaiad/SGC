@@ -151,6 +151,19 @@
         <DCCReference Include="TestVO\TestUPlanoContasVO.pas"/>
         <DCCReference Include="TestVO\TestUTemplateDreVO.pas"/>
         <DCCReference Include="TestVO\TestUTemplateFcxVO.pas"/>
+        <DCCReference Include="..\VO\UContadorVO.pas"/>
+        <DCCReference Include="..\VO\ULancamentoContabilVO.pas"/>
+        <DCCReference Include="..\VO\ULancamentoPadraoVO.pas"/>
+        <DCCReference Include="..\VO\ULoteVO.pas"/>
+        <DCCReference Include="..\VO\UResponsavelVO.pas"/>
+        <DCCReference Include="..\VO\UUsuarioVO.pas"/>
+        <DCCReference Include="..\controle\UContadorController.pas"/>
+        <DCCReference Include="..\controle\ULancamentoContabilController.pas"/>
+        <DCCReference Include="..\controle\ULancamentoPadraoController.pas"/>
+        <DCCReference Include="..\controle\ULoteController.pas"/>
+        <DCCReference Include="..\controle\UResponsavelController.pas"/>
+        <DCCReference Include="..\controle\UUsuarioController.pas"/>
+        <DCCReference Include="TestController\TestUContadorController.pas"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

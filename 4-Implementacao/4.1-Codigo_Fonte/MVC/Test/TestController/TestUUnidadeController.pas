@@ -27,6 +27,8 @@ type
     procedure TearDown; override;
   published
     procedure TestConsultarPorId;
+    procedure TestConsultarPorIdNaoEncontrado;
+
   end;
 
 implementation
@@ -52,7 +54,17 @@ begin
     check(true,'Unidade pesquisada com sucesso!')
   else
     check(true,'Unidade nao encontrada!');
+end;
 
+procedure TestTUnidadeController.TestConsultarPorIdNaoEncontrado;
+var
+  ReturnValue: TUnidadeVO;
+begin
+  ReturnValue := FUnidadeController.ConsultarPorId(4);
+  if(returnvalue <> nil)  then
+    check(true,'Unidade pesquisada com sucesso!')
+  else
+    check(true,'Unidade nao encontrada!');
 end;
 
 initialization

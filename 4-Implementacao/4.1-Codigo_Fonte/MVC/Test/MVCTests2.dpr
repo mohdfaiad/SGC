@@ -77,7 +77,20 @@ uses
   TestUHistoricoVO in 'TestVO\TestUHistoricoVO.pas',
   TestUPlanoContasVO in 'TestVO\TestUPlanoContasVO.pas',
   TestUTemplateDreVO in 'TestVO\TestUTemplateDreVO.pas',
-  TestUTemplateFcxVO in 'TestVO\TestUTemplateFcxVO.pas';
+  TestUTemplateFcxVO in 'TestVO\TestUTemplateFcxVO.pas',
+  UContadorVO in '..\VO\UContadorVO.pas',
+  ULancamentoContabilVO in '..\VO\ULancamentoContabilVO.pas',
+  ULancamentoPadraoVO in '..\VO\ULancamentoPadraoVO.pas',
+  ULoteVO in '..\VO\ULoteVO.pas',
+  UResponsavelVO in '..\VO\UResponsavelVO.pas',
+  UUsuarioVO in '..\VO\UUsuarioVO.pas',
+  UContadorController in '..\controle\UContadorController.pas',
+  ULancamentoContabilController in '..\controle\ULancamentoContabilController.pas',
+  ULancamentoPadraoController in '..\controle\ULancamentoPadraoController.pas',
+  ULoteController in '..\controle\ULoteController.pas',
+  UResponsavelController in '..\controle\UResponsavelController.pas',
+  UUsuarioController in '..\controle\UUsuarioController.pas',
+  TestUContadorController in 'TestController\TestUContadorController.pas';
 
 {R *.RES}
 
