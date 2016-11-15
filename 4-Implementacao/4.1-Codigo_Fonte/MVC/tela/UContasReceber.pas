@@ -150,7 +150,7 @@ begin
   ContasReceber.FlBaixa := 'P';
   if(MessageDlg('Confirma cancelamento',mterror,mbokcancel,0)=mrok)then
   begin
-    ControllerContasReceber.Alterar(ContasReceber);
+    ControllerContasReceber.RemoverBaixa(CDSGrid.FieldByName('IDCONTASRECEBER').AsInteger);
     DoConsultar;
     PanelBaixa.Visible := false;
     PageControl.Enabled:=true;
@@ -258,7 +258,7 @@ begin
   ContasReceber.FlBaixa := 'B';
   try
   ContasReceber.ValidarBaixa();
-  ControllerContasReceber.Alterar(ContasReceber);
+  ControllerContasReceber.InserirBaixa(ContasReceber);
   DoConsultar;
   PanelBaixa.Visible := false;
   PageControl.Enabled:=true;

@@ -150,22 +150,9 @@ procedure TFTelaCadastroContasPagar.BitBtn1Click(Sender: TObject);
 var
   ContasPagar: TContasPagarVO;
 begin
-//  inherited;
-  ContasPagar := nil;
-  ContasPagar := ControllerContasPagar.ConsultarPorId(CDSGrid.FieldByName('IDCONTASPAGAR')
-            .AsInteger);
-  ContasPagar.DtBaixa := 0;
-  ContasPagar.VlBaixa := 0;
-  ContasPagar.VlJuros := 0;
-  ContasPagar.VlMulta := 0;
-  ContasPagar.VlDesconto := 0;
-  ContasPagar.IdHistoricoBx := 0;
-  ContasPagar.IdContaBaixa := 0;
-  ContasPagar.VlPago := 0;
-  ContasPagar.FlBaixa := 'P';
   if(MessageDlg('Confirma cancelamento',mterror,mbokcancel,0)=mrok)then
   begin
-    ControllerContasPagar.Alterar(ContasPagar);
+    ControllerContasPagar.RemoverBaixa(CDSGrid.FieldByName('IDCONTASPAGAR').AsInteger);
     DoConsultar;
     PanelBaixa.Visible := false;
     PageControl.Enabled:=true;
@@ -258,7 +245,7 @@ begin
   ContasPagar.FlBaixa := 'B';
   try
   ContasPagar.ValidarBaixa();
-  ControllerContasPagar.Alterar(ContasPagar);
+  ControllerContasPagar.InserirBaixa(ContasPagar);
   DoConsultar;
   PanelBaixa.Visible := false;
   PageControl.Enabled:=true;

@@ -29,6 +29,7 @@ type
     { Private declarations }
 
   public
+    ctjurosp, ctmultap, ctdescontop, ctjurosr, ctmultar, ctdescontor :integer;
     CodigoEmpLogada:integer;
     IdUsuario:integer;
     DescricaoEmpLogada,cnpjEmpLogada:String;
@@ -56,6 +57,14 @@ begin
     LabeledEditCodigo.Text:=IntToStr(TCondominioVO(FormCondominioConsulta.ObjetoRetornoVO).idCondominio);
     LabelNomeCond.Caption := TCondominioVO(FormCondominioConsulta.ObjetoRetornoVO).nome;
     LabelCnpj.Caption := (TCondominioVO(FormCondominioConsulta.ObjetoRetornoVO).Cnpjcpf);
+
+    ctjurosp:= TCondominioVO(FormCondominioConsulta.ObjetoRetornoVO).idCtjurosP;
+    ctjurosr:= TCondominioVO(FormCondominioConsulta.ObjetoRetornoVO).idCtjuros;
+    ctdescontop:= TCondominioVO(FormCondominioConsulta.ObjetoRetornoVO).idCtDesconto;
+    ctdescontor:= TCondominioVO(FormCondominioConsulta.ObjetoRetornoVO).idCtDescontoObt;
+    ctmultap:= TCondominioVO(FormCondominioConsulta.ObjetoRetornoVO).idCtMultaP;
+    ctmultar:= TCondominioVO(FormCondominioConsulta.ObjetoRetornoVO).idCtMulta;
+
   end;
   FormCondominioConsulta.Release;
 end;
@@ -108,6 +117,14 @@ begin
     CondominioVO := CondominioController.ConsultarPorId(StrToInt(LabeledEditCodigo.Text));
     LabelNomeCond.Caption := CondominioVO.nome;
     LabelCnpj.Caption := CondominioVO.Cnpjcpf;
+
+    ctjurosp:= CondominioVO.idCtjurosP;
+    ctjurosr:= CondominioVO.idCtjuros;
+    ctdescontop:= CondominioVO.idCtDesconto;
+    ctdescontor:= CondominioVO.idCtDescontoObt;
+    ctmultap:= CondominioVO.idCtMultaP;
+    ctmultar:= CondominioVO.idCtMulta;
+
     CondominioController.Free;
    except
     LabelNomeCond.Caption := '';

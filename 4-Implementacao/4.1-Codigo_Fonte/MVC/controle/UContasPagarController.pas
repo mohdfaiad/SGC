@@ -6,7 +6,7 @@ uses
   Classes, SQLExpr, SysUtils, Generics.Collections, DBXJSON, DBXCommon,
   ConexaoBD,
   UPessoasVO, UController, DBClient, DB, UContasPagarVO, UPessoasController, UCondominioController,
-  UPlanoCOntasController, UCondominioVO, UPlanoContasVO, UHistoricoVO, ULancamentoContabilVO;
+  UPlanoCOntasController, UCondominioVO, UPlanoContasVO, UHistoricoVO, ULancamentoContabilVO, UEmpresaTrab;
 
 type
   TContasPagarController = class(TController<TContasPagarVO>)
@@ -17,6 +17,7 @@ type
     procedure ValidarDados(Objeto:TContasPagarVO);override;
     function Inserir(ContasPagar: TContasPagarVO): integer;
     function InserirBaixa(ContasPagar : TContasPagarVO) : integer;
+    function RemoverBaixa(idcontapagar:integer):integer;
     function Excluir(ContasPagar: TContasPagarVO): boolean;
     function Alterar(ContasPagar: TContasPagarVO): boolean;
 
@@ -66,11 +67,12 @@ begin
         idcontafor:=listaConta[0].idPlanoContas;
     end;
     if idContaFor <>  0 then
-      idContaDebito := idContaFor;
+      idContaCredito := idContaFor;
     if ContasPagar.IdConta <> 0  then
-      idContaDebito := ContasPagar.IdConta;
+      idContaCredito := ContasPagar.IdConta;
     if COntasPagar.IdContraPartida <> 0 then
-      idContaCredito := ContasPagar.IdContraPartida;
+      idContaDebito := ContasPagar.IdContraPartida;
+
     Lancamento := TLancamentoContabilVo.Create;
     Lancamento.idcontadebito := idContaDebito;
     Lancamento.idContaCredito := idContaCredito;
@@ -154,11 +156,11 @@ begin
         idcontafor:=listaConta[0].idPlanoContas;
     end;
     if idContaFor <>  0 then
-      idContaDebito := idContaFor;
+      idContaCredito := idContaFor;
     if ContasPagar.IdConta <> 0  then
-      idContaDebito := ContasPagar.IdConta;
+      idContaCredito := ContasPagar.IdConta;
     if COntasPagar.IdContraPartida <> 0 then
-      idContaCredito := ContasPagar.IdContraPartida;
+      idContaDebito := ContasPagar.IdContraPartida;
     Lancamento := TLancamentoContabilVo.Create;
     Lancamento.idcontadebito := idContaDebito;
     Lancamento.idContaCredito := idContaCredito;
@@ -176,29 +178,206 @@ end;
 
 function TContasPagarController.InserirBaixa(ContasPagar: TContasPagarVO): integer;
 var
-   Lancamentos : TLancamentoContabilVO;
+   Lancamentos : TObjectList<TLancamentoContabilVO>;
+   i:integer;
+   Lancamento, lctoDesconto, lctoJurosMulta : TLancamentoContabilVO;
+   PlanoContasController : TPlanoContasController;
+   query : string;
+   listaConta : TObjectList<TPlanoContasVO>;
+   valorcredito:currency;
 begin
-{    TDBExpress.IniciaTransacao;
-    Result := TDAO.Alterar(ContasPagar);
-   Lancamentos:= TDAO.Consultar<TLancamentoContabilVO>(' LANCAMENTOCONTABIL.IDCONTASPAGAR = '+inttostr(ContasPagar.idContasPagar) + , '',0,true);
-    if(Lancamentos.Count>0)then
-    begin
-      TDAO.Excluir(Lancamentos.First);
+    TDBExpress.IniciaTransacao;
+    try
+      TDAO.Alterar(ContasPagar);
+      Lancamentos:= TDAO.Consultar<TLancamentoContabilVO>(' LANCAMENTOCONTABIL.IDCONTASPAGAR = '+inttostr(ContasPagar.idContasPagar) +
+                                                          ' AND LANCAMENTOCONTABIL.IDBAIXA = '+inttostr(ContasPagar.idContasPagar), '',0,true);
+      if(Lancamentos.Count>0)then
+      begin
+        for i:=0 to Lancamentos.Count-1 do
+        begin
+          TDAO.Excluir(Lancamentos[i]);
+        end;
+      end;
+
+      Lancamento := TLancamentoContabilVo.Create;
+
+      if(ContasPagar.IdPessoa>0)then
+      begin
+        PlanoContasController := TPlanoContasController.Create;
+        Query :=  ' PlanoContas.idPessoa = ' +(IntTOsTR(ContasPagar.IdPessoa));
+        listaConta := PlanoContasController.Consultar(query);
+        if (listaConta.Count > 0) then
+        begin
+          Lancamento.idcontadebito := listaConta[0].idPlanoContas;
+        end;
+      end
+      else
+        Lancamento.idcontadebito := ContasPagar.idConta;
+
+      Lancamento.dtLcto := ContasPagar.DtBaixa;
+      Lancamento.VlValor := ContasPagar.VlBaixa;
+      Lancamento.idContasPagar := ContasPagar.idContasPagar;
+      Lancamento.idbaixa := ContasPagar.idContasPagar;
+      TDAO.Inserir(Lancamento);
+
+      valorcredito:= contaspagar.VlBaixa;
+      if(ContasPagar.VlDesconto>0)then
+      begin
+        LctoDesconto := TLancamentoContabilVo.Create;
+        LctoDesconto.idContaCredito := FormEmpresaTrab.ctdescontor;
+        LctoDesconto.dtLcto := ContasPagar.DtBaixa;
+        LctoDesconto.VlValor := ContasPagar.vldesconto;
+        LctoDesconto.idContasPagar := ContasPagar.idContasPagar;
+        LctoDesconto.idBaixa:=ContasPagar.idContasPagar;
+        valorcredito:=valorcredito-contaspagar.VlDesconto;
+        TDao.Inserir(LctoDesconto);
+      end;
+
+      if(contaspagar.VlMulta>0)then
+      begin
+        lctoJurosMulta := TLancamentoContabilVo.Create;
+        lctoJurosMulta.idcontadebito := FormEmpresaTrab.ctmultap;
+        lctoJurosMulta.dtLcto := ContasPagar.DtBaixa;
+        lctoJurosMulta.VlValor := ContasPagar.vlmulta;
+        lctoJurosMulta.idContasPagar := ContasPagar.idContasPagar;
+        lctoJurosMulta.idBaixa:=ContasPagar.idContasPagar;
+        valorcredito:=valorcredito+ContasPagar.VlMulta;
+        TDao.Inserir(lctoJurosMulta);
+      end;
+
+      if(contasPagar.VlJuros>0)then
+      begin
+        lctoJurosMulta := TLancamentoContabilVo.Create;
+        lctoJurosMulta.idcontadebito := FormEmpresaTrab.ctjurosp;
+        lctoJurosMulta.dtLcto := ContasPagar.DtBaixa;
+        lctoJurosMulta.VlValor := ContasPagar.vljuros;
+        lctoJurosMulta.idContasPagar := ContasPagar.idContasPagar;
+        lctoJurosMulta.idBaixa:=ContasPagar.idContasPagar;
+        valorcredito:=valorcredito+contaspagar.VlJuros;
+        TDao.Inserir(lctoJurosMulta);
+      end;
+
+       lancamento := TLancamentoContabilVo.Create;
+       Lancamento.dtLcto := ContasPagar.DtBaixa;
+       Lancamento.VlValor := valorcredito;
+       lancamento.idContaCredito := ContasPagar.IdContaBaixa;
+       Lancamento.idContasPagar := ContasPagar.idContasPagar;
+       Lancamento.idbaixa := ContasPagar.idContasPagar;
+       TDAO.Inserir(Lancamento);
+
+      {if((ContasPagar.VlDesconto>0)) then//and (ContasPagar.VlMulta = 0) and (ContasPagar.VlJuros = 0))then
+      begin
+        LctoDesconto := TLancamentoContabilVo.Create;
+        lancamento := TLancamentoContabilVO.Create;
+        LctoDesconto.idContaCredito := FormEmpresaTrab.ctdescontor;
+        LctoDesconto.dtLcto := ContasPagar.DtBaixa;
+        LctoDesconto.VlValor := ContasPagar.vldesconto;
+        LctoDesconto.idContasPagar := ContasPagar.idContasPagar;
+        LctoDesconto.idBaixa:=ContasPagar.idContasPagar;
+
+        Lancamento.dtlcto := ContasPagar.dtBaixa;
+        Lancamento.idContaCredito := ContasPagar.IdContaBaixa;
+        Lancamento.VlValor := ContasPagar.VlBaixa - ContasPagar.VlDesconto;
+        lancamento.idContasPagar := ContasPagar.idContasPagar;
+        Lancamento.idbaixa := ContasPagar.idContasPagar;
+        lancamento.idHistorico := ContasPagar.IdHistoricoBx;
+
+        TDao.Inserir(Lancamento);
+        TDao.Inserir(LctoDesconto);
+      end ;
+      if((ContasPagar.VlJuros>0)) then// and (ContasPagar.VlDesconto = 0) and (ContasPagar.VlMulta = 0))then
+      begin
+        lctoJurosMulta := TLancamentoContabilVo.Create;
+        lancamento := TLancamentoContabilVO.Create;
+        lctoJurosMulta.idcontadebito := FormEmpresaTrab.ctjurosp;
+        lctoJurosMulta.dtLcto := ContasPagar.DtBaixa;
+        lctoJurosMulta.VlValor := ContasPagar.vljuros;
+        lctoJurosMulta.idContasPagar := ContasPagar.idContasPagar;
+        lctoJurosMulta.idBaixa:=ContasPagar.idContasPagar;
+
+        Lancamento.dtlcto := ContasPagar.dtBaixa;
+        Lancamento.idContaCredito := ContasPagar.IdContaBaixa;
+        lancamento.VlValor := ContasPagar.VlBaixa + ContasPagar.VlJuros;
+        lancamento.idContasPagar := ContasPagar.idContasPagar;
+        Lancamento.idbaixa := ContasPagar.idContasPagar;
+        lancamento.idHistorico := ContasPagar.IdHistoricoBx;
+
+        TDao.Inserir(lctoJurosMulta);
+        TDAo.Inserir(lancamento);
+      end;
+
+      if((ContasPagar.VlMulta>0)) then//and (ContasPagar.VlJuros=0) and (ContasPagar.VlDesconto = 0))then
+      begin
+        lctoJurosMulta := TLancamentoContabilVo.Create;
+        lancamento := TLancamentoContabilVO.Create;
+        lctoJurosMulta.idcontadebito := FormEmpresaTrab.ctmultap;
+        lctoJurosMulta.dtLcto := ContasPagar.DtBaixa;
+        lctoJurosMulta.VlValor := ContasPagar.vlmulta;
+        lctoJurosMulta.idContasPagar := ContasPagar.idContasPagar;
+        lctoJurosMulta.idBaixa:=ContasPagar.idContasPagar;
+
+        Lancamento.dtlcto := ContasPagar.dtBaixa;
+        Lancamento.idContaCredito := ContasPagar.IdContaBaixa;
+        lancamento.VlValor := ContasPagar.VlBaixa + ContasPagar.vlmulta;
+        lancamento.idContasPagar := ContasPagar.idContasPagar;
+        Lancamento.idbaixa := ContasPagar.idContasPagar;
+        lancamento.idHistorico := ContasPagar.IdHistoricoBx;
+
+        TDao.Inserir(lctoJurosMulta);
+        TDAo.Inserir(lancamento);
+      end;
+      if((ContasPagar.VlMulta=0)and (ContasPagar.VlJuros=0) and (ContasPagar.VlDesconto = 0))then
+      begin
+        lancamento := TLancamentoContabilVo.Create;
+        Lancamento.dtLcto := ContasPagar.DtBaixa;
+        Lancamento.VlValor := ContasPagar.VlBaixa;
+        lancamento.idContaCredito := ContasPagar.IdContaBaixa;
+        Lancamento.idContasPagar := ContasPagar.idContasPagar;
+        Lancamento.idbaixa := ContasPagar.idContasPagar;
+        TDAO.Inserir(Lancamento);
+      end;}
+
+
+      TDBExpress.ComitaTransacao;
+
+    finally
+      TDBExpress.RollBackTransacao;
     end;
+end;
 
-    Lancamentos := TLancamentoContabilVo.Create;
-    Lancamentos.idcontadebito := idContaDebito;
-    Lancamentos.idContaCredito := idContaCredito;
-    Lancamentos.complemento := COntasPagar.DsComplemento;
-    Lancamentos.dtLcto := ContasPagar.DtEmissao;
-    Lancamentos.VlValor := ContasPagar.VlValor;
-    Lancamentos.idContasPagar := ContasPagar.idContasPagar;
-    Lancamentos.idHistorico := ContasPagar.IdHistorico;
-    TDao.Inserir(Lancamentos);
-    TDBExpress.ComitaTransacao;
+function TContasPagarController.RemoverBaixa(idcontapagar:integer): integer;
+var Lancamentos : TObjectList<TLancamentoContabilVO>;
+    ContasPagar:TContasPagarVO;
+    i:integer;
+begin
+    TDBExpress.IniciaTransacao;
+    try
+      ContasPagar := nil;
+      ContasPagar := self.ConsultarPorId(idcontapagar);
+      ContasPagar.DtBaixa := 0;
+      ContasPagar.VlBaixa := 0;
+      ContasPagar.VlJuros := 0;
+      ContasPagar.VlMulta := 0;
+      ContasPagar.VlDesconto := 0;
+      ContasPagar.IdHistoricoBx := 0;
+      ContasPagar.IdContaBaixa := 0;
+      ContasPagar.VlPago := 0;
+      ContasPagar.FlBaixa := 'P';
+      TDAO.Alterar(ContasPagar);
 
- }
-
+      Lancamentos:= TDAO.Consultar<TLancamentoContabilVO>(' LANCAMENTOCONTABIL.IDCONTASPAGAR = '+inttostr(ContasPagar.idContasPagar) +
+                                                          ' AND LANCAMENTOCONTABIL.IDBAIXA = '+inttostr(ContasPagar.idContasPagar), '',0,true);
+      if(Lancamentos.Count>0)then
+      begin
+        for i:=0 to Lancamentos.Count-1 do
+        begin
+          TDAO.Excluir(Lancamentos[i]);
+        end;
+      end;
+      TDBEXpress.ComitaTransacao;
+    finally
+      TDBExpress.RollBackTransacao;
+    end;
 end;
 
 procedure TContasPagarController.ValidarDados(Objeto: TContasPagarVO);

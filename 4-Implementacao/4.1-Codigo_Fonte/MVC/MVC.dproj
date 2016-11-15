@@ -324,6 +324,7 @@
             <UnitTesting>
                 <TestProjectName>C:\Users\Nayara\Documents\GitHub\SGC\4-Implementacao\4.1-Codigo_Fonte\MVC\Test\MVCTests2.dproj</TestProjectName>
             </UnitTesting>
+            <ModelSupport>False</ModelSupport>
         </BorlandProject>
         <ProjectFileVersion>12</ProjectFileVersion>
     </ProjectExtensions>

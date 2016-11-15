@@ -1,0 +1,125 @@
+unit UEmpresaTrab;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
+  System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, UtelaCadastro, Vcl.ComCtrls,
+  Vcl.StdCtrls, Vcl.Mask, Vcl.Buttons, Vcl.ExtCtrls, Vcl.Grids, Vcl.DBGrids,
+  UCondominioController, UCondominio, UCondominioVO, UGenericVO,Generics.Collections, UMVC;
+
+type
+  TFormEmpresaTrab = class(TForm)
+    Panel1: TPanel;
+    LabeledEditCodigo: TLabeledEdit;
+    BitBtn1: TBitBtn;
+    MaskEditDt: TMaskEdit;
+    LabelNomeCond: TLabel;
+    LabelCnpj: TLabel;
+    BtnAcessar: TBitBtn;
+    BtnSair: TBitBtn;
+    procedure BitBtn1Click(Sender: TObject);
+    procedure BtnAcessarClick(Sender: TObject);
+    procedure BtnSairClick(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure LabeledEditCodigoExit(Sender: TObject);
+
+  private
+    { Private declarations }
+
+  public
+    CodigoEmpLogada:integer;
+    IdUsuario:integer;
+    DescricaoEmpLogada,cnpjEmpLogada:String;
+  end;
+
+var
+  FormEmpresaTrab: TFormEmpresaTrab;
+  CondominioController : TCondominioController;
+  formcondominioconsulta : TFTelaCadastroCondominio;
+implementation
+
+{$R *.dfm}
+
+procedure TFormEmpresaTrab.BitBtn1Click(Sender: TObject);
+VAR
+ObjRetornoVO : TGenericVO;
+begin
+  FormCondominioConsulta := TFTelaCadastroCondominio.Create(nil);
+  FormCondominioConsulta.FechaForm := true;
+  FormCondominioConsulta.ShowModal;
+  ObjRetornoVO := condominioController.ConsultarPorId(FormCondominioConsulta.CDSGrid.FieldByName('IDCONDOMINIO').AsInteger);
+  FormCondominioConsulta.ObjetoRetornoVO := ObjRetornoVO;
+  if (FormCondominioConsulta.ObjetoRetornoVO <> nil) then
+  begin
+    LabeledEditCodigo.Text:=IntToStr(TCondominioVO(FormCondominioConsulta.ObjetoRetornoVO).idCondominio);
+    LabelNomeCond.Caption := TCondominioVO(FormCondominioConsulta.ObjetoRetornoVO).nome;
+    LabelCnpj.Caption := (TCondominioVO(FormCondominioConsulta.ObjetoRetornoVO).Cnpjcpf);
+  end;
+  FormCondominioConsulta.Release;
+end;
+
+procedure TFormEmpresaTrab.BtnAcessarClick(Sender: TObject);
+begin
+  if (LabeledEditCodigo.Text <> '') then
+  begin
+    CodigoEmpLogada:= strtoint(LabeledEditCodigo.Text);
+    DescricaoEmpLogada:= LabelNomeCond.Caption;
+    FormMenu.Caption:= 'SGC - ('+inttostr(codigoEmpLogada)+')     '+DescricaoEmpLogada;
+    FormEmpresaTrab.Visible:=false;
+    if(FormMenu.Visible=true)then
+      FormMenu.SetFocus
+    else
+      FormMenu.ShowModal;
+  end
+  else
+  begin
+    MessageDlg('Condomínio não informado!', mtInformation, [mbOK], 0);
+  end;
+end;
+
+procedure TFormEmpresaTrab.BtnSairClick(Sender: TObject);
+begin
+  FormEmpresaTrab.Visible:=false;
+  if(FormMenu.Visible=false)then
+    FormMenu.ShowModal;
+end;
+
+procedure TFormEmpresaTrab.FormShow(Sender: TObject);
+begin
+  if(codigoEmpLogada>0)then
+  begin
+    LabeledEditCodigo.Text:=inttostr(CodigoEmpLogada);
+    LabelNomeCond.caption:=descricaoEmpLogada;
+    LabelCnpj.caption:=cnpjEmpLogada;
+  end;
+end;
+
+procedure TFormEmpresaTrab.LabeledEditCodigoExit(Sender: TObject);
+var
+  CondominioController:TCondominioController;
+  CondominioVO: TCondominioVO;
+begin
+  if LabeledEditCodigo.Text <> '' then
+  begin
+  try
+    CondominioController := TCondominioController.Create;
+    CondominioVO := CondominioController.ConsultarPorId(StrToInt(LabeledEditCodigo.Text));
+    LabelNomeCond.Caption := CondominioVO.nome;
+    LabelCnpj.Caption := CondominioVO.Cnpjcpf;
+    CondominioController.Free;
+   except
+    LabelNomeCond.Caption := '';
+    LabelCnpj.Caption := '';
+    raise Exception.Create('Código Inválido');
+  end;
+  end
+  else
+  begin
+    LabeledEditCodigo.Text := '';
+  end;
+
+end;
+
+end.

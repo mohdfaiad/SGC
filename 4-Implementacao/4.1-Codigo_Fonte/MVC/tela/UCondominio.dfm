@@ -10,6 +10,7 @@ inherited FTelaCadastroCondominio: TFTelaCadastroCondominio
   inherited PageControl: TPageControl
     Width = 791
     Height = 536
+    ActivePage = Consulta
     ExplicitWidth = 791
     ExplicitHeight = 536
     inherited Consulta: TTabSheet
@@ -127,7 +128,6 @@ inherited FTelaCadastroCondominio: TFTelaCadastroCondominio
       inherited PageControlEdit: TPageControl
         Width = 783
         Height = 451
-        ActivePage = TabSheet1
         ExplicitWidth = 783
         ExplicitHeight = 451
         inherited DadosPrincipais: TTabSheet

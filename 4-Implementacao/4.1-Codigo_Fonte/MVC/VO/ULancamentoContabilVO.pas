@@ -24,6 +24,7 @@ type
     FDsContaDebito : String;
     FDsContaCredito : String;
     FDsHistorico : String;
+    FidBaixa : Integer;
 
   public
 
@@ -65,6 +66,9 @@ type
 
     [TColumn('idlote','idLote',0,[ldLookup,ldComboBox], False)]
     property idLote: integer  read FIdLote write FIdLote;
+
+    [TColumn('idbaixa','idbaixa',0,[ldLookup,ldComboBox], False)]
+    property idbaixa: integer  read FidBaixa write FidBaixa;
 
     [TColumn('idHistorico','idHistorico',0,[ldLookup,ldComboBox], False)]
     property idHistorico: integer  read FIdHistorico write FIdHistorico;

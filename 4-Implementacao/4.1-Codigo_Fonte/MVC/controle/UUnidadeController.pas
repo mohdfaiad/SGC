@@ -17,6 +17,7 @@ type
     function ConsultarPorId(id: integer): TUnidadeVO;
     function Inserir(Unidade: TUnidadeVO): integer;
     function Excluir(Unidade: TUnidadeVO): boolean;
+    function Alterar(Unidade: TUnidadeVO): boolean;
     procedure ValidarDados(Objeto:TUnidadeVO);override;
   end;
 
@@ -26,6 +27,28 @@ uses
   UDao, Constantes, Vcl.Dialogs;
 
 
+
+function TUnidadeController.Alterar(Unidade: TUnidadeVO): boolean;
+var
+  contas:TObjectList<TPlanoContasVO>;
+  conta : TPlanoContasVO;
+begin
+  try
+   TDBExpress.IniciaTransacao;
+   contas:= TDAO.Consultar<TPlanoContasVO>(' IDUNIDADE = '+inttostr(UNIDADE.idUnidade), '',0,true);
+   if(contas.Count>0)then
+   begin
+     Conta := Contas.First;
+     conta.dsConta := Unidade.DsUnidade;
+     TDAO.Alterar(conta);
+   end;
+   Result := TDAO.Alterar(Unidade);
+   TDBExpress.ComitaTransacao;
+  finally
+    TDBExpress.RollBackTransacao;
+  end;
+
+end;
 
 function TUnidadeController.ConsultarPorId(id: integer): TUnidadeVO;
 var

@@ -86,29 +86,30 @@
     <Transaction>2016/09/21 17:02:57.000.934,=C:\Users\Nayara\Documents\GitHub\SGC\4-Implementacao\4.1-Codigo_Fonte\MVC\Test\TestController\TestUProprietarioUnidadeController.pas</Transaction>
     <Transaction>2016/09/21 17:02:58.000.014,=C:\Users\Nayara\Documents\GitHub\SGC\4-Implementacao\4.1-Codigo_Fonte\MVC\Test\TestController\TestUTemplateFcxController.pas</Transaction>
     <Transaction>2016/09/21 17:02:58.000.055,=C:\Users\Nayara\Documents\GitHub\SGC\4-Implementacao\4.1-Codigo_Fonte\MVC\Test\TestController\TestUUnidadeController.pas</Transaction>
+    <Transaction>2016/09/21 17:03:08.000.257,=C:\Users\Nayara\Documents\GitHub\SGC\4-Implementacao\4.1-Codigo_Fonte\MVC\Test\TestVO\TestUContasPagarVO.pas</Transaction>
     <Transaction>2016/09/21 17:03:08.000.228,=C:\Users\Nayara\Documents\GitHub\SGC\4-Implementacao\4.1-Codigo_Fonte\MVC\Test\TestVO\TestUCondominioVO.pas</Transaction>
     <Transaction>2016/09/21 17:03:08.000.336,=C:\Users\Nayara\Documents\GitHub\SGC\4-Implementacao\4.1-Codigo_Fonte\MVC\Test\TestVO\TestUPlanoContasVO.pas</Transaction>
     <Transaction>2016/09/21 17:03:08.000.361,=C:\Users\Nayara\Documents\GitHub\SGC\4-Implementacao\4.1-Codigo_Fonte\MVC\Test\TestVO\TestUTemplateDreVO.pas</Transaction>
     <Transaction>2016/09/21 17:03:08.000.310,=C:\Users\Nayara\Documents\GitHub\SGC\4-Implementacao\4.1-Codigo_Fonte\MVC\Test\TestVO\TestUHistoricoVO.pas</Transaction>
     <Transaction>2016/09/21 17:03:08.000.283,=C:\Users\Nayara\Documents\GitHub\SGC\4-Implementacao\4.1-Codigo_Fonte\MVC\Test\TestVO\TestUContasReceberVO.pas</Transaction>
     <Transaction>2016/09/21 17:03:08.000.385,=C:\Users\Nayara\Documents\GitHub\SGC\4-Implementacao\4.1-Codigo_Fonte\MVC\Test\TestVO\TestUTemplateFcxVO.pas</Transaction>
-    <Transaction>2016/09/21 17:03:08.000.257,=C:\Users\Nayara\Documents\GitHub\SGC\4-Implementacao\4.1-Codigo_Fonte\MVC\Test\TestVO\TestUContasPagarVO.pas</Transaction>
-    <Transaction>2016/11/09 15:29:13.553,=C:\Users\Nayara\Documents\GitHub\SGC\4-Implementacao\4.1-Codigo_Fonte\MVC\VO\UContadorVO.pas</Transaction>
-    <Transaction>2016/11/09 15:29:13.581,=C:\Users\Nayara\Documents\GitHub\SGC\4-Implementacao\4.1-Codigo_Fonte\MVC\VO\ULancamentoContabilVO.pas</Transaction>
-    <Transaction>2016/11/09 15:29:13.603,=C:\Users\Nayara\Documents\GitHub\SGC\4-Implementacao\4.1-Codigo_Fonte\MVC\VO\ULancamentoPadraoVO.pas</Transaction>
-    <Transaction>2016/11/09 15:29:13.626,=C:\Users\Nayara\Documents\GitHub\SGC\4-Implementacao\4.1-Codigo_Fonte\MVC\VO\ULoteVO.pas</Transaction>
-    <Transaction>2016/11/09 15:29:13.686,=C:\Users\Nayara\Documents\GitHub\SGC\4-Implementacao\4.1-Codigo_Fonte\MVC\VO\UResponsavelVO.pas</Transaction>
-    <Transaction>2016/11/09 15:29:13.711,=C:\Users\Nayara\Documents\GitHub\SGC\4-Implementacao\4.1-Codigo_Fonte\MVC\VO\UUsuarioVO.pas</Transaction>
-    <Transaction>2016/11/09 15:30:00.346,=C:\Users\Nayara\Documents\GitHub\SGC\4-Implementacao\4.1-Codigo_Fonte\MVC\controle\UContadorController.pas</Transaction>
-    <Transaction>2016/11/09 15:30:00.373,=C:\Users\Nayara\Documents\GitHub\SGC\4-Implementacao\4.1-Codigo_Fonte\MVC\controle\ULancamentoContabilController.pas</Transaction>
-    <Transaction>2016/11/09 15:30:00.396,=C:\Users\Nayara\Documents\GitHub\SGC\4-Implementacao\4.1-Codigo_Fonte\MVC\controle\ULancamentoPadraoController.pas</Transaction>
-    <Transaction>2016/11/09 15:30:00.420,=C:\Users\Nayara\Documents\GitHub\SGC\4-Implementacao\4.1-Codigo_Fonte\MVC\controle\ULoteController.pas</Transaction>
-    <Transaction>2016/11/09 15:30:00.445,=C:\Users\Nayara\Documents\GitHub\SGC\4-Implementacao\4.1-Codigo_Fonte\MVC\controle\UResponsavelController.pas</Transaction>
-    <Transaction>2016/11/09 15:30:00.470,=C:\Users\Nayara\Documents\GitHub\SGC\4-Implementacao\4.1-Codigo_Fonte\MVC\controle\UUsuarioController.pas</Transaction>
-    <Transaction>2016/11/09 15:32:11.570,=C:\Users\Nayara\Documents\GitHub\SGC\4-Implementacao\4.1-Codigo_Fonte\MVC\Test\TestUContadorController.pas</Transaction>
-    <Transaction>2016/11/09 15:34:36.867,=C:\Users\Nayara\Documents\GitHub\SGC\4-Implementacao\4.1-Codigo_Fonte\MVC\Test\TestUContadorController.pas</Transaction>
-    <Transaction>2016/11/09 15:34:43.711,C:\Users\Nayara\Documents\GitHub\SGC\4-Implementacao\4.1-Codigo_Fonte\MVC\Test\TestController\TestUContadorController.pas=C:\Users\Nayara\Documents\GitHub\SGC\4-Implementacao\4.1-Codigo_Fonte\MVC\Test\TestUContadorController.pas</Transaction>
-  </Transactions>  <ProjectSortOrder AutoSort="0" SortType="0">
+    <Transaction>2016/11/09 15:29:13.000.626,=C:\Users\Nayara\Documents\GitHub\SGC\4-Implementacao\4.1-Codigo_Fonte\MVC\VO\ULoteVO.pas</Transaction>
+    <Transaction>2016/11/09 15:29:13.000.686,=C:\Users\Nayara\Documents\GitHub\SGC\4-Implementacao\4.1-Codigo_Fonte\MVC\VO\UResponsavelVO.pas</Transaction>
+    <Transaction>2016/11/09 15:29:13.000.553,=C:\Users\Nayara\Documents\GitHub\SGC\4-Implementacao\4.1-Codigo_Fonte\MVC\VO\UContadorVO.pas</Transaction>
+    <Transaction>2016/11/09 15:29:13.000.581,=C:\Users\Nayara\Documents\GitHub\SGC\4-Implementacao\4.1-Codigo_Fonte\MVC\VO\ULancamentoContabilVO.pas</Transaction>
+    <Transaction>2016/11/09 15:29:13.000.603,=C:\Users\Nayara\Documents\GitHub\SGC\4-Implementacao\4.1-Codigo_Fonte\MVC\VO\ULancamentoPadraoVO.pas</Transaction>
+    <Transaction>2016/11/09 15:29:13.000.711,=C:\Users\Nayara\Documents\GitHub\SGC\4-Implementacao\4.1-Codigo_Fonte\MVC\VO\UUsuarioVO.pas</Transaction>
+    <Transaction>2016/11/09 15:30:00.000.373,=C:\Users\Nayara\Documents\GitHub\SGC\4-Implementacao\4.1-Codigo_Fonte\MVC\controle\ULancamentoContabilController.pas</Transaction>
+    <Transaction>2016/11/09 15:30:00.000.420,=C:\Users\Nayara\Documents\GitHub\SGC\4-Implementacao\4.1-Codigo_Fonte\MVC\controle\ULoteController.pas</Transaction>
+    <Transaction>2016/11/09 15:30:00.000.396,=C:\Users\Nayara\Documents\GitHub\SGC\4-Implementacao\4.1-Codigo_Fonte\MVC\controle\ULancamentoPadraoController.pas</Transaction>
+    <Transaction>2016/11/09 15:30:00.000.445,=C:\Users\Nayara\Documents\GitHub\SGC\4-Implementacao\4.1-Codigo_Fonte\MVC\controle\UResponsavelController.pas</Transaction>
+    <Transaction>2016/11/09 15:30:00.000.470,=C:\Users\Nayara\Documents\GitHub\SGC\4-Implementacao\4.1-Codigo_Fonte\MVC\controle\UUsuarioController.pas</Transaction>
+    <Transaction>2016/11/09 15:30:00.000.346,=C:\Users\Nayara\Documents\GitHub\SGC\4-Implementacao\4.1-Codigo_Fonte\MVC\controle\UContadorController.pas</Transaction>
+    <Transaction>2016/11/09 15:32:11.000.570,=C:\Users\Nayara\Documents\GitHub\SGC\4-Implementacao\4.1-Codigo_Fonte\MVC\Test\TestUContadorController.pas</Transaction>
+    <Transaction>2016/11/09 15:34:36.000.867,=C:\Users\Nayara\Documents\GitHub\SGC\4-Implementacao\4.1-Codigo_Fonte\MVC\Test\TestUContadorController.pas</Transaction>
+    <Transaction>2016/11/09 15:34:43.000.711,C:\Users\Nayara\Documents\GitHub\SGC\4-Implementacao\4.1-Codigo_Fonte\MVC\Test\TestController\TestUContadorController.pas=C:\Users\Nayara\Documents\GitHub\SGC\4-Implementacao\4.1-Codigo_Fonte\MVC\Test\TestUContadorController.pas</Transaction>
+  </Transactions>
+	<ProjectSortOrder AutoSort="0" SortType="0">
     <File Path="..\..\MVC"/>
     <File Path="..\comum"/>
     <File Path="..\comum\Atributos.pas"/>
