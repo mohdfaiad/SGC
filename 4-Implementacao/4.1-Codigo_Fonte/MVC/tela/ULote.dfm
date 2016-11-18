@@ -252,7 +252,7 @@ inherited FTelaCadastroLote: TFTelaCadastroLote
               ParentFont = False
             end
             object MaskEditDtInicio: TMaskEdit
-              Left = 11
+              Left = 14
               Top = 27
               Width = 64
               Height = 21
@@ -357,9 +357,9 @@ inherited FTelaCadastroLote: TFTelaCadastroLote
           ExplicitTop = 8
         end
         inherited BitBtnCancela: TBitBtn
-          Left = 203
+          Left = 202
           Top = 8
-          ExplicitLeft = 203
+          ExplicitLeft = 202
           ExplicitTop = 8
         end
       end

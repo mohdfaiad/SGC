@@ -3,7 +3,7 @@ unit ULancamentoContabilVO;
 interface
 
 uses Atributos, Classes, Constantes, Generics.Collections, SysUtils, UGenericVO,
-UPlanoContasVO, UContasReceberVO, UContasPagarVO,UhistoricoVO, ULoteVO, UCondominioVO, ULancamentoPadraoVO;
+UPlanoContasVO, UContasReceberVO, UContasPagarVO,UhistoricoVO, ULoteVO, UCondominioVO, ULancamentoPadraoVO,uItensleituraGasVO;
 
 type
   [TEntity]
@@ -20,6 +20,7 @@ type
     FidContasPagar : Integer;
     FidHistorico : Integer;
     FidLote : Integer;
+    FidItensLeituraGas : Integer;
 
     FDsContaDebito : String;
     FDsContaCredito : String;
@@ -36,6 +37,7 @@ type
     LoteVO : TLoteVo;
     CondominioVO : TCondominioVO;
     LctoPadraoVo : TLancamentoPadraoVO;
+    ItensLeituraGasVO : TItensLeituraGasVO;
 
 
 
@@ -66,6 +68,9 @@ type
 
     [TColumn('idlote','idLote',0,[ldLookup,ldComboBox], False)]
     property idLote: integer  read FIdLote write FIdLote;
+
+    [TColumn('idItensLeituragas','idItensLeituragas',0,[ldLookup,ldComboBox], False)]
+    property iditensleituragas : integer  read Fiditensleituragas write Fiditensleituragas;
 
     [TColumn('idbaixa','idbaixa',0,[ldLookup,ldComboBox], False)]
     property idbaixa: integer  read FidBaixa write FidBaixa;

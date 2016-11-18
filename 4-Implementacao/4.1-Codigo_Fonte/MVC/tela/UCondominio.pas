@@ -69,28 +69,25 @@ type
     GroupBox5: TGroupBox;
     Label4: TLabel;
     Juros: TEdit;
-    Edit5: TEdit;
     BitBtn3: TBitBtn;
     Label5: TLabel;
     Multa: TEdit;
-    Edit7: TEdit;
     BitBtn5: TBitBtn;
     Label6: TLabel;
     DescConc: TEdit;
-    Edit9: TEdit;
     BitBtn6: TBitBtn;
     Label7: TLabel;
     DescObt: TEdit;
-    Edit11: TEdit;
     BitBtn7: TBitBtn;
     Label8: TLabel;
     JurosRec: TEdit;
-    Edit6: TEdit;
     BitBtn8: TBitBtn;
     Label9: TLabel;
     MultaRec: TEdit;
-    Edit8: TEdit;
     BitBtn9: TBitBtn;
+    Label10: TLabel;
+    LeituraGas: TEdit;
+    BitBtn10: TBitBtn;
     procedure FormCreate(Sender: TObject);
     function DoSalvar: boolean; override;
 //    function ValidarTela: boolean;
@@ -121,6 +118,8 @@ type
     procedure BitBtn6Click(Sender: TObject);
     procedure BitBtn7Click(Sender: TObject);
     procedure JurosChange(Sender: TObject);
+    procedure BitBtn10Click(Sender: TObject);
+    procedure LeituraGasExit(Sender: TObject);
 
   private
     { Private declarations }
@@ -142,6 +141,24 @@ uses UPlanoCOntas;
 {$R *.dfm}
 { TFTelaCadastroCondominio }
 
+procedure TFTelaCadastroCondominio.BitBtn10Click(Sender: TObject);
+var
+  FormPlanoConsulta: TFTelaCadastroPlano;
+begin
+  FormPlanoConsulta := TFTelaCadastroPlano.Create(nil);
+  FormPlanoConsulta.FechaForm := true;
+  FormPlanoConsulta.ShowModal;
+  if (FormPlanoConsulta.ObjetoRetornoVO <> nil) then
+  begin
+    if TPlanoContasVO(FormPlanoConsulta.ObjetoRetornoVO).flTipo <> 'S' then
+    begin
+      LeituraGas.Text := IntToStr(TPlanoContasVO(FormPlanoConsulta.ObjetoRetornoVO).idPlanoContas);
+    end
+    else
+      ShowMessage('Conta Sintética');
+  end;
+  FormPlanoConsulta.Release;
+end;
 procedure TFTelaCadastroCondominio.BitBtn1Click(Sender: TObject);
 var
   FormResponsavel: TFTelaCadastroResponsavel;
@@ -165,7 +182,7 @@ begin
     if TPlanoContasVO(FormPlanoConsulta.ObjetoRetornoVO).flTipo <> 'S' then
     begin
       Juros.Text := IntToStr(TPlanoContasVO(FormPlanoConsulta.ObjetoRetornoVO).idPlanoContas);
-      Edit5.Text := TPlanoContasVO(FormPlanoConsulta.ObjetoRetornoVO).dsConta;
+
     end
     else
       ShowMessage('Conta Sintética');
@@ -199,7 +216,7 @@ begin
     if TPlanoContasVO(FormPlanoConsulta.ObjetoRetornoVO).flTipo <> 'S' then
     begin
         Multa.Text := IntToStr(TPlanoContasVO(FormPlanoConsulta.ObjetoRetornoVO).idPlanoContas);
-        Edit7.Text := TPlanoContasVO(FormPlanoConsulta.ObjetoRetornoVO).dsConta;
+
     end
     Else
       ShowMessage('Conta Sintética');
@@ -219,7 +236,7 @@ begin
     if TPlanoContasVO(FormPlanoConsulta.ObjetoRetornoVO).flTipo <> 'S' then
     begin
      DescConc.Text := IntToStr(TPlanoContasVO(FormPlanoConsulta.ObjetoRetornoVO).idPlanoContas);
-     Edit9.Text := TPlanoContasVO(FormPlanoConsulta.ObjetoRetornoVO).dsConta;
+
     end
     Else
       ShowMessage('Conta Sintética');
@@ -239,7 +256,7 @@ begin
     if TPlanoContasVO(FormPlanoConsulta.ObjetoRetornoVO).flTipo <> 'S' then
     begin
       DescObt.Text := IntToStr(TPlanoContasVO(FormPlanoConsulta.ObjetoRetornoVO).idPlanoContas);
-      Edit11.Text := TPlanoContasVO(FormPlanoConsulta.ObjetoRetornoVO).dsConta;
+
     end
     Else
       ShowMessage('Conta Sintética');
@@ -259,7 +276,7 @@ begin
     if TPlanoContasVO(FormPlanoConsulta.ObjetoRetornoVO).flTipo <> 'S' then
     begin
       JurosRec.Text := IntToStr(TPlanoContasVO(FormPlanoConsulta.ObjetoRetornoVO).idPlanoContas);
-      Edit6.Text := TPlanoContasVO(FormPlanoConsulta.ObjetoRetornoVO).dsConta;
+
     end
     else
       ShowMessage('Conta Sintética');
@@ -279,7 +296,7 @@ begin
     if TPlanoContasVO(FormPlanoConsulta.ObjetoRetornoVO).flTipo <> 'S' then
     begin
       MultaRec.Text := IntToStr(TPlanoContasVO(FormPlanoConsulta.ObjetoRetornoVO).idPlanoContas);
-      Edit8.Text := TPlanoContasVO(FormPlanoConsulta.ObjetoRetornoVO).dsConta;
+
     end
     else
       ShowMessage('Conta Sintética');
@@ -414,7 +431,7 @@ begin
     PlanoContasVO := PlanoController.ConsultarPorId(StrToInt(DescConc.Text));
     if PlanoContasVO.flTipo <> 'S' then
     begin
-      edit9.Text := PlanoContasVO.dsConta;
+
       PlanoController.Free;
     end;
   except
@@ -437,7 +454,7 @@ begin
     PlanoContasVO := PlanoController.ConsultarPorId(StrToInt(DescObt.Text));
     if PlanoContasVO.flTipo <> 'S' then
     begin
-      Edit11.Text := PlanoContasVO.dsConta;
+
       PlanoController.Free;
     end;
   except
@@ -551,7 +568,7 @@ begin
     PlanoContasVO := PlanoController.ConsultarPorId(StrToInt(Juros.Text));
     if PlanoContasVO.flTipo <> 'S' then
     begin
-      Edit5.Text := PlanoContasVO.dsConta;
+
       PlanoController.Free;
     end
     else
@@ -576,7 +593,7 @@ begin
     PlanoContasVO := PlanoController.ConsultarPorId(StrToInt(Juros.Text));
     if PlanoContasVO.flTipo <> 'S' then
     begin
-      Edit5.Text := PlanoContasVO.dsConta;
+
       PlanoController.Free;
     end
     else
@@ -601,7 +618,7 @@ begin
     PlanoContasVO := PlanoController.ConsultarPorId(StrToInt(JurosRec.Text));
     if PlanoContasVO.flTipo <> 'S' then
     begin
-      Edit6.Text := PlanoContasVO.dsConta;
+
       PlanoController.Free;
     end;
   except
@@ -612,6 +629,28 @@ begin
     JurosRec.Text := '';
 end;
 
+procedure TFTelaCadastroCondominio.LeituraGasExit(Sender: TObject);
+var
+  PlanoController:TPlanoContasController;
+  PlanoContasVO: TPlanoContasVO;
+begin
+  if LeituraGas.Text <> '' then
+  begin
+  try
+    PlanoController := TPlanoContasController.Create;
+    PlanoContasVO := PlanoController.ConsultarPorId(StrToInt(LeituraGas.Text));
+    if PlanoContasVO.flTipo <> 'S' then
+    begin
+
+      PlanoController.Free;
+    end;
+  except
+    raise Exception.Create('Código Inválido');
+  end;
+  end
+  else
+    LeituraGas.Text := '';
+end;
 function TFTelaCadastroCondominio.EditsToObject(Condominio: TCondominioVO)
   : TCondominioVO;
 begin
@@ -722,7 +761,7 @@ begin
     PlanoContasVO := PlanoController.ConsultarPorId(StrToInt(Multa.Text));
     if PlanoContasVO.flTipo <> 'S' then
     begin
-      EDIT7.Text := PlanoContasVO.dsConta;
+
       PlanoController.Free;
     end;
   except
@@ -745,7 +784,7 @@ begin
     PlanoContasVO := PlanoController.ConsultarPorId(StrToInt(MultaRec.Text));
     if PlanoContasVO.flTipo <> 'S' then
     begin
-      eDIT8.Text := PlanoContasVO.dsConta;
+
       PlanoController.Free;
     end;
   except

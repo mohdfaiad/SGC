@@ -42,6 +42,7 @@ type
     N4: TMenuItem;
     N5: TMenuItem;
     Usurios1: TMenuItem;
+    LeituraGas1: TMenuItem;
     procedure FormCreate(Sender: TObject);
     procedure Pessoa1Click(Sender: TObject);
     procedure Sair1Click(Sender: TObject);
@@ -68,6 +69,7 @@ type
     procedure PNGButton4Click(Sender: TObject);
     procedure Lanamentos1Click(Sender: TObject);
     procedure Usurios1Click(Sender: TObject);
+    procedure LeituraGas1Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -88,7 +90,7 @@ implementation
 
 uses Upessoa, UPais, UCnae, UNaturezaJuridica, UEstado, UCidade, UCondominio, UUnidade, UEmpresaTrab,
 UTotalGastoMes, UPrecoGas, UPlanoContas, UTemplateDre, UtemplateFcx, UContasPagar, UHistorico,
-ULote, UContasReceber, UUsuario;
+ULote, UContasReceber, UUsuario, ULeituraGas;
 
 
 procedure TFormMenu.Cidade1Click(Sender: TObject);
@@ -206,6 +208,14 @@ begin
   Application.CreateForm(TFTelaCadastroLote,FormLote);
   FormLote.ShowModal;
   FormLote.Close;
+end;
+
+procedure TFormMenu.LeituraGas1Click(Sender: TObject);
+var FormLeituraGas : TFTelaCadastroLeituraGas;
+begin
+  Application.CreateForm(TFTelaCadastroLeituraGas,FormLeituraGas);
+  FormLeituraGas.ShowModal;
+  FormLeituraGas.Close;
 end;
 
 procedure TFormMenu.NaturezaJurdica1Click(Sender: TObject);

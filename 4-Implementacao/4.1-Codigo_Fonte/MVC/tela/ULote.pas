@@ -505,8 +505,7 @@ begin
   Result := Lote;
 end;
 
-function TFTelaCadastroLote.EditsToObjectLcto(
-  Lcto: TLancamentoContabilVO): TLancamentoContabilVO;
+function TFTelaCadastroLote.EditsToObjectLcto( Lcto: TLancamentoContabilVO): TLancamentoContabilVO;
 begin
 
    if not CDSGrid.IsEmpty then

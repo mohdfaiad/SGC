@@ -52,6 +52,8 @@ type
     FidCtDescontoObt : Integer;
     FDsDescontoObt : String;
 
+    FidCtLeituraGas : Integer;
+
 
   public
     CnaeVO: TCnaeVO;
@@ -133,6 +135,9 @@ type
 
     [TColumn('idCtDescontoObt','Desconto Obtido',0,[ldLookup,ldComboBox], False)]
     property idCtDescontoObt: integer  read FidCtDescontoObt write FidCtDescontoObt;
+
+    [TColumn('idCtLeituraGas','LeituraGas ',0,[ldLookup,ldComboBox], False)]
+    property idctLeituraGas: integer  read FidctLeituraGas write FidctLeituraGas;
 
     [TColumn('idCidade','idCidade',0,[ldLookup,ldComboBox], False)]
     property IdCidade: integer  read FIdCidade write FIdCidade;

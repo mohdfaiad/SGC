@@ -1,0 +1,49 @@
+unit UItensLeituraGasController;
+
+interface
+
+uses
+    Classes, SQLExpr, SysUtils, Generics.Collections, DBXJSON, DBXCommon,
+    ConexaoBD,
+   UPessoasVO, UController, DBClient, DB,  UPessoasController, UCondominioController,
+   UPlanoCOntasController, UUnidadeVO, UPlanoContasVO, UHistoricoVO, UItensLeituraGasVo,
+   UContasReceberVo, UContasPagarVO, ULeituraGasVO;
+
+
+type
+  TItensLeituraGasController = class(TController<TItensLeituraGasVO>)
+  private
+
+  public
+    function ConsultarPorId(id: integer): TItensLeituraGasVO;
+    procedure ValidarDados(Objeto:TItensLeituraGasVO);override;
+  end;
+
+implementation
+
+uses
+  UDao, Constantes, Vcl.Dialogs;
+
+procedure TItensLeituraGasController.ValidarDados(
+  Objeto: TItensLeituraGasVO);
+begin
+  inherited;
+end;
+
+function TItensLeituraGasController.ConsultarPorId(id: integer): TItensLeituraGasVO;
+var
+  P: TItensLeituraGasVO;
+
+begin
+  P := TDAO.ConsultarPorId<TItensLeituraGasVO>(id);
+
+
+  if (P <> nil) then
+  begin
+      p.UnidadeVO := TDAO.ConsultarPorId<TUnidadeVo>(p.idUnidade);
+  end;
+  result := P;
+end;
+
+
+end.

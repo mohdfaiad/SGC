@@ -85,7 +85,7 @@ object FormEmpresaTrab: TFormEmpresaTrab
       Text = '  /  /    '
     end
     object BtnAcessar: TBitBtn
-      Left = 136
+      Left = 135
       Top = 176
       Width = 75
       Height = 25

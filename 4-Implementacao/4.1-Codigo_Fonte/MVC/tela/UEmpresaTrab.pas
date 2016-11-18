@@ -29,9 +29,11 @@ type
     { Private declarations }
 
   public
-    ctjurosp, ctmultap, ctdescontop, ctjurosr, ctmultar, ctdescontor :integer;
+    ctLeituraGas, ctjurosp, ctmultap, ctdescontop, ctjurosr, ctmultar, ctdescontor :integer;
     CodigoEmpLogada:integer;
     IdUsuario:integer;
+    PrecoGas : Currency;
+
     DescricaoEmpLogada,cnpjEmpLogada:String;
   end;
 
@@ -64,8 +66,13 @@ begin
     ctdescontor:= TCondominioVO(FormCondominioConsulta.ObjetoRetornoVO).idCtDescontoObt;
     ctmultap:= TCondominioVO(FormCondominioConsulta.ObjetoRetornoVO).idCtMultaP;
     ctmultar:= TCondominioVO(FormCondominioConsulta.ObjetoRetornoVO).idCtMulta;
-
-  end;
+    ctleituragas := TCondominioVO(FormCondominioConsulta.ObjetoRetornoVO).idctLeituraGas;
+    precoGas := 0;
+    if TCondominioVO(FormCondominioConsulta.ObjetoRetornoVO).idPrecoGas > 0 then
+    begin
+        precoGas := TCondominioVO(FormCondominioConsulta.ObjetoRetornoVO).PrecoGasVo.vlGas;
+    end;
+end;
   FormCondominioConsulta.Release;
 end;
 
@@ -109,6 +116,7 @@ procedure TFormEmpresaTrab.LabeledEditCodigoExit(Sender: TObject);
 var
   CondominioController:TCondominioController;
   CondominioVO: TCondominioVO;
+
 begin
   if LabeledEditCodigo.Text <> '' then
   begin
@@ -124,6 +132,9 @@ begin
     ctdescontor:= CondominioVO.idCtDescontoObt;
     ctmultap:= CondominioVO.idCtMultaP;
     ctmultar:= CondominioVO.idCtMulta;
+    ctLeituraGas := CondominioVO.idctLeituraGas;
+    if CondominioVo.idPrecoGas > 0 then
+       PrecoGas := CondominioVO.PrecoGasVo.vlGas;
 
     CondominioController.Free;
    except

@@ -10,7 +10,6 @@ inherited FTelaCadastroCondominio: TFTelaCadastroCondominio
   inherited PageControl: TPageControl
     Width = 791
     Height = 536
-    ActivePage = Consulta
     ExplicitWidth = 791
     ExplicitHeight = 536
     inherited Consulta: TTabSheet
@@ -128,6 +127,7 @@ inherited FTelaCadastroCondominio: TFTelaCadastroCondominio
       inherited PageControlEdit: TPageControl
         Width = 783
         Height = 451
+        ActivePage = TabSheet1
         ExplicitWidth = 783
         ExplicitHeight = 451
         inherited DadosPrincipais: TTabSheet
@@ -825,7 +825,7 @@ inherited FTelaCadastroCondominio: TFTelaCadastroCondominio
               Caption = 'Par'#226'metros de Lan'#231'amentos '
               TabOrder = 2
               object Label4: TLabel
-                Left = 13
+                Left = 14
                 Top = 25
                 Width = 58
                 Height = 13
@@ -902,22 +902,26 @@ inherited FTelaCadastroCondominio: TFTelaCadastroCondominio
                 Font.Style = []
                 ParentFont = False
               end
+              object Label10: TLabel
+                Left = 190
+                Top = 23
+                Width = 54
+                Height = 13
+                Caption = 'Leitura G'#225's'
+                Font.Charset = DEFAULT_CHARSET
+                Font.Color = clWindowText
+                Font.Height = -11
+                Font.Name = 'Tahoma'
+                Font.Style = []
+                ParentFont = False
+              end
               object Juros: TEdit
-                Left = 13
+                Left = 14
                 Top = 44
                 Width = 89
                 Height = 21
                 TabOrder = 0
                 OnExit = JurosExit
-              end
-              object Edit5: TEdit
-                Left = 332
-                Top = 44
-                Width = 338
-                Height = 21
-                ReadOnly = True
-                TabOrder = 1
-                Visible = False
               end
               object BitBtn3: TBitBtn
                 Left = 109
@@ -925,7 +929,7 @@ inherited FTelaCadastroCondominio: TFTelaCadastroCondominio
                 Width = 33
                 Height = 25
                 Caption = 'P'
-                TabOrder = 2
+                TabOrder = 1
                 OnClick = BitBtn3Click
               end
               object Multa: TEdit
@@ -933,17 +937,8 @@ inherited FTelaCadastroCondominio: TFTelaCadastroCondominio
                 Top = 140
                 Width = 89
                 Height = 21
-                TabOrder = 3
+                TabOrder = 2
                 OnExit = MultaExit
-              end
-              object Edit7: TEdit
-                Left = 332
-                Top = 140
-                Width = 338
-                Height = 21
-                ReadOnly = True
-                TabOrder = 4
-                Visible = False
               end
               object BitBtn5: TBitBtn
                 Left = 109
@@ -951,7 +946,7 @@ inherited FTelaCadastroCondominio: TFTelaCadastroCondominio
                 Width = 33
                 Height = 25
                 Caption = 'P'
-                TabOrder = 5
+                TabOrder = 3
                 OnClick = BitBtn5Click
               end
               object DescConc: TEdit
@@ -959,17 +954,8 @@ inherited FTelaCadastroCondominio: TFTelaCadastroCondominio
                 Top = 237
                 Width = 89
                 Height = 21
-                TabOrder = 6
+                TabOrder = 4
                 OnExit = DescConcExit
-              end
-              object Edit9: TEdit
-                Left = 333
-                Top = 237
-                Width = 338
-                Height = 21
-                ReadOnly = True
-                TabOrder = 7
-                Visible = False
               end
               object BitBtn6: TBitBtn
                 Left = 110
@@ -977,7 +963,7 @@ inherited FTelaCadastroCondominio: TFTelaCadastroCondominio
                 Width = 33
                 Height = 25
                 Caption = 'P'
-                TabOrder = 8
+                TabOrder = 5
                 OnClick = BitBtn6Click
               end
               object DescObt: TEdit
@@ -985,17 +971,8 @@ inherited FTelaCadastroCondominio: TFTelaCadastroCondominio
                 Top = 288
                 Width = 89
                 Height = 21
-                TabOrder = 9
+                TabOrder = 6
                 OnExit = DescObtExit
-              end
-              object Edit11: TEdit
-                Left = 333
-                Top = 288
-                Width = 338
-                Height = 21
-                ReadOnly = True
-                TabOrder = 10
-                Visible = False
               end
               object BitBtn7: TBitBtn
                 Left = 110
@@ -1003,7 +980,7 @@ inherited FTelaCadastroCondominio: TFTelaCadastroCondominio
                 Width = 33
                 Height = 25
                 Caption = 'P'
-                TabOrder = 11
+                TabOrder = 7
                 OnClick = BitBtn7Click
               end
               object JurosRec: TEdit
@@ -1011,17 +988,8 @@ inherited FTelaCadastroCondominio: TFTelaCadastroCondominio
                 Top = 94
                 Width = 89
                 Height = 21
-                TabOrder = 12
+                TabOrder = 8
                 OnExit = JurosRecExit
-              end
-              object Edit6: TEdit
-                Left = 333
-                Top = 92
-                Width = 338
-                Height = 21
-                ReadOnly = True
-                TabOrder = 13
-                Visible = False
               end
               object BitBtn8: TBitBtn
                 Left = 109
@@ -1029,7 +997,7 @@ inherited FTelaCadastroCondominio: TFTelaCadastroCondominio
                 Width = 33
                 Height = 25
                 Caption = 'P'
-                TabOrder = 14
+                TabOrder = 9
                 OnClick = BitBtn8Click
               end
               object MultaRec: TEdit
@@ -1037,17 +1005,8 @@ inherited FTelaCadastroCondominio: TFTelaCadastroCondominio
                 Top = 186
                 Width = 89
                 Height = 21
-                TabOrder = 15
+                TabOrder = 10
                 OnExit = MultaRecExit
-              end
-              object Edit8: TEdit
-                Left = 332
-                Top = 186
-                Width = 338
-                Height = 21
-                ReadOnly = True
-                TabOrder = 16
-                Visible = False
               end
               object BitBtn9: TBitBtn
                 Left = 109
@@ -1055,8 +1014,25 @@ inherited FTelaCadastroCondominio: TFTelaCadastroCondominio
                 Width = 33
                 Height = 25
                 Caption = 'P'
-                TabOrder = 17
+                TabOrder = 11
                 OnClick = BitBtn9Click
+              end
+              object LeituraGas: TEdit
+                Left = 189
+                Top = 42
+                Width = 89
+                Height = 21
+                TabOrder = 12
+                OnExit = LeituraGasExit
+              end
+              object BitBtn10: TBitBtn
+                Left = 284
+                Top = 40
+                Width = 33
+                Height = 25
+                Caption = 'P'
+                TabOrder = 13
+                OnClick = BitBtn10Click
               end
             end
           end

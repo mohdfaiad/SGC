@@ -88,14 +88,19 @@ uses
   UResponsavel in 'tela\UResponsavel.pas' {FTelaCadastroResponsavel},
   ULancamentoPadraoVO in 'VO\ULancamentoPadraoVO.pas',
   ULancamentoPadraoController in 'controle\ULancamentoPadraoController.pas',
-  ULancamentoPadrao in 'tela\ULancamentoPadrao.pas' {FTelaCadastroLancamentoPadrao};
+  ULancamentoPadrao in 'tela\ULancamentoPadrao.pas' {FTelaCadastroLancamentoPadrao},
+  ULeituraGasVO in 'VO\ULeituraGasVO.pas',
+  UItensLeituraGasVO in 'VO\UItensLeituraGasVO.pas',
+  ULeituraGasController in 'controle\ULeituraGasController.pas',
+  UItensLeituraGasController in 'controle\UItensLeituraGasController.pas',
+  ULeituraGas in 'tela\ULeituraGas.pas' {FTelaCadastroLeituraGas};
 
 {$R *.res}
 
 begin
   Application.Initialize;
   Application.MainFormOnTaskbar := True;
-  TStyleManager.TrySetStyle('Amethyst Kamri');
   Application.CreateForm(TFormMenu, FormMenu);
+  Application.CreateForm(TFTelaCadastroLeituraGas, FTelaCadastroLeituraGas);
   Application.Run;
 end.
