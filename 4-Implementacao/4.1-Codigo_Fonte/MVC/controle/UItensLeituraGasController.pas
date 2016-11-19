@@ -18,6 +18,7 @@ type
     function ConsultarPorId(id: integer): TItensLeituraGasVO;
     procedure ValidarDados(Objeto:TItensLeituraGasVO);override;
     function Inserir( ItensLeitura :TItensLeituraGasVO): integer;
+    function Excluir(ItensLeitura :TItensLeituraGasVO): boolean;
   end;
 
 implementation
@@ -25,6 +26,22 @@ implementation
 uses
   UDao, Constantes, Vcl.Dialogs;
 
+function TItensLeituraGasController.Excluir(ItensLeitura: TItensLeituraGasVO): boolean;
+var Lancamento : TObjectList<TLancamentoContabilVO>;
+begin
+ try
+    TDBExpress.IniciaTransacao;
+    Lancamento:= TDAO.Consultar<TLancamentoContabilVO>('LANCAMENTOCONTABIL.IDITENSLEITURAGAS = '+inttostr(ItensLeitura.idItensLeituraGas),'',0,true);
+  if(Lancamento.Count>0)then
+    begin
+      TDAO.Excluir(Lancamento.First);
+    end;
+    Result := TDAO.Excluir(ItensLeitura);
+    TDBExpress.ComitaTransacao;
+  finally
+    TDBExpress.RollBackTransacao;
+  end;
+end;
 function TItensLeituraGasController.Inserir(ItensLeitura :TItensLeituraGasVO): integer;
 var contaPlano:TPlanoContasVO;
     Lancamento : TLancamentoContabilVO;

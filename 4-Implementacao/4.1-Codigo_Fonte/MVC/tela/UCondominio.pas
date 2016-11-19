@@ -701,6 +701,8 @@ begin
     Condominio.idCtDesconto := StrToInt(DescConc.Text);
   if DescObt.Text <> '' then
     Condominio.idCtDescontoObt := StrToInt(DescObt.Text);
+  if LeituraGas.Text <> '' then
+    Condominio.idctLeituraGas := StrTOInt(LeituraGas.Text);
 
 
   Result := Condominio;
@@ -876,6 +878,8 @@ begin
       DescConc.Text := IntToStr(COndominio.idCtDesconto);
    if Condominio.idCtDescontoObt <> 0 then
       DescObt.Text := IntToStr(COndominio.idCtDescontoObt);
+   if COndominio.idctLeituraGas <> 0 then
+      LeituraGas.Text := IntTOStr(Condominio.idctLeituraGas);
 
   end;
 end;
