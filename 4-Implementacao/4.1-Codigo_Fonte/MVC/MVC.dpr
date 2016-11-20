@@ -93,7 +93,12 @@ uses
   UItensLeituraGasVO in 'VO\UItensLeituraGasVO.pas',
   ULeituraGasController in 'controle\ULeituraGasController.pas',
   UItensLeituraGasController in 'controle\UItensLeituraGasController.pas',
-  ULeituraGas in 'tela\ULeituraGas.pas' {FTelaCadastroLeituraGas};
+  ULeituraGas in 'tela\ULeituraGas.pas' {FTelaCadastroLeituraGas},
+  URateioVO in 'VO\URateioVO.pas',
+  UItensRateioVO in 'VO\UItensRateioVO.pas',
+  URateioController in 'controle\URateioController.pas',
+  UItensRateioController in 'controle\UItensRateioController.pas',
+  URateio in 'tela\URateio.pas' {FTelaCadastroRateio};
 
 {$R *.res}
 
@@ -102,5 +107,6 @@ begin
   Application.MainFormOnTaskbar := True;
   Application.CreateForm(TFormMenu, FormMenu);
   Application.CreateForm(TFTelaCadastroLeituraGas, FTelaCadastroLeituraGas);
+  Application.CreateForm(TFTelaCadastroRateio, FTelaCadastroRateio);
   Application.Run;
 end.

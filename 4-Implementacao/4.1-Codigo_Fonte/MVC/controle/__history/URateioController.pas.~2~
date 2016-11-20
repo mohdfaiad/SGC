@@ -1,0 +1,88 @@
+unit URateioController;
+
+interface
+
+uses
+  Classes, SQLExpr, SysUtils, Generics.Collections, DBXJSON, DBXCommon,
+  ConexaoBD,
+  UController, DBClient, DB, URateioVO,UCondominioVo, UCondominioController,UITENSLEITURAGASVO, UItensRateioController;
+
+
+type
+  TRateioController = class(TController<TRateioVO>)
+  private
+
+  public
+    function ConsultarPorId(id: integer): TRateioVO;
+    procedure ValidarDados(Objeto:TRateioVO);override;
+    function Inserir(leitura: TRateioVO): integer;
+  end;
+
+implementation
+
+uses
+  UDao, Constantes, Vcl.Dialogs;
+
+function TRateioController.ConsultarPorId(id: integer): TRateioVO;
+var
+  P: TRateioVO;
+  condominioController : TCondominioController;
+
+begin
+  P := TDAO.ConsultarPorId<TRateioVO>(id);
+
+
+  if (P <> nil) then
+  begin
+      p.CondominioVO := TDAO.ConsultarPorId<TCondominioVO>(P.IdCondominio);
+  end;
+  result := P;
+end;
+
+function TRateioController.Inserir(leitura: TRateioVO): integer;
+var i, idleitura:integer;
+    itensleitura:TItensLeituraGAsVO;
+    itensleituraGas :TItensRateioController;
+begin
+  itensleituraGas := TItensRateioController.Create;
+  TDBExpress.IniciaTransacao;
+
+  try
+    idleitura:= TDAO.Inserir(leitura);
+
+
+    for I := 0 to leitura.ItensLeitura.Count-1 do
+    begin
+      leitura.ItensLeitura[i].idRateio:=idleitura;
+      itensleituraGas.Inserir(leitura.ItensLeitura[i]);
+    end;
+     validardados(leitura);
+
+    TDBExpress.ComitaTransacao;
+  finally
+    TDBExpress.RollBackTransacao;
+     itensleituraGas.Free;
+  end;
+
+end;
+
+procedure TRateioController.ValidarDados(Objeto: TRateioVO);
+var WhereQuery:STring;
+    mes,ano,dia:word;
+    objetosretorno:TObjectList<TRateioVO>;
+begin
+   DecodeDate(objeto.dtrateiio,ano,mes,dia);
+
+   whereQuery:=' IDRATEIO = '+ IntToStr(Objeto.idRateio);
+   whereQuery:=whereQuery + ' AND ( EXTRACT(MONTH FROM DTRATEIO) = '+inttostr(mes)+ ' AND ';
+   whereQuery:=whereQuery + '       EXTRACT(YEAR FROM DTRATEIO) = '+inttostr(ano)+ ' ) ';
+
+    ObjetosREtorno := self.Consultar(whereQuery);
+    if(objetosRetorno.Count>0)then
+      raise Exception.Create('Rateio ja realizada para mês ano informado!');
+end;
+
+begin
+
+
+end.

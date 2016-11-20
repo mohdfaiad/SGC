@@ -49,11 +49,11 @@ type
     procedure BitBtnAlteraClick(Sender: TObject);
     procedure BtnCancelarCClick(Sender: TObject);
     procedure MaskEdit1Exit(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
   private
     { Private declarations }
   public
     { Public declarations }
-    procedure GridParaEditsItens;
     procedure AtualizaGrid;
   end;
 
@@ -102,14 +102,16 @@ begin
  while NOT CDSItensLeitura.Eof do
  begin
     item:= TItensLeituraGasVO.Create;
+    if CDSItensLeituraIDUNIDADE.AsInteger > 0 then
+    begin
     item.idUnidade:= CDSItensLeituraIDUNIDADE.AsInteger;
     if MaskEdit1.Text <> ('  /  /    ') then
       item.dtLeitura:=StrToDate(MaskEdit1.Text);
-
     item.vlMedido := CDSItensLeituraVLMEDIDO.AsCurrency;
     item.vlCalculado:= CDSItensLeituraVLCALCULADO.AsCurrency;
     item.ValidarCamposObrigatorios;
     ItensLeituraGas.Add(item);
+    end;
     CDSItensLeitura.Next;
  end;
  leitura:= TLeituraGasVO.Create;
@@ -235,34 +237,24 @@ begin
   CDSItensLeituraVLCALCULADO.AsCurrency := CDSItensLeituraVLMEDIDO.AsCurrency * StrToCurr(Edit3.Text);
 end;
 
-procedure TFTelaCadastroLeituraGas.FormCreate(Sender: TObject);
-var
-  LeituraController : TLeituraGasController;
-  leitura : TObjectList<TLeituraGasVO>;
-  i : integer;
+procedure TFTelaCadastroLeituraGas.FormClose(Sender: TObject;
+  var Action: TCloseAction);
 begin
+  FreeAndNil(ControllerLeituraGas);
+  FreeAndNil(ControllerItensLeitura)
+end;
+
+procedure TFTelaCadastroLeituraGas.FormCreate(Sender: TObject);
+begin
+  ControllerLeituraGas:= TLeituraGasController.Create;
+  ControllerItensLeitura := TItensLeituraGasController.Create;
 
   Edit3.Text := FloatTOStr(FormEmpresaTRab.PrecoGas);
   Panel4.Visible :=false;
-
-  LeituraController := TLeituraGasController.Create;
-  leitura := LeituraController.Consultar('idcondominio = '+ IntToStr(FormEmpresaTrAB.CodigoEmpLogada));
-  CdsItensLeitura.EmptyDataSet;
-
-  for I := 0  to leitura.Count - 1 do
-  begin
-    CDsItensLeitura.Append;
-    CDSItensLeituraIDLEITURAGAS.AsInteger := Leitura[i].idLeituraGas;
-    CDSItensLeituraDTLEITURA.AsDateTime := leitura[i].dtLeitura;
-    CDsItensLeitura.Post;
-  end;
-  LeituraController.Free;
+  AtualizaGrid;
 end;
 
-procedure TFTelaCadastroLeituraGas.GridParaEditsItens;
-begin
 
-end;
 
 procedure TFTelaCadastroLeituraGas.MaskEdit1Exit(Sender: TObject);
 begin

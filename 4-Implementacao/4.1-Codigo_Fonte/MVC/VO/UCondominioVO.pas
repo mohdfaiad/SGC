@@ -21,7 +21,7 @@ type
     FEmail: String;
     FTelefoneI: String;
     FTelefoneII: String;
-    FMetragem : String;
+    FMetragem : currency;
     FInscricaoMunicipal : String;
     FNomeFantasia : String;
     FRegimeTributario : String;
@@ -53,7 +53,10 @@ type
     FDsDescontoObt : String;
 
     FidCtLeituraGas : Integer;
+    FidCtRateio : Integer;
+    FIdCtFundoReserva : Integer;
 
+    FFundoReserva : Currency;
 
   public
     CnaeVO: TCnaeVO;
@@ -91,7 +94,7 @@ type
     [TFormatter(ftTelefone, taLeftJustify)]
     property TelefoneII: String  read FTelefoneII write FtelefoneII;
     [TColumn('metragem','Metragem',0,[ldLookup,ldComboBox], False)]
-    property metragem: string  read FMetragem write FMetragem;
+    property metragem: currency  read FMetragem write FMetragem;
     [TColumn('inscricaoMunicipal','CMC',0,[ldLookup,ldComboBox], False)]
     property inscricaoMunicipal: string  read FInscricaoMunicipal write FInscricaoMunicipal;
     [TColumn('nomeFantasia','Fantasia',0,[ldLookup,ldComboBox], False)]
@@ -138,6 +141,15 @@ type
 
     [TColumn('idCtLeituraGas','LeituraGas ',0,[ldLookup,ldComboBox], False)]
     property idctLeituraGas: integer  read FidctLeituraGas write FidctLeituraGas;
+
+    [TColumn('idCtRateio','LeituraGas ',0,[ldLookup,ldComboBox], False)]
+    property idCtRateio: integer  read FidCtRateio write FidCtRateio;
+
+    [TColumn('IdCtFundoReserva','LeituraGas ',0,[ldLookup,ldComboBox], False)]
+    property IdCtFundoReserva: integer  read FIdCtFundoReserva write FIdCtFundoReserva;
+
+    [TColumn('FundoReserva','% FundoReserva ',0,[ldLookup,ldComboBox], False)]
+    property FundoReserva: currency  read FFundoReserva write FFundoReserva;
 
     [TColumn('idCidade','idCidade',0,[ldLookup,ldComboBox], False)]
     property IdCidade: integer  read FIdCidade write FIdCidade;

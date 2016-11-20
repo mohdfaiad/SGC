@@ -43,6 +43,7 @@ type
     N5: TMenuItem;
     Usurios1: TMenuItem;
     LeituraGas1: TMenuItem;
+    Rateio1: TMenuItem;
     procedure FormCreate(Sender: TObject);
     procedure Pessoa1Click(Sender: TObject);
     procedure Sair1Click(Sender: TObject);
@@ -70,6 +71,7 @@ type
     procedure Lanamentos1Click(Sender: TObject);
     procedure Usurios1Click(Sender: TObject);
     procedure LeituraGas1Click(Sender: TObject);
+    procedure Rateio1Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -90,7 +92,7 @@ implementation
 
 uses Upessoa, UPais, UCnae, UNaturezaJuridica, UEstado, UCidade, UCondominio, UUnidade, UEmpresaTrab,
 UTotalGastoMes, UPrecoGas, UPlanoContas, UTemplateDre, UtemplateFcx, UContasPagar, UHistorico,
-ULote, UContasReceber, UUsuario, ULeituraGas;
+ULote, UContasReceber, UUsuario, ULeituraGas, URateio;
 
 
 procedure TFormMenu.Cidade1Click(Sender: TObject);
@@ -294,6 +296,14 @@ begin
   Application.CreateForm(TFTelaCadastroPrecoGas,FormPrecoGas);
   FormPrecoGas.ShowModal;
   FormPrecoGas.Close;
+end;
+
+procedure TFormMenu.Rateio1Click(Sender: TObject);
+var FormRateio : TFTelaCadastroRateio;
+begin
+  Application.CreateForm(TFTelaCadastroRateio,FormRateio);
+  FormRateio.ShowModal;
+  FormRateio.Close;
 end;
 
 procedure TFormMenu.Sair1Click(Sender: TObject);

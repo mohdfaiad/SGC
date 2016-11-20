@@ -1,0 +1,516 @@
+object FTelaCadastroRateio: TFTelaCadastroRateio
+  Left = 0
+  Top = 0
+  Caption = 'Rateio'
+  ClientHeight = 573
+  ClientWidth = 674
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  Position = poMainFormCenter
+  OnCreate = FormCreate
+  PixelsPerInch = 96
+  TextHeight = 13
+  object Panel1: TPanel
+    Left = 0
+    Top = 0
+    Width = 674
+    Height = 573
+    Align = alClient
+    TabOrder = 0
+    ExplicitLeft = 8
+    ExplicitWidth = 777
+    ExplicitHeight = 613
+    object Label1: TLabel
+      Left = 326
+      Top = 96
+      Width = 71
+      Height = 13
+      Caption = 'Total Gasto :'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Tahoma'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object BitBtnIncluirC: TBitBtn
+      Left = 62
+      Top = 30
+      Width = 53
+      Height = 43
+      Caption = 'Incluir'
+      Glyph.Data = {
+        76010000424D7601000000000000760000002800000020000000100000000100
+        04000000000000010000120B0000120B00001000000000000000000000000000
+        800000800000008080008000000080008000808000007F7F7F00BFBFBF000000
+        FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00333300000000
+        0000333377777777777733330FFFFFFFFFF033337F3FFF3F3FF733330F000F0F
+        00F033337F777373773733330FFFFFFFFFF033337F3FF3FF3FF733330F00F00F
+        00F033337F773773773733330FFFFFFFFFF033337FF3333FF3F7333300FFFF00
+        F0F03333773FF377F7373330FB00F0F0FFF0333733773737F3F7330FB0BF0FB0
+        F0F0337337337337373730FBFBF0FB0FFFF037F333373373333730BFBF0FB0FF
+        FFF037F3337337333FF700FBFBFB0FFF000077F333337FF37777E0BFBFB000FF
+        0FF077FF3337773F7F37EE0BFB0BFB0F0F03777FF3733F737F73EEE0BFBF00FF
+        00337777FFFF77FF7733EEEE0000000003337777777777777333}
+      Layout = blGlyphTop
+      NumGlyphs = 2
+      TabOrder = 0
+      OnClick = BitBtnIncluirCClick
+    end
+    object BtnCancelarC: TBitBtn
+      Left = 164
+      Top = 30
+      Width = 51
+      Height = 43
+      Cancel = True
+      Caption = 'Excluir'
+      Glyph.Data = {
+        DE010000424DDE01000000000000760000002800000024000000120000000100
+        0400000000006801000000000000000000001000000000000000000000000000
+        80000080000000808000800000008000800080800000C0C0C000808080000000
+        FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00333333333333
+        333333333333333333333333000033338833333333333333333F333333333333
+        0000333911833333983333333388F333333F3333000033391118333911833333
+        38F38F333F88F33300003339111183911118333338F338F3F8338F3300003333
+        911118111118333338F3338F833338F3000033333911111111833333338F3338
+        3333F8330000333333911111183333333338F333333F83330000333333311111
+        8333333333338F3333383333000033333339111183333333333338F333833333
+        00003333339111118333333333333833338F3333000033333911181118333333
+        33338333338F333300003333911183911183333333383338F338F33300003333
+        9118333911183333338F33838F338F33000033333913333391113333338FF833
+        38F338F300003333333333333919333333388333338FFF830000333333333333
+        3333333333333333333888330000333333333333333333333333333333333333
+        0000}
+      Layout = blGlyphTop
+      NumGlyphs = 2
+      TabOrder = 1
+      OnClick = BtnCancelarCClick
+    end
+    object GridLeitura: TDBGrid
+      Left = 112
+      Top = 154
+      Width = 365
+      Height = 367
+      DataSource = DSRateio
+      TabOrder = 2
+      TitleFont.Charset = DEFAULT_CHARSET
+      TitleFont.Color = clWindowText
+      TitleFont.Height = -11
+      TitleFont.Name = 'Tahoma'
+      TitleFont.Style = []
+      Columns = <
+        item
+          Expanded = False
+          FieldName = 'IDRATEIO'
+          Title.Caption = 'C'#243'digo'
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'DTRATEIO'
+          Title.Caption = 'Data'
+          Width = 90
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'TOTALRATEIO'
+          Title.Caption = 'Total'
+          Width = 103
+          Visible = True
+        end>
+    end
+    object BitBtnAltera: TBitBtn
+      Left = 114
+      Top = 30
+      Width = 51
+      Height = 43
+      Caption = 'Processar'
+      Glyph.Data = {
+        76010000424D7601000000000000760000002800000020000000100000000100
+        04000000000000010000120B0000120B00001000000000000000000000000000
+        800000800000008080008000000080008000808000007F7F7F00BFBFBF000000
+        FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00333333000000
+        000033333377777777773333330FFFFFFFF03FF3FF7FF33F3FF700300000FF0F
+        00F077F777773F737737E00BFBFB0FFFFFF07773333F7F3333F7E0BFBF000FFF
+        F0F077F3337773F3F737E0FBFBFBF0F00FF077F3333FF7F77F37E0BFBF00000B
+        0FF077F3337777737337E0FBFBFBFBF0FFF077F33FFFFFF73337E0BF0000000F
+        FFF077FF777777733FF7000BFB00B0FF00F07773FF77373377373330000B0FFF
+        FFF03337777373333FF7333330B0FFFF00003333373733FF777733330B0FF00F
+        0FF03333737F37737F373330B00FFFFF0F033337F77F33337F733309030FFFFF
+        00333377737FFFFF773333303300000003333337337777777333}
+      Layout = blGlyphTop
+      NumGlyphs = 2
+      TabOrder = 3
+      OnClick = BitBtnAlteraClick
+    end
+    object MaskEdit1: TMaskEdit
+      Left = 413
+      Top = 42
+      Width = 64
+      Height = 21
+      Color = clWhite
+      Enabled = False
+      EditMask = '!99/99/9999;1;_'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlue
+      Font.Height = -11
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      MaxLength = 10
+      ParentFont = False
+      TabOrder = 4
+      Text = '  /  /    '
+    end
+    object Edit3: TEdit
+      Left = 413
+      Top = 93
+      Width = 64
+      Height = 21
+      Enabled = False
+      MaxLength = 10
+      TabOrder = 5
+    end
+  end
+  object Panel4: TPanel
+    Left = 8
+    Top = 8
+    Width = 657
+    Height = 533
+    TabOrder = 1
+    object GroupBox1: TGroupBox
+      Left = 16
+      Top = 16
+      Width = 625
+      Height = 73
+      Caption = 'Informa'#231#245'es Rateio'
+      TabOrder = 0
+      object Label2: TLabel
+        Left = 81
+        Top = 18
+        Width = 54
+        Height = 13
+        Caption = 'M'#178' Total: '
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'Tahoma'
+        Font.Style = [fsBold]
+        ParentFont = False
+      end
+      object Label4: TLabel
+        Left = 257
+        Top = 15
+        Width = 71
+        Height = 13
+        Caption = 'Total Gasto :'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'Tahoma'
+        Font.Style = [fsBold]
+        ParentFont = False
+      end
+      object Label5: TLabel
+        Left = 169
+        Top = 15
+        Width = 65
+        Height = 13
+        Caption = 'F. Reserva :'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'Tahoma'
+        Font.Style = [fsBold]
+        ParentFont = False
+      end
+      object Edit2: TEdit
+        Left = 3
+        Top = 34
+        Width = 64
+        Height = 21
+        MaxLength = 10
+        ReadOnly = True
+        TabOrder = 0
+        Visible = False
+      end
+      object Edit1: TEdit
+        Left = 257
+        Top = 34
+        Width = 64
+        Height = 21
+        MaxLength = 10
+        ReadOnly = True
+        TabOrder = 1
+      end
+      object Edit4: TEdit
+        Left = 81
+        Top = 34
+        Width = 64
+        Height = 21
+        MaxLength = 10
+        ReadOnly = True
+        TabOrder = 2
+      end
+      object Edit5: TEdit
+        Left = 169
+        Top = 34
+        Width = 64
+        Height = 21
+        MaxLength = 10
+        ReadOnly = True
+        TabOrder = 3
+      end
+    end
+    object DBGrid2: TDBGrid
+      Left = 0
+      Top = 95
+      Width = 641
+      Height = 370
+      DataSource = DSItensRateio
+      ReadOnly = True
+      TabOrder = 1
+      TitleFont.Charset = DEFAULT_CHARSET
+      TitleFont.Color = clWindowText
+      TitleFont.Height = -11
+      TitleFont.Name = 'Tahoma'
+      TitleFont.Style = []
+      Columns = <
+        item
+          Expanded = False
+          FieldName = 'IDUNIDADE'
+          Title.Caption = 'C'#243'digo'
+          Width = 46
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'DSUNIDADE'
+          Title.Caption = 'Descri'#231#227'o Unidade'
+          Width = 279
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'VLAREA'
+          Title.Caption = #193'rea Unidade'
+          Width = 82
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'VLRATEIO'
+          Title.Caption = 'Valor Rateio'
+          Width = 88
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'VLFUNDORESERVA'
+          Title.Caption = 'Valor Fundo Reserva'
+          Visible = True
+        end>
+    end
+    object BitBtn5: TBitBtn
+      Left = 279
+      Top = 482
+      Width = 93
+      Height = 43
+      Caption = 'Processa e Grava'
+      Glyph.Data = {
+        76010000424D7601000000000000760000002800000020000000100000000100
+        04000000000000010000120B0000120B00001000000000000000000000000000
+        800000800000008080008000000080008000808000007F7F7F00BFBFBF000000
+        FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00333300000000
+        0000333377777777777733330FFFFFFFFFF033337F3FFF3F3FF733330F000F0F
+        00F033337F777373773733330FFFFFFFFFF033337F3FF3FF3FF733330F00F00F
+        00F033337F773773773733330FFFFFFFFFF033337FF3333FF3F7333300FFFF00
+        F0F03333773FF377F7373330FB00F0F0FFF0333733773737F3F7330FB0BF0FB0
+        F0F0337337337337373730FBFBF0FB0FFFF037F333373373333730BFBF0FB0FF
+        FFF037F3337337333FF700FBFBFB0FFF000077F333337FF37777E0BFBFB000FF
+        0FF077FF3337773F7F37EE0BFB0BFB0F0F03777FF3733F737F73EEE0BFBF00FF
+        00337777FFFF77FF7733EEEE0000000003337777777777777333}
+      Layout = blGlyphTop
+      NumGlyphs = 2
+      TabOrder = 2
+      OnClick = BitBtn5Click
+    end
+    object BitBtn6: TBitBtn
+      Left = 378
+      Top = 483
+      Width = 94
+      Height = 42
+      Cancel = True
+      Caption = 'Cancelar'
+      Glyph.Data = {
+        DE010000424DDE01000000000000760000002800000024000000120000000100
+        0400000000006801000000000000000000001000000000000000000000000000
+        80000080000000808000800000008000800080800000C0C0C000808080000000
+        FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00333333333333
+        333333333333333333333333000033338833333333333333333F333333333333
+        0000333911833333983333333388F333333F3333000033391118333911833333
+        38F38F333F88F33300003339111183911118333338F338F3F8338F3300003333
+        911118111118333338F3338F833338F3000033333911111111833333338F3338
+        3333F8330000333333911111183333333338F333333F83330000333333311111
+        8333333333338F3333383333000033333339111183333333333338F333833333
+        00003333339111118333333333333833338F3333000033333911181118333333
+        33338333338F333300003333911183911183333333383338F338F33300003333
+        9118333911183333338F33838F338F33000033333913333391113333338FF833
+        38F338F300003333333333333919333333388333338FFF830000333333333333
+        3333333333333333333888330000333333333333333333333333333333333333
+        0000}
+      Layout = blGlyphTop
+      NumGlyphs = 2
+      TabOrder = 3
+      OnClick = BitBtn6Click
+    end
+  end
+  object CDSRateio: TClientDataSet
+    Active = True
+    Aggregates = <>
+    FieldDefs = <
+      item
+        Name = 'IDRATEIO'
+        DataType = ftInteger
+      end
+      item
+        Name = 'TOTALRATEIO'
+        DataType = ftCurrency
+      end
+      item
+        Name = 'DTRATEIO'
+        DataType = ftDateTime
+      end
+      item
+        Name = 'IDCONDOMINIO'
+        DataType = ftInteger
+      end>
+    IndexDefs = <>
+    Params = <>
+    StoreDefs = True
+    Left = 512
+    Top = 368
+    Data = {
+      790000009619E0BD010000001800000004000000000003000000790008494452
+      415445494F04000100000000000B544F54414C52415445494F08000400000001
+      0007535542545950450200490006004D6F6E65790008445452415445494F0800
+      0800000000000C4944434F4E444F4D494E494F04000100000000000000}
+    object CDSRateioIDRATEIO: TIntegerField
+      FieldName = 'IDRATEIO'
+    end
+    object CDSRateioTOTALRATEIO: TCurrencyField
+      FieldName = 'TOTALRATEIO'
+    end
+    object CDSRateioDTRATEIO: TDateTimeField
+      FieldName = 'DTRATEIO'
+    end
+    object CDSRateioIDCONDOMINIO: TIntegerField
+      FieldName = 'IDCONDOMINIO'
+    end
+  end
+  object DSRateio: TDataSource
+    DataSet = CDSRateio
+    Left = 512
+    Top = 424
+  end
+  object DSItensRateio: TDataSource
+    DataSet = CDSItensrateio
+    Left = 592
+    Top = 424
+  end
+  object CDSItensrateio: TClientDataSet
+    Active = True
+    Aggregates = <>
+    FieldDefs = <
+      item
+        Name = 'IDRATEIO'
+        DataType = ftInteger
+      end
+      item
+        Name = 'IDUNIDADE'
+        DataType = ftInteger
+      end
+      item
+        Name = 'VLRATEIO'
+        DataType = ftCurrency
+      end
+      item
+        Name = 'VLFUNDORESERVA'
+        DataType = ftCurrency
+      end
+      item
+        Name = 'DTRATEIO'
+        DataType = ftDateTime
+      end
+      item
+        Name = 'DSUNIDADE'
+        DataType = ftString
+        Size = 20
+      end
+      item
+        Name = 'VLAREATOTAL'
+        DataType = ftCurrency
+      end
+      item
+        Name = 'IDITENSRATEIO'
+        DataType = ftInteger
+      end
+      item
+        Name = 'VLAREA'
+        DataType = ftCurrency
+      end>
+    IndexDefs = <>
+    FetchOnDemand = False
+    Params = <>
+    StoreDefs = True
+    Left = 584
+    Top = 352
+    Data = {
+      1D0100009619E0BD0100000018000000090000000000030000001D0108494452
+      415445494F0400010000000000094944554E4944414445040001000000000008
+      564C52415445494F080004000000010007535542545950450200490006004D6F
+      6E6579000E564C46554E444F5245534552564108000400000001000753554254
+      5950450200490006004D6F6E65790008445452415445494F0800080000000000
+      094453554E494441444501004900000001000557494454480200020014000B56
+      4C41524541544F54414C08000400000001000753554254595045020049000600
+      4D6F6E6579000D49444954454E5352415445494F040001000000000006564C41
+      524541080004000000010007535542545950450200490006004D6F6E65790000
+      00}
+    object CDSItensrateioIDRATEIO: TIntegerField
+      FieldName = 'IDRATEIO'
+    end
+    object CDSItensrateioIDUNIDADE: TIntegerField
+      FieldName = 'IDUNIDADE'
+    end
+    object CDSItensrateioVLRATEIO: TCurrencyField
+      FieldName = 'VLRATEIO'
+      currency = False
+    end
+    object CDSItensrateioVLFUNDORESERVA: TCurrencyField
+      FieldName = 'VLFUNDORESERVA'
+      currency = False
+    end
+    object CDSItensrateioDTRATEIO: TDateTimeField
+      FieldName = 'DTRATEIO'
+    end
+    object CDSItensrateioDSUNIDADE: TStringField
+      FieldName = 'DSUNIDADE'
+    end
+    object CDSItensrateioVLAREATOTAL: TCurrencyField
+      FieldName = 'VLAREATOTAL'
+      currency = False
+    end
+    object CDSItensrateioIDITENSRATEIO: TIntegerField
+      FieldName = 'IDITENSRATEIO'
+    end
+    object CDSItensrateioVLAREA: TCurrencyField
+      FieldName = 'VLAREA'
+      currency = False
+    end
+  end
+end

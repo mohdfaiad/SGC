@@ -1,0 +1,105 @@
+unit UItensRateioController;
+
+interface
+
+uses
+    Classes, SQLExpr, SysUtils, Generics.Collections, DBXJSON, DBXCommon,
+    ConexaoBD,
+   UPessoasVO, UController, DBClient, DB,  UPessoasController, UCondominioController,
+   UPlanoCOntasController, UUnidadeVO, UPlanoContasVO, UHistoricoVO, UItensRateioVo,
+   ULancamentoContabilVO, ULeituraGasVO, UEmpresaTrab;
+
+
+type
+  TItensRateioController = class(TController<TItensRateioVO>)
+  private
+
+  public
+    function ConsultarPorId(id: integer): TItensRateioVO;
+    procedure ValidarDados(Objeto:TItensRateioVO);override;
+    function Inserir( ItensRateio :TItensRateioVO): integer;
+    function Excluir(ItensRateio :TItensRateioVO): boolean;
+  end;
+
+implementation
+
+uses
+  UDao, Constantes, Vcl.Dialogs;
+
+function TItensRateioController.Excluir(ItensRateio: TItensRateioVO): boolean;
+var Lancamento : TObjectList<TLancamentoContabilVO>;
+begin
+ try
+    TDBExpress.IniciaTransacao;
+    Lancamento:= TDAO.Consultar<TLancamentoContabilVO>('LANCAMENTOCONTABIL.IDITENSRATEIO = '+inttostr(ItensRateio.idItensRateio),'',0,true);
+  if(Lancamento.Count>0)then
+    begin
+      TDAO.Excluir(Lancamento.First);
+    end;
+    Result := TDAO.Excluir(ItensRateio);
+    TDBExpress.ComitaTransacao;
+  finally
+    TDBExpress.RollBackTransacao;
+  end;
+end;
+function TItensRateioController.Inserir(ItensRateio :TItensRateioVO): integer;
+var contaPlano:TPlanoContasVO;
+    Lancamento : TLancamentoContabilVO;
+    listaConta :TObjectList<TPlanoContasVO>;
+    Query : String;
+    idContaUnidade, idcontadebito,idcontacredito:integer;
+    PlanoContasController : TPlanoContasController;
+begin
+     Result := TDAO.Inserir(ItensRateio);
+    if(ItensRateio.IdUnidade > 0)then
+    begin
+      PlanoContasController := TPlanoContasController.Create;
+      Query :=  ' PlanoContas.idUnidade = ' +(IntTOsTR(ItensRateio.IdUnidade));
+      listaConta := PlanoContasController.Consultar(query);
+      if (listaConta.Count > 0) then
+      begin
+        idContaUnidade:=listaConta[0].idPlanoContas;
+      end;
+    end;
+
+      if ItensRateio.IdUnidade >  0 then
+      begin
+         idContaDebito := idContaUnidade;
+         idContaCredito := FormEmpresaTrab.ctLeituraGas;
+      end;
+
+
+      Lancamento := TLancamentoContabilVo.Create;
+      Lancamento.idcontadebito := idContaDebito;
+      Lancamento.idContaCredito := idContaCredito;
+      Lancamento.complemento := 'Rateio';
+      Lancamento.dtLcto := ItensRateio.dtRateio;
+      Lancamento.VlValor := ItensRateio.vlRateio;
+      Lancamento.idItensRateio := result;
+      Lancamento.idHistorico :=0;
+      TDao.Inserir(Lancamento);
+end;
+
+procedure TItensRateioController.ValidarDados(
+  Objeto: TItensRateioVO);
+begin
+  inherited;
+end;
+
+function TItensRateioController.ConsultarPorId(id: integer): TItensRateioVO;
+var
+  P: TItensRateioVO;
+
+begin
+  P := TDAO.ConsultarPorId<TItensRateioVO>(id);
+
+
+  if (P <> nil) then
+  begin
+      p.UnidadeVO := TDAO.ConsultarPorId<TUnidadeVo>(p.idUnidade);
+  end;
+  result := P;
+end;
+
+
+end.

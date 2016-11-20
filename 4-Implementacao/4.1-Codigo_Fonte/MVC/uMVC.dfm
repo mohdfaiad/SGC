@@ -5631,6 +5631,10 @@ object FormMenu: TFormMenu
         Caption = 'Leitura G'#225's'
         OnClick = LeituraGas1Click
       end
+      object Rateio1: TMenuItem
+        Caption = 'Rateio'
+        OnClick = Rateio1Click
+      end
       object Lanamentos1: TMenuItem
         Caption = 'Lan'#231'amentos'
         OnClick = Lanamentos1Click

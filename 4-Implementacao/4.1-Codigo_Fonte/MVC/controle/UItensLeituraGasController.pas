@@ -50,7 +50,7 @@ var contaPlano:TPlanoContasVO;
     idContaUnidade, idcontadebito,idcontacredito:integer;
     PlanoContasController : TPlanoContasController;
 begin
-    Result := TDAO.Inserir(ItensLeitura);
+     Result := TDAO.Inserir(ItensLeitura);
     if(ItensLeitura.IdUnidade > 0)then
     begin
       PlanoContasController := TPlanoContasController.Create;

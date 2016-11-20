@@ -29,10 +29,10 @@ type
     { Private declarations }
 
   public
-    ctLeituraGas, ctjurosp, ctmultap, ctdescontop, ctjurosr, ctmultar, ctdescontor :integer;
+    ctLeituraGas, ctjurosp, ctmultap, ctdescontop, ctjurosr, ctmultar, ctdescontor, ctrateio, ctfundoreserva :integer;
     CodigoEmpLogada:integer;
     IdUsuario:integer;
-    PrecoGas : Currency;
+    PrecoGas, fundoreserva, areatotal : Currency;
 
     DescricaoEmpLogada,cnpjEmpLogada:String;
   end;
@@ -67,6 +67,10 @@ begin
     ctmultap:= TCondominioVO(FormCondominioConsulta.ObjetoRetornoVO).idCtMultaP;
     ctmultar:= TCondominioVO(FormCondominioConsulta.ObjetoRetornoVO).idCtMulta;
     ctleituragas := TCondominioVO(FormCondominioConsulta.ObjetoRetornoVO).idctLeituraGas;
+    ctRateio := TCondominioVO(FormCondominioConsulta.ObjetoRetornoVO).idCtRateio;
+    ctFundoReserva := TCondominioVO(FormCondominioConsulta.ObjetoRetornoVO).IdCtFundoReserva;
+    fundoReserva := TCondominioVO(FormCondominioConsulta.ObjetoRetornoVO).FundoReserva;
+    areatotal := TCondominioVO(FormCondominioConsulta.ObjetoRetornoVO).metragem;
     precoGas := 0;
     if TCondominioVO(FormCondominioConsulta.ObjetoRetornoVO).idPrecoGas > 0 then
     begin
@@ -133,6 +137,11 @@ begin
     ctmultap:= CondominioVO.idCtMultaP;
     ctmultar:= CondominioVO.idCtMulta;
     ctLeituraGas := CondominioVO.idctLeituraGas;
+    ctRateio := CondominioVO.idCtRateio;
+    ctFundoReserva := CondominioVO.IdCtFundoReserva;
+    fundoreserva := CondominioVO.FundoReserva;
+    areatotal := COndominioVO.metragem;
+
     if CondominioVo.idPrecoGas > 0 then
        PrecoGas := CondominioVO.PrecoGasVo.vlGas;
 

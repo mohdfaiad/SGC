@@ -48,12 +48,16 @@ begin
   TDBExpress.IniciaTransacao;
 
   try
-    idleitura:= TDAO.Inserir(leitura);
+    Result := TDAO.Inserir(leitura);
+    idleitura:= Result;
+
+
     for I := 0 to leitura.ItensLeitura.Count-1 do
     begin
       leitura.ItensLeitura[i].idLeituraGas:=idleitura;
       itensleituraGas.Inserir(leitura.ItensLeitura[i]);
     end;
+     validardados(leitura);
 
     TDBExpress.ComitaTransacao;
   finally
@@ -70,13 +74,13 @@ var WhereQuery:STring;
 begin
    DecodeDate(objeto.dtLeitura,ano,mes,dia);
 
-   whereQuery:=' IDLEITURAGAS = '+ IntToStr(Objeto.idLeituraGas);
-   whereQuery:=whereQuery + ' AND ( EXTRACT(MONTH FROM DTLOTE) = '+inttostr(mes)+ ' AND ';
-   whereQuery:=whereQuery + '       EXTRACT(YEAR FROM DTLOTE) = '+inttostr(ano)+ ' ) ';
+   whereQuery:=' IDCONDOMINIO = '+ IntToStr(Objeto.IDCONDOMINIO);
+   whereQuery:=whereQuery + ' AND ( EXTRACT(MONTH FROM DTLEITURA) = '+inttostr(mes)+ ' AND ';
+   whereQuery:=whereQuery + '       EXTRACT(YEAR FROM DTLEITURA) = '+inttostr(ano)+ ' ) ';
 
     ObjetosREtorno := self.Consultar(whereQuery);
     if(objetosRetorno.Count>0)then
-      raise Exception.Create('LeituraGas ja cadastrado para mês ano informado!');
+      raise Exception.Create('Leitura do Gás ja realizada para mês ano informado!');
 end;
 
 begin

@@ -88,6 +88,13 @@ type
     Label10: TLabel;
     LeituraGas: TEdit;
     BitBtn10: TBitBtn;
+    Rateio: TEdit;
+    BitBtn11: TBitBtn;
+    Label11: TLabel;
+    FundoReserva: TEdit;
+    BitBtn12: TBitBtn;
+    Label12: TLabel;
+    PercFundoReserva: TLabeledEdit;
     procedure FormCreate(Sender: TObject);
     function DoSalvar: boolean; override;
 //    function ValidarTela: boolean;
@@ -120,6 +127,10 @@ type
     procedure JurosChange(Sender: TObject);
     procedure BitBtn10Click(Sender: TObject);
     procedure LeituraGasExit(Sender: TObject);
+    procedure RateioExit(Sender: TObject);
+    procedure BitBtn11Click(Sender: TObject);
+    procedure BitBtn12Click(Sender: TObject);
+    procedure FundoReservaExit(Sender: TObject);
 
   private
     { Private declarations }
@@ -153,6 +164,43 @@ begin
     if TPlanoContasVO(FormPlanoConsulta.ObjetoRetornoVO).flTipo <> 'S' then
     begin
       LeituraGas.Text := IntToStr(TPlanoContasVO(FormPlanoConsulta.ObjetoRetornoVO).idPlanoContas);
+    end
+    else
+      ShowMessage('Conta Sintética');
+  end;
+  FormPlanoConsulta.Release;
+end;
+procedure TFTelaCadastroCondominio.BitBtn11Click(Sender: TObject);
+var
+  FormPlanoConsulta: TFTelaCadastroPlano;
+begin
+  FormPlanoConsulta := TFTelaCadastroPlano.Create(nil);
+  FormPlanoConsulta.FechaForm := true;
+  FormPlanoConsulta.ShowModal;
+  if (FormPlanoConsulta.ObjetoRetornoVO <> nil) then
+  begin
+    if TPlanoContasVO(FormPlanoConsulta.ObjetoRetornoVO).flTipo <> 'S' then
+    begin
+      Rateio.Text := IntToStr(TPlanoContasVO(FormPlanoConsulta.ObjetoRetornoVO).idPlanoContas);
+    end
+    else
+      ShowMessage('Conta Sintética');
+  end;
+  FormPlanoConsulta.Release;
+end;
+
+procedure TFTelaCadastroCondominio.BitBtn12Click(Sender: TObject);
+var
+  FormPlanoConsulta: TFTelaCadastroPlano;
+begin
+  FormPlanoConsulta := TFTelaCadastroPlano.Create(nil);
+  FormPlanoConsulta.FechaForm := true;
+  FormPlanoConsulta.ShowModal;
+  if (FormPlanoConsulta.ObjetoRetornoVO <> nil) then
+  begin
+    if TPlanoContasVO(FormPlanoConsulta.ObjetoRetornoVO).flTipo <> 'S' then
+    begin
+      FundoReserva.Text := IntToStr(TPlanoContasVO(FormPlanoConsulta.ObjetoRetornoVO).idPlanoContas);
     end
     else
       ShowMessage('Conta Sintética');
@@ -556,6 +604,29 @@ begin
 
 end;
 
+procedure TFTelaCadastroCondominio.RateioExit(Sender: TObject);
+var
+  PlanoController:TPlanoContasController;
+  PlanoContasVO: TPlanoContasVO;
+begin
+  if Rateio.Text <> '' then
+  begin
+  try
+    PlanoController := TPlanoContasController.Create;
+    PlanoContasVO := PlanoController.ConsultarPorId(StrToInt(Rateio.Text));
+    if PlanoContasVO.flTipo <> 'S' then
+    begin
+
+      PlanoController.Free;
+    end;
+  except
+    raise Exception.Create('Código Inválido');
+  end;
+  end
+  else
+    Rateio.Text := '';
+end;
+
 procedure TFTelaCadastroCondominio.JurosChange(Sender: TObject);
 var
   PlanoController:TPlanoContasController;
@@ -664,7 +735,7 @@ begin
   Condominio.Email := LabelEditEmail.Text;
   Condominio.TelefoneI := MaskEditTelefone.Text;
   Condominio.TelefoneII := MaskEditTelefone2.Text;
-  Condominio.Metragem := LabeledEditMetragem.Text;
+  Condominio.Metragem := StrTOFloat(LabeledEditMetragem.Text);
   Condominio.regimeTributario := LabeledEditRegimeTrib.Text;
   Condominio.nomeFantasia := LabeledEditNomeFantasia.Text;
   if(maskeditdtinicioatividade.Text<>'  /  /    ')then
@@ -703,6 +774,12 @@ begin
     Condominio.idCtDescontoObt := StrToInt(DescObt.Text);
   if LeituraGas.Text <> '' then
     Condominio.idctLeituraGas := StrTOInt(LeituraGas.Text);
+  if Rateio.Text <> '' then
+    Condominio.idCtRateio := StrTOInt(Rateio.Text);
+  if FundoReserva.Text <> '' then
+    Condominio.IdCtFundoReserva := StrTOInt(FundoReserva.Text);
+  if PercFundoReserva.Text <> '' then
+    Condominio.FundoReserva := StrToFloat(PercFundoReserva.Text);
 
 
   Result := Condominio;
@@ -722,6 +799,28 @@ begin
   RadioButtonNome.Checked := true;
   ControllerCondominio := TCondominioController.Create;
   inherited;
+end;
+
+procedure TFTelaCadastroCondominio.FundoReservaExit(Sender: TObject);
+var
+  PlanoController:TPlanoContasController;
+  PlanoContasVO: TPlanoContasVO;
+begin
+  if FundoReserva.Text <> '' then
+  begin
+  try
+    PlanoController := TPlanoContasController.Create;
+    PlanoContasVO := PlanoController.ConsultarPorId(StrToInt(FundoReserva.Text));
+    if PlanoContasVO.flTipo <> 'S' then
+    begin
+      PlanoController.Free;
+    end;
+  except
+    raise Exception.Create('Código Inválido');
+  end;
+  end
+  else
+    FundoReserva.Text := '';
 end;
 
 procedure TFTelaCadastroCondominio.MaskEditDtInicioAtividadeExit(
@@ -826,7 +925,7 @@ begin
     LabeledEditRegimeTrib.Text := Condominio.regimeTributario;
     LabeledEditInsMunicipal.Text := Condominio.inscricaoMunicipal;
     LabeledEditNomeFantasia.Text := Condominio.nomeFantasia;
-    LabeledEditMetragem.Text := Condominio.metragem;
+    LabeledEditMetragem.Text := FloatToStr(Condominio.metragem);
    if (condominio.CnaeVO <> nil) then
    begin
     LabelEditCodCnae.Text := IntToStr(Condominio.CnaeVO.idCnae);
@@ -880,6 +979,12 @@ begin
       DescObt.Text := IntToStr(COndominio.idCtDescontoObt);
    if COndominio.idctLeituraGas <> 0 then
       LeituraGas.Text := IntTOStr(Condominio.idctLeituraGas);
+   if Condominio.idCtRateio <> 0  then
+      Rateio.Text := IntTOStr (Condominio.idCtRateio);
+   if COndominio.IdCtFundoReserva <> 0 then
+      FundoReserva.Text := IntToStr(Condominio.IdCtFundoReserva);
+   if COndominio.FundoReserva <> 0  then
+      PercFundoReserva.Text := FloatToStr(Condominio.FundoReserva);
 
   end;
 end;

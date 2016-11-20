@@ -12,6 +12,7 @@ object FTelaCadastroLeituraGas: TFTelaCadastroLeituraGas
   Font.Style = []
   OldCreateOrder = False
   Position = poDesktopCenter
+  OnClose = FormClose
   OnCreate = FormCreate
   PixelsPerInch = 96
   TextHeight = 13
@@ -22,8 +23,6 @@ object FTelaCadastroLeituraGas: TFTelaCadastroLeituraGas
     Height = 591
     Align = alClient
     TabOrder = 0
-    ExplicitWidth = 768
-    ExplicitHeight = 593
     object BitBtnIncluirC: TBitBtn
       Left = 36
       Top = 38
@@ -79,7 +78,7 @@ object FTelaCadastroLeituraGas: TFTelaCadastroLeituraGas
     end
     object GridLeitura: TDBGrid
       Left = 36
-      Top = 138
+      Top = 132
       Width = 677
       Height = 433
       DataSource = DSItensLeitura
@@ -112,7 +111,7 @@ object FTelaCadastroLeituraGas: TFTelaCadastroLeituraGas
       Top = 38
       Width = 51
       Height = 43
-      Caption = 'Alterar'
+      Caption = 'Consultar'
       Glyph.Data = {
         76010000424D7601000000000000760000002800000020000000100000000100
         04000000000000010000120B0000120B00001000000000000000000000000000
@@ -132,8 +131,8 @@ object FTelaCadastroLeituraGas: TFTelaCadastroLeituraGas
       OnClick = BitBtnAlteraClick
     end
     object Panel4: TPanel
-      Left = 20
-      Top = 38
+      Left = 36
+      Top = 77
       Width = 757
       Height = 533
       TabOrder = 4
@@ -145,8 +144,8 @@ object FTelaCadastroLeituraGas: TFTelaCadastroLeituraGas
         Caption = 'Informa'#231#245'es Leitura G'#225's  '
         TabOrder = 0
         object Label2: TLabel
-          Left = 32
-          Top = 40
+          Left = 492
+          Top = 18
           Width = 133
           Height = 13
           Caption = 'Valores Medidos em m'#179
@@ -172,8 +171,8 @@ object FTelaCadastroLeituraGas: TFTelaCadastroLeituraGas
           Visible = False
         end
         object Label5: TLabel
-          Left = 307
-          Top = 35
+          Left = 102
+          Top = 15
           Width = 56
           Height = 13
           Caption = 'Pre'#231'o G'#225's'
@@ -185,8 +184,8 @@ object FTelaCadastroLeituraGas: TFTelaCadastroLeituraGas
           ParentFont = False
         end
         object MaskEdit1: TMaskEdit
-          Left = 171
-          Top = 35
+          Left = 19
+          Top = 34
           Width = 64
           Height = 21
           Color = clWhite
@@ -213,8 +212,8 @@ object FTelaCadastroLeituraGas: TFTelaCadastroLeituraGas
           Visible = False
         end
         object Edit3: TEdit
-          Left = 397
-          Top = 32
+          Left = 101
+          Top = 34
           Width = 64
           Height = 21
           MaxLength = 10

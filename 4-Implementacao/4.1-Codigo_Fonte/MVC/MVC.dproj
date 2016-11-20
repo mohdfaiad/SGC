@@ -271,6 +271,14 @@
             <Form>FTelaCadastroLeituraGas</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="VO\URateioVO.pas"/>
+        <DCCReference Include="VO\UItensRateioVO.pas"/>
+        <DCCReference Include="controle\URateioController.pas"/>
+        <DCCReference Include="controle\UItensRateioController.pas"/>
+        <DCCReference Include="tela\URateio.pas">
+            <Form>FTelaCadastroRateio</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>
