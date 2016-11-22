@@ -69,7 +69,7 @@ inherited FTelaCadastroTotalGastoMes: TFTelaCadastroTotalGastoMes
             end
             object EdtValor: TEdit
               Left = 168
-              Top = 48
+              Top = 51
               Width = 121
               Height = 21
               TabOrder = 1

@@ -44,10 +44,12 @@ var i, idrateio:integer;
     itensrateio :TItensRateioVO;
     itensRateioController :TItensRateioController;
 begin
+
   itensRateioController := TItensRateioController.Create;
   TDBExpress.IniciaTransacao;
 
   try
+    validardados(rateio);
     result := TDAO.Inserir(rateio);
     idrateio:= result;
 
@@ -56,7 +58,7 @@ begin
       rateio.ItensRateio[i].idRateio:=idrateio;
       itensRateioController.Inserir(rateio.itensrateio[i]);
     end;
-     validardados(rateio);
+
 
     TDBExpress.ComitaTransacao;
   finally
@@ -73,7 +75,7 @@ var WhereQuery:STring;
 begin
    DecodeDate(objeto.dtrateio,ano,mes,dia);
 
-   whereQuery:=' IDRATEIO = '+ IntToStr(Objeto.idRateio);
+   whereQuery:=' IDCONDOMINIO = '+ IntToStr(Objeto.IDCONDOMINIO);
    whereQuery:=whereQuery + ' AND ( EXTRACT(MONTH FROM DTRATEIO) = '+inttostr(mes)+ ' AND ';
    whereQuery:=whereQuery + '       EXTRACT(YEAR FROM DTRATEIO) = '+inttostr(ano)+ ' ) ';
 

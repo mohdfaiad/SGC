@@ -102,9 +102,6 @@
         <DCCReference Include="..\controle\UUnidadeController.pas"/>
         <DCCReference Include="..\dao\UDAO.pas"/>
         <DCCReference Include="..\Conexao\ConexaoBD.pas"/>
-        <DCCReference Include="..\comum\Atributos.pas"/>
-        <DCCReference Include="..\comum\Biblioteca.pas"/>
-        <DCCReference Include="..\comum\Constantes.pas"/>
         <DCCReference Include="..\VO\UCidadeVO.pas"/>
         <DCCReference Include="..\VO\UCnaeVO.pas"/>
         <DCCReference Include="..\VO\UCondominioVO.pas"/>
@@ -164,6 +161,160 @@
         <DCCReference Include="..\controle\UResponsavelController.pas"/>
         <DCCReference Include="..\controle\UUsuarioController.pas"/>
         <DCCReference Include="TestController\TestUContadorController.pas"/>
+        <DCCReference Include="..\VO\UItensLeituraGasVO.pas"/>
+        <DCCReference Include="..\VO\UItensRateioVO.pas"/>
+        <DCCReference Include="..\VO\ULeituraGasVO.pas"/>
+        <DCCReference Include="..\VO\URateioVO.pas"/>
+        <DCCReference Include="..\controle\UItensLeituraGasController.pas"/>
+        <DCCReference Include="..\controle\UItensRateioController.pas"/>
+        <DCCReference Include="..\controle\ULeituraGasController.pas"/>
+        <DCCReference Include="..\controle\URateioController.pas"/>
+        <DCCReference Include="..\tela\UEmpresaTrab.pas">
+            <Form>FormEmpresaTrab</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\tela\UtelaCadastro.pas">
+            <Form>FTelaCadastro</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\tela\UTela.pas">
+            <Form>FTela</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\tela\UBase.pas">
+            <Form>FBase</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\tela\UCondominio.pas">
+            <Form>FTelaCadastroCondominio</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\tela\UCidade.pas">
+            <Form>TFTelaCadastroCidade</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\tela\UCnae.pas">
+            <Form>FTelaCadastroCnae</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\tela\UContador.pas">
+            <Form>FTelaCadastroContador</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\tela\UNaturezaJuridica.pas">
+            <Form>FTelaCadastroNaturezaJuridica</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\tela\UPais.pas">
+            <Form>FTelaCadastroPais</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\tela\UPrecoGas.pas">
+            <Form>FTelaCadastroPrecoGas</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\tela\UResponsavel.pas">
+            <Form>FTelaCadastroResponsavel</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\tela\UEstado.pas">
+            <Form>FTelaCadastroEstado</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\tela\Upessoa.pas">
+            <Form>FTelaCadastroPessoa</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\tela\UPlanoContas.pas">
+            <Form>FTelaCadastroPlano</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\comum\Atributos.pas"/>
+        <DCCReference Include="..\comum\Biblioteca.pas"/>
+        <DCCReference Include="..\comum\Constantes.pas"/>
+        <DCCReference Include="..\uMVC.pas">
+            <Form>FormMenu</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\tela\ULogin.pas">
+            <Form>FormLogin</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\..\..\..\..\..\..\Downloads\PNGExtra.pas"/>
+        <DCCReference Include="..\tela\UUnidade.pas">
+            <Form>FTelaCadastroUnidade</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\tela\UInquilinoUnidade.pas">
+            <Form>FTelaCadastroInquilino</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\tela\ULancamentoPadrao.pas">
+            <Form>FTelaCadastroLancamentoPadrao</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\tela\UProprietarioUnidade.pas">
+            <Form>FTelaCadastroProprietario</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\tela\UTotalGastoMes.pas">
+            <Form>FTelaCadastroTotalGastoMes</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\tela\UTemplateDre.pas">
+            <Form>FTelaCadastroTemplateDre</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\tela\UTemplateFcx.pas">
+            <Form>FTelaCadastroTemplateFcx</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\tela\UContasPagar.pas">
+            <Form>FTelaCadastroContasPagar</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\tela\UContasReceber.pas">
+            <Form>FTelaCadastroContasReceber</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\tela\UHistorico.pas">
+            <Form>FTelaCadastroHistorico</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\tela\ULote.pas">
+            <Form>FTelaCadastroLote</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\tela\UUsuario.pas">
+            <Form>FTelaCadastroUsuario</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\tela\ULeituraGas.pas">
+            <Form>FTelaCadastroLeituraGas</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\tela\URateio.pas">
+            <Form>FTelaCadastroRateio</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="TestVO\TestUContadorVO.pas"/>
+        <DCCReference Include="TestVO\TestUUsuarioVO.pas"/>
+        <DCCReference Include="TestController\TestUUsuarioController.pas"/>
+        <DCCReference Include="TestController\TestULoteController.pas"/>
+        <DCCReference Include="TestVO\TestULoteVO.pas"/>
+        <DCCReference Include="TestController\TestULancamentoContabilController.pas"/>
+        <DCCReference Include="TestVO\TestULancamentoContabilVO.pas"/>
+        <DCCReference Include="TestController\TestULancamentoPadraoController.pas"/>
+        <DCCReference Include="TestVO\TestULancamentoPadraoVO.pas"/>
+        <DCCReference Include="TestVO\TestULeituraGasVO.pas"/>
+        <DCCReference Include="TestController\TestULeituraGasController.pas"/>
+        <DCCReference Include="TestVO\TestUItensLeituraGasVO.pas"/>
+        <DCCReference Include="TestController\TestUItensLeituraGasController.pas"/>
+        <DCCReference Include="TestVO\TestURateioVO.pas"/>
+        <DCCReference Include="TestController\TestURateioController.pas"/>
+        <DCCReference Include="TestVO\TestUItensRateioVO.pas"/>
+        <DCCReference Include="TestController\TestUItensRateioController.pas"/>
+        <DCCReference Include="TestVO\TestUPrecoGasVO.pas"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

@@ -131,8 +131,8 @@ object FTelaCadastroLeituraGas: TFTelaCadastroLeituraGas
       OnClick = BitBtnAlteraClick
     end
     object Panel4: TPanel
-      Left = 36
-      Top = 77
+      Left = 20
+      Top = 21
       Width = 757
       Height = 533
       TabOrder = 4

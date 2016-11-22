@@ -61,7 +61,7 @@ var
   ReturnValue: TContasPagarVO;
   id: Integer;
 begin
-  ReturnValue := FContasPagarController.ConsultarPorId(25);
+  ReturnValue := FContasPagarController.ConsultarPorId(76);
 
   if(returnvalue <> nil)  then
     check(true,'Contas a Pagar  pesquisado com sucesso!')

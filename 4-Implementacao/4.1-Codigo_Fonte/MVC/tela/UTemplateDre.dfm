@@ -4,7 +4,7 @@ inherited FTelaCadastroTemplateDre: TFTelaCadastroTemplateDre
   PixelsPerInch = 96
   TextHeight = 13
   inherited PageControl: TPageControl
-    ActivePage = Consulta
+    ExplicitTop = -6
     inherited Consulta: TTabSheet
       ExplicitLeft = 4
       ExplicitTop = 24

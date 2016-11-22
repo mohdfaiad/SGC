@@ -6,7 +6,7 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.Mask, Data.DB,
   Datasnap.DBClient, Vcl.Grids, Vcl.DBGrids, Vcl.Buttons, Vcl.ExtCtrls, URateioController, UItensRateioController,
-  UEmpresaTrab,UUnidadeController, UUnidadeVO,Generics.Collections, UItensRateioVO, URateioVo;
+  UEmpresaTrab,UUnidadeController, UUnidadeVO,Generics.Collections, UItensRateioVO, URateioVo,Biblioteca;
 
 type
   TFTelaCadastroRateio = class(TForm)
@@ -47,12 +47,17 @@ type
     CDSItensrateioVLAREATOTAL: TCurrencyField;
     CDSItensrateioIDITENSRATEIO: TIntegerField;
     CDSItensrateioVLAREA: TCurrencyField;
+    BitBtnCancela: TBitBtn;
+    Label3: TLabel;
     procedure FormCreate(Sender: TObject);
     procedure BitBtnAlteraClick(Sender: TObject);
     procedure BitBtnIncluirCClick(Sender: TObject);
     procedure BitBtn6Click(Sender: TObject);
     procedure BitBtn5Click(Sender: TObject);
     procedure BtnCancelarCClick(Sender: TObject);
+    procedure GridLeituraDblClick(Sender: TObject);
+    procedure MaskEdit1Exit(Sender: TObject);
+    procedure Edit3KeyPress(Sender: TObject; var Key: Char);
   private
     { Private declarations }
   public
@@ -119,13 +124,26 @@ begin
  rateio.ItensRateio:= ItensRateio;
  ControllerRateio.Inserir(rateio);
  panel4.Visible := false;
+ BitBtnAltera.Enabled := false;
+ BtnCancelarC.Enabled := True;
+ BitBtnCancela.Enabled := True;
+ eDIT3.Text := '';
+ MaskEdit1.Text := '  /  /    ';
  AtualizaGrid;
 end;
 
 procedure TFTelaCadastroRateio.BitBtn6Click(Sender: TObject);
 begin
   Panel4.Visible :=false;
+  BitBtnAltera.Enabled := false;
+  BitBtnIncluirC.Enabled := True;
+  BtnCancelarC.Enabled:= true;
+  BitBtnCancela.Enabled := true;
+  Edit3.Text := '';
+  MaskEdit1.Text := ('  /  /    ');
+
   AtualizaGrid;
+
 end;
 
 procedure TFTelaCadastroRateio.BitBtnAlteraClick(Sender: TObject);
@@ -165,6 +183,9 @@ end;
 
 procedure TFTelaCadastroRateio.BitBtnIncluirCClick(Sender: TObject);
 begin
+  BtnCancelarC.Enabled := false;
+  BitBtnCancela.Enabled := True;
+  BitBtnAltera.Enabled := true;
   MaskEdit1.Enabled := true;
   MaskEdit1.SetFocus;
   Edit3.Enabled := true;
@@ -207,17 +228,76 @@ begin
   end;
 end;
 
+procedure TFTelaCadastroRateio.Edit3KeyPress(Sender: TObject; var Key: Char);
+begin
+  EventoFormataCurrency(Sender,key);
+end;
+
 procedure TFTelaCadastroRateio.FormCreate(Sender: TObject);
 begin
   ControllerRateio:= TRateioController.Create;
   ControllerItensRateio := TItensRateioController.Create;
   MaskEdit1.Text := '';
   Edit1.Text := '';
+  BitBtnAltera.Enabled := false;
 
   Edit4.Text := FloatTOStr(FormEmpresaTRab.areatotal);
   Edit5.Text := FloatToStr(FormEmpresaTRab.fundoreserva);
   Panel4.Visible :=false;
   AtualizaGrid;
+end;
+
+procedure TFTelaCadastroRateio.GridLeituraDblClick(Sender: TObject);
+var
+  ItensRateioController : TItensRateioController;
+  rateioController : TRateioController;
+  Rateio : TObjectList<TRateioVO>;
+  UnidadeController : TUnidadeController;
+  Unidades : TObjectList<TUnidadeVo>;
+  ItensRateio : TObjectList<TItensRateioVO>;
+  i , t : integer;
+  totalGasto : Currency;
+
+begin
+if CDSRateio.IsEmpty then
+    Application.MessageBox('Não existe registro selecionado.', 'Erro',
+      MB_OK + MB_ICONERROR)
+  else
+  begin
+  ItensRateioController := TItensRateioController.Create;
+  RateioController := TRateioController.Create;
+  t := CDSRateio.FieldByName('IDRATEIO').AsInteger;
+  ItensRateio := ItensRateioController.Consultar('ItensRateio.idrateio = '+ IntToStr(CDSRateio.FieldByName('IDRATEIO').AsInteger));
+  Rateio := RateioController.Consultar('Rateio.idrateio = '+ (IntToStr(CDSRateio.FieldByName('IDRATEIO').AsInteger)));
+  Edit1.Text := FloatToStr(Rateio.First.TotalRateio);
+  UnidadeController := TUnidadeController.Create;
+  Unidades := UnidadeController.Consultar('idcondominio = '+ IntToStr(FormEmpresaTrAB.CodigoEmpLogada));
+  CdsItensRateio.EmptyDataSet;
+  CdsItensRateio.Open;
+  totalGasto := StrToFloat(Edit1.Text);
+  for I := 0  to Unidades.Count - 1 do
+  begin
+    CdsItensRateio.Append;
+    CDSItensrateioIDUNIDADE.AsInteger := Unidades[i].idUnidade;
+    CDSItensRateioDSUNIDADE.AsString := Unidades[i].DsUnidade;
+    CDSItensrateioVLAREA.AsCurrency := Unidades[i].vlareatotal;
+    CDSItensrateioVLRATEIO.AsCurrency := ((totalGasto / (FormEmpresaTrab.areatotal)) * Unidades[i].vlareatotal);
+    CDSItensrateioVLFUNDORESERVa.AsCurrency := (CDSItensRateioVlRateio.AsCurrency * ((FormEmpresaTrab.fundoreserva)/100));
+    CdsItensRateio.Post;
+  end;
+  Panel4.Visible := true;
+  MaskEdit1.Enabled := true;
+  DBGrid2.Enabled := true;
+  BitBtn5.Enabled := true;
+  UnidadeController.Free;
+  end;
+
+end;
+
+
+procedure TFTelaCadastroRateio.MaskEdit1Exit(Sender: TObject);
+begin
+  EventoValidaData(sender);
 end;
 
 end.

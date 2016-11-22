@@ -3,7 +3,6 @@ inherited FTelaCadastroResponsavel: TFTelaCadastroResponsavel
   PixelsPerInch = 96
   TextHeight = 13
   inherited PageControl: TPageControl
-    ActivePage = Consulta
     inherited Consulta: TTabSheet
       ExplicitLeft = 4
       ExplicitTop = 24
@@ -31,6 +30,12 @@ inherited FTelaCadastroResponsavel: TFTelaCadastroResponsavel
       ExplicitTop = 24
       ExplicitWidth = 775
       ExplicitHeight = 386
+      inherited PanelBotoes: TPanel
+        inherited BitBtnCancela: TBitBtn
+          Top = 7
+          ExplicitTop = 7
+        end
+      end
       inherited PageControlEdit: TPageControl
         inherited DadosPrincipais: TTabSheet
           ExplicitLeft = 4

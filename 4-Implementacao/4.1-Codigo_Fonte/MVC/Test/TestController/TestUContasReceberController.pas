@@ -59,7 +59,7 @@ procedure TestTContasReceberController.TestConsultarPorId;
 var
   ReturnValue: TContasReceberVO;
 begin
-  ReturnValue := FContasReceberController.ConsultarPorId(8);
+  ReturnValue := FContasReceberController.ConsultarPorId(28);
   if ReturnValue <> nil then
     check(true,'Contas a Pagar  pesquisado com sucesso!')
   else

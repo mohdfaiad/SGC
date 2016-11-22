@@ -48,16 +48,17 @@ begin
   TDBExpress.IniciaTransacao;
 
   try
+    validardados(leitura);
+
     Result := TDAO.Inserir(leitura);
     idleitura:= Result;
-
+    Leitura.idLeituraGas := idleitura;
 
     for I := 0 to leitura.ItensLeitura.Count-1 do
     begin
       leitura.ItensLeitura[i].idLeituraGas:=idleitura;
       itensleituraGas.Inserir(leitura.ItensLeitura[i]);
     end;
-     validardados(leitura);
 
     TDBExpress.ComitaTransacao;
   finally

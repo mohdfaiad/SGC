@@ -27,6 +27,7 @@ type
     procedure TearDown; override;
   published
     procedure TestConsultarPorId;
+    procedure TestConsultaPorIdNaoEncontrado;
   end;
 
 implementation
@@ -40,6 +41,17 @@ procedure TestTContadorController.TearDown;
 begin
   FContadorController.Free;
   FContadorController := nil;
+end;
+
+procedure TestTContadorController.TestConsultaPorIdNaoEncontrado;
+var
+  ReturnValue: TContadorVO;
+begin
+  ReturnValue := FContadorController.ConsultarPorId(400);
+  if(returnvalue <> nil)  then
+    check(false,'Contador pesquisado com sucesso!')
+  else
+    check(true,'Contador nao encontrado!');
 end;
 
 procedure TestTContadorController.TestConsultarPorId;
