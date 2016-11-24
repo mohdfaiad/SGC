@@ -1,8 +1,10 @@
 inherited FTelaCadastroTotalGastoMes: TFTelaCadastroTotalGastoMes
   Caption = 'Cadastro Total Gasto M'#234's'
+  OnClose = FormClose
   PixelsPerInch = 96
   TextHeight = 13
   inherited PageControl: TPageControl
+    ActivePage = Consulta
     inherited Consulta: TTabSheet
       ExplicitLeft = 4
       ExplicitTop = 24
@@ -19,6 +21,8 @@ inherited FTelaCadastroTotalGastoMes: TFTelaCadastroTotalGastoMes
           ExplicitWidth = 767
           ExplicitHeight = 301
           inherited PanelEdits: TPanel
+            ExplicitLeft = 0
+            ExplicitTop = 0
             object Label1: TLabel
               Left = 22
               Top = 32
@@ -61,13 +65,15 @@ inherited FTelaCadastroTotalGastoMes: TFTelaCadastroTotalGastoMes
               ParentFont = False
               TabOrder = 0
               Text = '  /  /    '
+              OnExit = MaskEditDtInicioExit
             end
             object EdtValor: TEdit
               Left = 168
-              Top = 48
+              Top = 51
               Width = 121
               Height = 21
               TabOrder = 1
+              OnKeyPress = EdtValorKeyPress
             end
           end
         end

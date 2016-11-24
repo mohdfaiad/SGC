@@ -4,7 +4,6 @@ inherited FTelaCadastroTotalGastoMes: TFTelaCadastroTotalGastoMes
   PixelsPerInch = 96
   TextHeight = 13
   inherited PageControl: TPageControl
-    ActivePage = Consulta
     inherited Consulta: TTabSheet
       ExplicitLeft = 4
       ExplicitTop = 24
@@ -51,7 +50,7 @@ inherited FTelaCadastroTotalGastoMes: TFTelaCadastroTotalGastoMes
             end
             object MaskEditDtInicio: TMaskEdit
               Left = 22
-              Top = 48
+              Top = 51
               Width = 64
               Height = 21
               Color = clWhite

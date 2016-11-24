@@ -241,7 +241,7 @@ procedure TFTelaCadastroLeituraGas.FormClose(Sender: TObject;
   var Action: TCloseAction);
 begin
   FreeAndNil(ControllerLeituraGas);
-  FreeAndNil(ControllerItensLeitura)
+  FreeAndNil(ControllerItensLeitura);
 end;
 
 procedure TFTelaCadastroLeituraGas.FormCreate(Sender: TObject);

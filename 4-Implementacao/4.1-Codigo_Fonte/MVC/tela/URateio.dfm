@@ -12,6 +12,7 @@ object FTelaCadastroRateio: TFTelaCadastroRateio
   Font.Style = []
   OldCreateOrder = False
   Position = poMainFormCenter
+  OnClose = FormClose
   OnCreate = FormCreate
   PixelsPerInch = 96
   TextHeight = 13
@@ -22,7 +23,6 @@ object FTelaCadastroRateio: TFTelaCadastroRateio
     Height = 573
     Align = alClient
     TabOrder = 0
-    ExplicitLeft = -9
     object Label1: TLabel
       Left = 428
       Top = 103

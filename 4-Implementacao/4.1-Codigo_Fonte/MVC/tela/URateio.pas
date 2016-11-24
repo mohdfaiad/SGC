@@ -58,6 +58,7 @@ type
     procedure GridLeituraDblClick(Sender: TObject);
     procedure MaskEdit1Exit(Sender: TObject);
     procedure Edit3KeyPress(Sender: TObject; var Key: Char);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
   private
     { Private declarations }
   public
@@ -231,6 +232,13 @@ end;
 procedure TFTelaCadastroRateio.Edit3KeyPress(Sender: TObject; var Key: Char);
 begin
   EventoFormataCurrency(Sender,key);
+end;
+
+procedure TFTelaCadastroRateio.FormClose(Sender: TObject;
+  var Action: TCloseAction);
+begin
+   FreeAndNil(ControllerRateio);
+    FreeAndNil(ControllerItensRateio)
 end;
 
 procedure TFTelaCadastroRateio.FormCreate(Sender: TObject);

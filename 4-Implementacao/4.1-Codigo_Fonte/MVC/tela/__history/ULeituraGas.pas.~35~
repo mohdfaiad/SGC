@@ -7,7 +7,7 @@ uses
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Data.DB, Vcl.StdCtrls, Vcl.Mask,
   Datasnap.DBClient, Vcl.Grids, Vcl.DBGrids, Vcl.Buttons, Vcl.ExtCtrls,
   ULeituraGasVO, ULeituraGasController, UItensLeituraGasController, UItensLeituraGasVo, UTela, UUnidadeController,
-  UEmpresaTrab, UUnidadeVo, Generics.Collections, UPrecoGasController;
+  UEmpresaTrab, UUnidadeVo, Generics.Collections, UPrecoGasController, Biblioteca;
 
 type
   TFTelaCadastroLeituraGas = class(TForm)
@@ -48,11 +48,12 @@ type
     procedure BitBtn2Click(Sender: TObject);
     procedure BitBtnAlteraClick(Sender: TObject);
     procedure BtnCancelarCClick(Sender: TObject);
+    procedure MaskEdit1Exit(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
   private
     { Private declarations }
   public
     { Public declarations }
-    procedure GridParaEditsItens;
     procedure AtualizaGrid;
   end;
 
@@ -90,8 +91,6 @@ begin
   LeituraController.Free;
 end;
 
-
-
 procedure TFTelaCadastroLeituraGas.BitBtn1Click(Sender: TObject);
   var ItensLeituraGas : TObjectList<TItensLeituraGasVO>;
       item: TItensLeituraGasVO;
@@ -103,19 +102,25 @@ begin
  while NOT CDSItensLeitura.Eof do
  begin
     item:= TItensLeituraGasVO.Create;
+    if CDSItensLeituraIDUNIDADE.AsInteger > 0 then
+    begin
     item.idUnidade:= CDSItensLeituraIDUNIDADE.AsInteger;
-    item.dtLeitura:=StrToDate(MaskEdit1.Text);
+    if MaskEdit1.Text <> ('  /  /    ') then
+      item.dtLeitura:=StrToDate(MaskEdit1.Text);
     item.vlMedido := CDSItensLeituraVLMEDIDO.AsCurrency;
     item.vlCalculado:= CDSItensLeituraVLCALCULADO.AsCurrency;
+    item.ValidarCamposObrigatorios;
     ItensLeituraGas.Add(item);
+    end;
     CDSItensLeitura.Next;
  end;
-
  leitura:= TLeituraGasVO.Create;
  leitura.dtLeitura:= StrToDate(MaskEdit1.Text);
  leitura.idCondominio := FormEmpresaTrab.CodigoEmpLogada;
  leitura.ItensLeitura:= ItensLeituraGas;
  ControllerLeituraGas.Inserir(leitura);
+ panel4.Visible := false;
+ AtualizaGrid;
 end;
 
 procedure TFTelaCadastroLeituraGas.BitBtn2Click(Sender: TObject);
@@ -155,6 +160,7 @@ if CDSItensLeitura.IsEmpty then
   Panel4.Visible := true;
   BitBtn5.Enabled := false;
   DBGrid2.Enabled := false;
+  maskedit1.Enabled := false;
   ItensLeituraController.Free;
 
 end;
@@ -179,8 +185,10 @@ begin
     CDSItensLeituraDSUNIDADE.AsString := Unidades[i].DsUnidade;
     CDsItensLeitura.Post;
   end;
-
   Panel4.Visible := true;
+  MaskEdit1.Enabled := true;
+  DBGrid2.Enabled := true;
+  BitBtn5.Enabled := true;
   UnidadeController.Free;
 end;
 
@@ -229,33 +237,28 @@ begin
   CDSItensLeituraVLCALCULADO.AsCurrency := CDSItensLeituraVLMEDIDO.AsCurrency * StrToCurr(Edit3.Text);
 end;
 
-procedure TFTelaCadastroLeituraGas.FormCreate(Sender: TObject);
-var
-  LeituraController : TLeituraGasController;
-  leitura : TObjectList<TLeituraGasVO>;
-  i : integer;
+procedure TFTelaCadastroLeituraGas.FormClose(Sender: TObject;
+  var Action: TCloseAction);
 begin
+  FreeAndNil(ControllerLeituraGas);
+  FreeAndNil(ControllerItensLeitura)
+end;
+
+procedure TFTelaCadastroLeituraGas.FormCreate(Sender: TObject);
+begin
+  ControllerLeituraGas:= TLeituraGasController.Create;
+  ControllerItensLeitura := TItensLeituraGasController.Create;
 
   Edit3.Text := FloatTOStr(FormEmpresaTRab.PrecoGas);
   Panel4.Visible :=false;
-
-  LeituraController := TLeituraGasController.Create;
-  leitura := LeituraController.Consultar('idcondominio = '+ IntToStr(FormEmpresaTrAB.CodigoEmpLogada));
-  CdsItensLeitura.EmptyDataSet;
-
-  for I := 0  to leitura.Count - 1 do
-  begin
-    CDsItensLeitura.Append;
-    CDSItensLeituraIDLEITURAGAS.AsInteger := Leitura[i].idLeituraGas;
-    CDSItensLeituraDTLEITURA.AsDateTime := leitura[i].dtLeitura;
-    CDsItensLeitura.Post;
-  end;
-  LeituraController.Free;
+  AtualizaGrid;
 end;
 
-procedure TFTelaCadastroLeituraGas.GridParaEditsItens;
-begin
 
+
+procedure TFTelaCadastroLeituraGas.MaskEdit1Exit(Sender: TObject);
+begin
+  EventoValidaData(sender);
 end;
 
 end.

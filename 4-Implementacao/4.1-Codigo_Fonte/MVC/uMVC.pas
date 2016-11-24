@@ -44,6 +44,8 @@ type
     Usurios1: TMenuItem;
     LeituraGas1: TMenuItem;
     Rateio1: TMenuItem;
+    GerarContaCorrente1: TMenuItem;
+    N6: TMenuItem;
     procedure FormCreate(Sender: TObject);
     procedure Pessoa1Click(Sender: TObject);
     procedure Sair1Click(Sender: TObject);
@@ -72,6 +74,7 @@ type
     procedure Usurios1Click(Sender: TObject);
     procedure LeituraGas1Click(Sender: TObject);
     procedure Rateio1Click(Sender: TObject);
+    procedure GerarContaCorrente1Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -92,7 +95,7 @@ implementation
 
 uses Upessoa, UPais, UCnae, UNaturezaJuridica, UEstado, UCidade, UCondominio, UUnidade, UEmpresaTrab,
 UTotalGastoMes, UPrecoGas, UPlanoContas, UTemplateDre, UtemplateFcx, UContasPagar, UHistorico,
-ULote, UContasReceber, UUsuario, ULeituraGas, URateio;
+ULote, UContasReceber, UUsuario, ULeituraGas, URateio, UContaCorrente;
 
 
 procedure TFormMenu.Cidade1Click(Sender: TObject);
@@ -195,6 +198,16 @@ begin
       FormEmpresaTrab.ShowModal;
   end;
 end;
+
+
+procedure TFormMenu.GerarContaCorrente1Click(Sender: TObject);
+var FormContaCorrente:TFTelaCadastroContaCorrente;
+begin
+  Application.CreateForm(TFTelaCadastroContaCorrente,FormContaCorrente);
+  FormContaCorrente.ShowModal;
+  FormContaCorrente.Close;
+end;
+
 
 procedure TFormMenu.Histricos1Click(Sender: TObject);
 var FormHistorico:TFTelaCadastroHistorico;

@@ -98,7 +98,10 @@ uses
   UTemplateFcx in 'tela\UTemplateFcx.pas' {FTelaCadastroTemplateFcx},
   UTotalGastoMes in 'tela\UTotalGastoMes.pas' {FTelaCadastroTotalGastoMes},
   UUnidade in 'tela\UUnidade.pas' {FTelaCadastroUnidade},
-  UUsuario in 'tela\UUsuario.pas' {FTelaCadastroUsuario};
+  UUsuario in 'tela\UUsuario.pas' {FTelaCadastroUsuario},
+  UContaCorrenteVO in 'VO\UContaCorrenteVO.pas',
+  UContaCorrenteController in 'controle\UContaCorrenteController.pas',
+  UContaCorrente in 'tela\UContaCorrente.pas' {FTelaCadastroContaCorrente};
 
 {$R *.res}
 
@@ -138,5 +141,6 @@ begin
   Application.CreateForm(TFTelaCadastroTotalGastoMes, FTelaCadastroTotalGastoMes);
   Application.CreateForm(TFTelaCadastroUnidade, FTelaCadastroUnidade);
   Application.CreateForm(TFTelaCadastroUsuario, FTelaCadastroUsuario);
+  Application.CreateForm(TFTelaCadastroContaCorrente, FTelaCadastroContaCorrente);
   Application.Run;
 end.
