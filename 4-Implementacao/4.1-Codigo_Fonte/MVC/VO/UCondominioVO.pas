@@ -56,6 +56,10 @@ type
     FidCtRateio : Integer;
     FIdCtFundoReserva : Integer;
 
+    FidHistoricoL : Integer;
+    FidHistoricoR : Integer;
+    FidHistoricoF : Integer;
+
     FFundoReserva : Currency;
 
   public
@@ -150,6 +154,15 @@ type
 
     [TColumn('FundoReserva','% FundoReserva ',0,[ldLookup,ldComboBox], False)]
     property FundoReserva: currency  read FFundoReserva write FFundoReserva;
+
+    [TColumn('idHistoricoL',' ',0,[ldLookup,ldComboBox], False)]
+    property idHistoricoL: integer  read FidHistoricoL write FidHistoricoL;
+
+    [TColumn('idHistoricoR',' ',0,[ldLookup,ldComboBox], False)]
+    property idHistoricoR: integer  read FidHistoricoR write FidHistoricoR;
+
+    [TColumn('idHistoricoF',' ',0,[ldLookup,ldComboBox], False)]
+    property idHistoricoF: integer  read FidHistoricoF write FidHistoricoF;
 
     [TColumn('idCidade','idCidade',0,[ldLookup,ldComboBox], False)]
     property IdCidade: integer  read FIdCidade write FIdCidade;

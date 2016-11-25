@@ -111,6 +111,7 @@ type
     procedure MaskEditVencExit(Sender: TObject);
     procedure MaskEdit1Exit(Sender: TObject);
     procedure MaskEdit2Exit(Sender: TObject);
+    procedure PageControlChange(Sender: TObject);
 
 
   private
@@ -880,6 +881,15 @@ begin
       Result := result + ' AND ( UPPER(NRDOCUMENTO) LIKE ' +
         QuotedStr('%' + UpperCase(editBusca.Text) + '%') + ' ) ';
   end;
+end;
+
+procedure TFTelaCadastroContasReceber.PageControlChange(Sender: TObject);
+begin
+  inherited;
+  if(CDSGrid.FieldByName('FLGERADO').AsString='S')then
+    BitBtnAltera.Enabled:=false
+  else
+    BitBtnAltera.Enabled:=true;
 end;
 
 procedure TFTelaCadastroContasReceber.ProcessarBaixa1Click(Sender: TObject);

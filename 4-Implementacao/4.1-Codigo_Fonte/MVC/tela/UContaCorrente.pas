@@ -35,9 +35,11 @@ type
     CDLctoIDHISTORICO: TIntegerField;
     CDLctoDTLCTO: TDateTimeField;
     CDLctoCOMPLEMENTO: TStringField;
+    Label2: TLabel;
     procedure FormCreate(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure CDContaCorrenteAfterScroll(DataSet: TDataSet);
+    procedure BitBtnGravaClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -52,6 +54,67 @@ implementation
 
 {$R *.dfm}
 
+procedure TFTelaCadastroContaCorrente.BitBtnGravaClick(Sender: TObject);
+var contareceber: TContasReceberVO;
+    listaContasREceber:TObjectList<TContasREceberVO>;
+    contacorrete:TContaCorrenteVO;
+    contaReceberController:TContasReceberController;
+  //  datacomp,dataven:TDAtetime;
+begin
+  if ((MaskEditDtInicio.Text <> '  /  /    ') and (MaskEdit1.Text <> '  /  /    ')) then
+  begin
+    try
+        Contareceber.DtCompetencia:= Strtodate(MaskEdit1.Text);
+        contareceber.DtVencimento:=Strtodate(MaskEditDtInicio.Text);
+        if (contareceber.DtVencimento > Contareceber.DtCompetencia) then
+        begin
+          listaContasReceber:=TOBjectList<TContasReceberVO>.create;
+          CDContaCorrente.First;
+          while not CDContaCorrente.Eof do
+          begin
+            contareceber:=TContasReceberVO.Create;
+            contareceber.VlValor:=0;
+            contareceber.ItensContaCorrente:=TObjectList<TContaCorrenteVO>.create;
+            CDLcto.First;
+            while not CDLcto.Eof do
+            begin
+              if(CDContaCorrenteIDCONTAPLANO.AsInteger = CDLctoIDCONTADEBITO.AsInteger)then
+                contareceber.VlValor:=contareceber.VlValor+CDLctoVALOR.AsCurrency
+              else
+                contareceber.VlValor:=contareceber.VlValor-CDLctoVALOR.AsCurrency;
+
+              contacorrete:=TContacorrenteVO.create;
+              contacorrete.idLcto:=CDLctoIDLCTO.AsInteger;
+              contaReceber.ItensContaCorrente.Add(contacorrete);
+              CDLcto.Next;
+            end;
+
+            contareceber.DtCompetencia:=  strtodate(MaskEdit1.Text);
+            contareceber.DtVencimento:= StrTodate(MaskEditDtInicio.Text);
+            contareceber.NrDocumento:= copy(MaskEdit1.Text,4,7);
+            contareceber.IdCondominio:=FormEmpresaTrab.CodigoEmpLogada;
+            contareceber.IdUnidade:=CDContaCorrenteIDUNIDADE.AsInteger;
+            contareceber.FlGerado:='S';
+            listaContasREceber.Add(contareceber);
+            CDContaCorrente.Next;
+          end;
+          contaReceberController:=TContasReceberController.create;
+          contaREceberController.InserirTitulosContaCorrente(listaContasReceber);
+          contaReceberController.Free;
+    //      BitBtnGrava.Enabled := false;
+          ShowMessage('Titulos gerados com sucesso');
+        end
+        else
+          showmessage('Data de vencimento deve ser maior que a data de lançamento');
+    except
+        showmessage('Ocorreu um erro ao gerar os títulos');
+    end;
+  end
+  else
+    showmessage('Campos obrigatórios não preenchido!');
+
+end;
+
 procedure TFTelaCadastroContaCorrente.CDContaCorrenteAfterScroll(DataSet: TDataSet);
 var
   lcto : TObjectList<TLancamentoContabilVO>;
@@ -62,14 +125,15 @@ begin
   if not(CDContaCorrente.IsEmpty)then
   begin
     try
-          StrToDate(maskedit1.Text);
+      StrToDate(maskedit1.Text);
       datei:= strtodate('01'+'/'+Copy(maskedit1.Text,4,7));
       datef:= IncMonth(dateI,1);
 
       LctoController := TLancamentoCOntabilController.Create;
-      lcto := LctoController.Consultar(' idcontadebito = ' + intToStr(CDContaCorrenteIDCONTAPLANO.AsInteger) +
-       ' or idcontacredito = '+ intToStr(CDContaCorrenteIDCONTAPLANO.AsInteger) +
-       ' and ( dtlcto >= ' +QuotedSTr(StringREplace(datetostr(datei),'/','.',[rfReplaceAll]))+
+      lcto := LctoController.Consultar(
+       '  ((idcontadebito = ' + intToStr(CDContaCorrenteIDCONTAPLANO.AsInteger)+' or idcontacredito = '+ intToStr(CDContaCorrenteIDCONTAPLANO.AsInteger) +')'+
+       '       and Historicos.FlContaCorrente = 1 ) '+
+       '  and ( dtlcto >= ' +QuotedSTr(StringREplace(datetostr(datei),'/','.',[rfReplaceAll]))+
         '      and dtlcto < '+QuotedSTr(StringREplace(datetostr(datef),'/','.',[rfReplaceAll]))+ ' ) ');
       CDLcto.EmptyDataSet;
         for i := 0 to Lcto.Count-1 do
@@ -112,8 +176,8 @@ begin
   ControllerContaCorrente := TContaCorrenteController.Create;
   unidadeController := TUnidadeController.Create;
   PlanoContasCOntroller := TPlanoContasController.Create;
-  MaskEditDtInicio.Text := '  /  /    ';
-  MaskEdit1.Text := '  /  /    ';
+  MaskEditDtInicio.Text := DateTimeToStr(FormEmpresaTrab.DataLog);
+  MaskEdit1.Text := DateTimeToStr(FormEmpresaTrab.DataLog);;
   Unidade := UnidadeController.Consultar('idcondominio = ' +  intToStr(FormEmpresaTrab.CodigoEmpLogada));
   Contas := PlanoContasController.Consultar('idcondominio = ' + intToStr(FormEmpresaTrab.CodigoEmpLogada));
 

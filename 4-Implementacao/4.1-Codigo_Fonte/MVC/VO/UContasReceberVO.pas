@@ -3,7 +3,7 @@ unit UContasReceberVO;
 interface
 
 uses Atributos, Classes, Constantes, Generics.Collections, SysUtils, UGenericVO, UUnidadeVO,
-UHistoricoVO, UCondominioVO, UPlanoContasVO;
+UHistoricoVO, UCondominioVO, UPlanoContasVO,uContacorrenteVO;
 
 type
   [TEntity]
@@ -18,6 +18,7 @@ type
     FDsComplemento : String;
     FIdHistorico : Integer;
     FFlBaixa : String;
+    FFlGerado : String;
     FIdConta : Integer;
     FIdCondominio : Integer;
     FIdPessoa : Integer;
@@ -41,6 +42,7 @@ type
     PlanoContasContaVO : TPlanoContasVO;
     PlanoContasContraPartidaVO : TPlanoContasVO;
     HistoricoVO : THistoricoVO;
+    ItensContaCorrente: TObjectList<TContaCorrenteVO>;
 
 
     [TId('idContasReceber')]
@@ -92,7 +94,8 @@ type
     property IdHistoricoBx: Integer  read FIdHistoricoBx write FIdHistoricoBx;
     [TColumn('VlPago','Valor Pago',100,[ldLookup,ldComboBox], False)]
     property VlPago: Currency  read FVlPago write FVlPago;
-
+    [TColumn('FlGerado','Gerado',10,[ldGrid,ldLookup,ldComboBox], False)]
+    property FlGerado: String  read FFlGerado write FFlGerado;
 
 
     procedure ValidarCampos;

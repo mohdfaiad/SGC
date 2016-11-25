@@ -663,7 +663,7 @@ inherited FTelaCadastroContasReceber: TFTelaCadastroContasReceber
       end
       object BtnBxHist: TBitBtn
         Left = 535
-        Top = 260
+        Top = 264
         Width = 33
         Height = 25
         Caption = 'P'

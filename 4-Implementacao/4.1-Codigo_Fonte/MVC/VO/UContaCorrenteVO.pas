@@ -4,7 +4,7 @@ unit UContaCorrenteVO;
 interface
 
 uses Atributos, Classes, Constantes, Generics.Collections, SysUtils, UGenericVO,
-   UCondominioVO, UContasReceberVO, ULancamentoContabilVO;
+   UCondominioVO;
 
 type
   [TEntity]
@@ -16,9 +16,6 @@ type
     FidLcto : Integer;
 
   public
-    ContasReceverVo : TContasReceberVo;
-    LctoVO : TLancamentoCOntabilVO;
-
 
     [TId('idContaCorrente')]
     [TGeneratedValue(sAuto)]

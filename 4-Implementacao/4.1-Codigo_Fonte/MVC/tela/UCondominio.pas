@@ -10,7 +10,7 @@ uses
   UCnaeVO, UCnae, UCidade, UEstado, UPais, UCidadeVO, UEstadoVO, UPaisVO,
   UNaturezaJuridicaVO, UNaturezaJuridica, UCondominioVO, Generics.Collections,
   UCondominioController, UContador, UResponsavel, UPrecoGas, UPrecoGasController, UPrecoGasVO, Biblioteca,
-  UPlanoContasController, UPlanoContasVO;
+  UPlanoContasController, UPlanoContasVO, UHistorico, UHistoricoVO, UHistoricoController;
 
 type
   TFTelaCadastroCondominio = class(TFTelaCadastro)
@@ -95,6 +95,15 @@ type
     BitBtn12: TBitBtn;
     Label12: TLabel;
     PercFundoReserva: TLabeledEdit;
+    Label13: TLabel;
+    EditHistL: TEdit;
+    BtnHistL: TBitBtn;
+    Label14: TLabel;
+    Edit4: TEdit;
+    BitBtn13: TBitBtn;
+    Label15: TLabel;
+    Edit5: TEdit;
+    BitBtn14: TBitBtn;
     procedure FormCreate(Sender: TObject);
     function DoSalvar: boolean; override;
 //    function ValidarTela: boolean;
@@ -131,6 +140,12 @@ type
     procedure BitBtn11Click(Sender: TObject);
     procedure BitBtn12Click(Sender: TObject);
     procedure FundoReservaExit(Sender: TObject);
+    procedure EditHistLExit(Sender: TObject);
+    procedure Edit4Exit(Sender: TObject);
+    procedure Edit5Exit(Sender: TObject);
+    procedure BtnHistLClick(Sender: TObject);
+    procedure BitBtn13Click(Sender: TObject);
+    procedure BitBtn14Click(Sender: TObject);
 
   private
     { Private declarations }
@@ -207,6 +222,33 @@ begin
   end;
   FormPlanoConsulta.Release;
 end;
+procedure TFTelaCadastroCondominio.BitBtn13Click(Sender: TObject);
+var
+  FormHistorico: TFTelaCadastroHistorico;
+begin
+  FormHistorico := TFTelaCadastroHistorico.Create(nil);
+  FormHistorico.FechaForm := true;
+  FormHistorico.ShowModal;
+  if (FormHistorico.ObjetoRetornoVO <> nil) then
+  begin
+    Edit4.Text := IntToStr(THistoricoVO(FormHistorico.ObjetoRetornoVO).idHistorico);
+  end;
+  FormHistorico.Release;
+end;
+procedure TFTelaCadastroCondominio.BitBtn14Click(Sender: TObject);
+var
+  FormHistorico: TFTelaCadastroHistorico;
+begin
+  FormHistorico := TFTelaCadastroHistorico.Create(nil);
+  FormHistorico.FechaForm := true;
+  FormHistorico.ShowModal;
+  if (FormHistorico.ObjetoRetornoVO <> nil) then
+  begin
+    Edit5.Text := IntToStr(THistoricoVO(FormHistorico.ObjetoRetornoVO).idHistorico);
+  end;
+  FormHistorico.Release;
+end;
+
 procedure TFTelaCadastroCondominio.BitBtn1Click(Sender: TObject);
 var
   FormResponsavel: TFTelaCadastroResponsavel;
@@ -467,6 +509,19 @@ begin
   FormContador.ShowModal;
 end;
 
+procedure TFTelaCadastroCondominio.BtnHistLClick(Sender: TObject);
+var
+  FormHistorico: TFTelaCadastroHistorico;
+begin
+  FormHistorico := TFTelaCadastroHistorico.Create(nil);
+  FormHistorico.FechaForm := true;
+  FormHistorico.ShowModal;
+  if (FormHistorico.ObjetoRetornoVO <> nil) then
+  begin
+    EditHistL.Text := IntToStr(THistoricoVO(FormHistorico.ObjetoRetornoVO).idHistorico);
+  end;
+  FormHistorico.Release;
+end;
 procedure TFTelaCadastroCondominio.DescConcExit(Sender: TObject);
 var
   PlanoController:TPlanoContasController;
@@ -604,6 +659,68 @@ begin
 
 end;
 
+procedure TFTelaCadastroCondominio.Edit4Exit(Sender: TObject);
+var
+  HistoricoController:THistoricoController;
+  HistoricoVO: THistoricoVO;
+begin
+  if Edit4.Text <> '' then
+  begin
+  try
+    HistoricoController := THistoricoController.Create;
+    HistoricoVO := HistoricoController.ConsultarPorId(StrToInt(Edit4.Text));
+    HistoricoController.Free;
+  Except
+    raise Exception.Create('Código Inválido');
+  end;
+  end
+  else
+  begin
+    Edit4.Text := '';
+  end;
+end;
+
+procedure TFTelaCadastroCondominio.Edit5Exit(Sender: TObject);
+var
+  HistoricoController:THistoricoController;
+  HistoricoVO: THistoricoVO;
+begin
+  if Edit5.Text <> '' then
+  begin
+  try
+    HistoricoController := THistoricoController.Create;
+    HistoricoVO := HistoricoController.ConsultarPorId(StrToInt(Edit5.Text));
+    HistoricoController.Free;
+  Except
+    raise Exception.Create('Código Inválido');
+  end;
+  end
+  else
+  begin
+    Edit5.Text := '';
+  end;
+end;
+
+procedure TFTelaCadastroCondominio.EditHistLExit(Sender: TObject);
+var
+  HistoricoController:THistoricoController;
+  HistoricoVO: THistoricoVO;
+begin
+  if EditHistL.Text <> '' then
+  begin
+  try
+    HistoricoController := THistoricoController.Create;
+    HistoricoVO := HistoricoController.ConsultarPorId(StrToInt(EditHistL.Text));
+    HistoricoController.Free;
+  Except
+    raise Exception.Create('Código Inválido');
+  end;
+  end
+  else
+  begin
+    EditHistL.Text := '';
+  end;
+end;
 procedure TFTelaCadastroCondominio.RateioExit(Sender: TObject);
 var
   PlanoController:TPlanoContasController;
@@ -780,7 +897,12 @@ begin
     Condominio.IdCtFundoReserva := StrTOInt(FundoReserva.Text);
   if PercFundoReserva.Text <> '' then
     Condominio.FundoReserva := StrToFloat(PercFundoReserva.Text);
-
+  if EditHistl.Text <> '' then
+    Condominio.idHistoricoL := StrToInt(EditHistL.Text);
+  if Edit4.Text <> '' then
+    Condominio.idHistoricoR := StrToInt(Edit4.Text);
+  if Edit5.Text <> '' then
+    Condominio.idHistoricoF := StrToInt(Edit5.Text);
 
   Result := Condominio;
 
@@ -985,7 +1107,12 @@ begin
       FundoReserva.Text := IntToStr(Condominio.IdCtFundoReserva);
    if COndominio.FundoReserva <> 0  then
       PercFundoReserva.Text := FloatToStr(Condominio.FundoReserva);
-
+   if Condominio.idHistoricoL <> 0 then
+      EditHistL.Text := IntToStr(Condominio.idHistoricoL);
+   if Condominio.idHistoricoR <> 0 then
+      Edit4.Text := IntToStr(Condominio.idHistoricoR);
+   if Condominio.idHistoricoF <> 0 then
+      Edit5.Text := IntToStr(Condominio.idHistoricoF);
   end;
 end;
 end.

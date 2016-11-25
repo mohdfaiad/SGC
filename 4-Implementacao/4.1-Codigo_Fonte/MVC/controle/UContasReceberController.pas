@@ -22,6 +22,7 @@ type
     function Alterar(ContasReceber: TContasReceberVO): boolean;
     function InserirBaixa (ContasReceber : TContasReceberVO) : integer;
     function RemoverBaixa (idContasReceber : integer) :integer;
+    function InserirTitulosContaCorrente(ListaCReber:TObjectList<TContasReceberVO>):boolean;
   end;
 
 implementation
@@ -251,6 +252,29 @@ begin
 
       TDBExpress.ComitaTransacao;
 
+    finally
+      TDBExpress.RollBackTransacao;
+    end;
+end;
+
+function TContasReceberController.InserirTitulosContaCorrente(
+  ListaCReber: TObjectList<TContasReceberVO>): boolean;
+  var i,x, idContaReceber:integer;
+begin
+    TDBExpress.IniciaTransacao;
+    try
+      for i:=0 to ListaCReber.Count-1 do
+      begin
+        idContaReceber:=0;
+        idContaREceber:= TDAO.Inserir(ListaCReber[i]);
+        for x := 0 to listaCReber[i].ItensContaCorrente.Count-1 do
+        begin
+          listaCReber[i].ItensContaCorrente[x].idContasReceber:=idContaReceber;
+          TDAO.Inserir(listaCReber[i].ItensContaCorrente[x]);
+        end;
+      end;
+
+      TDBEXpress.ComitaTransacao;
     finally
       TDBExpress.RollBackTransacao;
     end;

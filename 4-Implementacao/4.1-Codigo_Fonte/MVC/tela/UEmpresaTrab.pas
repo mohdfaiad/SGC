@@ -33,6 +33,7 @@ type
     CodigoEmpLogada:integer;
     IdUsuario:integer;
     PrecoGas, fundoreserva, areatotal : Currency;
+    DataLog : TDateTime;
 
     DescricaoEmpLogada,cnpjEmpLogada:String;
   end;
@@ -82,10 +83,11 @@ end;
 
 procedure TFormEmpresaTrab.BtnAcessarClick(Sender: TObject);
 begin
-  if (LabeledEditCodigo.Text <> '') then
+  if (LabeledEditCodigo.Text <> '')  and (MaskEditDt.Text <> '  /  /    ') then
   begin
     CodigoEmpLogada:= strtoint(LabeledEditCodigo.Text);
     DescricaoEmpLogada:= LabelNomeCond.Caption;
+    DataLog := StrToDate(MaskEditDt.Text);
     FormMenu.Caption:= 'SGC - ('+inttostr(codigoEmpLogada)+')     '+DescricaoEmpLogada;
     FormEmpresaTrab.Visible:=false;
     if(FormMenu.Visible=true)then
@@ -95,7 +97,7 @@ begin
   end
   else
   begin
-    MessageDlg('Condomínio não informado!', mtInformation, [mbOK], 0);
+    MessageDlg('Condomínio ou data não informado!', mtInformation, [mbOK], 0);
   end;
 end;
 
