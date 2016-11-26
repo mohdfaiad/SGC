@@ -2,7 +2,7 @@ object FTelaCadastroContaCorrente: TFTelaCadastroContaCorrente
   Left = 0
   Top = 0
   Caption = 'Conta Corrente'
-  ClientHeight = 612
+  ClientHeight = 537
   ClientWidth = 754
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -11,6 +11,7 @@ object FTelaCadastroContaCorrente: TFTelaCadastroContaCorrente
   Font.Name = 'Tahoma'
   Font.Style = []
   OldCreateOrder = False
+  Position = poMainFormCenter
   OnClose = FormClose
   OnCreate = FormCreate
   PixelsPerInch = 96
@@ -19,9 +20,10 @@ object FTelaCadastroContaCorrente: TFTelaCadastroContaCorrente
     Left = 0
     Top = 0
     Width = 754
-    Height = 612
+    Height = 537
     Align = alClient
     TabOrder = 0
+    ExplicitHeight = 612
     object GroupBox1: TGroupBox
       Left = 16
       Top = 16
@@ -30,11 +32,24 @@ object FTelaCadastroContaCorrente: TFTelaCadastroContaCorrente
       Caption = 'Informa'#231#245'es Conta Corrente : '
       TabOrder = 0
       object Label1: TLabel
-        Left = 150
-        Top = 30
-        Width = 97
+        Left = 110
+        Top = 19
+        Width = 67
         Height = 13
-        Caption = 'Data Vencimento'
+        Caption = 'Vencimento'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'Tahoma'
+        Font.Style = [fsBold]
+        ParentFont = False
+      end
+      object Label2: TLabel
+        Left = 11
+        Top = 18
+        Width = 30
+        Height = 13
+        Caption = 'Data '
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
         Font.Height = -11
@@ -43,8 +58,8 @@ object FTelaCadastroContaCorrente: TFTelaCadastroContaCorrente
         ParentFont = False
       end
       object MaskEditDtInicio: TMaskEdit
-        Left = 158
-        Top = 49
+        Left = 110
+        Top = 41
         Width = 64
         Height = 21
         Color = clWhite
@@ -61,7 +76,7 @@ object FTelaCadastroContaCorrente: TFTelaCadastroContaCorrente
       end
       object BitBtnGrava: TBitBtn
         Left = 544
-        Top = 21
+        Top = 18
         Width = 161
         Height = 43
         Caption = 'Gerar ContaCorrente'
@@ -85,11 +100,12 @@ object FTelaCadastroContaCorrente: TFTelaCadastroContaCorrente
         Layout = blGlyphTop
         NumGlyphs = 2
         TabOrder = 1
+        OnClick = BitBtnGravaClick
       end
       object MaskEdit1: TMaskEdit
         Left = 11
-        Top = 49
-        Width = 64
+        Top = 41
+        Width = 63
         Height = 21
         Color = clWhite
         EditMask = '!99/99/9999;1;_'
@@ -101,7 +117,7 @@ object FTelaCadastroContaCorrente: TFTelaCadastroContaCorrente
         MaxLength = 10
         ParentFont = False
         TabOrder = 2
-        Text = '  /  /    '
+        Text = '23/11/2016'
       end
     end
     object DBGrid2: TDBGrid
@@ -157,16 +173,22 @@ object FTelaCadastroContaCorrente: TFTelaCadastroContaCorrente
         item
           Expanded = False
           FieldName = 'IDLCTO'
+          Title.Caption = 'C'#243'digo'
+          Width = 38
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'DTLCTO'
+          Title.Caption = 'Data'
+          Width = 55
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'IDCONTADEBITO'
-          Visible = True
-        end
-        item
-          Expanded = False
-          FieldName = 'IDCONTACREDITO'
+          Title.Caption = 'Debito'
+          Width = 54
           Visible = True
         end
         item
@@ -176,27 +198,36 @@ object FTelaCadastroContaCorrente: TFTelaCadastroContaCorrente
         end
         item
           Expanded = False
+          FieldName = 'IDCONTACREDITO'
+          Title.Caption = 'Credito'
+          Width = 54
+          Visible = True
+        end
+        item
+          Expanded = False
           FieldName = 'DSCONTACREDITO'
+          Width = 145
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'VALOR'
+          Title.Caption = 'Valor'
+          Width = 53
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'IDHISTORICO'
-          Visible = True
-        end
-        item
-          Expanded = False
-          FieldName = 'DTLCTO'
+          Title.Caption = 'Hist'#243'rico'
+          Width = 47
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'COMPLEMENTO'
+          Title.Caption = 'Complemento'
+          Width = 118
           Visible = True
         end>
     end

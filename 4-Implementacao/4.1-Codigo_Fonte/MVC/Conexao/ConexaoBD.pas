@@ -10,11 +10,11 @@ type
   TDBExpress = class(TSQLConnection)
   private
     class var Banco: String;
-    class var Conexao: TSQLConnection;
     class var Transacao: TDBXTransaction;
     class procedure ConfigurarConexao(var pConexao: TSQLConnection;
       pBD: String);
   public
+    class var Conexao: TSQLConnection;
     class procedure Conectar(BD: String);
     class procedure Desconectar;
     class function getConexao: TSQLConnection;

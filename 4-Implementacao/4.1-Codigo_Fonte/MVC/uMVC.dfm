@@ -5658,6 +5658,16 @@ object FormMenu: TFormMenu
         OnClick = GerarContaCorrente1Click
       end
     end
+    object Relatrios1: TMenuItem
+      Caption = 'Relat'#243'rios'
+      object DRE1: TMenuItem
+        Caption = 'DRE'
+      end
+      object LivroDirio1: TMenuItem
+        Caption = 'Livro Di'#225'rio'
+        OnClick = LivroDirio1Click
+      end
+    end
     object EmpresaTrabalho1: TMenuItem
       Caption = 'Empresa Trabalho'
       OnClick = EmpresaTrabalho1Click

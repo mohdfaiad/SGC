@@ -35,6 +35,7 @@ type
     CDLctoIDHISTORICO: TIntegerField;
     CDLctoDTLCTO: TDateTimeField;
     CDLctoCOMPLEMENTO: TStringField;
+    Label2: TLabel;
     procedure FormCreate(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure CDContaCorrenteAfterScroll(DataSet: TDataSet);
@@ -58,45 +59,60 @@ var contareceber: TContasReceberVO;
     listaContasREceber:TObjectList<TContasREceberVO>;
     contacorrete:TContaCorrenteVO;
     contaReceberController:TContasReceberController;
+  //  datacomp,dataven:TDAtetime;
 begin
-  try
-      listaContasReceber:=TOBjectList<TContasReceberVO>.create;
-      CDContaCorrente.First;
-      while not CDContaCorrente.Eof do
-      begin
-        contareceber:=TContasReceberVO.Create;
-        contareceber.VlValor:=0;
-        contareceber.ItensContaCorrente:=TObjectList<TContaCorrenteVO>.create;
-        while not CDLcto.Eof do
+  if ((MaskEditDtInicio.Text <> '  /  /    ') and (MaskEdit1.Text <> '  /  /    ')) then
+  begin
+    try
+        Contareceber.DtCompetencia:= Strtodate(MaskEdit1.Text);
+        contareceber.DtVencimento:=Strtodate(MaskEditDtInicio.Text);
+        if (contareceber.DtVencimento > Contareceber.DtCompetencia) then
         begin
-          if(CDContaCorrenteIDCONTAPLANO.AsInteger = CDLctoIDCONTADEBITO.AsInteger)then
-            contareceber.VlValor:=contareceber.VlValor+CDLctoVALOR.AsCurrency
-          else
-            contareceber.VlValor:=contareceber.VlValor-CDLctoVALOR.AsCurrency;
+          listaContasReceber:=TOBjectList<TContasReceberVO>.create;
+          CDContaCorrente.First;
+          while not CDContaCorrente.Eof do
+          begin
+            contareceber:=TContasReceberVO.Create;
+            contareceber.VlValor:=0;
+            contareceber.ItensContaCorrente:=TObjectList<TContaCorrenteVO>.create;
+            CDLcto.First;
+            while not CDLcto.Eof do
+            begin
+              if(CDContaCorrenteIDCONTAPLANO.AsInteger = CDLctoIDCONTADEBITO.AsInteger)then
+                contareceber.VlValor:=contareceber.VlValor+CDLctoVALOR.AsCurrency
+              else
+                contareceber.VlValor:=contareceber.VlValor-CDLctoVALOR.AsCurrency;
 
-          contacorrete:=TContacorrenteVO.create;
-          contacorrete.idLcto:=CDLctoIDLCTO.AsInteger;
-          contaReceber.ItensContaCorrente.Add(contacorrete);
-          CDLcto.Next;
-        end;
+              contacorrete:=TContacorrenteVO.create;
+              contacorrete.idLcto:=CDLctoIDLCTO.AsInteger;
+              contaReceber.ItensContaCorrente.Add(contacorrete);
+              CDLcto.Next;
+            end;
 
-        contareceber.DtCompetencia:=  strtodate(MaskEdit1.Text);
-        contareceber.DtVencimento:= StrTodate(MaskEditDtInicio.Text);
-        contareceber.NrDocumento:= copy(MaskEdit1.Text,4,7);
-        contareceber.IdCondominio:=FormEmpresaTrab.CodigoEmpLogada;
-        contareceber.IdUnidade:=CDContaCorrenteIDUNIDADE.AsInteger;
-        contareceber.FlGerado:='S';
-        listaContasREceber.Add(contareceber);
-        CDContaCorrente.Next;
-      end;
+            contareceber.DtCompetencia:=  strtodate(MaskEdit1.Text);
+            contareceber.DtVencimento:= StrTodate(MaskEditDtInicio.Text);
+            contareceber.NrDocumento:= copy(MaskEdit1.Text,4,7);
+            contareceber.IdCondominio:=FormEmpresaTrab.CodigoEmpLogada;
+            contareceber.IdUnidade:=CDContaCorrenteIDUNIDADE.AsInteger;
+            contareceber.FlGerado:='S';
+            listaContasREceber.Add(contareceber);
+            CDContaCorrente.Next;
+          end;
+          contaReceberController:=TContasReceberController.create;
+          contaREceberController.InserirTitulosContaCorrente(listaContasReceber);
+          contaReceberController.Free;
+    //      BitBtnGrava.Enabled := false;
+          ShowMessage('Titulos gerados com sucesso');
+        end
+        else
+          showmessage('Data de vencimento deve ser maior que a data de lançamento');
+    except
+        showmessage('Ocorreu um erro ao gerar os títulos');
+    end;
+  end
+  else
+    showmessage('Campos obrigatórios não preenchido!');
 
-      contaReceberController:=TContasReceberController.create;
-      contaREceberController.InserirTitulosContaCorrente(listaContasReceber);
-      contaReceberController.Free;
-      ShowMessage('Titulos gerados com sucesso');
-  except
-      showmessage('Ocorreu um erro ao gerar os títulos');
-  end;
 end;
 
 procedure TFTelaCadastroContaCorrente.CDContaCorrenteAfterScroll(DataSet: TDataSet);
@@ -160,8 +176,8 @@ begin
   ControllerContaCorrente := TContaCorrenteController.Create;
   unidadeController := TUnidadeController.Create;
   PlanoContasCOntroller := TPlanoContasController.Create;
-  MaskEditDtInicio.Text := '  /  /    ';
-  MaskEdit1.Text := '  /  /    ';
+  MaskEditDtInicio.Text := DateTimeToStr(FormEmpresaTrab.DataLog);
+  MaskEdit1.Text := DateTimeToStr(FormEmpresaTrab.DataLog);;
   Unidade := UnidadeController.Consultar('idcondominio = ' +  intToStr(FormEmpresaTrab.CodigoEmpLogada));
   Contas := PlanoContasController.Consultar('idcondominio = ' + intToStr(FormEmpresaTrab.CodigoEmpLogada));
 

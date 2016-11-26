@@ -46,6 +46,9 @@ type
     Rateio1: TMenuItem;
     GerarContaCorrente1: TMenuItem;
     N6: TMenuItem;
+    Relatrios1: TMenuItem;
+    DRE1: TMenuItem;
+    LivroDirio1: TMenuItem;
     procedure FormCreate(Sender: TObject);
     procedure Pessoa1Click(Sender: TObject);
     procedure Sair1Click(Sender: TObject);
@@ -75,6 +78,7 @@ type
     procedure LeituraGas1Click(Sender: TObject);
     procedure Rateio1Click(Sender: TObject);
     procedure GerarContaCorrente1Click(Sender: TObject);
+    procedure LivroDirio1Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -95,7 +99,7 @@ implementation
 
 uses Upessoa, UPais, UCnae, UNaturezaJuridica, UEstado, UCidade, UCondominio, UUnidade, UEmpresaTrab,
 UTotalGastoMes, UPrecoGas, UPlanoContas, UTemplateDre, UtemplateFcx, UContasPagar, UHistorico,
-ULote, UContasReceber, UUsuario, ULeituraGas, URateio, UContaCorrente;
+ULote, UContasReceber, UUsuario, ULeituraGas, URateio, UContaCorrente, UDiario;
 
 
 procedure TFormMenu.Cidade1Click(Sender: TObject);
@@ -231,6 +235,14 @@ begin
   Application.CreateForm(TFTelaCadastroLeituraGas,FormLeituraGas);
   FormLeituraGas.ShowModal;
   FormLeituraGas.Close;
+end;
+
+procedure TFormMenu.LivroDirio1Click(Sender: TObject);
+var FormDiario :TFTelaLivroDiario;
+begin
+  Application.CreateForm(TFTelaLivroDiario,FormDiario);
+  FormDiario.ShowModal;
+  FormDiario.Close;
 end;
 
 procedure TFormMenu.NaturezaJurdica1Click(Sender: TObject);
