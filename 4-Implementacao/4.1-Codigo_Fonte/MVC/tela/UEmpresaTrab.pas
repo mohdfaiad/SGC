@@ -30,6 +30,7 @@ type
 
   public
     ctLeituraGas, ctjurosp, ctmultap, ctdescontop, ctjurosr, ctmultar, ctdescontor, ctrateio, ctfundoreserva :integer;
+    idhistoricol, idhistoricor, idhistoricof : integer;
     CodigoEmpLogada:integer;
     IdUsuario:integer;
     PrecoGas, fundoreserva, areatotal : Currency;
@@ -73,6 +74,10 @@ begin
     fundoReserva := TCondominioVO(FormCondominioConsulta.ObjetoRetornoVO).FundoReserva;
     areatotal := TCondominioVO(FormCondominioConsulta.ObjetoRetornoVO).metragem;
     precoGas := 0;
+    idhistoricol := TCondominioVO(FormCondominioConsulta.ObjetoRetornoVO).idHistoricoL;
+    idhistoricor := TCondominioVO(FormCondominioConsulta.ObjetoRetornoVO).idHistoricoR;
+    idhistoricoF := TCondominioVO(FormCondominioConsulta.ObjetoRetornoVO).idHistoricoF;
+
     if TCondominioVO(FormCondominioConsulta.ObjetoRetornoVO).idPrecoGas > 0 then
     begin
         precoGas := TCondominioVO(FormCondominioConsulta.ObjetoRetornoVO).PrecoGasVo.vlGas;

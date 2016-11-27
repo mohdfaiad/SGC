@@ -3,7 +3,7 @@ object FTelaLivroDiario: TFTelaLivroDiario
   Top = 0
   Caption = 'Livro Di'#225'rio'
   ClientHeight = 198
-  ClientWidth = 568
+  ClientWidth = 303
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -11,16 +11,17 @@ object FTelaLivroDiario: TFTelaLivroDiario
   Font.Name = 'Tahoma'
   Font.Style = []
   OldCreateOrder = False
+  Position = poMainFormCenter
   PixelsPerInch = 96
   TextHeight = 13
   object Panel1: TPanel
     Left = 0
     Top = 0
-    Width = 568
+    Width = 303
     Height = 198
     Align = alClient
     TabOrder = 0
-    ExplicitLeft = -8
+    ExplicitWidth = 568
     object GroupBox1: TGroupBox
       Left = 16
       Top = 8
@@ -115,6 +116,7 @@ object FTelaLivroDiario: TFTelaLivroDiario
           0000}
         NumGlyphs = 2
         TabOrder = 3
+        OnClick = BitBtn2Click
       end
     end
   end
@@ -219,7 +221,7 @@ object FTelaLivroDiario: TFTelaLivroDiario
     Left = 464
     Top = 48
   end
-  object CDDiario: TClientDataSet
+  object CDDiariotESTE: TClientDataSet
     Active = True
     Aggregates = <>
     Params = <>
@@ -234,6 +236,51 @@ object FTelaLivroDiario: TFTelaLivroDiario
       4C4F52080004000000010007535542545950450200490006004D6F6E6579000B
       4944484953544F5249434F04000100000000000644544C43544F080008000000
       00000B434F4D504C454D454E544F010049000000010005574944544802000200
+      14000000}
+    object CDDiariotESTEIDLCTO: TIntegerField
+      FieldName = 'IDLCTO'
+    end
+    object CDDiariotESTEIDCONTADEBITO: TIntegerField
+      FieldName = 'IDCONTADEBITO'
+    end
+    object CDDiariotESTEIDCONTACREDITO: TIntegerField
+      FieldName = 'IDCONTACREDITO'
+    end
+    object CDDiariotESTEDSCONTADEBITO: TStringField
+      FieldName = 'DSCONTADEBITO'
+    end
+    object CDDiariotESTEDSCONTACREDITO: TStringField
+      FieldName = 'DSCONTACREDITO'
+    end
+    object CDDiariotESTEVALOR: TCurrencyField
+      FieldName = 'VALOR'
+    end
+    object CDDiariotESTEIDHISTORICO: TIntegerField
+      FieldName = 'IDHISTORICO'
+    end
+    object CDDiariotESTEDTLCTO: TDateTimeField
+      FieldName = 'DTLCTO'
+    end
+    object CDDiariotESTECOMPLEMENTO: TStringField
+      FieldName = 'COMPLEMENTO'
+    end
+  end
+  object CDDiario: TClientDataSet
+    Active = True
+    Aggregates = <>
+    Params = <>
+    Left = 528
+    Top = 144
+    Data = {
+      200100009619E0BD01000000180000000A00000000000300000020010649444C
+      43544F04000100000000000D4944434F4E544144454249544F04000100000000
+      000E4944434F4E54414352454449544F04000100000000000D4453434F4E5441
+      44454249544F01004900000001000557494454480200020014000E4453434F4E
+      54414352454449544F0100490000000100055749445448020002001400055641
+      4C4F52080004000000010007535542545950450200490006004D6F6E6579000B
+      4944484953544F5249434F04000100000000000644544C43544F080008000000
+      00000B434F4D504C454D454E544F010049000000010005574944544802000200
+      14000B4453484953544F5249434F010049000000010005574944544802000200
       14000000}
     object CDDiarioIDLCTO: TIntegerField
       FieldName = 'IDLCTO'
@@ -261,6 +308,9 @@ object FTelaLivroDiario: TFTelaLivroDiario
     end
     object CDDiarioCOMPLEMENTO: TStringField
       FieldName = 'COMPLEMENTO'
+    end
+    object CDDiarioDSHISTORICO: TStringField
+      FieldName = 'DSHISTORICO'
     end
   end
 end

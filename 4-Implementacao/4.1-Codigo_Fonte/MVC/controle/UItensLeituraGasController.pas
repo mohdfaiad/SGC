@@ -75,7 +75,7 @@ begin
       Lancamento.dtLcto := ItensLeitura.dtLeitura;
       Lancamento.VlValor := ItensLeitura.vlCalculado;
       Lancamento.iditensleituragas := result;
-      Lancamento.idHistorico :=0;
+      Lancamento.idHistorico := FormEmpresaTrab.idhistoricol;
       TDao.Inserir(Lancamento);
 end;
 

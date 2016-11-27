@@ -81,7 +81,7 @@ begin
           Lancamento.dtLcto := ItensRateio.dtRateio;
           Lancamento.VlValor := ItensRateio.vlRateio;
           Lancamento.idItensRateio := result;
-          Lancamento.idHistorico :=0;
+          Lancamento.idHistorico := formempresatrab.idhistoricor;
           TDao.Inserir(Lancamento);
       end;
       if idCtDebitoFundo > 0 then
@@ -93,7 +93,7 @@ begin
           Lancamento.dtLcto := ItensRateio.dtRateio;
           Lancamento.VlValor := ItensRateio.vlFundoReserva;
           Lancamento.idItensRateio := result;
-          Lancamento.idHistorico :=0;
+          Lancamento.idHistorico :=formempresatrab.idhistoricof;
           TDao.Inserir(Lancamento);
       end;
 end;
