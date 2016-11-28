@@ -16,6 +16,7 @@ type
 
   public
     function ConsultarPorId(id: integer): TLancamentoContabilVO;
+    function SaldoContaData(id:integer; DateMax:TDatetime):currency;
     procedure ValidarDados(Objeto:TLancamentoContabilVO);override;
   end;
 
@@ -28,6 +29,15 @@ procedure TLancamentoContabilController.ValidarDados(
   Objeto: TLancamentoContabilVO);
 begin
   inherited;
+end;
+
+function TLancamentoContabilController.SaldoContaData(id:integer; DateMax:TDatetime):currency;
+var vlTotaldebito:currency;
+    vlTotalCredito:currency;
+begin
+  vlTotalDebito:= TDAO.SUM(' SELECT SUM(VLVALOR) FROM LANCAMENTOCONTABIL WHERE IDCONTADEBITO = '+INTTOSTR(ID) +' AND DTLCTO <= ' +QuotedStr( StringReplace(DateToStr(DateMax), '/', '.', [rfReplaceAll])));
+  vlTotalCREDITO:= TDAO.SUM(' SELECT SUM(VLVALOR) FROM LANCAMENTOCONTABIL WHERE IDCONTACREDITO = '+INTTOSTR(ID) +' AND DTLCTO <= ' +QuotedStr( StringReplace(DateToStr(DateMax), '/', '.', [rfReplaceAll])));
+  result:=vltotaldebito-vltotalcredito;
 end;
 
 function TLancamentoContabilController.ConsultarPorId(id: integer): TLancamentoContabilVO;

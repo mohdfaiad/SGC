@@ -23,6 +23,7 @@ type
       pPagina: Integer): TDBXReader; overload;
     class function ConsultarPorId<T: class>(pId: Integer): T; overload;
     class function ComandoSQL(pConsulta: String): Boolean;
+    class function SUM(comandosql: String): currency;
   end;
 
 var
@@ -820,6 +821,26 @@ begin
 
     except
       Result := False;
+    end;
+
+  finally
+    Query.Free;
+  end;
+end;
+
+class function TDAO.SUM(comandoSQL: String): currency;
+begin
+  try
+    Conexao := TDBExpress.getConexao;
+    Query := TSQLQuery.Create(nil);
+    Query.SQLConnection := Conexao;
+
+    try
+      Query.sql.Text := comandoSQL;
+      Query.Open();
+      Result := Query.FieldByName('SUM').AsCurrency;
+    except
+      Result := 0;
     end;
 
   finally

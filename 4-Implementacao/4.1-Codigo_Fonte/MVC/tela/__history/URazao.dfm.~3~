@@ -1,9 +1,9 @@
-object FTelaLivroDiario: TFTelaLivroDiario
+object FTelaLivroRazao: TFTelaLivroRazao
   Left = 0
   Top = 0
-  Caption = 'Livro Di'#225'rio'
-  ClientHeight = 198
-  ClientWidth = 568
+  Caption = 'Raz'#227'o'
+  ClientHeight = 309
+  ClientWidth = 585
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -16,21 +16,50 @@ object FTelaLivroDiario: TFTelaLivroDiario
   object Panel1: TPanel
     Left = 0
     Top = 0
-    Width = 568
-    Height = 198
+    Width = 585
+    Height = 309
     Align = alClient
     TabOrder = 0
-    ExplicitLeft = -8
+    ExplicitWidth = 304
+    ExplicitHeight = 193
     object GroupBox1: TGroupBox
       Left = 16
-      Top = 8
-      Width = 265
-      Height = 177
+      Top = 0
+      Width = 321
+      Height = 289
       Caption = 'Per'#237'odo : '
       TabOrder = 0
+      object Label3: TLabel
+        Left = 8
+        Top = 91
+        Width = 91
+        Height = 13
+        Caption = 'Classifica'#231#227'o Inicial'
+      end
+      object Label4: TLabel
+        Left = 8
+        Top = 123
+        Width = 86
+        Height = 13
+        Caption = 'Classifica'#231#227'o Final'
+      end
+      object Label5: TLabel
+        Left = 8
+        Top = 159
+        Width = 29
+        Height = 13
+        Caption = 'Conta'
+      end
+      object Label8: TLabel
+        Left = 19
+        Top = 192
+        Width = 62
+        Height = 13
+        Caption = 'P'#225'gina Inicial'
+      end
       object DataInicial: TMaskEdit
         Tag = 1
-        Left = 44
+        Left = 104
         Top = 42
         Width = 69
         Height = 21
@@ -47,7 +76,7 @@ object FTelaLivroDiario: TFTelaLivroDiario
       end
       object DataFinal: TMaskEdit
         Tag = 1
-        Left = 144
+        Left = 181
         Top = 42
         Width = 68
         Height = 21
@@ -63,8 +92,8 @@ object FTelaLivroDiario: TFTelaLivroDiario
         Text = '31/12/9999'
       end
       object BitBtn1: TBitBtn
-        Left = 44
-        Top = 136
+        Left = 94
+        Top = 252
         Width = 81
         Height = 25
         Caption = 'Imprimir'
@@ -90,8 +119,8 @@ object FTelaLivroDiario: TFTelaLivroDiario
         OnClick = BitBtn1Click
       end
       object BitBtn2: TBitBtn
-        Left = 131
-        Top = 136
+        Left = 181
+        Top = 252
         Width = 81
         Height = 25
         Cancel = True
@@ -115,7 +144,118 @@ object FTelaLivroDiario: TFTelaLivroDiario
           0000}
         NumGlyphs = 2
         TabOrder = 3
+        OnClick = BitBtn2Click
       end
+      object ClaIni: TMaskEdit
+        Tag = 1
+        Left = 104
+        Top = 88
+        Width = 145
+        Height = 21
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlue
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = [fsBold]
+        ParentFont = False
+        TabOrder = 4
+        Text = '1'
+      end
+      object ClaFim: TMaskEdit
+        Tag = 1
+        Left = 104
+        Top = 120
+        Width = 145
+        Height = 21
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlue
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = [fsBold]
+        ParentFont = False
+        TabOrder = 5
+        Text = '9999999999999'
+      end
+      object Conta: TMaskEdit
+        Tag = 13
+        Left = 104
+        Top = 152
+        Width = 145
+        Height = 21
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlue
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = [fsBold]
+        ParentFont = False
+        TabOrder = 6
+        Text = ''
+      end
+      object PaginaInicio: TEdit
+        Tag = 1
+        Left = 104
+        Top = 189
+        Width = 39
+        Height = 21
+        TabOrder = 7
+        Text = '1'
+      end
+    end
+  end
+  object CDRazao: TClientDataSet
+    Active = True
+    Aggregates = <>
+    Params = <>
+    Left = 352
+    Top = 120
+    Data = {
+      770100009619E0BD01000000180000000C00000000000300000077010649444C
+      43544F04000100000000000D4944434F4E544144454249544F04000100000000
+      000E4944434F4E54414352454449544F04000100000000000D4453434F4E5441
+      44454249544F01004900000001000557494454480200020014000E4453434F4E
+      54414352454449544F0100490000000100055749445448020002001400055641
+      4C4F52080004000000010007535542545950450200490006004D6F6E6579000B
+      4944484953544F5249434F04000100000000000644544C43544F080008000000
+      00000B434F4D504C454D454E544F010049000000010005574944544802000200
+      14000553414C444F080004000000010007535542545950450200490006004D6F
+      6E657900154453434C415353494649434143414F44454249544F010049000000
+      0100055749445448020002001400164453434C415353494649434143414F4352
+      454449544F01004900000001000557494454480200020014000000}
+    object CDRazaoIDLCTO: TIntegerField
+      FieldName = 'IDLCTO'
+    end
+    object CDRazaoIDCONTADEBITO: TIntegerField
+      FieldName = 'IDCONTADEBITO'
+    end
+    object CDRazaoIDCONTACREDITO: TIntegerField
+      FieldName = 'IDCONTACREDITO'
+    end
+    object CDRazaoDSCONTADEBITO: TStringField
+      FieldName = 'DSCONTADEBITO'
+    end
+    object CDRazaoDSCONTACREDITO: TStringField
+      FieldName = 'DSCONTACREDITO'
+    end
+    object CDRazaoVALOR: TCurrencyField
+      FieldName = 'VALOR'
+    end
+    object CDRazaoIDHISTORICO: TIntegerField
+      FieldName = 'IDHISTORICO'
+    end
+    object CDRazaoDTLCTO: TDateTimeField
+      FieldName = 'DTLCTO'
+    end
+    object CDRazaoCOMPLEMENTO: TStringField
+      FieldName = 'COMPLEMENTO'
+    end
+    object CDRazaoSALDO: TCurrencyField
+      FieldName = 'SALDO'
+    end
+    object CDRazaoDSCLASSIFICACAODEBITO: TStringField
+      FieldName = 'DSCLASSIFICACAODEBITO'
+    end
+    object CDRazaoDSCLASSIFICACAOCREDITO: TStringField
+      FieldName = 'DSCLASSIFICACAOCREDITO'
     end
   end
   object RDprint1: TRDprint
@@ -215,94 +355,45 @@ object FTelaLivroDiario: TFTelaLivroDiario
     Orientacao = poPortrait
     FonteGrafica = sCourierNew
     ReduzParaCaber = True
-    Left = 464
-    Top = 48
+    OnNewPage = RDprint1NewPage
+    Left = 440
+    Top = 80
   end
-  object QueryDiario: TSQLQuery
-    Params = <>
-    Left = 312
-    Top = 96
-    object QueryDiarioNOMEDEBITO: TStringField
-      FieldName = 'NOMEDEBITO'
-      ProviderFlags = []
-      Size = 60
-    end
-    object QueryDiarioDATA: TDateField
-      FieldName = 'DATA'
-      ProviderFlags = []
-    end
-    object QueryDiarioCOMPLEMENTO: TStringField
-      FieldName = 'COMPLEMENTO'
-      ProviderFlags = []
-      Size = 200
-    end
-    object QueryDiarioCONTADEBITO: TIntegerField
-      FieldName = 'CONTADEBITO'
-      ProviderFlags = []
-    end
-    object QueryDiarioCONTACREDITO: TIntegerField
-      FieldName = 'CONTACREDITO'
-      ProviderFlags = []
-    end
-    object QueryDiarioVALOR: TFMTBCDField
-      FieldName = 'VALOR'
-      ProviderFlags = []
-      Precision = 18
-      Size = 2
-    end
-    object QueryDiarioNOMECREDITO: TStringField
-      FieldName = 'NOMECREDITO'
-      ProviderFlags = []
-      Size = 60
-    end
-    object QueryDiarioNOMEHISTORICO: TStringField
-      FieldName = 'NOMEHISTORICO'
-      ProviderFlags = []
-      Size = 50
-    end
-  end
-  object CDDiario: TClientDataSet
+  object CDPlano: TClientDataSet
     Active = True
     Aggregates = <>
     Params = <>
-    Left = 432
-    Top = 136
+    Left = 344
+    Top = 192
     Data = {
-      000100009619E0BD01000000180000000900000000000300000000010649444C
-      43544F04000100000000000D4944434F4E544144454249544F04000100000000
-      000E4944434F4E54414352454449544F04000100000000000D4453434F4E5441
-      44454249544F01004900000001000557494454480200020014000E4453434F4E
-      54414352454449544F0100490000000100055749445448020002001400055641
-      4C4F52080004000000010007535542545950450200490006004D6F6E6579000B
-      4944484953544F5249434F04000100000000000644544C43544F080008000000
-      00000B434F4D504C454D454E544F010049000000010005574944544802000200
-      14000000}
-    object CDDiarioIDLCTO: TIntegerField
-      FieldName = 'IDLCTO'
+      A10000009619E0BD010000001800000006000000000003000000A10006434F44
+      49474F04000100040000000944455343524943414F0100490004000100055749
+      445448020002003C000D434C415353494649434143414F010049000000010005
+      5749445448020002003C00045449504F01004900000001000557494454480200
+      02000F0006504553534F41040001000000000007554E49444144450400010000
+      0000000000}
+    object CDPlanoCODIGO: TIntegerField
+      FieldName = 'CODIGO'
+      Required = True
     end
-    object CDDiarioIDCONTADEBITO: TIntegerField
-      FieldName = 'IDCONTADEBITO'
+    object CDPlanoDESCRICAO: TStringField
+      FieldName = 'DESCRICAO'
+      Required = True
+      Size = 60
     end
-    object CDDiarioIDCONTACREDITO: TIntegerField
-      FieldName = 'IDCONTACREDITO'
+    object CDPlanoCLASSIFICACAO: TStringField
+      FieldName = 'CLASSIFICACAO'
+      Size = 60
     end
-    object CDDiarioDSCONTADEBITO: TStringField
-      FieldName = 'DSCONTADEBITO'
+    object CDPlanoTIPO: TStringField
+      FieldName = 'TIPO'
+      Size = 15
     end
-    object CDDiarioDSCONTACREDITO: TStringField
-      FieldName = 'DSCONTACREDITO'
+    object CDPlanoPESSOA: TIntegerField
+      FieldName = 'PESSOA'
     end
-    object CDDiarioVALOR: TCurrencyField
-      FieldName = 'VALOR'
-    end
-    object CDDiarioIDHISTORICO: TIntegerField
-      FieldName = 'IDHISTORICO'
-    end
-    object CDDiarioDTLCTO: TDateTimeField
-      FieldName = 'DTLCTO'
-    end
-    object CDDiarioCOMPLEMENTO: TStringField
-      FieldName = 'COMPLEMENTO'
+    object CDPlanoUNIDADE: TIntegerField
+      FieldName = 'UNIDADE'
     end
   end
 end

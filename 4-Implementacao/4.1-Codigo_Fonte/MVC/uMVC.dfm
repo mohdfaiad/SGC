@@ -5660,8 +5660,9 @@ object FormMenu: TFormMenu
     end
     object Relatrios1: TMenuItem
       Caption = 'Relat'#243'rios'
-      object DRE1: TMenuItem
-        Caption = 'DRE'
+      object Razao: TMenuItem
+        Caption = 'Livro Raz'#227'o'
+        OnClick = RazaoClick
       end
       object LivroDirio1: TMenuItem
         Caption = 'Livro Di'#225'rio'

@@ -17,9 +17,9 @@ type
     class function Alterar(pObjeto, pObjetoOld: TObject): Boolean; overload;
     class function Excluir(pObjeto: TObject): Boolean;
 
-    class function Consultar<T: class>(pFiltro: String; pPagina: Integer;
+    class function Consultar<T: class>(pFiltro: String; pOrderBy:String; pPagina: Integer;
       pConsultaCompleta: Boolean): TObjectList<T>; overload;
-    class function Consultar(pObjeto: TObject; pFiltro: String;
+    class function Consultar(pObjeto: TObject; pFiltro: String; pOrderBy:String;
       pPagina: Integer): TDBXReader; overload;
     class function ConsultarPorId<T: class>(pId: Integer): T; overload;
     class function ComandoSQL(pConsulta: String): Boolean;
@@ -598,7 +598,7 @@ begin
   end;
 end;
 
-class function TDAO.Consultar<T>(pFiltro: String; pPagina: Integer;
+class function TDAO.Consultar<T>(pFiltro: String; pOrderBy:String; pPagina: Integer;
   pConsultaCompleta: Boolean): TObjectList<T>;
 var
   ObjConsulta: TObject;
@@ -612,7 +612,7 @@ begin
 
   try
     try
-      DBXReader := Consultar(ObjConsulta, pFiltro, pPagina);
+      DBXReader := Consultar(ObjConsulta, pFiltro,pOrderBy, pPagina);
       try
         while DBXReader.Next do
         begin
@@ -636,7 +636,7 @@ begin
   end;
 end;
 
-class function TDAO.Consultar(pObjeto: TObject; pFiltro: String;
+class function TDAO.Consultar(pObjeto: TObject; pFiltro: String; pOrderBy:String;
   pPagina: Integer): TDBXReader;
 var
   Contexto: TRttiContext;
@@ -696,13 +696,12 @@ begin
                 if(aliasColumn='')then
                   aliasColumn:=(Atributo as TColumn).Name;
 
-                ConsultaSQL := ConsultaSQL + ', ' + (Atributo as TColumn).TableName + '.' +(Atributo as TColumn).Name +
+                ConsultaSQL := ConsultaSQL + ', ' + aliasTable + '.' + aliasColumn +
                   ' AS ' + Campo;
                 Joins := Joins + ' ' + 'LEFT JOIN ' + (Atributo as TColumn)
-                  .TableName + ' ON ' + NomeTabelaPrincipal + '.' +
+                  .TableName + ' AS '+ aliasTable + ' ON ' + NomeTabelaPrincipal + '.' +
                   (Atributo as TColumn).LocalColumn + ' = ' +
-                  (Atributo as TColumn).TableName + '.' + (Atributo as TColumn)
-                  .ForeingColumn;
+                  aliasTable + '.' + (Atributo as TColumn).ForeingColumn;
                 ConsultaTransiente := True;
               end;
             end;
@@ -718,14 +717,14 @@ begin
         begin
           if Atributo is TTable then
           begin
-            if TDBExpress.getBanco = 'Firebird' then
+            {if TDBExpress.getBanco = 'Firebird' then
             begin
               ConsultaSQL := 'SELECT first ' +
                 inttostr(TConstantes.QUANTIDADE_POR_PAGINA) + ' skip ' +
                 inttostr(pPagina) + ' ' + (Atributo as TTable).Name + '.*' +
                 ConsultaSQL + ' From ' + (Atributo as TTable).Name + Joins;
             end
-            else
+            else}
             begin
               ConsultaSQL := 'SELECT ' + (Atributo as TTable).Name + '.*' +
                 ConsultaSQL + ' FROM ' + (Atributo as TTable).Name + Joins;
@@ -740,13 +739,13 @@ begin
         begin
           if Atributo is TTable then
           begin
-            if TDBExpress.getBanco = 'Firebird' then
+            {if TDBExpress.getBanco = 'Firebird' then
             begin
               ConsultaSQL := 'SELECT first ' +
                 inttostr(TConstantes.QUANTIDADE_POR_PAGINA) + ' skip ' +
                 inttostr(pPagina) + ' * FROM ' + (Atributo as TTable).Name;
             end
-            else
+            else  }
             begin
               ConsultaSQL := 'SELECT * FROM ' + (Atributo as TTable).Name;
             end;
@@ -790,7 +789,7 @@ begin
 
       DBXConnection := TDBExpress.getConexao.DBXConnection;
       DBXCommand := DBXConnection.CreateCommand;
-      DBXCommand.Text := ConsultaSQL;
+      DBXCommand.Text := ConsultaSQL+ ' '+pOrderBy;
       DBXCommand.Prepare;
 
       DBXReader := DBXCommand.ExecuteQuery;
@@ -821,6 +820,27 @@ begin
 
     except
       Result := False;
+    end;
+
+  finally
+    Query.Free;
+  end;
+end;
+
+class function TDAO.SUM(comandoSQL: String): Boolean;
+begin
+  try
+    Conexao := TDBExpress.getConexao;
+    Query := TSQLQuery.Create(nil);
+    Query.SQLConnection := Conexao;
+
+    try
+
+      Query.sql.Text := comandoSQL;
+      Result:= Query.ExecSQL();
+      Query.Free;
+    except
+      Result := 0;
     end;
 
   finally

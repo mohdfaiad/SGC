@@ -18,6 +18,16 @@ type
     BitBtn1: TBitBtn;
     BitBtn2: TBitBtn;
     RDprint1: TRDprint;
+    CDDiariotESTE: TClientDataSet;
+    CDDiariotESTEIDLCTO: TIntegerField;
+    CDDiariotESTEIDCONTADEBITO: TIntegerField;
+    CDDiariotESTEIDCONTACREDITO: TIntegerField;
+    CDDiariotESTEDSCONTADEBITO: TStringField;
+    CDDiariotESTEDSCONTACREDITO: TStringField;
+    CDDiariotESTEVALOR: TCurrencyField;
+    CDDiariotESTEIDHISTORICO: TIntegerField;
+    CDDiariotESTEDTLCTO: TDateTimeField;
+    CDDiariotESTECOMPLEMENTO: TStringField;
     CDDiario: TClientDataSet;
     CDDiarioIDLCTO: TIntegerField;
     CDDiarioIDCONTADEBITO: TIntegerField;
@@ -28,8 +38,10 @@ type
     CDDiarioIDHISTORICO: TIntegerField;
     CDDiarioDTLCTO: TDateTimeField;
     CDDiarioCOMPLEMENTO: TStringField;
+    CDDiarioDSHISTORICO: TStringField;
     procedure BitBtn1Click(Sender: TObject);
     procedure RDprint1NewPage(Sender: TObject; Pagina: Integer);
+    procedure BitBtn2Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -66,7 +78,7 @@ end;
 procedure TFTelaLivroDiario.BitBtn1Click(Sender: TObject);
 var     c,total, i: Integer;
         DiaI,MesI,AnoI,Mes,Ano,Dia,MesAnt,MesAtu,AnoAnt,AnoAtu: Word;
-        Conta,Historico,DataAnt: String;
+        DsHistorico,Conta,Historico,DataAnt: String;
         ValorDebito,ValorCredito,Codigo: currency;
         DebitosDia,CreditosDia,DebitosMes,CreditosMes: Double;
         path,caminho: string;
@@ -87,10 +99,9 @@ begin
   datef := StrToDate(DataFinal.Text);
 
   LctoController := TLancamentoCOntabilController.Create;
-  lcto := LctoController.Consultar( '  ( DTLCTO >= '+QuotedSTr(StringReplace(datainicial.Text, '/','.', [rfReplaceAll]))+
+  lcto := LctoController.Consultar( '   ( DTLCTO >= '+QuotedSTr(StringReplace(datainicial.Text, '/','.', [rfReplaceAll]))+
                                        ' AND DTLCTO <= ' +QuotedStr(StringReplace(DataFinal.Text, '/','.', [rfReplaceAll]))+ ')',
-                                       ' ORDER BY DATA, SEQUENCIALLCTO '
-                                        );
+                                       ' ORDER BY DTLCTO, IDLCTO ' );
 
   CDDiario.Open;
   CDDiario.EmptyDataSet;
@@ -106,6 +117,7 @@ begin
     CDDiarioDSCONTACREDITO.AsString := Lcto[i].DsContaCredito;
     CDDiarioVALOR.AsCurrency := Lcto[i].VlValor;
     CDDiarioIDHISTORICO.AsInteger := Lcto[i].idHistorico;
+    CDDiarioDSHISTORICO.AsString := Lcto[i].DsHistorico;
     CDDiarioCOMPLEMENTO.AsString := Lcto[i].complemento;
     CDDiario.Post;
   end;
@@ -146,9 +158,10 @@ begin
             RdPrint1.Impf(Lin,01+colunaInicial, CDDiarioDTLCTO.AsString,[]);
             RdPrint1.Impf(Lin,18+colunainicial,Copy(Conta,1,37),[]);
             Historico:= CDDiarioIDHISTORICO.AsString;
+            DsHistorico := CDDiarioDSHISTORICO.AsString;
             if CDDiarioCOMPLEMENTO.AsString<>'' then begin
               if Historico<>'' then
-                Historico:=Historico+' ';
+                Historico:=Historico+ ' ' + dshistorico + ' ';
               Historico:=Historico+CDDiarioCOMPLEMENTO.AsString;
             end;
             RdPrint1.Impf(Lin,58,Copy(Historico,1,42),[]);
@@ -165,11 +178,41 @@ begin
         DataAnt:= CDDiarioDTLCTO.AsString;
 
         CDDiario.Next;
+         if (DataAnt<>CDDiarioDTLCTO.AsString) or (CDDiario.Eof) then begin
+
+          RdPrint1.ImpF(Lin,10+colunainicial,'* TOTAL DO DIA '+DataAnt+' *',[]);
+          RdPrint1.ImpD(Lin,(RdPrint1.TamanhoQteColunas+1)-16,FormatFloat('###,###,##0.00',DebitosDia),[]);
+          RdPrint1.ImpD(Lin,(RdPrint1.TamanhoQteColunas+1),FormatFloat('###,###,##0.00',CreditosDia),[]);
+
+          DebitosDia:=0;
+          CreditosDia:=0;
+          Lin:=SomaLin(Lin,RdPrint1);
+          Lin:=SomaLin(Lin,RdPrint1);
+          DecodeDate(StrToDate(DataAnt),AnoANt,MesAnt,Dia);
+          DecodeDate(CDDiarioDTLCTO.AsDateTime,AnoAtu,MesAtu,Dia);
+
+          if ((MesAnt<>MesAtu) or (AnoAnt<>AnoAtu)) or (CDDiario.Eof) then begin
+
+            RdPrint1.ImpF(Lin,10+colunainicial,'* TOTAL DO MES '+IntToStr(MesAnt)+' *',[]);
+            RdPrint1.ImpD(Lin,(RdPrint1.TamanhoQteColunas+1)-16,FormatFloat('###,###,##0.00',DebitosMes),[]);
+            RdPrint1.ImpD(Lin,(RdPrint1.TamanhoQteColunas+1),FormatFloat('###,###,##0.00',CreditosMes),[]);
+            DebitosDia:=0;
+            CreditosDia:=0;
+            DebitosMes:=0;
+            CreditosMes:=0;
+            If not CDDiario.Eof then  RdPrint1.Novapagina;
+          end;
+        end;
         end;
 
     finally
       RdPrint1.Fechar;
     end;
+end;
+
+procedure TFTelaLivroDiario.BitBtn2Click(Sender: TObject);
+begin
+  close;
 end;
 
 procedure TFTelaLivroDiario.RDprint1NewPage(Sender: TObject; Pagina: Integer);
@@ -194,16 +237,16 @@ begin
     Impd(lin,TamanhoQteColunas+1,'    Folha '+IntToStr(Pagina+PaginaInicial-1),[]);
 
     Inc(Lin);
-    Impf(Lin,01+colunainicial,'-------------------------------------------------------------',[]);
+    Impf(Lin,01+colunainicial,'----------------------------------------------------------------------------------------------------------------------------------------------------------------------',[]);
     Inc(Lin);
     Impf(Lin,01+colunainicial,'Data',[]);
-    ImpD(Lin,16+colunainicial,'Lote',[]);
+  //  ImpD(Lin,16+colunainicial,'Lote',[]);
     Impf(Lin,18+colunainicial,'Descricao da Conta',[]);
     Impf(Lin,58,'Historico',[]);
     ImpD(Lin,(TamanhoQteColunas+1)-(16*1),'Debito',[]);
     ImpD(Lin,(TamanhoQteColunas+1)-(16*0),'Credito',[]);
     Inc(Lin);
-    Impf(Lin,01+colunainicial, '-------------------------------------------------------------',[]);
+    Impf(Lin,01+colunainicial, '----------------------------------------------------------------------------------------------------------------------------------------------------------------------',[]);
     Inc(Lin);
     Inc(Lin);
 

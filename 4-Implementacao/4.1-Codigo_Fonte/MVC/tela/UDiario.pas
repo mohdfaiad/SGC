@@ -99,7 +99,8 @@ begin
   datef := StrToDate(DataFinal.Text);
 
   LctoController := TLancamentoCOntabilController.Create;
-  lcto := LctoController.Consultar( '  ( DTLCTO >= '+QuotedSTr(StringReplace(datainicial.Text, '/','.', [rfReplaceAll]))+
+  lcto := LctoController.Consultar( ' ( (PlanoDebito.idcondominio = '+inttostr(FormEmpresaTrab.CodigoEmpLogada)+') OR (PlanoCredito.idcondominio = '+inttostr(FormEmpresaTrab.CodigoEmpLogada)+') ) '+
+                                    '  AND  ( DTLCTO >= '+QuotedSTr(StringReplace(datainicial.Text, '/','.', [rfReplaceAll]))+
                                        ' AND DTLCTO <= ' +QuotedStr(StringReplace(DataFinal.Text, '/','.', [rfReplaceAll]))+ ')',
                                        ' ORDER BY DTLCTO, IDLCTO ' );
 

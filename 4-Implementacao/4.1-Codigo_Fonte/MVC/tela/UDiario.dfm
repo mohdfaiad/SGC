@@ -3,7 +3,7 @@ object FTelaLivroDiario: TFTelaLivroDiario
   Top = 0
   Caption = 'Livro Di'#225'rio'
   ClientHeight = 198
-  ClientWidth = 303
+  ClientWidth = 300
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -17,11 +17,11 @@ object FTelaLivroDiario: TFTelaLivroDiario
   object Panel1: TPanel
     Left = 0
     Top = 0
-    Width = 303
+    Width = 300
     Height = 198
     Align = alClient
     TabOrder = 0
-    ExplicitWidth = 568
+    ExplicitWidth = 303
     object GroupBox1: TGroupBox
       Left = 16
       Top = 8

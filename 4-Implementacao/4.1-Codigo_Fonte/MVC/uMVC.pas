@@ -47,7 +47,7 @@ type
     GerarContaCorrente1: TMenuItem;
     N6: TMenuItem;
     Relatrios1: TMenuItem;
-    DRE1: TMenuItem;
+    Razao: TMenuItem;
     LivroDirio1: TMenuItem;
     procedure FormCreate(Sender: TObject);
     procedure Pessoa1Click(Sender: TObject);
@@ -79,6 +79,7 @@ type
     procedure Rateio1Click(Sender: TObject);
     procedure GerarContaCorrente1Click(Sender: TObject);
     procedure LivroDirio1Click(Sender: TObject);
+    procedure RazaoClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -99,7 +100,7 @@ implementation
 
 uses Upessoa, UPais, UCnae, UNaturezaJuridica, UEstado, UCidade, UCondominio, UUnidade, UEmpresaTrab,
 UTotalGastoMes, UPrecoGas, UPlanoContas, UTemplateDre, UtemplateFcx, UContasPagar, UHistorico,
-ULote, UContasReceber, UUsuario, ULeituraGas, URateio, UContaCorrente, UDiario;
+ULote, UContasReceber, UUsuario, ULeituraGas, URateio, UContaCorrente, UDiario, URazao;
 
 
 procedure TFormMenu.Cidade1Click(Sender: TObject);
@@ -156,6 +157,14 @@ begin
   end;
 end;
 
+
+procedure TFormMenu.RazaoClick(Sender: TObject);
+var formrazao :TFTelaLivroRazao;
+begin
+  Application.CreateForm(TFTelaLivroRazao,formrazao);
+  formrazao.ShowModal;
+  formrazao.Close;
+end;
 
 procedure TFormMenu.emplateDre1Click(Sender: TObject);
 var FormTemplateDre :TFTelaCadastroTemplateDre;

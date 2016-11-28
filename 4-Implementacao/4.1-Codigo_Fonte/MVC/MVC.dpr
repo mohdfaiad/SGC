@@ -102,7 +102,8 @@ uses
   UContaCorrenteVO in 'VO\UContaCorrenteVO.pas',
   UContaCorrenteController in 'controle\UContaCorrenteController.pas',
   UContaCorrente in 'tela\UContaCorrente.pas' {FTelaCadastroContaCorrente},
-  UDiario in 'tela\UDiario.pas' {FTelaLivroDiario};
+  UDiario in 'tela\UDiario.pas' {FTelaLivroDiario},
+  URazao in 'tela\URazao.pas' {FTelaLivroRazao};
 
 {$R *.res}
 
@@ -111,5 +112,6 @@ begin
   Application.MainFormOnTaskbar := True;
   Application.CreateForm(TFormMenu, FormMenu);
   Application.CreateForm(TFTelaLivroDiario, FTelaLivroDiario);
+  Application.CreateForm(TFTelaLivroRazao, FTelaLivroRazao);
   Application.Run;
 end.

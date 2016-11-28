@@ -23,6 +23,8 @@ type
     FidItensLeituraGas : Integer;
     FidItensRateio : Integer;
 
+    FDsClassificacaoDebito : string;
+    FDsClassificacaoCredito : string;
     FDsContaDebito : String;
     FDsContaCredito : String;
     FDsHistorico : String;
@@ -81,6 +83,12 @@ type
 
     [TColumn('idHistorico','idHistorico',0,[ldLookup,ldComboBox], False)]
     property idHistorico: integer  read FIdHistorico write FIdHistorico;
+
+    [TColumn('DSCLASSIFICACAODEBITO','Classificacao',0,[], True, 'PlanoContas', 'idContaDebito', 'idPlanoContas', 'PlanoDebitoDS', 'DSCONTA')]
+    property DsClassificacaoDebito : string  read FDsClassificacaoDebito write FDsClassificacaoDebito;
+
+    [TColumn('DSCLASSIFICACAOCREDITO','Classificacao',0,[], True, 'PlanoContas', 'idContaCredito', 'idPlanoContas', 'PlanoCreditoDs', 'DSCONTA')]
+    property DsClassificacaoCredito : string  read FDsClassificacaoCredito write FDsClassificacaoCredito;
 
     [TColumn('DSCONTADEBITO','ContaDebito',0,[], True, 'PlanoContas', 'idContaDebito', 'idPlanoContas', 'PlanoDebito', 'DSCONTA')]
     property DsContaDebito: string  read FDsContaDebito write FDsContaDebito;
