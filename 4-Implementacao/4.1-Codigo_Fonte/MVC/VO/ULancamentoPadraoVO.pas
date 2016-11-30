@@ -33,23 +33,26 @@ type
     [TGeneratedValue(sAuto)]
     property idLctoPadrao : Integer  read FidLctoPadrao write FidLctoPadrao;
 
-    [TColumn('observacao','Observação',80,[ldGrid,ldLookup,ldComboBox], False)]
+    [TColumn('observacao','Observação',200,[ldGrid,ldLookup,ldComboBox], False)]
     property observacao: string  read Fobservacao write Fobservacao;
 
-    [TColumn('idcontacredito','Crédito',0,[ldLookup,ldComboBox], False)]
-    property idContaCredito: integer  read FidContaCredito write FidContaCredito;
 
-    [TColumn('idcontadebito','Débito',0,[ldLookup,ldComboBox], False)]
+    [TColumn('idcontadebito','Débito',20,[ldGrid,ldLookup,ldComboBox], False)]
     property idcontadebito: integer  read FidContaDebito write FidContaDebito;
 
-    [TColumn('idHistorico','idHistorico',0,[ldLookup,ldComboBox], False)]
-    property idHistorico: integer  read FIdHistorico write FIdHistorico;
-
-    [TColumn('DSCONTADEBITO','ContaDebito',0,[], True, 'PlanoContas', 'idContaDebito', 'idPlanoContas', 'PlanoDebito', 'DSCONTA')]
+    [TColumn('DSCONTADEBITO','Descrição',150,[ldGrid], True, 'PlanoContas', 'idContaDebito', 'idPlanoContas', 'PlanoDebito', 'DSCONTA')]
     property DsContaDebito: string  read FDsContaDebito write FDsContaDebito;
 
-    [TColumn('DSCONTACREDITO','ContaCredito',0,[], True, 'PlanoContas', 'idContaCredito', 'idPlanoContas', 'PlanoCredito', 'DSCONTA')]
+    [TColumn('idcontacredito','Crédito',20,[ldGrid,ldLookup,ldComboBox], False)]
+    property idContaCredito: integer  read FidContaCredito write FidContaCredito;
+
+    [TColumn('DSCONTACREDITO','Descrição',150,[ldGrid], True, 'PlanoContas', 'idContaCredito', 'idPlanoContas', 'PlanoCredito', 'DSCONTA')]
     property DsContaCredito: string  read FDsContaCredito write FDsContaCredito;
+
+    [TColumn('idHistorico','Historico',10,[ldGrid,ldLookup,ldComboBox], False)]
+    property idHistorico: integer  read FIdHistorico write FIdHistorico;
+
+
 
     [TColumn('DSHISTORICO','',0,[], True, 'Historicos', 'idHistorico', 'idHistorico')]
     property DsHistorico: string  read FDsHistorico write FDsHistorico;

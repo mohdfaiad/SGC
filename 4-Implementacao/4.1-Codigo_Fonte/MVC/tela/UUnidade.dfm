@@ -51,6 +51,10 @@ inherited FTelaCadastroUnidade: TFTelaCadastroUnidade
         Width = 785
         ParentBackground = False
         ExplicitWidth = 785
+        inherited BitBtnGrava: TBitBtn
+          Top = 5
+          ExplicitTop = 5
+        end
         object BtnProprietario: TBitBtn
           Left = 312
           Top = 10

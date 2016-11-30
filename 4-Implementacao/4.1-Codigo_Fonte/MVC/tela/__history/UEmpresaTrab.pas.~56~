@@ -29,10 +29,13 @@ type
     { Private declarations }
 
   public
-    ctjurosp, ctmultap, ctdescontop, ctjurosr, ctmultar, ctdescontor :integer;
+    ctLeituraGas, ctjurosp, ctmultap, ctdescontop, ctjurosr, ctmultar, ctdescontor, ctrateio, ctfundoreserva :integer;
+    idhistoricol, idhistoricor, idhistoricof : integer;
     CodigoEmpLogada:integer;
     IdUsuario:integer;
-    PrecoGas : Currency;
+    PrecoGas, fundoreserva, areatotal : Currency;
+    DataLog : TDateTime;
+
     DescricaoEmpLogada,cnpjEmpLogada:String;
   end;
 
@@ -65,24 +68,32 @@ begin
     ctdescontor:= TCondominioVO(FormCondominioConsulta.ObjetoRetornoVO).idCtDescontoObt;
     ctmultap:= TCondominioVO(FormCondominioConsulta.ObjetoRetornoVO).idCtMultaP;
     ctmultar:= TCondominioVO(FormCondominioConsulta.ObjetoRetornoVO).idCtMulta;
+    ctleituragas := TCondominioVO(FormCondominioConsulta.ObjetoRetornoVO).idctLeituraGas;
+    ctRateio := TCondominioVO(FormCondominioConsulta.ObjetoRetornoVO).idCtRateio;
+    ctFundoReserva := TCondominioVO(FormCondominioConsulta.ObjetoRetornoVO).IdCtFundoReserva;
+    fundoReserva := TCondominioVO(FormCondominioConsulta.ObjetoRetornoVO).FundoReserva;
+    areatotal := TCondominioVO(FormCondominioConsulta.ObjetoRetornoVO).metragem;
     precoGas := 0;
+    idhistoricol := TCondominioVO(FormCondominioConsulta.ObjetoRetornoVO).idHistoricoL;
+    idhistoricor := TCondominioVO(FormCondominioConsulta.ObjetoRetornoVO).idHistoricoR;
+    idhistoricoF := TCondominioVO(FormCondominioConsulta.ObjetoRetornoVO).idHistoricoF;
+
     if TCondominioVO(FormCondominioConsulta.ObjetoRetornoVO).idPrecoGas > 0 then
     begin
         precoGas := TCondominioVO(FormCondominioConsulta.ObjetoRetornoVO).PrecoGasVo.vlGas;
     end;
-
-
-
-  end;
+end;
   FormCondominioConsulta.Release;
 end;
 
 procedure TFormEmpresaTrab.BtnAcessarClick(Sender: TObject);
 begin
-  if (LabeledEditCodigo.Text <> '') then
+  if (LabeledEditCodigo.Text <> '')  and (MaskEditDt.Text <> '  /  /    ') then
   begin
     CodigoEmpLogada:= strtoint(LabeledEditCodigo.Text);
     DescricaoEmpLogada:= LabelNomeCond.Caption;
+    CnpjEmpLogada := LabelCnpj.Caption;
+    DataLog := StrToDate(MaskEditDt.Text);
     FormMenu.Caption:= 'SGC - ('+inttostr(codigoEmpLogada)+')     '+DescricaoEmpLogada;
     FormEmpresaTrab.Visible:=false;
     if(FormMenu.Visible=true)then
@@ -92,7 +103,7 @@ begin
   end
   else
   begin
-    MessageDlg('Condomínio não informado!', mtInformation, [mbOK], 0);
+    MessageDlg('Condomínio ou data não informado!', mtInformation, [mbOK], 0);
   end;
 end;
 
@@ -117,6 +128,7 @@ procedure TFormEmpresaTrab.LabeledEditCodigoExit(Sender: TObject);
 var
   CondominioController:TCondominioController;
   CondominioVO: TCondominioVO;
+
 begin
   if LabeledEditCodigo.Text <> '' then
   begin
@@ -132,6 +144,14 @@ begin
     ctdescontor:= CondominioVO.idCtDescontoObt;
     ctmultap:= CondominioVO.idCtMultaP;
     ctmultar:= CondominioVO.idCtMulta;
+    ctLeituraGas := CondominioVO.idctLeituraGas;
+    ctRateio := CondominioVO.idCtRateio;
+    ctFundoReserva := CondominioVO.IdCtFundoReserva;
+    fundoreserva := CondominioVO.FundoReserva;
+    areatotal := COndominioVO.metragem;
+
+    if CondominioVo.idPrecoGas > 0 then
+       PrecoGas := CondominioVO.PrecoGasVo.vlGas;
 
     CondominioController.Free;
    except

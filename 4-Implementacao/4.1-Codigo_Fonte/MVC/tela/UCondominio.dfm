@@ -11,6 +11,7 @@ inherited FTelaCadastroCondominio: TFTelaCadastroCondominio
     Width = 791
     Height = 536
     ActivePage = Consulta
+    ExplicitTop = -6
     ExplicitWidth = 791
     ExplicitHeight = 536
     inherited Consulta: TTabSheet
@@ -138,8 +139,8 @@ inherited FTelaCadastroCondominio: TFTelaCadastroCondominio
           inherited PanelEdits: TPanel
             Width = 775
             Height = 423
-            ExplicitLeft = 3
-            ExplicitTop = -3
+            ExplicitLeft = 0
+            ExplicitTop = 0
             ExplicitWidth = 775
             ExplicitHeight = 423
             object Cep: TLabel

@@ -5,7 +5,7 @@ interface
 uses
   Classes, SQLExpr, SysUtils, Generics.Collections, DBXJSON, DBXCommon,
   ConexaoBD,
-  UPessoasVO, UController, DBClient, DB, UCondominioVO, UCondominioController, UInquilinoUnidadeVO, UPessoasController;
+  UPessoasVO, UController, DBClient, DB, UCondominioVO, UCondominioController, UInquilinoUnidadeVO, UPessoasController, UUnidadeVO, UUnidadeController;
 
 
 type
@@ -42,11 +42,17 @@ end;
 procedure TInquilinoUnidadeController.ValidarDados(Objeto: TInquilinoUnidadeVO);
 var
   query, data, idInquilino : string;
-  listaInquilino :TObjectList<TInquilinoUnidadeVO>;
+  listaInquilino:TObjectList<TInquilinoUnidadeVO>;
+  UnidadeVo : TUnidadeVo;
+  unidadeController : TUnidadeController;
 begin
     data := DateToStr(Objeto.dtInicio);
     idInquilino := IntToStr(Objeto.idInquilinounidade);
-    Query :=  ' dtInicio = ' +QuotedStr(Data) + 'and idInquilinoUnidade <> '+QuotedStr(idInquilino);
+    unidadeController := TUnidadeController.Create;
+    UnidadeVo := UnidadeController.ConsultarPorId(Objeto.IdUnidade);
+
+
+    Query :=  ' dtInicio = ' +QuotedStr(Data) + 'and idInquilinoUnidade <> '+QuotedStr(idInquilino) + 'and InquilinoUnidade.idunidade = ' + IntToStr(UnidadeVo.idUnidade);
     listaInquilino := self.Consultar(query);
     if (listaInquilino.Count > 0) then
       raise Exception.Create('Ja existe Inquilino informado nessa data');

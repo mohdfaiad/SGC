@@ -89,7 +89,7 @@ begin
           Lancamento := TLancamentoContabilVo.Create;
           Lancamento.idcontadebito := idCtDebitoFundo;
           Lancamento.idContaCredito := idCtCreditoFundo;
-          Lancamento.complemento := 'Fundo Reserva';
+          Lancamento.complemento := '';
           Lancamento.dtLcto := ItensRateio.dtRateio;
           Lancamento.VlValor := ItensRateio.vlFundoReserva;
           Lancamento.idItensRateio := result;

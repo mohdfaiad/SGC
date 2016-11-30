@@ -7,7 +7,7 @@ uses
   System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, UtelaCadastro, Vcl.ComCtrls,
   Vcl.StdCtrls, Vcl.Mask, Vcl.Buttons, Vcl.ExtCtrls, Vcl.Grids, Vcl.DBGrids,
-  UCondominioController, UCondominio, UCondominioVO, UGenericVO,Generics.Collections, UMVC;
+  UCondominioController, UCondominio, UCondominioVO, UGenericVO,Generics.Collections, UMVC, DateUtils, Biblioteca;
 
 type
   TFormEmpresaTrab = class(TForm)
@@ -24,6 +24,8 @@ type
     procedure BtnSairClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure LabeledEditCodigoExit(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure MaskEditDtExit(Sender: TObject);
 
   private
     { Private declarations }
@@ -114,6 +116,11 @@ begin
     FormMenu.ShowModal;
 end;
 
+procedure TFormEmpresaTrab.FormCreate(Sender: TObject);
+begin
+  MaskEditDt.Text := (formatDateTime('dd/mm/yyyy', now));
+end;
+
 procedure TFormEmpresaTrab.FormShow(Sender: TObject);
 begin
   if(codigoEmpLogada>0)then
@@ -149,6 +156,10 @@ begin
     ctFundoReserva := CondominioVO.IdCtFundoReserva;
     fundoreserva := CondominioVO.FundoReserva;
     areatotal := COndominioVO.metragem;
+    idhistoricol := COndominioVO.idHistoricoL;
+    idhistoricor := COndominioVO.idHistoricoR;
+    idhistoricoF := COndominioVO.idHistoricoF;
+
 
     if CondominioVo.idPrecoGas > 0 then
        PrecoGas := CondominioVO.PrecoGasVo.vlGas;
@@ -165,6 +176,11 @@ begin
     LabeledEditCodigo.Text := '';
   end;
 
+end;
+
+procedure TFormEmpresaTrab.MaskEditDtExit(Sender: TObject);
+begin
+    EventoValidaData(sender);
 end;
 
 end.

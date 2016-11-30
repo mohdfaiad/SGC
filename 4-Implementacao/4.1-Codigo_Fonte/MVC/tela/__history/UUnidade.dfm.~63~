@@ -2,6 +2,7 @@ inherited FTelaCadastroUnidade: TFTelaCadastroUnidade
   Caption = 'Cadastro de Unidades'
   ClientHeight = 503
   ClientWidth = 793
+  OnClose = FormClose
   ExplicitWidth = 809
   ExplicitHeight = 542
   PixelsPerInch = 96
@@ -12,6 +13,8 @@ inherited FTelaCadastroUnidade: TFTelaCadastroUnidade
     ExplicitWidth = 793
     ExplicitHeight = 478
     inherited Consulta: TTabSheet
+      ExplicitLeft = 4
+      ExplicitTop = 24
       ExplicitWidth = 785
       ExplicitHeight = 450
       inherited Grid: TDBGrid
@@ -40,12 +43,32 @@ inherited FTelaCadastroUnidade: TFTelaCadastroUnidade
       end
     end
     inherited DadosCadastrais: TTabSheet
+      ExplicitLeft = 4
+      ExplicitTop = 24
       ExplicitWidth = 785
       ExplicitHeight = 450
       inherited PanelBotoes: TPanel
         Width = 785
         ParentBackground = False
         ExplicitWidth = 785
+        object BtnProprietario: TBitBtn
+          Left = 312
+          Top = 10
+          Width = 89
+          Height = 41
+          Caption = 'Propriet'#225'rio'
+          TabOrder = 5
+          OnClick = BtnProprietarioClick
+        end
+        object BtnInquilino: TBitBtn
+          Left = 407
+          Top = 10
+          Width = 98
+          Height = 41
+          Caption = 'Inquilino'
+          TabOrder = 6
+          OnClick = BtnInquilinoClick
+        end
       end
       inherited PageControlEdit: TPageControl
         Width = 785
@@ -53,22 +76,17 @@ inherited FTelaCadastroUnidade: TFTelaCadastroUnidade
         ExplicitWidth = 785
         ExplicitHeight = 393
         inherited DadosPrincipais: TTabSheet
+          ExplicitLeft = 4
+          ExplicitTop = 24
           ExplicitWidth = 777
           ExplicitHeight = 365
           inherited PanelEdits: TPanel
             Width = 777
             Height = 365
-            ExplicitLeft = 24
-            ExplicitTop = 2
+            ExplicitLeft = 0
+            ExplicitTop = 0
             ExplicitWidth = 777
             ExplicitHeight = 365
-            object Label1: TLabel
-              Left = 240
-              Top = 69
-              Width = 93
-              Height = 13
-              Caption = 'Qtd G'#225's Inicial (m'#179')'
-            end
             object Label2: TLabel
               Left = 18
               Top = 69
@@ -94,6 +112,13 @@ inherited FTelaCadastroUnidade: TFTelaCadastroUnidade
               Font.Name = 'Tahoma'
               Font.Style = [fsBold]
               ParentFont = False
+            end
+            object Label1: TLabel
+              Left = 240
+              Top = 69
+              Width = 93
+              Height = 13
+              Caption = 'Qtd G'#225's Inicial (m'#179')'
             end
             object Label5: TLabel
               Left = 20
@@ -124,6 +149,7 @@ inherited FTelaCadastroUnidade: TFTelaCadastroUnidade
               Font.Height = -11
               Font.Name = 'Tahoma'
               Font.Style = []
+              NumbersOnly = True
               ParentFont = False
               TabOrder = 0
             end
@@ -149,18 +175,12 @@ inherited FTelaCadastroUnidade: TFTelaCadastroUnidade
               Font.Height = -11
               Font.Name = 'Tahoma'
               Font.Style = []
+              MaxLength = 50
               ParentFont = False
               TabOrder = 1
             end
-            object EditQtdGas: TEdit
-              Left = 240
-              Top = 88
-              Width = 93
-              Height = 21
-              TabOrder = 4
-            end
             object EditAreaTotal: TEdit
-              Left = 18
+              Left = 20
               Top = 88
               Width = 93
               Height = 21
@@ -171,6 +191,7 @@ inherited FTelaCadastroUnidade: TFTelaCadastroUnidade
               Font.Style = []
               ParentFont = False
               TabOrder = 2
+              OnKeyPress = EditAreaTotalKeyPress
             end
             object EditFracaoIdeal: TEdit
               Left = 128
@@ -184,6 +205,14 @@ inherited FTelaCadastroUnidade: TFTelaCadastroUnidade
               Font.Style = []
               ParentFont = False
               TabOrder = 3
+              OnKeyPress = EditFracaoIdealKeyPress
+            end
+            object EditQtdGas: TEdit
+              Left = 240
+              Top = 88
+              Width = 93
+              Height = 21
+              TabOrder = 4
             end
             object EditObservacao: TRichEdit
               Left = 18
@@ -195,26 +224,9 @@ inherited FTelaCadastroUnidade: TFTelaCadastroUnidade
               Font.Height = -11
               Font.Name = 'Tahoma'
               Font.Style = []
+              MaxLength = 500
               ParentFont = False
               TabOrder = 5
-            end
-            object BtnProprietario: TBitBtn
-              Left = 616
-              Top = 40
-              Width = 113
-              Height = 69
-              Caption = 'Propriet'#225'rio'
-              TabOrder = 6
-              OnClick = BtnProprietarioClick
-            end
-            object BtnInquilino: TBitBtn
-              Left = 616
-              Top = 134
-              Width = 113
-              Height = 69
-              Caption = 'Inquilino'
-              TabOrder = 7
-              OnClick = BtnInquilinoClick
             end
           end
         end

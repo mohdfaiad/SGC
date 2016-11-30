@@ -10,6 +10,7 @@ inherited FTelaCadastroCondominio: TFTelaCadastroCondominio
   inherited PageControl: TPageControl
     Width = 791
     Height = 536
+    ActivePage = Consulta
     ExplicitWidth = 791
     ExplicitHeight = 536
     inherited Consulta: TTabSheet
@@ -127,7 +128,6 @@ inherited FTelaCadastroCondominio: TFTelaCadastroCondominio
       inherited PageControlEdit: TPageControl
         Width = 783
         Height = 451
-        ActivePage = TabSheet1
         ExplicitWidth = 783
         ExplicitHeight = 451
         inherited DadosPrincipais: TTabSheet
@@ -138,8 +138,8 @@ inherited FTelaCadastroCondominio: TFTelaCadastroCondominio
           inherited PanelEdits: TPanel
             Width = 775
             Height = 423
-            ExplicitLeft = 0
-            ExplicitTop = 0
+            ExplicitLeft = 3
+            ExplicitTop = -3
             ExplicitWidth = 775
             ExplicitHeight = 423
             object Cep: TLabel
@@ -396,16 +396,16 @@ inherited FTelaCadastroCondominio: TFTelaCadastroCondominio
               Tag = 15
               Left = 16
               Top = 285
-              Width = 81
+              Width = 82
               Height = 21
               Color = clWhite
-              EditMask = ' 99.99-9 / 99 ;0;_'
+              EditMask = ' 99.99-9 / 999 ;0;_'
               Font.Charset = DEFAULT_CHARSET
               Font.Color = clBlue
               Font.Height = -11
               Font.Name = 'Tahoma'
               Font.Style = []
-              MaxLength = 14
+              MaxLength = 15
               ParentFont = False
               ReadOnly = True
               TabOrder = 20
@@ -459,9 +459,9 @@ inherited FTelaCadastroCondominio: TFTelaCadastroCondominio
             end
             object LabelEditNatureza: TMaskEdit
               Tag = 15
-              Left = 15
+              Left = 16
               Top = 327
-              Width = 77
+              Width = 82
               Height = 21
               Color = clWhite
               EditMask = ' 999-9 ;0;_'
@@ -478,9 +478,9 @@ inherited FTelaCadastroCondominio: TFTelaCadastroCondominio
             end
             object LabelEditDescNatureza: TLabeledEdit
               Tag = 1
-              Left = 102
+              Left = 104
               Top = 327
-              Width = 461
+              Width = 459
               Height = 21
               EditLabel.Width = 46
               EditLabel.Height = 13
@@ -1016,7 +1016,7 @@ inherited FTelaCadastroCondominio: TFTelaCadastroCondominio
                 OnClick = BitBtn3Click
               end
               object Multa: TEdit
-                Left = 13
+                Left = 14
                 Top = 140
                 Width = 89
                 Height = 21
@@ -1041,7 +1041,7 @@ inherited FTelaCadastroCondominio: TFTelaCadastroCondominio
                 OnExit = DescConcExit
               end
               object BitBtn6: TBitBtn
-                Left = 110
+                Left = 109
                 Top = 233
                 Width = 33
                 Height = 25
@@ -1084,7 +1084,7 @@ inherited FTelaCadastroCondominio: TFTelaCadastroCondominio
                 OnClick = BitBtn8Click
               end
               object MultaRec: TEdit
-                Left = 13
+                Left = 14
                 Top = 186
                 Width = 89
                 Height = 21

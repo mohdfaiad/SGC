@@ -49,7 +49,9 @@ type
     { Private declarations }
   public
     { Public declarations }
+    CodigoUnidade : integer;
     function EditsToObject(Unidade: TUnidadeVO): TUnidadeVO;
+
 
   end;
 
@@ -192,6 +194,7 @@ begin
               Unidade.idcondominio := FormEmpresaTrab.CodigoEmpLogada;
               ControllerUnidade.Inserir(Unidade);
               Result := true;
+              CodigoUnidade := Unidade.idUnidade;
            end
             else if (StatusTela = stEditando) then
             begin
@@ -200,6 +203,7 @@ begin
               Unidade := EditsToObject(Unidade);
               ControllerUnidade.Alterar(Unidade);
               Result := true;
+              CodigoUnidade := Unidade.idUnidade;
           end;
       except
         on E: Exception do
@@ -258,6 +262,7 @@ begin
   ClasseObjetoGridVO := TUnidadeVO;
   RadioButton1.Checked := true;
   ControllerUnidade := TUnidadeController.Create;
+  CodigoUnidade := 0;
 
   inherited;
 end;

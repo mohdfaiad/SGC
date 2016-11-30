@@ -19,6 +19,7 @@ type
     CondominioVO : TCondominioVO;
     PessoaVo : TpESSOASVO;
 
+
     [TId('idproprietariounidade')]
     [TGeneratedValue(sAuto)]
     property idProprietarioUnidade: Integer  read FidProprietarioUnidade write FidProprietarioUnidade;

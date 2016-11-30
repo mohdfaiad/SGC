@@ -12,6 +12,7 @@ object FormEmpresaTrab: TFormEmpresaTrab
   Font.Style = []
   OldCreateOrder = False
   Position = poDesktopCenter
+  OnCreate = FormCreate
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
@@ -83,6 +84,7 @@ object FormEmpresaTrab: TFormEmpresaTrab
       ParentFont = False
       TabOrder = 2
       Text = '  /  /    '
+      OnExit = MaskEditDtExit
     end
     object BtnAcessar: TBitBtn
       Left = 135

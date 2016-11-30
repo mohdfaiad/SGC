@@ -9,7 +9,7 @@ uses
   Generics.Collections, ULoteVO, ULoteController, UEmpresaTrab, ULancamentoContabilVO,
   UlancamentoCOntabilController, UPlanoContas,UPlanoContasController, UHistorico, UHistoricoController,
   UPlanoContasVO, UHistoricoVO, Data.DB, Datasnap.DBClient,
-  ULancamentoPadrao, ULancamentoPadraoVO, ULancamentoPadraoController;
+  ULancamentoPadrao, ULancamentoPadraoVO, ULancamentoPadraoController, Biblioteca;
 
 type
   TFTelaCadastroLote = class(TFTelaCadastro)
@@ -66,9 +66,9 @@ type
     Label10: TLabel;
     editidlcto: TEdit;
     editidlote: TEdit;
-    GroupBox5: TGroupBox;
     Edit2: TEdit;
     BitBtn1: TBitBtn;
+    Label11: TLabel;
     procedure FormCreate(Sender: TObject);
     function DoSalvar: boolean; override;
     function DoSalvarLcto : boolean;
@@ -97,6 +97,9 @@ type
     procedure BitBtnExcluiClick(Sender: TObject);
     procedure BitBtn1Click(Sender: TObject);
     procedure Edit2Exit(Sender: TObject);
+    procedure MaskEditDtInicioExit(Sender: TObject);
+    procedure MaskEdit2Exit(Sender: TObject);
+    procedure Edit5KeyPress(Sender: TObject; var Key: Char);
 
 
   private
@@ -136,9 +139,9 @@ begin
   if (FormLctoPadrao.ObjetoRetornoVO <> nil) then
   begin
     Edit2.Text := IntToStr(TLancamentoPadraoVO(FormLctoPadrao.ObjetoRetornoVO).idLctoPadrao);
-    LabeledEditConta.Text := IntToStr(TLancamentoPadraoVO(FormLctoPadrao.ObjetoRetornoVO).COntaDebitoVO.idConta);
+    LabeledEditConta.Text := IntToStr(TLancamentoPadraoVO(FormLctoPadrao.ObjetoRetornoVO).COntaDebitoVO.idPlanoContas);
     LabeledEditDsConta.Text := TLancamentoPadraoVO(FormLctoPadrao.ObjetoRetornoVO).ContaDebitoVO.dsconta;
-    LabeledEditContraP.Text := IntToStr(TLancamentoPadraoVO(FormLctoPadrao.ObjetoRetornoVO).ContaCreditoVO.idConta);
+    LabeledEditContraP.Text := IntToStr(TLancamentoPadraoVO(FormLctoPadrao.ObjetoRetornoVO).ContaCreditoVO.idPlanoContas);
     LabeledEditDsContra.Text := TLancamentoPadraoVO(FormLctoPadrao.ObjetoRetornoVO).ContaCreditoVO.dsconta;
     LabeledEditHistorico.Text := IntToStr(TLancamentoPadraoVO(FormLctoPadrao.ObjetoRetornoVO).HistoricoVO.idHistorico);
     LabeledEditDsHist.text := TLancamentoPadraoVO(FormLctoPadrao.ObjetoRetornoVO).HistoricoVO.dsHistorico;
@@ -169,7 +172,9 @@ begin
       MB_OK + MB_ICONERROR)
   else
   begin
+    CDSLctoAfterScroll(nil);
     VerificaBotoesLcto(stEditando);
+
   end;
 
 end;
@@ -256,12 +261,17 @@ var
   FormPlanoConsulta: TFTelaCadastroPlano;
 begin
   FormPlanoConsulta := TFTelaCadastroPlano.Create(nil);
+  FormPlanoCOnsulta.idempresaaux := CDSGrid.FieldByName('IDCONDOMINIO').AsInteger;
   FormPlanoConsulta.FechaForm := true;
   FormPlanoConsulta.ShowModal;
   if (FormPlanoConsulta.ObjetoRetornoVO <> nil) then
   begin
-    LabeledEditConta.Text := IntToStr(TPlanoContasVO(FormPlanoConsulta.ObjetoRetornoVO).idPlanoContas);
-    LabeledEditDsConta.Text := TPlanoContasVO(FormPlanoConsulta.ObjetoRetornoVO).dsConta;
+    if TPlanoContasVO(FormPlanoConsulta.ObjetoRetornoVO).flTipo <> 'S' then
+    begin
+      LabeledEditConta.Text := IntToStr(TPlanoContasVO(FormPlanoConsulta.ObjetoRetornoVO).idPlanoContas);
+    end
+    else
+      ShowMessage('Conta Sintética');
   end;
   FormPlanoConsulta.Release;
 end;
@@ -466,9 +476,9 @@ begin
   try
     LctoController := TLancamentoPadraoController.Create;
     LctoVo := LctoController.ConsultarPorId(StrToInt(Edit2.Text));
-    LabeledEditConta.Text := IntToStr(LctoVo.COntaDebitoVO.idConta);
+    LabeledEditConta.Text := IntToStr(LctoVo.COntaDebitoVO.idPlanoContas);
     LabeledEditDsConta.Text := LctoVo.ContaDebitoVO.dsconta;
-    LabeledEditContraP.Text := IntToStr(LctoVo.ContaCreditoVO.idConta);
+    LabeledEditContraP.Text := IntToStr(LctoVo.ContaCreditoVO.idPlanoContas);
     LabeledEditDsContra.Text := LctoVo.ContaCreditoVO.dsconta;
     LabeledEditHistorico.Text := IntToStr(LctoVo.HistoricoVO.idHistorico);
     LabeledEditDsHist.text := LctoVo.HistoricoVO.dsHistorico;
@@ -478,6 +488,11 @@ begin
     raise Exception.Create('Código Inválido');
   end;
   end;
+end;
+
+procedure TFTelaCadastroLote.Edit5KeyPress(Sender: TObject; var Key: Char);
+begin
+  EventoFormataCurrency(Sender,key);
 end;
 
 function TFTelaCadastroLote.EditsToObject(Lote: TLoteVO): TLoteVO;
@@ -497,8 +512,7 @@ begin
   Result := Lote;
 end;
 
-function TFTelaCadastroLote.EditsToObjectLcto(
-  Lcto: TLancamentoContabilVO): TLancamentoContabilVO;
+function TFTelaCadastroLote.EditsToObjectLcto( Lcto: TLancamentoContabilVO): TLancamentoContabilVO;
 begin
 
    if not CDSGrid.IsEmpty then
@@ -614,19 +628,29 @@ end;
 procedure TFTelaCadastroLote.LabeledEditContaExit(Sender: TObject);
 var
   PlanoController:TPlanoContasController;
-  PlanoContasVO: TPlanoContasVO;
+  PlanoContas: TObjectList<TPlanoContasVO>;
+  PlanoContasVO : TPlanoContasVO;
+  I: Integer;
 begin
   if LabeledEditConta.Text <> '' then
   begin
   try
     PlanoController := TPlanoContasController.Create;
-    PlanoContasVO := PlanoController.ConsultarPorId(StrToInt(LabeledEditConta.Text));
-    LabeledEditDsConta.Text := PlanoContasVO.dsConta;
-    PlanoController.Free;
+    PlanoContas := PlanoController.Consultar('idcondominio = ' +CDSGrid.FieldByName('IDCONDOMINIO').AsString +
+                   ' and idPlanoContas = ' + LabeledEditConta.Text + ' and fltipo <> '+QuotedStr('S'));
+    if PlanoContas.Count > 0 then
+      PlanoController.Free
+    else
+    begin
+      ShowMessage('Código Inválido');
+      LabeledEditConta.Text := '';
+    end;
   except
     raise Exception.Create('Código Inválido');
   end;
-  end;
+  end
+  else
+    LabeledEditConta.Text := '';
 end;
 
 
@@ -675,6 +699,16 @@ begin
   end;
 
 end;
+procedure TFTelaCadastroLote.MaskEdit2Exit(Sender: TObject);
+begin
+    EventoValidaData(sender);
+end;
+
+procedure TFTelaCadastroLote.MaskEditDtInicioExit(Sender: TObject);
+begin
+    EventoValidaData(sender);
+end;
+
 function TFTelaCadastroLote.MontaFiltro: string;
 begin
 

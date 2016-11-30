@@ -126,7 +126,7 @@ var
   filtro: string;
 begin
   filtro := MontaFiltro;
-  listaLctoPadrao := ControllerLctoPadrao.Consultar(filtro);
+  listaLctoPadrao := ControllerLctoPadrao.Consultar(filtro, 'ORDER BY OBSERVACAO');
   PopulaGrid<TLancamentoPadraoVO>(listaLctoPadrao);
 end;
 
@@ -299,7 +299,7 @@ begin
   begin
     if (editBusca.Text <> '') then
     begin
-      Result :=  '( UPPER(LANCAMENTOPADRAO.OBSERVACAO) LIKE ' +
+      Result := result +  ' and ( UPPER(LANCAMENTOPADRAO.OBSERVACAO) LIKE ' +
         QuotedStr('%' + UpperCase(editBusca.Text) + '%') + ') ';
     end;
   end;
