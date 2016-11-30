@@ -92,6 +92,7 @@ begin
   begin
     CodigoEmpLogada:= strtoint(LabeledEditCodigo.Text);
     DescricaoEmpLogada:= LabelNomeCond.Caption;
+    CnpjEmpLogada := LabelCnpj.Caption;
     DataLog := StrToDate(MaskEditDt.Text);
     FormMenu.Caption:= 'SGC - ('+inttostr(codigoEmpLogada)+')     '+DescricaoEmpLogada;
     FormEmpresaTrab.Visible:=false;

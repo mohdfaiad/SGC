@@ -71,7 +71,7 @@ begin
       Lancamento := TLancamentoContabilVo.Create;
       Lancamento.idcontadebito := idContaDebito;
       Lancamento.idContaCredito := idContaCredito;
-      Lancamento.complemento := 'Leitura Gás';
+      Lancamento.complemento := '';
       Lancamento.dtLcto := ItensLeitura.dtLeitura;
       Lancamento.VlValor := ItensLeitura.vlCalculado;
       Lancamento.iditensleituragas := result;

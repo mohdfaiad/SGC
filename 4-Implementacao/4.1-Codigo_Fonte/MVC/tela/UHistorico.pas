@@ -128,7 +128,7 @@ function TFTelaCadastroHistorico.EditsToObject(
   Historico: THistoricoVo): THistoricoVo;
 begin
   Historico.dsHistorico := LabeledEditDescricao.Text;
-  Historico.flContaCorrente := IntToStr(comboboxTipo.ItemIndex);
+  Historico.flContaCorrente := IntToStr(comboboxTipo.ItemIndex+1);
   Result := Historico;
 end;
 
@@ -160,7 +160,7 @@ begin
   if Assigned(Historico) then
   begin
     LabeledEditDescricao.text := Historico.DsHistorico;
-   // ComboboxTipo.
+    ComboboxTipo.ItemIndex:= strtoint(HISTORICO.FlContaCorrente)-1;
 
   end;
 

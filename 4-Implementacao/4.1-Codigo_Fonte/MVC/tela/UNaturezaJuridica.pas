@@ -169,7 +169,7 @@ begin
   if Assigned(NaturezaJuridica) then
   begin
     LabelEditNatureza.Text := NaturezaJuridica.codigoNatureza;
-    LabelEditDescricao.Text := NaturezaJuridica.codigoNatureza;
+    LabelEditDescricao.Text := NaturezaJuridica.descricao;
   end;
 end;
 

@@ -172,7 +172,9 @@ begin
       MB_OK + MB_ICONERROR)
   else
   begin
+    CDSLctoAfterScroll(nil);
     VerificaBotoesLcto(stEditando);
+
   end;
 
 end;

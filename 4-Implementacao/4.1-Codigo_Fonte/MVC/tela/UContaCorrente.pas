@@ -135,7 +135,7 @@ begin
        '       and Historicos.FlContaCorrente = 1 ) '+
        '  and ( dtlcto >= ' +QuotedSTr(StringREplace(datetostr(datei),'/','.',[rfReplaceAll]))+
         '      and dtlcto < '+QuotedSTr(StringREplace(datetostr(datef),'/','.',[rfReplaceAll]))+ ' ) ');
-      CDLcto.EmptyDataSet;
+        CDLcto.EmptyDataSet;
         for i := 0 to Lcto.Count-1 do
         begin
         CDLcto.Append;

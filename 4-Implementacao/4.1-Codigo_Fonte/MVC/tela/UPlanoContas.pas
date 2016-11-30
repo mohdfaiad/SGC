@@ -36,6 +36,8 @@ type
     { Private declarations }
   public
     { Public declarations }
+
+    idempresaaux:integer;
     procedure GridParaEdits; override;
     function EditsToObject(PlanoContas: TPlanoContasVO): TPlanoContasVO;
   end;
@@ -194,8 +196,10 @@ end;
 
 procedure TFTelaCadastroPlano.FormCreate(Sender: TObject);
 begin
+  idempresaaux:=0;
   ClasseObjetoGridVO := TPlanoContasVO;
   controllerPlanoConta:=TPlanoContasController.Create;
+  RadioButtonClassificacao.Checked := true;
   inherited;
 
 end;
@@ -249,26 +253,31 @@ begin
 end;
 
 function TFTelaCadastroPlano.MontaFiltro: string;
+var idempresafiltro:integer;
 begin
-  Result :=' ( IDCONDOMINIO = '+inttostr(FormEmpresaTrab.CodigoEmpLogada)+ ' ) ';
+  idempresafiltro:=FormEmpresaTrab.CodigoEmpLogada;
+  if(idempresaaux>0)  then
+    idempresafiltro:=idempresaaux;
+
+  Result :='( IDCONDOMINIO = '+inttostr(idempresafiltro)+ ')';
   if (RadioButtonCodigo.Checked = true) then
   begin
     if (editBusca.Text <> '') then
     begin
-      Result := '( UPPER(IDPLANOCONTAS) LIKE ' +
+      Result := Result + ' AND ( UPPER(IDPLANOCONTAS) LIKE ' +
         QuotedStr('%' + UpperCase(editBusca.Text) + '%') + ' ) ';
     end;
   end
   else if (RadioButtonClassificacao.Checked = true) then
   begin
     if (editBusca.Text <> '') then
-      Result := '( UPPER(NRCLASSIFICACAO) LIKE ' +
+      Result := Result + 'AND ( UPPER(NRCLASSIFICACAO) LIKE ' +
         QuotedStr('%' + UpperCase(editBusca.Text) + '%') + ' ) ';
   end
   else if (RadioButtonDescricao.Checked = true) then
   begin
   if (editBusca.Text <> '') then
-      Result := '( UPPER(DSCONTA) LIKE ' +
+      Result := Result + ' AND ( UPPER(DSCONTA) LIKE ' +
         QuotedStr('%' + UpperCase(editBusca.Text) + '%') + ' ) ';
   end;
 

@@ -44,7 +44,7 @@ var WhereQuery:STring;
 begin
    DecodeDate(objeto.dtLote,ano,mes,dia);
 
-   whereQuery:=' NRLOTE = '+ Objeto.nrLote +' AND IDCONDOMINIO = '+ IntToStr(Objeto.idCondominio);
+   whereQuery:=' IDLOTE <> '+INTTOSTR(OBJETO.idLote)+' AND NRLOTE = '+ Objeto.nrLote +' AND IDCONDOMINIO = '+ IntToStr(Objeto.idCondominio);
    whereQuery:=whereQuery + ' AND ( EXTRACT(MONTH FROM DTLOTE) = '+inttostr(mes)+ ' AND ';
    whereQuery:=whereQuery + '       EXTRACT(YEAR FROM DTLOTE) = '+inttostr(ano)+ ' ) ';
 

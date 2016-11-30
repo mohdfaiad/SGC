@@ -77,7 +77,7 @@ begin
           Lancamento := TLancamentoContabilVo.Create;
           Lancamento.idcontadebito := idContaDebitoRateio;
           Lancamento.idContaCredito := idcontacreditorateio;
-          Lancamento.complemento := 'Rateio';
+          Lancamento.complemento := '';
           Lancamento.dtLcto := ItensRateio.dtRateio;
           Lancamento.VlValor := ItensRateio.vlRateio;
           Lancamento.idItensRateio := result;

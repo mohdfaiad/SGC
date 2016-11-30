@@ -172,6 +172,7 @@ var
   FormPlanoConsulta: TFTelaCadastroPlano;
 begin
   FormPlanoConsulta := TFTelaCadastroPlano.Create(nil);
+  FormPlanoCOnsulta.idempresaaux := CDSGrid.FieldByName('IDCONDOMINIO').AsInteger;
   FormPlanoConsulta.FechaForm := true;
   FormPlanoConsulta.ShowModal;
   if (FormPlanoConsulta.ObjetoRetornoVO <> nil) then
@@ -190,6 +191,7 @@ var
   FormPlanoConsulta: TFTelaCadastroPlano;
 begin
   FormPlanoConsulta := TFTelaCadastroPlano.Create(nil);
+  FormPlanoCOnsulta.idempresaaux := CDSGrid.FieldByName('IDCONDOMINIO').AsInteger;
   FormPlanoConsulta.FechaForm := true;
   FormPlanoConsulta.ShowModal;
   if (FormPlanoConsulta.ObjetoRetornoVO <> nil) then
@@ -209,6 +211,7 @@ var
   FormPlanoConsulta: TFTelaCadastroPlano;
 begin
   FormPlanoConsulta := TFTelaCadastroPlano.Create(nil);
+  FormPlanoCOnsulta.idempresaaux := CDSGrid.FieldByName('IDCONDOMINIO').AsInteger;
   FormPlanoConsulta.FechaForm := true;
   FormPlanoConsulta.ShowModal;
   if (FormPlanoConsulta.ObjetoRetornoVO <> nil) then
@@ -265,6 +268,7 @@ var
   FormPlanoConsulta: TFTelaCadastroPlano;
 begin
   FormPlanoConsulta := TFTelaCadastroPlano.Create(nil);
+  FormPlanoCOnsulta.idempresaaux := CDSGrid.FieldByName('IDCONDOMINIO').AsInteger;
   FormPlanoConsulta.FechaForm := true;
   FormPlanoConsulta.ShowModal;
   if (FormPlanoConsulta.ObjetoRetornoVO <> nil) then
@@ -272,7 +276,6 @@ begin
     if TPlanoContasVO(FormPlanoConsulta.ObjetoRetornoVO).flTipo <> 'S' then
     begin
       Juros.Text := IntToStr(TPlanoContasVO(FormPlanoConsulta.ObjetoRetornoVO).idPlanoContas);
-
     end
     else
       ShowMessage('Conta Sintética');
@@ -299,6 +302,7 @@ var
   FormPlanoConsulta: TFTelaCadastroPlano;
 begin
   FormPlanoConsulta := TFTelaCadastroPlano.Create(nil);
+  FormPlanoCOnsulta.idempresaaux := CDSGrid.FieldByName('IDCONDOMINIO').AsInteger;
   FormPlanoConsulta.FechaForm := true;
   FormPlanoConsulta.ShowModal;
   if (FormPlanoConsulta.ObjetoRetornoVO <> nil) then
@@ -319,6 +323,7 @@ var
   FormPlanoConsulta: TFTelaCadastroPlano;
 begin
   FormPlanoConsulta := TFTelaCadastroPlano.Create(nil);
+  FormPlanoCOnsulta.idempresaaux := CDSGrid.FieldByName('IDCONDOMINIO').AsInteger;
   FormPlanoConsulta.FechaForm := true;
   FormPlanoConsulta.ShowModal;
   if (FormPlanoConsulta.ObjetoRetornoVO <> nil) then
@@ -339,6 +344,7 @@ var
   FormPlanoConsulta: TFTelaCadastroPlano;
 begin
   FormPlanoConsulta := TFTelaCadastroPlano.Create(nil);
+  FormPlanoCOnsulta.idempresaaux := CDSGrid.FieldByName('IDCONDOMINIO').AsInteger;
   FormPlanoConsulta.FechaForm := true;
   FormPlanoConsulta.ShowModal;
   if (FormPlanoConsulta.ObjetoRetornoVO <> nil) then
@@ -359,6 +365,7 @@ var
   FormPlanoConsulta: TFTelaCadastroPlano;
 begin
   FormPlanoConsulta := TFTelaCadastroPlano.Create(nil);
+  FormPlanoCOnsulta.idempresaaux := CDSGrid.FieldByName('IDCONDOMINIO').AsInteger;
   FormPlanoConsulta.FechaForm := true;
   FormPlanoConsulta.ShowModal;
   if (FormPlanoConsulta.ObjetoRetornoVO <> nil) then
@@ -379,6 +386,7 @@ var
   FormPlanoConsulta: TFTelaCadastroPlano;
 begin
   FormPlanoConsulta := TFTelaCadastroPlano.Create(nil);
+  FormPlanoCOnsulta.idempresaaux := CDSGrid.FieldByName('IDCONDOMINIO').AsInteger;
   FormPlanoConsulta.FechaForm := true;
   FormPlanoConsulta.ShowModal;
   if (FormPlanoConsulta.ObjetoRetornoVO <> nil) then
@@ -525,17 +533,22 @@ end;
 procedure TFTelaCadastroCondominio.DescConcExit(Sender: TObject);
 var
   PlanoController:TPlanoContasController;
-  PlanoContasVO: TPlanoContasVO;
+  PlanoContas: TObjectList<TPlanoContasVO>;
+  PlanoContasVO : TPlanoContasVO;
+  I: Integer;
 begin
   if DescConc.Text <> '' then
   begin
   try
     PlanoController := TPlanoContasController.Create;
-    PlanoContasVO := PlanoController.ConsultarPorId(StrToInt(DescConc.Text));
-    if PlanoContasVO.flTipo <> 'S' then
+    PlanoContas := PlanoController.Consultar('idcondominio = ' +CDSGrid.FieldByName('IDCONDOMINIO').AsString +
+                   ' and idPlanoContas = ' + DescConc.Text + ' and fltipo <> '+QuotedStr('S'));
+    if PlanoContas.Count > 0 then
+      PlanoController.Free
+    else
     begin
-
-      PlanoController.Free;
+      ShowMessage('Código Inválido');
+      DescConc.Text := '';
     end;
   except
     raise Exception.Create('Código Inválido');
@@ -548,17 +561,22 @@ end;
 procedure TFTelaCadastroCondominio.DescObtExit(Sender: TObject);
 var
   PlanoController:TPlanoContasController;
-  PlanoContasVO: TPlanoContasVO;
+  PlanoContas: TObjectList<TPlanoContasVO>;
+  PlanoContasVO : TPlanoContasVO;
+  I: Integer;
 begin
   if DescObt.Text <> '' then
   begin
   try
     PlanoController := TPlanoContasController.Create;
-    PlanoContasVO := PlanoController.ConsultarPorId(StrToInt(DescObt.Text));
-    if PlanoContasVO.flTipo <> 'S' then
+    PlanoContas := PlanoController.Consultar('idcondominio = ' +CDSGrid.FieldByName('IDCONDOMINIO').AsString +
+                   ' and idPlanoContas = ' + DescObt.Text + ' and fltipo <> '+QuotedStr('S'));
+    if PlanoContas.Count > 0 then
+      PlanoController.Free
+    else
     begin
-
-      PlanoController.Free;
+      ShowMessage('Código Inválido');
+      DescObt.Text := '';
     end;
   except
     raise Exception.Create('Código Inválido');
@@ -724,17 +742,22 @@ end;
 procedure TFTelaCadastroCondominio.RateioExit(Sender: TObject);
 var
   PlanoController:TPlanoContasController;
-  PlanoContasVO: TPlanoContasVO;
+  PlanoContas: TObjectList<TPlanoContasVO>;
+  PlanoContasVO : TPlanoContasVO;
+  I: Integer;
 begin
   if Rateio.Text <> '' then
   begin
   try
     PlanoController := TPlanoContasController.Create;
-    PlanoContasVO := PlanoController.ConsultarPorId(StrToInt(Rateio.Text));
-    if PlanoContasVO.flTipo <> 'S' then
+    PlanoContas := PlanoController.Consultar('idcondominio = ' +CDSGrid.FieldByName('IDCONDOMINIO').AsString +
+                   ' and idPlanoContas = ' + Rateio.Text + ' and fltipo <> '+QuotedStr('S'));
+    if PlanoContas.Count > 0 then
+      PlanoController.Free
+    else
     begin
-
-      PlanoController.Free;
+      ShowMessage('Código Inválido');
+      Rateio.Text := '';
     end;
   except
     raise Exception.Create('Código Inválido');
@@ -772,20 +795,23 @@ end;
 procedure TFTelaCadastroCondominio.JurosExit(Sender: TObject);
 var
   PlanoController:TPlanoContasController;
-  PlanoContasVO: TPlanoContasVO;
+  PlanoContas: TObjectList<TPlanoContasVO>;
+  PlanoContasVO : TPlanoContasVO;
+  I: Integer;
 begin
   if Juros.Text <> '' then
   begin
   try
     PlanoController := TPlanoContasController.Create;
-    PlanoContasVO := PlanoController.ConsultarPorId(StrToInt(Juros.Text));
-    if PlanoContasVO.flTipo <> 'S' then
-    begin
-
-      PlanoController.Free;
-    end
+    PlanoContas := PlanoController.Consultar('idcondominio = ' +CDSGrid.FieldByName('IDCONDOMINIO').AsString +
+                   ' and idPlanoContas = ' + Juros.Text + ' and fltipo <> '+QuotedStr('S'));
+    if PlanoContas.Count > 0 then
+      PlanoController.Free
     else
-      ShowMessage('Conta Sintética');
+    begin
+      ShowMessage('Código Inválido');
+      Juros.Text := '';
+    end;
   except
     raise Exception.Create('Código Inválido');
   end;
@@ -797,17 +823,22 @@ end;
 procedure TFTelaCadastroCondominio.JurosRecExit(Sender: TObject);
 var
   PlanoController:TPlanoContasController;
-  PlanoContasVO: TPlanoContasVO;
+  PlanoContas: TObjectList<TPlanoContasVO>;
+  PlanoContasVO : TPlanoContasVO;
+  I: Integer;
 begin
   if JurosRec.Text <> '' then
   begin
   try
     PlanoController := TPlanoContasController.Create;
-    PlanoContasVO := PlanoController.ConsultarPorId(StrToInt(JurosRec.Text));
-    if PlanoContasVO.flTipo <> 'S' then
+    PlanoContas := PlanoController.Consultar('idcondominio = ' +CDSGrid.FieldByName('IDCONDOMINIO').AsString +
+                   ' and idPlanoContas = ' + JurosRec.Text + ' and fltipo <> '+QuotedStr('S'));
+    if PlanoContas.Count > 0 then
+      PlanoController.Free
+    else
     begin
-
-      PlanoController.Free;
+      ShowMessage('Código Inválido');
+      JurosRec.Text := '';
     end;
   except
     raise Exception.Create('Código Inválido');
@@ -817,20 +848,26 @@ begin
     JurosRec.Text := '';
 end;
 
+
 procedure TFTelaCadastroCondominio.LeituraGasExit(Sender: TObject);
 var
   PlanoController:TPlanoContasController;
-  PlanoContasVO: TPlanoContasVO;
+  PlanoContas: TObjectList<TPlanoContasVO>;
+  PlanoContasVO : TPlanoContasVO;
+  I: Integer;
 begin
   if LeituraGas.Text <> '' then
   begin
   try
     PlanoController := TPlanoContasController.Create;
-    PlanoContasVO := PlanoController.ConsultarPorId(StrToInt(LeituraGas.Text));
-    if PlanoContasVO.flTipo <> 'S' then
+    PlanoContas := PlanoController.Consultar('idcondominio = ' +CDSGrid.FieldByName('IDCONDOMINIO').AsString +
+                   ' and idPlanoContas = ' + LeituraGas.Text + ' and fltipo <> '+QuotedStr('S'));
+    if PlanoContas.Count > 0 then
+      PlanoController.Free
+    else
     begin
-
-      PlanoController.Free;
+      ShowMessage('Código Inválido');
+      LeituraGas.Text := '';
     end;
   except
     raise Exception.Create('Código Inválido');
@@ -855,21 +892,39 @@ begin
   Condominio.Metragem := StrTOFloat(LabeledEditMetragem.Text);
   Condominio.regimeTributario := LabeledEditRegimeTrib.Text;
   Condominio.nomeFantasia := LabeledEditNomeFantasia.Text;
+
   if(maskeditdtinicioatividade.Text<>'  /  /    ')then
     Condominio.DtInicioAtividade := StrToDate(MaskEditDtInicioAtividade.Text)
   else
     condominio.DtInicioAtividade:=0;
+
   Condominio.inscricaoMunicipal := LabeledEditInsMunicipal.Text;
+
   if (LabelEditCodCnae.Text <> '') then
-    Condominio.idCnae := strtoint(LabelEditCodCnae.Text);
+    Condominio.idCnae := strtoint(LabelEditCodCnae.Text)
+  else
+    Condominio.idCnae := 0;
+
   if (LabelEditCodNatureza.Text <> '') then
-    Condominio.idNaturezaJuridica := strtoint(LabelEditCodNatureza.Text);
+    Condominio.idNaturezaJuridica := strtoint(LabelEditCodNatureza.Text)
+  else
+    Condominio.idNaturezaJuridica :=0;
+
   if (LabeledEditCidade.Text <> '') then
-    Condominio.IdCidade := strtoint(LabeledEditCidade.Text);
+    Condominio.IdCidade := strtoint(LabeledEditCidade.Text)
+  else
+    Condominio.IdCidade := 0;
+
   if (LabeledEditEstado.Text<> '') then
-    Condominio.idEstado := strtoint(LabeledEditEstado.Text);
+    Condominio.idEstado := strtoint(LabeledEditEstado.Text)
+  else
+    Condominio.idEstado := 0;
+
   if (LabeledEditPais.Text<>'') then
-    Condominio.idPais := strtoint(LabeledEditPais.Text);
+    Condominio.idPais := strtoint(LabeledEditPais.Text)
+  Else
+    Condominio.idPais := 0;
+
   if Edit1.Text <> '' then
     Condominio.idPrecoGas := StrToInt(Edit1.Text)
   else
@@ -878,31 +933,69 @@ begin
   //  Condominio.parametroDRE := Edit3.Text;
 
   if Juros.Text <> '' then
-    Condominio.idCtjurosP := StrToInt(Juros.Text);
+    Condominio.idCtjurosP := StrToInt(Juros.Text)
+  else
+    Condominio.idCtjurosP := 0;
+
   if JurosRec.Text <> '' then
-    Condominio.idCtjuros := StrToInt(JurosRec.Text);
+    Condominio.idCtjuros := StrToInt(JurosRec.Text)
+  else
+    Condominio.idCtjuros :=0;
+
   if Multa.Text <> '' then
-    Condominio.idCtMultaP := StrToInt(Multa.Text);
+    Condominio.idCtMultaP := StrToInt(Multa.Text)
+  else
+    Condominio.idCtMultaP := 0;
+
   if MultaRec.Text <> '' then
-    Condominio.idCtMulta := StrToInt(MultaRec.Text);
+    Condominio.idCtMulta := StrToInt(MultaRec.Text)
+  else
+    Condominio.idCtMulta :=0;
+
   if DescConc.Text <> '' then
-    Condominio.idCtDesconto := StrToInt(DescConc.Text);
+    Condominio.idCtDesconto := StrToInt(DescConc.Text)
+  else
+    Condominio.idCtDesconto := 0;
+
   if DescObt.Text <> '' then
-    Condominio.idCtDescontoObt := StrToInt(DescObt.Text);
+    Condominio.idCtDescontoObt := StrToInt(DescObt.Text)
+  else
+    Condominio.idCtDescontoObt := 0 ;
+
   if LeituraGas.Text <> '' then
-    Condominio.idctLeituraGas := StrTOInt(LeituraGas.Text);
+    Condominio.idctLeituraGas := StrTOInt(LeituraGas.Text)
+  else
+    Condominio.idCtLeituraGas := 0;
+
   if Rateio.Text <> '' then
-    Condominio.idCtRateio := StrTOInt(Rateio.Text);
+    Condominio.idCtRateio := StrTOInt(Rateio.Text)
+  else
+    Condominio.idCtRateio := 0;
+
   if FundoReserva.Text <> '' then
-    Condominio.IdCtFundoReserva := StrTOInt(FundoReserva.Text);
+    Condominio.IdCtFundoReserva := StrTOInt(FundoReserva.Text)
+  else
+    Condominio.idCtFundoReserva := 0;
+
   if PercFundoReserva.Text <> '' then
-    Condominio.FundoReserva := StrToFloat(PercFundoReserva.Text);
+    Condominio.FundoReserva := StrToFloat(PercFundoReserva.Text)
+  else
+    Condominio.FundoReserva := 0;
+
   if EditHistl.Text <> '' then
-    Condominio.idHistoricoL := StrToInt(EditHistL.Text);
+    Condominio.idHistoricoL := StrToInt(EditHistL.Text)
+  else
+    Condominio.idHistoricoL := 0;
+
   if Edit4.Text <> '' then
-    Condominio.idHistoricoR := StrToInt(Edit4.Text);
+    Condominio.idHistoricoR := StrToInt(Edit4.Text)
+  else
+    Condominio.idHistoricoR := 0;
+
   if Edit5.Text <> '' then
-    Condominio.idHistoricoF := StrToInt(Edit5.Text);
+    Condominio.idHistoricoF := StrToInt(Edit5.Text)
+  else
+    Condominio.idHistoricoF := 0;
 
   Result := Condominio;
 
@@ -926,16 +1019,22 @@ end;
 procedure TFTelaCadastroCondominio.FundoReservaExit(Sender: TObject);
 var
   PlanoController:TPlanoContasController;
-  PlanoContasVO: TPlanoContasVO;
+  PlanoContas: TObjectList<TPlanoContasVO>;
+  PlanoContasVO : TPlanoContasVO;
+  I: Integer;
 begin
   if FundoReserva.Text <> '' then
   begin
   try
     PlanoController := TPlanoContasController.Create;
-    PlanoContasVO := PlanoController.ConsultarPorId(StrToInt(FundoReserva.Text));
-    if PlanoContasVO.flTipo <> 'S' then
+    PlanoContas := PlanoController.Consultar('idcondominio = ' +CDSGrid.FieldByName('IDCONDOMINIO').AsString +
+                   ' and idPlanoContas = ' + FundoReserva.Text + ' and fltipo <> '+QuotedStr('S'));
+    if PlanoContas.Count > 0 then
+      PlanoController.Free
+    else
     begin
-      PlanoController.Free;
+      ShowMessage('Código Inválido');
+      FundoReserva.Text := '';
     end;
   except
     raise Exception.Create('Código Inválido');
@@ -975,17 +1074,22 @@ end;
 procedure TFTelaCadastroCondominio.MultaExit(Sender: TObject);
 var
   PlanoController:TPlanoContasController;
-  PlanoContasVO: TPlanoContasVO;
+  PlanoContas: TObjectList<TPlanoContasVO>;
+  PlanoContasVO : TPlanoContasVO;
+  I: Integer;
 begin
   if Multa.Text <> '' then
   begin
   try
     PlanoController := TPlanoContasController.Create;
-    PlanoContasVO := PlanoController.ConsultarPorId(StrToInt(Multa.Text));
-    if PlanoContasVO.flTipo <> 'S' then
+    PlanoContas := PlanoController.Consultar('idcondominio = ' +CDSGrid.FieldByName('IDCONDOMINIO').AsString +
+                   ' and idPlanoContas = ' + Multa.Text + ' and fltipo <> '+QuotedStr('S'));
+    if PlanoContas.Count > 0 then
+      PlanoController.Free
+    else
     begin
-
-      PlanoController.Free;
+      ShowMessage('Código Inválido');
+      Multa.Text := '';
     end;
   except
     raise Exception.Create('Código Inválido');
@@ -998,17 +1102,22 @@ end;
 procedure TFTelaCadastroCondominio.MultaRecExit(Sender: TObject);
 var
   PlanoController:TPlanoContasController;
-  PlanoContasVO: TPlanoContasVO;
+  PlanoContas: TObjectList<TPlanoContasVO>;
+  PlanoContasVO : TPlanoContasVO;
+  I: Integer;
 begin
   if MultaRec.Text <> '' then
   begin
   try
     PlanoController := TPlanoContasController.Create;
-    PlanoContasVO := PlanoController.ConsultarPorId(StrToInt(MultaRec.Text));
-    if PlanoContasVO.flTipo <> 'S' then
+    PlanoContas := PlanoController.Consultar('idcondominio = ' +CDSGrid.FieldByName('IDCONDOMINIO').AsString +
+                   ' and idPlanoContas = ' + MultaRec.Text + ' and fltipo <> '+QuotedStr('S'));
+    if PlanoContas.Count > 0 then
+      PlanoController.Free
+    else
     begin
-
-      PlanoController.Free;
+      ShowMessage('Código Inválido');
+      MultaRec.Text := '';
     end;
   except
     raise Exception.Create('Código Inválido');

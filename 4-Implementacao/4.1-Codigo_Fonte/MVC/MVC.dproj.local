@@ -277,8 +277,8 @@
     <Transaction>2016/11/15 21:36:58.000.401,=C:\Users\Nayara\Documents\GitHub\SGC\4-Implementacao\4.1-Codigo_Fonte\MVC\Unit1.pas</Transaction>
     <Transaction>2016/11/15 21:37:17.000.066,C:\Users\Nayara\Documents\GitHub\SGC\4-Implementacao\4.1-Codigo_Fonte\MVC\controle\UItensLeituraGasController.pas=C:\Users\Nayara\Documents\GitHub\SGC\4-Implementacao\4.1-Codigo_Fonte\MVC\Unit1.pas</Transaction>
     <Transaction>2016/11/15 21:41:39.000.211,=C:\Users\Nayara\Documents\GitHub\SGC\4-Implementacao\4.1-Codigo_Fonte\MVC\Unit1.pas</Transaction>
-    <Transaction>2016/11/15 21:41:56.000.860,C:\Users\Nayara\Documents\GitHub\SGC\4-Implementacao\4.1-Codigo_Fonte\MVC\tela\ULeituraGas.pas=C:\Users\Nayara\Documents\GitHub\SGC\4-Implementacao\4.1-Codigo_Fonte\MVC\Unit1.pas</Transaction>
     <Transaction>2016/11/15 21:41:56.000.860,C:\Users\Nayara\Documents\GitHub\SGC\4-Implementacao\4.1-Codigo_Fonte\MVC\tela\ULeituraGas.dfm=C:\Users\Nayara\Documents\GitHub\SGC\4-Implementacao\4.1-Codigo_Fonte\MVC\Unit1.dfm</Transaction>
+    <Transaction>2016/11/15 21:41:56.000.860,C:\Users\Nayara\Documents\GitHub\SGC\4-Implementacao\4.1-Codigo_Fonte\MVC\tela\ULeituraGas.pas=C:\Users\Nayara\Documents\GitHub\SGC\4-Implementacao\4.1-Codigo_Fonte\MVC\Unit1.pas</Transaction>
     <Transaction>2016/11/19 16:28:35.000.368,=C:\Users\Nayara\Documents\GitHub\SGC\4-Implementacao\4.1-Codigo_Fonte\MVC\Unit1.pas</Transaction>
     <Transaction>2016/11/19 16:28:57.000.419,C:\Users\Nayara\Documents\GitHub\SGC\4-Implementacao\4.1-Codigo_Fonte\MVC\VO\URateioVO.pas=C:\Users\Nayara\Documents\GitHub\SGC\4-Implementacao\4.1-Codigo_Fonte\MVC\Unit1.pas</Transaction>
     <Transaction>2016/11/19 16:30:19.000.077,=C:\Users\Nayara\Documents\GitHub\SGC\4-Implementacao\4.1-Codigo_Fonte\MVC\Unit1.pas</Transaction>
@@ -300,9 +300,9 @@
     <Transaction>2016/11/26 16:05:33.000.193,=C:\Users\Nayara\Documents\GitHub\SGC\4-Implementacao\4.1-Codigo_Fonte\MVC\Unit1.pas</Transaction>
     <Transaction>2016/11/26 16:05:48.000.510,C:\Users\Nayara\Documents\GitHub\SGC\4-Implementacao\4.1-Codigo_Fonte\MVC\tela\UDiario.dfm=C:\Users\Nayara\Documents\GitHub\SGC\4-Implementacao\4.1-Codigo_Fonte\MVC\Unit1.dfm</Transaction>
     <Transaction>2016/11/26 16:05:48.000.510,C:\Users\Nayara\Documents\GitHub\SGC\4-Implementacao\4.1-Codigo_Fonte\MVC\tela\UDiario.pas=C:\Users\Nayara\Documents\GitHub\SGC\4-Implementacao\4.1-Codigo_Fonte\MVC\Unit1.pas</Transaction>
-    <Transaction>2016/11/28 11:06:10.267,=C:\Users\Nayara\Documents\GitHub\SGC\4-Implementacao\4.1-Codigo_Fonte\MVC\Unit1.pas</Transaction>
-    <Transaction>2016/11/28 11:06:28.913,C:\Users\Nayara\Documents\GitHub\SGC\4-Implementacao\4.1-Codigo_Fonte\MVC\tela\URazao.dfm=C:\Users\Nayara\Documents\GitHub\SGC\4-Implementacao\4.1-Codigo_Fonte\MVC\Unit1.dfm</Transaction>
-    <Transaction>2016/11/28 11:06:28.913,C:\Users\Nayara\Documents\GitHub\SGC\4-Implementacao\4.1-Codigo_Fonte\MVC\tela\URazao.pas=C:\Users\Nayara\Documents\GitHub\SGC\4-Implementacao\4.1-Codigo_Fonte\MVC\Unit1.pas</Transaction>
+    <Transaction>2016/11/28 11:06:10.000.267,=C:\Users\Nayara\Documents\GitHub\SGC\4-Implementacao\4.1-Codigo_Fonte\MVC\Unit1.pas</Transaction>
+    <Transaction>2016/11/28 11:06:28.000.913,C:\Users\Nayara\Documents\GitHub\SGC\4-Implementacao\4.1-Codigo_Fonte\MVC\tela\URazao.dfm=C:\Users\Nayara\Documents\GitHub\SGC\4-Implementacao\4.1-Codigo_Fonte\MVC\Unit1.dfm</Transaction>
+    <Transaction>2016/11/28 11:06:28.000.913,C:\Users\Nayara\Documents\GitHub\SGC\4-Implementacao\4.1-Codigo_Fonte\MVC\tela\URazao.pas=C:\Users\Nayara\Documents\GitHub\SGC\4-Implementacao\4.1-Codigo_Fonte\MVC\Unit1.pas</Transaction>
   </Transactions>
 	<ProjectSortOrder AutoSort="0" SortType="0">
     <File Path="..\..\..\..\..\..\..\Nayara"/>

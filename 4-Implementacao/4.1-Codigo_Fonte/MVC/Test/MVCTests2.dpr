@@ -148,7 +148,12 @@ uses
   TestURateioController in 'TestController\TestURateioController.pas',
   TestUItensRateioVO in 'TestVO\TestUItensRateioVO.pas',
   TestUItensRateioController in 'TestController\TestUItensRateioController.pas',
-  TestUPrecoGasVO in 'TestVO\TestUPrecoGasVO.pas';
+  TestUPrecoGasVO in 'TestVO\TestUPrecoGasVO.pas',
+  UContaCorrenteVO in '..\VO\UContaCorrenteVO.pas',
+  UContaCorrente in '..\tela\UContaCorrente.pas' {FTelaCadastroContaCorrente},
+  UContaCorrenteController in '..\controle\UContaCorrenteController.pas',
+  UDiario in '..\tela\UDiario.pas' {FTelaLivroDiario},
+  URazao in '..\tela\URazao.pas' {FTelaLivroRazao};
 
 {R *.RES}
 

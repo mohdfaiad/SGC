@@ -66,10 +66,10 @@ uses ConexaoBD, UEmpresaTrab;
 function SomaLin(var Lin: Integer; RdPrint1: TRdPrint): Integer;
 begin
   Result:=Lin+1;
-  if Result>RdPrint1.TamanhoQteLinhas-4 then
+  if Result>RdPrint1.TamanhoQteLinhas-3 then
   begin
     RdPrint1.Novapagina;
-    Result:=8;
+    Result:=6;
   end;
   Lin:=Result;
 end;
@@ -249,8 +249,6 @@ begin
     Inc(Lin);
     Impf(Lin,01+colunainicial, '----------------------------------------------------------------------------------------------------------------------------------------------------------------------',[]);
     Inc(Lin);
-    Inc(Lin);
-
   end;
 end;
 

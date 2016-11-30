@@ -3,7 +3,7 @@ object FTelaLivroRazao: TFTelaLivroRazao
   Top = 0
   Caption = 'Raz'#227'o'
   ClientHeight = 309
-  ClientWidth = 585
+  ClientWidth = 353
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -11,17 +11,17 @@ object FTelaLivroRazao: TFTelaLivroRazao
   Font.Name = 'Tahoma'
   Font.Style = []
   OldCreateOrder = False
+  Position = poMainFormCenter
   PixelsPerInch = 96
   TextHeight = 13
   object Panel1: TPanel
     Left = 0
     Top = 0
-    Width = 585
+    Width = 353
     Height = 309
     Align = alClient
     TabOrder = 0
-    ExplicitWidth = 304
-    ExplicitHeight = 193
+    ExplicitWidth = 585
     object GroupBox1: TGroupBox
       Left = 16
       Top = 0
@@ -59,7 +59,7 @@ object FTelaLivroRazao: TFTelaLivroRazao
       end
       object DataInicial: TMaskEdit
         Tag = 1
-        Left = 104
+        Left = 106
         Top = 42
         Width = 69
         Height = 21
@@ -346,7 +346,7 @@ object FTelaLivroRazao: TFTelaLivroRazao
       'SWEDA=BOBINA'
       'BEMATECH=BOBINA')
     MostrarProgresso = True
-    TamanhoQteLinhas = 66
+    TamanhoQteLinhas = 70
     TamanhoQteColunas = 80
     TamanhoQteLPP = Seis
     NumerodeCopias = 1

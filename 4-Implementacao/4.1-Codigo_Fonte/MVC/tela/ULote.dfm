@@ -22,7 +22,6 @@ inherited FTelaCadastroLote: TFTelaCadastroLote
   inherited PageControl: TPageControl
     Width = 873
     Height = 543
-    ActivePage = Consulta
     ExplicitWidth = 873
     ExplicitHeight = 543
     inherited Consulta: TTabSheet
@@ -345,9 +344,9 @@ inherited FTelaCadastroLote: TFTelaCadastroLote
           ExplicitTop = 8
         end
         inherited BitBtnGrava: TBitBtn
-          Left = 103
+          Left = 104
           Top = 8
-          ExplicitLeft = 103
+          ExplicitLeft = 104
           ExplicitTop = 8
         end
         inherited BitBtnExclui: TBitBtn
