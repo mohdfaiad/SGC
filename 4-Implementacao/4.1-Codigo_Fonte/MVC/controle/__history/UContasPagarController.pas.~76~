@@ -50,7 +50,7 @@ begin
     if(ContasPagar.IdPessoa>0)then
     begin
       PlanoContasController := TPlanoContasController.Create;
-      Query :=  ' PlanoContas.idPessoa = ' +(IntTOsTR(ContasPagar.IdPessoa));
+      Query :=  ' PlanoContas.idPessoa = ' +(IntTOsTR(ContasPagar.IdPessoa) + ' and PlanoContas.idCondominio = ' + IntToStr(FormEmpresaTrab.CodigoEmpLogada));
       listaConta := PlanoContasController.Consultar(query);
       if (listaConta.Count <= 0) then
       begin
@@ -184,6 +184,7 @@ var
    PlanoContasController : TPlanoContasController;
    query : string;
    listaConta : TObjectList<TPlanoContasVO>;
+   valorcredito:currency;
 begin
     TDBExpress.IniciaTransacao;
     try
@@ -203,7 +204,7 @@ begin
       if(ContasPagar.IdPessoa>0)then
       begin
         PlanoContasController := TPlanoContasController.Create;
-        Query :=  ' PlanoContas.idPessoa = ' +(IntTOsTR(ContasPagar.IdPessoa));
+        Query :=  ' PlanoContas.idPessoa = ' +(IntTOsTR(ContasPagar.IdPessoa) + ' AND PLANOCONTAS.IDCONDOMINIO = ' + IntToStr(FormEmpresaTrab.CodigoEmpLogada));
         listaConta := PlanoContasController.Consultar(query);
         if (listaConta.Count > 0) then
         begin
@@ -219,7 +220,52 @@ begin
       Lancamento.idbaixa := ContasPagar.idContasPagar;
       TDAO.Inserir(Lancamento);
 
-      if((ContasPagar.VlDesconto>0) and (ContasPagar.VlMulta = 0) and (ContasPagar.VlJuros = 0))then
+      valorcredito:= contaspagar.VlBaixa;
+      if(ContasPagar.VlDesconto>0)then
+      begin
+        LctoDesconto := TLancamentoContabilVo.Create;
+        LctoDesconto.idContaCredito := FormEmpresaTrab.ctdescontor;
+        LctoDesconto.dtLcto := ContasPagar.DtBaixa;
+        LctoDesconto.VlValor := ContasPagar.vldesconto;
+        LctoDesconto.idContasPagar := ContasPagar.idContasPagar;
+        LctoDesconto.idBaixa:=ContasPagar.idContasPagar;
+        valorcredito:=valorcredito-contaspagar.VlDesconto;
+        TDao.Inserir(LctoDesconto);
+      end;
+
+      if(contaspagar.VlMulta>0)then
+      begin
+        lctoJurosMulta := TLancamentoContabilVo.Create;
+        lctoJurosMulta.idcontadebito := FormEmpresaTrab.ctmultap;
+        lctoJurosMulta.dtLcto := ContasPagar.DtBaixa;
+        lctoJurosMulta.VlValor := ContasPagar.vlmulta;
+        lctoJurosMulta.idContasPagar := ContasPagar.idContasPagar;
+        lctoJurosMulta.idBaixa:=ContasPagar.idContasPagar;
+        valorcredito:=valorcredito+ContasPagar.VlMulta;
+        TDao.Inserir(lctoJurosMulta);
+      end;
+
+      if(contasPagar.VlJuros>0)then
+      begin
+        lctoJurosMulta := TLancamentoContabilVo.Create;
+        lctoJurosMulta.idcontadebito := FormEmpresaTrab.ctjurosp;
+        lctoJurosMulta.dtLcto := ContasPagar.DtBaixa;
+        lctoJurosMulta.VlValor := ContasPagar.vljuros;
+        lctoJurosMulta.idContasPagar := ContasPagar.idContasPagar;
+        lctoJurosMulta.idBaixa:=ContasPagar.idContasPagar;
+        valorcredito:=valorcredito+contaspagar.VlJuros;
+        TDao.Inserir(lctoJurosMulta);
+      end;
+
+       lancamento := TLancamentoContabilVo.Create;
+       Lancamento.dtLcto := ContasPagar.DtBaixa;
+       Lancamento.VlValor := valorcredito;
+       lancamento.idContaCredito := ContasPagar.IdContaBaixa;
+       Lancamento.idContasPagar := ContasPagar.idContasPagar;
+       Lancamento.idbaixa := ContasPagar.idContasPagar;
+       TDAO.Inserir(Lancamento);
+
+      {if((ContasPagar.VlDesconto>0)) then//and (ContasPagar.VlMulta = 0) and (ContasPagar.VlJuros = 0))then
       begin
         LctoDesconto := TLancamentoContabilVo.Create;
         lancamento := TLancamentoContabilVO.Create;
@@ -239,7 +285,7 @@ begin
         TDao.Inserir(Lancamento);
         TDao.Inserir(LctoDesconto);
       end ;
-      if((ContasPagar.VlJuros>0) and (ContasPagar.VlDesconto = 0) and (ContasPagar.VlMulta = 0))then
+      if((ContasPagar.VlJuros>0)) then// and (ContasPagar.VlDesconto = 0) and (ContasPagar.VlMulta = 0))then
       begin
         lctoJurosMulta := TLancamentoContabilVo.Create;
         lancamento := TLancamentoContabilVO.Create;
@@ -259,7 +305,8 @@ begin
         TDao.Inserir(lctoJurosMulta);
         TDAo.Inserir(lancamento);
       end;
-      if((ContasPagar.VlMulta>0)and (ContasPagar.VlJuros=0) and (ContasPagar.VlDesconto = 0))then
+
+      if((ContasPagar.VlMulta>0)) then//and (ContasPagar.VlJuros=0) and (ContasPagar.VlDesconto = 0))then
       begin
         lctoJurosMulta := TLancamentoContabilVo.Create;
         lancamento := TLancamentoContabilVO.Create;
@@ -288,7 +335,9 @@ begin
         Lancamento.idContasPagar := ContasPagar.idContasPagar;
         Lancamento.idbaixa := ContasPagar.idContasPagar;
         TDAO.Inserir(Lancamento);
-      end;
+      end;}
+
+
       TDBExpress.ComitaTransacao;
 
     finally

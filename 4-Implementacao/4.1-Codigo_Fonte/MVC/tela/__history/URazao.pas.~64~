@@ -88,6 +88,7 @@ var     Historico: String;
         descAux,contaAux,claAux:String;
         valorAux,saldo, totaldebito,totalcredito:double;
         t: Integer;
+        datei, datef : TDateTime;
 begin
 
         contapaginas:=0;
@@ -106,7 +107,7 @@ begin
         Cla2:=Cla2+'9';
 
         rdprint1.Acentuacao:=Transliterate;
-        rdprint1.TamanhoQteLinhas      := 66;
+        rdprint1.TamanhoQteLinhas      := 70;
         Rdprint1.FonteTamanhoPadrao    := s20cpp;
         Rdprint1.TamanhoQteColunas     := 155;
         Rdprint1.NumerodeCopias := 1;
@@ -132,7 +133,12 @@ begin
                                 Lin:=0;
         for T:= 0 to Plano.Count - 1  do
         begin
-          lcto := LctoController.Consultar('idcontadebito = '+ IntToStr(Plano[T].idPlanoContas) + ' or idcontacredito = ' + IntToStr(Plano[T].idPlanoContas), ' ORDER BY DTLCTO ');
+
+          lcto := LctoController.Consultar(' ( ( idcontadebito = '+ IntToStr(Plano[T].idPlanoContas) + ' or idcontacredito = ' + IntToStr(Plano[T].idPlanoContas) + ')' +
+                                       '  AND  ( DTLCTO >= ' +QuotedSTr(StringReplace(DataInicial.Text, '/','.', [rfReplaceAll]))+
+                                       ' AND DTLCTO <= ' +QuotedStr(StringReplace(DataFinal.Text, '/','.', [rfReplaceAll]))+ ') ) ',
+                                       ' ORDER BY DTLCTO, IDLCTO ' );
+
 
           existeconta:=false;
           CDRazao.Open;
@@ -164,17 +170,13 @@ begin
             descAux:= Plano[t].dsConta;
             claAux:= Plano[t].nrClassificacao;
             contaAux:= IntToStr(Plano[t].idPlanoContas);
-          //  lin := SomaLin(Lin, RdpRINT1);
-          //  Inc(Lin);
-          //  RdPrint1.Impf(Lin,01+colunainicial,'--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------',[]);
-          //  Inc(Lin);
+            inc(lin);
             RdPrint1.ImpF(Lin,01+colunainicial,'CONTA:',[]);
             RdPrint1.ImpF(Lin,10+colunainicial,copy(claAux+' '+descAux,1,55)+' ('+contaAux+')',[]);
             RdPrint1.ImpF(Lin,75+colunainicial,'Saldo Anterior....',[]);
             RdPrint1.ImpD(Lin,RdPrint1.TamanhoQteColunas+1,FormatFloat('###,###,##0.00',saldo),[]);
             existeConta:=true;
             Lin:=SomaLin(Lin,RdPrint1);
-
             CDRazao.First;
             while not CDRazao.Eof do
             begin
@@ -207,7 +209,6 @@ begin
                   Historico:=Historico+CDRazaoCOMPLEMENTO.AsString;
               end;
               RdPrint1.Impf(Lin,38+colunainicial,Copy(Historico,1,62),[]);
-
               RdPrint1.ImpD(Lin,RdPrint1.TamanhoQteColunas+1,FormatFloat('###,###,##0.00',saldo),[]);
               Lin:=SomaLin(Lin,RdPrint1);
               CDRazao.Next;
@@ -222,10 +223,10 @@ end;
 function SomaLin(var Lin: Integer; RdPrint1: TRdPrint): Integer;
 begin
     Result:=Lin+1;
-    if Result>RdPrint1.TamanhoQteLinhas-4 then
+    if Result>RdPrint1.TamanhoQteLinhas-3 then
     begin
       RdPrint1.Novapagina;
-      Result:=8;
+      Result:=6;
     end;
     Lin:=Result;
 end;

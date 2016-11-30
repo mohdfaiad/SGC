@@ -52,7 +52,7 @@ begin
     if(ContasReceber.IdUnidade > 0)then
     begin
       PlanoContasController := TPlanoContasController.Create;
-      Query :=  ' PlanoContas.idUnidade = ' +(IntTOsTR(ContasReceber.IdUnidade));
+      Query :=  ' PlanoContas.idUnidade = ' +(IntTOsTR(ContasReceber.IdUnidade))+ ' and PlanoContas.idcondominio = '+ IntToStr(FormEmpresaTrab.CodigoEmpLogada);
       listaConta := PlanoContasController.Consultar(query);
       if (listaConta.Count > 0) then
       begin
@@ -130,7 +130,7 @@ begin
     if(ContasReceber.IdUnidade > 0)then
     begin
       PlanoContasController := TPlanoContasController.Create;
-      Query :=  ' PlanoContas.idUnidade = ' +(IntTOsTR(ContasReceber.IdUnidade));
+      Query :=  ' PlanoContas.idUnidade = ' +(IntTOsTR(ContasReceber.IdUnidade) + ' and PlanoContas.idcondominio = '+ IntToStr(FormEmpresaTrab.CodigoEmpLogada));
       listaConta := PlanoContasController.Consultar(query);
       if (listaConta.Count > 0) then
       begin
@@ -188,7 +188,7 @@ begin
       if(ContasReceber.IdUnidade>0)then
       begin
         PlanoContasController := TPlanoContasController.Create;
-        Query :=  ' PlanoContas.idunidade = ' +(IntTOsTR(ContasReceber.idunidade));
+        Query :=  ' PlanoContas.idunidade = ' +(IntTOsTR(ContasReceber.idunidade) + ' and PlanoContas.idcondominio = '+ IntToStr(FormEmpresaTrab.CodigoEmpLogada));
         listaConta := PlanoContasController.Consultar(query);
         if (listaConta.Count > 0) then
         begin
@@ -202,6 +202,7 @@ begin
       Lancamento.VlValor := ContasReceber.VlBaixa;
       Lancamento.idContasReceber := ContasReceber.idContasReceber;
       Lancamento.idbaixa := ContasReceber.idContasReceber;
+      Lancamento.idHistorico := ContasReceber.IdHistoricoBx;
       TDAO.Inserir(Lancamento);
 
       ValorDebito:= ContasReceber.VlBaixa;

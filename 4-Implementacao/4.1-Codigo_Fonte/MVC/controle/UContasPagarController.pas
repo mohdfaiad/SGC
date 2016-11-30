@@ -50,7 +50,7 @@ begin
     if(ContasPagar.IdPessoa>0)then
     begin
       PlanoContasController := TPlanoContasController.Create;
-      Query :=  ' PlanoContas.idPessoa = ' +(IntTOsTR(ContasPagar.IdPessoa));
+      Query :=  ' PlanoContas.idPessoa = ' +(IntTOsTR(ContasPagar.IdPessoa) + ' and PlanoContas.idCondominio = ' + IntToStr(FormEmpresaTrab.CodigoEmpLogada));
       listaConta := PlanoContasController.Consultar(query);
       if (listaConta.Count <= 0) then
       begin
@@ -139,7 +139,7 @@ begin
     if(ContasPagar.IdPessoa>0)then
     begin
       PlanoContasController := TPlanoContasController.Create;
-      Query :=  ' PlanoContas.idPessoa = ' +(IntTOsTR(ContasPagar.IdPessoa));
+      Query :=  ' PlanoContas.idPessoa = ' +(IntTOsTR(ContasPagar.IdPessoa)+ ' and PlanoContas.idCondominio = '+ IntToStr(FormEmpresaTrab.CodigoEmpLogada));
       listaConta := PlanoContasController.Consultar(query);
       if (listaConta.Count <= 0) then
       begin
@@ -204,7 +204,7 @@ begin
       if(ContasPagar.IdPessoa>0)then
       begin
         PlanoContasController := TPlanoContasController.Create;
-        Query :=  ' PlanoContas.idPessoa = ' +(IntTOsTR(ContasPagar.IdPessoa));
+        Query :=  ' PlanoContas.idPessoa = ' +(IntTOsTR(ContasPagar.IdPessoa) + ' AND PLANOCONTAS.IDCONDOMINIO = ' + IntToStr(FormEmpresaTrab.CodigoEmpLogada));
         listaConta := PlanoContasController.Consultar(query);
         if (listaConta.Count > 0) then
         begin
@@ -218,6 +218,7 @@ begin
       Lancamento.VlValor := ContasPagar.VlBaixa;
       Lancamento.idContasPagar := ContasPagar.idContasPagar;
       Lancamento.idbaixa := ContasPagar.idContasPagar;
+      Lancamento.idHistorico := ContasPagar.IdHistoricoBx;
       TDAO.Inserir(Lancamento);
 
       valorcredito:= contaspagar.VlBaixa;
