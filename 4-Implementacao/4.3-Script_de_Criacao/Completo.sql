@@ -31,11 +31,16 @@ CREATE TABLE Condominio (
  idCtJuros INT,
  idCtMulta INT,
  idCtDesconto INT,
- idCtJurosP INT NOT NULL,
+ idCtJurosP INT,
  idCtMultaP INT,
  idCtDescontoObt INT,
  idCtRateio INT,
- idCtLeituraGas INT
+ idCtLeituraGas INT,
+ idPlanoContas INT,
+ idCtFundoReserva INT,
+ idHistoricoL INT,
+ idHistoricoR INT,
+ idHistoricoF INT
 );
 
 ALTER TABLE Condominio ADD CONSTRAINT PK_Condominio PRIMARY KEY (idCondominio);
@@ -316,7 +321,7 @@ CREATE TABLE ContasPagar (
  vlMulta FLOAT,
  vlDesconto FLOAT,
  dtBaixa DATE NOT NULL,
- idContaBaixa INT NOT NULL,
+ idContaBaixa INT,
  idHistoricoBx INT,
  vlPago FLOAT
 );
@@ -381,6 +386,11 @@ ALTER TABLE Condominio ADD CONSTRAINT FK_Condominio_8 FOREIGN KEY (idCtMultaP) R
 ALTER TABLE Condominio ADD CONSTRAINT FK_Condominio_9 FOREIGN KEY (idCtDescontoObt) REFERENCES PlanoContas (idPlanoContas);
 ALTER TABLE Condominio ADD CONSTRAINT FK_Condominio_10 FOREIGN KEY (idCtRateio) REFERENCES PlanoContas (idPlanoContas);
 ALTER TABLE Condominio ADD CONSTRAINT FK_Condominio_11 FOREIGN KEY (idCtLeituraGas) REFERENCES PlanoContas (idPlanoContas);
+ALTER TABLE Condominio ADD CONSTRAINT FK_Condominio_12 FOREIGN KEY (idPlanoContas) REFERENCES PlanoContas (idPlanoContas);
+ALTER TABLE Condominio ADD CONSTRAINT FK_Condominio_13 FOREIGN KEY (idCtFundoReserva) REFERENCES PlanoContas (idPlanoContas);
+ALTER TABLE Condominio ADD CONSTRAINT FK_Condominio_14 FOREIGN KEY (idHistoricoL) REFERENCES Historicos (idHistorico);
+ALTER TABLE Condominio ADD CONSTRAINT FK_Condominio_15 FOREIGN KEY (idHistoricoR) REFERENCES Historicos (idHistorico);
+ALTER TABLE Condominio ADD CONSTRAINT FK_Condominio_16 FOREIGN KEY (idHistoricoF) REFERENCES Historicos (idHistorico);
 
 
 ALTER TABLE LancamentoContabil ADD CONSTRAINT FK_LancamentoContabil_0 FOREIGN KEY (idHistorico) REFERENCES Historicos (idHistorico);
