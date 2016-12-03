@@ -21,7 +21,6 @@ object FTelaLivroRazao: TFTelaLivroRazao
     Height = 309
     Align = alClient
     TabOrder = 0
-    ExplicitWidth = 353
     object GroupBox1: TGroupBox
       Left = 16
       Top = 0
@@ -205,7 +204,63 @@ object FTelaLivroRazao: TFTelaLivroRazao
   object CDRazao: TClientDataSet
     Active = True
     Aggregates = <>
+    FieldDefs = <
+      item
+        Name = 'IDLCTO'
+        DataType = ftInteger
+      end
+      item
+        Name = 'IDCONTADEBITO'
+        DataType = ftInteger
+      end
+      item
+        Name = 'IDCONTACREDITO'
+        DataType = ftInteger
+      end
+      item
+        Name = 'DSCONTADEBITO'
+        DataType = ftString
+        Size = 20
+      end
+      item
+        Name = 'DSCONTACREDITO'
+        DataType = ftString
+        Size = 20
+      end
+      item
+        Name = 'VALOR'
+        DataType = ftCurrency
+      end
+      item
+        Name = 'IDHISTORICO'
+        DataType = ftInteger
+      end
+      item
+        Name = 'DTLCTO'
+        DataType = ftDateTime
+      end
+      item
+        Name = 'COMPLEMENTO'
+        DataType = ftString
+        Size = 20
+      end
+      item
+        Name = 'SALDO'
+        DataType = ftCurrency
+      end
+      item
+        Name = 'DSCLASSIFICACAODEBITO'
+        DataType = ftString
+        Size = 80
+      end
+      item
+        Name = 'DSCLASSIFICACAOCREDITO'
+        DataType = ftString
+        Size = 20
+      end>
+    IndexDefs = <>
     Params = <>
+    StoreDefs = True
     Left = 352
     Top = 120
     Data = {
@@ -219,7 +274,7 @@ object FTelaLivroRazao: TFTelaLivroRazao
       00000B434F4D504C454D454E544F010049000000010005574944544802000200
       14000553414C444F080004000000010007535542545950450200490006004D6F
       6E657900154453434C415353494649434143414F44454249544F010049000000
-      0100055749445448020002001400164453434C415353494649434143414F4352
+      0100055749445448020002005000164453434C415353494649434143414F4352
       454449544F01004900000001000557494454480200020014000000}
     object CDRazaoIDLCTO: TIntegerField
       FieldName = 'IDLCTO'
@@ -252,7 +307,9 @@ object FTelaLivroRazao: TFTelaLivroRazao
       FieldName = 'SALDO'
     end
     object CDRazaoDSCLASSIFICACAODEBITO: TStringField
+      DisplayWidth = 80
       FieldName = 'DSCLASSIFICACAODEBITO'
+      Size = 80
     end
     object CDRazaoDSCLASSIFICACAOCREDITO: TStringField
       FieldName = 'DSCLASSIFICACAOCREDITO'

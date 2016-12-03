@@ -35,8 +35,8 @@ function TLancamentoContabilController.SaldoContaData(id:integer; DateMax:TDatet
 var vlTotaldebito:currency;
     vlTotalCredito:currency;
 begin
-  vlTotalDebito:= TDAO.SUM(' SELECT SUM(VLVALOR) FROM LANCAMENTOCONTABIL WHERE IDCONTADEBITO = '+INTTOSTR(ID) +' AND DTLCTO <= ' +QuotedStr( StringReplace(DateToStr(DateMax), '/', '.', [rfReplaceAll])));
-  vlTotalCREDITO:= TDAO.SUM(' SELECT SUM(VLVALOR) FROM LANCAMENTOCONTABIL WHERE IDCONTACREDITO = '+INTTOSTR(ID) +' AND DTLCTO <= ' +QuotedStr( StringReplace(DateToStr(DateMax), '/', '.', [rfReplaceAll])));
+  vlTotalDebito:= TDAO.SUM(' SELECT SUM(VLVALOR) FROM LANCAMENTOCONTABIL WHERE IDCONTADEBITO = '+INTTOSTR(ID) +' AND DTLCTO < ' +QuotedStr( StringReplace(DateToStr(DateMax), '/', '.', [rfReplaceAll])));
+  vlTotalCREDITO:= TDAO.SUM(' SELECT SUM(VLVALOR) FROM LANCAMENTOCONTABIL WHERE IDCONTACREDITO = '+INTTOSTR(ID) +' AND DTLCTO < ' +QuotedStr( StringReplace(DateToStr(DateMax), '/', '.', [rfReplaceAll])));
   result:=vltotaldebito-vltotalcredito;
 end;
 

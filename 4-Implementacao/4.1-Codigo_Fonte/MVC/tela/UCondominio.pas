@@ -50,7 +50,6 @@ type
     LabeledEditCidade: TLabeledEdit;
     LabeledEditEstado: TLabeledEdit;
     LabeledEditPais: TLabeledEdit;
-    LabeledEditMetragem: TLabeledEdit;
     LabeledEditInsMunicipal: TLabeledEdit;
     LabeledEditNomeFantasia: TLabeledEdit;
     LabeledEditRegimeTrib: TLabeledEdit;
@@ -94,7 +93,6 @@ type
     FundoReserva: TEdit;
     BitBtn12: TBitBtn;
     Label12: TLabel;
-    PercFundoReserva: TLabeledEdit;
     Label13: TLabel;
     EditHistL: TEdit;
     BtnHistL: TBitBtn;
@@ -104,6 +102,10 @@ type
     Label15: TLabel;
     Edit5: TEdit;
     BitBtn14: TBitBtn;
+    LabeledEditMetragem: TEdit;
+    Label16: TLabel;
+    PercFundoReserva: TEdit;
+    Label17: TLabel;
     procedure FormCreate(Sender: TObject);
     function DoSalvar: boolean; override;
 //    function ValidarTela: boolean;
@@ -146,6 +148,8 @@ type
     procedure BtnHistLClick(Sender: TObject);
     procedure BitBtn13Click(Sender: TObject);
     procedure BitBtn14Click(Sender: TObject);
+    procedure LabeledEditMetragemKeyPress(Sender: TObject; var Key: Char);
+    procedure PercFundoReservaKeyPress(Sender: TObject; var Key: Char);
 
   private
     { Private declarations }
@@ -849,6 +853,12 @@ begin
 end;
 
 
+procedure TFTelaCadastroCondominio.LabeledEditMetragemKeyPress(Sender: TObject;
+  var Key: Char);
+begin
+  EventoFormataCurrency(Sender,key);
+end;
+
 procedure TFTelaCadastroCondominio.LeituraGasExit(Sender: TObject);
 var
   PlanoController:TPlanoContasController;
@@ -1125,6 +1135,12 @@ begin
   end
   else
     MultaRec.Text := '';
+end;
+
+procedure TFTelaCadastroCondominio.PercFundoReservaKeyPress(Sender: TObject;
+  var Key: Char);
+begin
+  EventoFormataCurrency(Sender,key);
 end;
 
 procedure TFTelaCadastroCondominio.GridParaEdits;

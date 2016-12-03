@@ -78,7 +78,7 @@ var
   i : integer;
 begin
   LeituraController := TLeituraGasController.Create;
-  leitura := LeituraController.Consultar('idcondominio = '+ IntToStr(FormEmpresaTrAB.CodigoEmpLogada));
+  leitura := LeituraController.Consultar('idcondominio = '+ IntToStr(FormEmpresaTrAB.CodigoEmpLogada) + ' order by idleituragas ');
   CdsItensLeitura.EmptyDataSet;
 
   for I := 0  to leitura.Count - 1 do
@@ -223,7 +223,7 @@ begin
        ItensLeituraController.Free;
      end;
      except
-      raise Exception.Create('Erro ao Excluir!');
+      raise Exception.Create('Para excluir a leitura, deverá ser excluido o título a receber!');
     end;
     AtualizaGrid;
   end;

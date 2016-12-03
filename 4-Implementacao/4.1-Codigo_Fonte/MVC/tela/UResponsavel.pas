@@ -245,7 +245,7 @@ begin
   begin
     if (editBusca.Text <> '') then
     begin
-      Result :=  '( UPPER(NOME) LIKE ' +
+      Result :=  Result +  ' and ( UPPER(NOME) LIKE ' +
         QuotedStr('%' + UpperCase(editBusca.Text) + '%') + ') ';
     end;
   end;

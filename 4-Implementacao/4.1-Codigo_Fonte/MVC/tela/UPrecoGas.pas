@@ -237,7 +237,7 @@ end;
 
 function TFTelaCadastroPrecoGas.MontaFiltro: string;
 begin
-    if (RadioButton1.Checked = true) then
+if (RadioButton1.Checked = true) then
   begin
     if (editBusca.Text <> '') then
     begin

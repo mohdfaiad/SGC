@@ -11,7 +11,6 @@ inherited FTelaCadastroCondominio: TFTelaCadastroCondominio
     Width = 791
     Height = 536
     ActivePage = Consulta
-    ExplicitTop = -6
     ExplicitWidth = 791
     ExplicitHeight = 536
     inherited Consulta: TTabSheet
@@ -140,7 +139,6 @@ inherited FTelaCadastroCondominio: TFTelaCadastroCondominio
             Width = 775
             Height = 423
             ExplicitLeft = 0
-            ExplicitTop = 0
             ExplicitWidth = 775
             ExplicitHeight = 423
             object Cep: TLabel
@@ -197,6 +195,32 @@ inherited FTelaCadastroCondominio: TFTelaCadastroCondominio
               Width = 73
               Height = 13
               Caption = 'Inicio Atividade'
+            end
+            object Label16: TLabel
+              Left = 16
+              Top = 192
+              Width = 48
+              Height = 14
+              Caption = 'Metragem'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'Tahoma'
+              Font.Style = []
+              ParentFont = False
+            end
+            object Label17: TLabel
+              Left = 122
+              Top = 192
+              Width = 87
+              Height = 14
+              Caption = 'Fundo Reserva %'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'Tahoma'
+              Font.Style = []
+              ParentFont = False
             end
             object LabelEditNome: TLabeledEdit
               Tag = 16
@@ -409,7 +433,7 @@ inherited FTelaCadastroCondominio: TFTelaCadastroCondominio
               MaxLength = 15
               ParentFont = False
               ReadOnly = True
-              TabOrder = 20
+              TabOrder = 21
               Text = ''
             end
             object LabelEditDescCnae: TLabeledEdit
@@ -428,7 +452,7 @@ inherited FTelaCadastroCondominio: TFTelaCadastroCondominio
               Font.Style = []
               ParentFont = False
               ReadOnly = True
-              TabOrder = 21
+              TabOrder = 22
             end
             object btnConsultaCnae: TBitBtn
               Left = 569
@@ -436,7 +460,7 @@ inherited FTelaCadastroCondominio: TFTelaCadastroCondominio
               Width = 30
               Height = 25
               Caption = 'P'
-              TabOrder = 22
+              TabOrder = 23
               OnClick = btnConsultaCnaeClick
             end
             object LabelEditCodCnae: TLabeledEdit
@@ -455,7 +479,7 @@ inherited FTelaCadastroCondominio: TFTelaCadastroCondominio
               Font.Style = []
               ParentFont = False
               ReadOnly = True
-              TabOrder = 23
+              TabOrder = 24
               Visible = False
             end
             object LabelEditNatureza: TMaskEdit
@@ -474,7 +498,7 @@ inherited FTelaCadastroCondominio: TFTelaCadastroCondominio
               MaxLength = 7
               ParentFont = False
               ReadOnly = True
-              TabOrder = 24
+              TabOrder = 25
               Text = ''
             end
             object LabelEditDescNatureza: TLabeledEdit
@@ -493,7 +517,7 @@ inherited FTelaCadastroCondominio: TFTelaCadastroCondominio
               Font.Style = []
               ParentFont = False
               ReadOnly = True
-              TabOrder = 25
+              TabOrder = 26
             end
             object btnConsultaNatureza: TBitBtn
               Left = 569
@@ -501,7 +525,7 @@ inherited FTelaCadastroCondominio: TFTelaCadastroCondominio
               Width = 30
               Height = 25
               Caption = 'P'
-              TabOrder = 26
+              TabOrder = 27
               OnClick = btnConsultaNaturezaClick
             end
             object LabelEditCodNatureza: TLabeledEdit
@@ -520,7 +544,7 @@ inherited FTelaCadastroCondominio: TFTelaCadastroCondominio
               Font.Style = []
               ParentFont = False
               ReadOnly = True
-              TabOrder = 28
+              TabOrder = 29
               Visible = False
             end
             object LabeledEditDescCidade: TLabeledEdit
@@ -620,7 +644,7 @@ inherited FTelaCadastroCondominio: TFTelaCadastroCondominio
               Font.Style = []
               ParentFont = False
               ReadOnly = True
-              TabOrder = 29
+              TabOrder = 30
               Visible = False
             end
             object LabeledEditEstado: TLabeledEdit
@@ -639,7 +663,7 @@ inherited FTelaCadastroCondominio: TFTelaCadastroCondominio
               Font.Style = []
               ParentFont = False
               ReadOnly = True
-              TabOrder = 30
+              TabOrder = 31
               Visible = False
             end
             object LabeledEditPais: TLabeledEdit
@@ -658,31 +682,13 @@ inherited FTelaCadastroCondominio: TFTelaCadastroCondominio
               Font.Style = []
               ParentFont = False
               ReadOnly = True
-              TabOrder = 31
+              TabOrder = 32
               Visible = False
-            end
-            object LabeledEditMetragem: TLabeledEdit
-              Tag = 1
-              Left = 16
-              Top = 202
-              Width = 73
-              Height = 21
-              EditLabel.Width = 48
-              EditLabel.Height = 13
-              EditLabel.Caption = 'Metragem'
-              Font.Charset = DEFAULT_CHARSET
-              Font.Color = clBlue
-              Font.Height = -11
-              Font.Name = 'Tahoma'
-              Font.Style = []
-              MaxLength = 50
-              ParentFont = False
-              TabOrder = 16
             end
             object LabeledEditInsMunicipal: TLabeledEdit
               Tag = 1
               Left = 231
-              Top = 202
+              Top = 207
               Width = 73
               Height = 21
               EditLabel.Width = 70
@@ -695,7 +701,7 @@ inherited FTelaCadastroCondominio: TFTelaCadastroCondominio
               Font.Style = []
               MaxLength = 50
               ParentFont = False
-              TabOrder = 17
+              TabOrder = 18
             end
             object LabeledEditNomeFantasia: TLabeledEdit
               Tag = 1
@@ -713,7 +719,7 @@ inherited FTelaCadastroCondominio: TFTelaCadastroCondominio
               Font.Style = []
               MaxLength = 250
               ParentFont = False
-              TabOrder = 19
+              TabOrder = 20
             end
             object LabeledEditRegimeTrib: TLabeledEdit
               Tag = 1
@@ -731,7 +737,7 @@ inherited FTelaCadastroCondominio: TFTelaCadastroCondominio
               Font.Style = []
               MaxLength = 250
               ParentFont = False
-              TabOrder = 18
+              TabOrder = 19
             end
             object MaskEditDtInicioAtividade: TMaskEdit
               Left = 618
@@ -747,27 +753,25 @@ inherited FTelaCadastroCondominio: TFTelaCadastroCondominio
               Font.Style = []
               MaxLength = 10
               ParentFont = False
-              TabOrder = 27
+              TabOrder = 28
               Text = '  /  /    '
               OnExit = MaskEditDtInicioAtividadeExit
             end
-            object PercFundoReserva: TLabeledEdit
-              Tag = 1
-              Left = 122
-              Top = 202
-              Width = 73
+            object LabeledEditMetragem: TEdit
+              Left = 16
+              Top = 207
+              Width = 83
               Height = 21
-              EditLabel.Width = 87
-              EditLabel.Height = 13
-              EditLabel.Caption = 'Fundo Reserva %'
-              Font.Charset = DEFAULT_CHARSET
-              Font.Color = clBlue
-              Font.Height = -11
-              Font.Name = 'Tahoma'
-              Font.Style = []
-              MaxLength = 50
-              ParentFont = False
-              TabOrder = 32
+              TabOrder = 16
+              OnKeyPress = LabeledEditMetragemKeyPress
+            end
+            object PercFundoReserva: TEdit
+              Left = 122
+              Top = 207
+              Width = 83
+              Height = 21
+              TabOrder = 17
+              OnKeyPress = LabeledEditMetragemKeyPress
             end
           end
         end

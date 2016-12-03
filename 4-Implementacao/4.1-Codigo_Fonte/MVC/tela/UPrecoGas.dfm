@@ -7,6 +7,8 @@ inherited FTelaCadastroPrecoGas: TFTelaCadastroPrecoGas
     inherited Consulta: TTabSheet
       ExplicitLeft = 4
       ExplicitTop = 24
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       inherited Panel2: TPanel
         object GroupBox3: TGroupBox
           Left = 66

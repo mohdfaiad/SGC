@@ -7,7 +7,7 @@ uses
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Data.DB, Datasnap.DBClient, Vcl.Grids,
   Vcl.DBGrids, Vcl.StdCtrls, Vcl.Buttons, Vcl.Mask, Vcl.ExtCtrls, UContaCorrenteController, UContasReceberController,
   ULancamentoContabilController, UPlanoContasVO, uPlanoContasController,UEmpresaTrab,
-  UContaCorrenteVO, UContasReceberVO, ULancamentoContabilVO, UUnidadeVO, UUnidadeController, Generics.Collections;
+  UContaCorrenteVO, UContasReceberVO, ULancamentoContabilVO, UUnidadeVO, UUnidadeController, Generics.Collections, DateUtils;
 
 type
   TFTelaCadastroContaCorrente = class(TForm)
@@ -58,53 +58,75 @@ procedure TFTelaCadastroContaCorrente.BitBtnGravaClick(Sender: TObject);
 var contareceber: TContasReceberVO;
     listaContasREceber:TObjectList<TContasREceberVO>;
     contacorrete:TContaCorrenteVO;
+    ListaCC : TObjectList<TContaCorrentevo>;
     contaReceberController:TContasReceberController;
-  //  datacomp,dataven:TDAtetime;
+    dia, mes, ano : word;
+    data : TDateTime;
+    datacomp,dataven:TDAtetime;
 begin
   if ((MaskEditDtInicio.Text <> '  /  /    ') and (MaskEdit1.Text <> '  /  /    ')) then
   begin
     try
-        Contareceber.DtCompetencia:= Strtodate(MaskEdit1.Text);
-        contareceber.DtVencimento:=Strtodate(MaskEditDtInicio.Text);
-        if (contareceber.DtVencimento > Contareceber.DtCompetencia) then
+        datacomp:=Strtodate(MaskEdit1.Text);
+        dataven:=Strtodate(MaskEditDtInicio.Text);
+        if (dataven > datacomp) then
         begin
-          listaContasReceber:=TOBjectList<TContasReceberVO>.create;
-          CDContaCorrente.First;
-          while not CDContaCorrente.Eof do
-          begin
-            contareceber:=TContasReceberVO.Create;
-            contareceber.VlValor:=0;
-            contareceber.ItensContaCorrente:=TObjectList<TContaCorrenteVO>.create;
-            CDLcto.First;
-            while not CDLcto.Eof do
-            begin
-              if(CDContaCorrenteIDCONTAPLANO.AsInteger = CDLctoIDCONTADEBITO.AsInteger)then
-                contareceber.VlValor:=contareceber.VlValor+CDLctoVALOR.AsCurrency
+          mes := MonthOf(datacomp);
+          ano := yearof(datacomp);
+          ListaCC := ControllerContaCorrente.consultar('( ( contasreceber.IDCONDOMINIO =' + IntToStr(FormEmpresaTrab.CodigoEmpLogada) + ' ) ' +
+          ' and ( EXTRACT(MONTH FROM  contasreceber.dtcompetencia)= ' + inttostr(mes) +
+          '       and EXTRACT(YEAR FROM  contasreceber.dtcompetencia)= ' + inttostr(ano) + ') )');
+              if ListaCC.count <= 0  then
+              begin
+                listaContasReceber:=TOBjectList<TContasReceberVO>.create;
+                CDContaCorrente.First;
+                while not CDContaCorrente.Eof do
+                begin
+                  contareceber:=TContasReceberVO.Create;
+                  contareceber.VlValor:=0;
+                  contareceber.ItensContaCorrente:=TObjectList<TContaCorrenteVO>.create;
+                  CDLcto.First;
+                  while not CDLcto.Eof do
+                  begin
+                    if(CDContaCorrenteIDCONTAPLANO.AsInteger = CDLctoIDCONTADEBITO.AsInteger)then
+                      contareceber.VlValor:=contareceber.VlValor+CDLctoVALOR.AsCurrency
+                    else
+                      contareceber.VlValor:=contareceber.VlValor-CDLctoVALOR.AsCurrency;
+
+                    contacorrete:=TContacorrenteVO.create;
+                    contacorrete.idLcto:=CDLctoIDLCTO.AsInteger;
+                    contaReceber.ItensContaCorrente.Add(contacorrete);
+                    CDLcto.Next;
+                  end;
+
+                  contareceber.DtCompetencia:=  strtodate(MaskEdit1.Text);
+                  contareceber.DtVencimento:= StrTodate(MaskEditDtInicio.Text);
+                  contareceber.NrDocumento:= copy(MaskEdit1.Text,4,7);
+                  contareceber.IdCondominio:=FormEmpresaTrab.CodigoEmpLogada;
+                  contareceber.IdUnidade:=CDContaCorrenteIDUNIDADE.AsInteger;
+                  contareceber.FlGerado:='S';
+
+                  if(contareceber.VlValor>0)then
+                    listaContasREceber.Add(contareceber);
+
+                  CDContaCorrente.Next;
+                end;
+
+                if(listaContasREceber.Count>0)then
+                begin
+                  contaReceberController:=TContasReceberController.create;
+                  contaREceberController.InserirTitulosContaCorrente(listaContasReceber);
+                  contaReceberController.Free;
+          //      BitBtnGrava.Enabled := false;
+                  ShowMessage('Titulos gerados com sucesso');
+                end
+                else
+                  showmessage('Não existem valores a serem processados no período!');
+              end
               else
-                contareceber.VlValor:=contareceber.VlValor-CDLctoVALOR.AsCurrency;
-
-              contacorrete:=TContacorrenteVO.create;
-              contacorrete.idLcto:=CDLctoIDLCTO.AsInteger;
-              contaReceber.ItensContaCorrente.Add(contacorrete);
-              CDLcto.Next;
-            end;
-
-            contareceber.DtCompetencia:=  strtodate(MaskEdit1.Text);
-            contareceber.DtVencimento:= StrTodate(MaskEditDtInicio.Text);
-            contareceber.NrDocumento:= copy(MaskEdit1.Text,4,7);
-            contareceber.IdCondominio:=FormEmpresaTrab.CodigoEmpLogada;
-            contareceber.IdUnidade:=CDContaCorrenteIDUNIDADE.AsInteger;
-            contareceber.FlGerado:='S';
-            listaContasREceber.Add(contareceber);
-            CDContaCorrente.Next;
-          end;
-          contaReceberController:=TContasReceberController.create;
-          contaREceberController.InserirTitulosContaCorrente(listaContasReceber);
-          contaReceberController.Free;
-    //      BitBtnGrava.Enabled := false;
-          ShowMessage('Titulos gerados com sucesso');
-        end
-        else
+                ShowMessage('Já foi processado os titulos para esta competencia!');
+       end
+       else
           showmessage('Data de vencimento deve ser maior que a data de lançamento');
     except
         showmessage('Ocorreu um erro ao gerar os títulos');

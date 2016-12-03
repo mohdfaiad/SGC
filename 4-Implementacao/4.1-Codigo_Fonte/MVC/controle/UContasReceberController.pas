@@ -7,7 +7,7 @@ uses
   Classes, SQLExpr, SysUtils, Generics.Collections, DBXJSON, DBXCommon,
   ConexaoBD,
   UUnidadeVO, UController, DBClient, DB, UContasReceberVO, UPessoasController, UCondominioController,
-  UPlanoCOntasController, UCondominioVO, UPlanoContasVO, UHistoricoVO, ULancamentoContabilVO, UEmpresaTrab;
+  UPlanoCOntasController, UCondominioVO, UPlanoContasVO, UHistoricoVO, ULancamentoContabilVO, UEmpresaTrab, UContaCorrenteVO;
 
 
 type
@@ -32,6 +32,7 @@ uses
 
 function TContasReceberController.Alterar(ContasReceber: TContasReceberVO): boolean;
 var Lancamentos : TObjectList<TLancamentoContabilVO>;
+  ContaCorrente : TObjectList<TContaCorrenteVO>;
   idContaUnidade, idContaDebito, idContaCredito : Integer;
   Lancamento : TLancamentoContabilVO;
   PlanoContasController : TPlanoContasCOntroller;
@@ -44,7 +45,15 @@ begin
   try
     TDBExpress.IniciaTransacao;
     Result := TDAO.Alterar(ContasReceber);
-    Lancamentos:= TDAO.Consultar<TLancamentoContabilVO>(' LANCAMENTOCONTABIL.IDCONTASRECEBER = '+inttostr(ContasReceber.idContasReceber), '',0,true);
+    ContaCorrente := TDAO.Consultar<TContaCorrenteVO>(' idContasReceber = ' + IntToStr(ContasReceber.idContasReceber),  '',0,true);
+    if ContaCorrente.Count > 0 then
+    begin
+      ShowMessage('Titulo gerado pelo conta corrente não poderá ser alterado! ');
+    end
+    else
+    begin
+      Lancamentos:= TDAO.Consultar<TLancamentoContabilVO>(' LANCAMENTOCONTABIL.IDCONTASRECEBER = '+inttostr(ContasReceber.idContasReceber), '',0,true);
+
     if(Lancamentos.Count>0)then
     begin
       TDAO.Excluir(Lancamentos.First);
@@ -76,6 +85,9 @@ begin
       Lancamento.idHistorico := ContasReceber.IdHistorico;
       TDao.Inserir(Lancamento);
       TDBExpress.ComitaTransacao;
+
+    end;
+
     end;
   finally
     TDBExpress.RollBackTransacao;
@@ -100,14 +112,23 @@ end;
 
 function TContasReceberController.Excluir(ContasReceber: TContasReceberVO): boolean;
 var Lancamento : TObjectList<TLancamentoContabilVO>;
+    ContaCorrente : TObjectList<TContaCorrenteVO>;
+    i : integer;
 begin
   try
     TDBExpress.IniciaTransacao;
-    Lancamento:= TDAO.Consultar<TLancamentoContabilVO>('LANCAMENTOCONTABIL.IDCONTASRECEBER = '+inttostr(ContasReceber.idContasReceber), '',0,true);
+    Lancamento:= TDAO.Consultar<TLancamentoContabilVO>(' LANCAMENTOCONTABIL.IDCONTASRECEBER = '+inttostr(ContasReceber.idContasReceber),  '',0,true);
+    ContaCorrente := TDAO.Consultar<TContaCorrenteVO>(' contacorrente.idContasReceber = ' + IntToStr(ContasReceber.idContasReceber),  '',0,true);
     if(Lancamento.Count>0)then
     begin
       TDAO.Excluir(Lancamento.First);
     end;
+
+    for I := 0 to ContaCorrente.Count - 1 do
+    begin
+      TDAO.Excluir(ContaCorrente[i]);
+    end;
+
     Result := TDAO.Excluir(ContasReceber);
     TDBExpress.ComitaTransacao;
   finally

@@ -24,6 +24,7 @@ inherited FTelaCadastroContador: TFTelaCadastroContador
       ExplicitLeft = 4
       ExplicitTop = 24
       ExplicitWidth = 695
+      ExplicitHeight = 0
       inherited Grid: TDBGrid
         Width = 695
       end

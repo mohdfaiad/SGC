@@ -208,7 +208,7 @@ begin
                     Historico:=Historico+' ';
                   Historico:=Historico+CDRazaoCOMPLEMENTO.AsString;
               end;
-              RdPrint1.Impf(Lin,38+colunainicial,Copy(Historico,1,62),[]);
+              RdPrint1.Impf(Lin,38+colunainicial,Historico,[]);
               RdPrint1.ImpD(Lin,RdPrint1.TamanhoQteColunas+1,FormatFloat('###,###,##0.00',saldo),[]);
               Lin:=SomaLin(Lin,RdPrint1);
               CDRazao.Next;

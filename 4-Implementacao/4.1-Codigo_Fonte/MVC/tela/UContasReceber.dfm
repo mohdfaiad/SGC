@@ -126,6 +126,10 @@ inherited FTelaCadastroContasReceber: TFTelaCadastroContasReceber
         Width = 879
         ParentBackground = False
         ExplicitWidth = 879
+        inherited BitBtnExclui: TBitBtn
+          Top = 7
+          ExplicitTop = 7
+        end
       end
       inherited PageControlEdit: TPageControl
         Width = 879

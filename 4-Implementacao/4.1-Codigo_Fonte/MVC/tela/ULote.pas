@@ -9,7 +9,7 @@ uses
   Generics.Collections, ULoteVO, ULoteController, UEmpresaTrab, ULancamentoContabilVO,
   UlancamentoCOntabilController, UPlanoContas,UPlanoContasController, UHistorico, UHistoricoController,
   UPlanoContasVO, UHistoricoVO, Data.DB, Datasnap.DBClient,
-  ULancamentoPadrao, ULancamentoPadraoVO, ULancamentoPadraoController, Biblioteca;
+  ULancamentoPadrao, ULancamentoPadraoVO, ULancamentoPadraoController, Biblioteca,UContaCorrenteVO, UDAO;
 
 type
   TFTelaCadastroLote = class(TFTelaCadastro)
@@ -269,6 +269,7 @@ begin
     if TPlanoContasVO(FormPlanoConsulta.ObjetoRetornoVO).flTipo <> 'S' then
     begin
       LabeledEditConta.Text := IntToStr(TPlanoContasVO(FormPlanoConsulta.ObjetoRetornoVO).idPlanoContas);
+      LabeledEditDsConta.Text := TPlanoContasVO(FormPlanoConsulta.ObjetoRetornoVO).dsConta;
     end
     else
       ShowMessage('Conta Sintética');
@@ -289,6 +290,7 @@ begin
     if TPlanoContasVO(FormPlanoConsulta.ObjetoRetornoVO).flTipo <> 'S' then
     begin
       LabeledEditContraP.Text := IntToStr(TPlanoContasVO(FormPlanoConsulta.ObjetoRetornoVO).idPlanoContas);
+      LabeledEditDsContra.Text := TPlanoContasVO(FormPlanoConsulta.ObjetoRetornoVO).dsConta;
     end
     else
       ShowMessage('Conta Sintética');
@@ -340,7 +342,7 @@ var
   listaLote: TObjectList<TLoteVO>;
   filtro: string;
 begin
-  filtro := MontaFiltro;
+  filtro := MontaFiltro + 'order by dtlote, nrlote';
   listaLote := ControllerLote.Consultar(filtro);
   PopulaGrid<TLoteVO>(listaLote);
 end;
@@ -381,12 +383,22 @@ end;
 function TFTelaCadastroLote.DoExcluirLcto: boolean;
 var
   Lcto: TLancamentoContabilVO;
+  ContaCorrente : TObjectList<TContaCorrenteVO>;
 begin
   try
     try
-      Lcto := TLancamentoContabilVO.Create;
-      Lcto.idLcto := CDSLcto.FieldByName('IDLCTO').AsInteger;
-      ControllerLcto.Excluir(Lcto);
+       ContaCorrente := TDAO.Consultar<TContaCorrenteVO>(' idlcto = ' + CDSLcto.FieldByName('IDLCTO').AsString,'',0,true);
+       if ContaCorrente.Count > 0  then
+       begin
+          result := false;
+          ShowMessage('Para excluir lançamento, excluir Titulo gerado!');
+       end
+       else
+       begin
+          Lcto := TLancamentoContabilVO.Create;
+          Lcto.idLcto := CDSLcto.FieldByName('IDLCTO').AsInteger;
+          ControllerLcto.Excluir(Lcto);
+       end;
     except
       on E: Exception do
       begin
@@ -438,6 +450,7 @@ end;
 function TFTelaCadastroLote.DoSalvarLcto: boolean;
 var
     LctoContabil: TLancamentoContabilVO;
+    ContaCorrente : TObjectList<TContaCorrenteVO>;
 
 begin
   begin
@@ -453,10 +466,22 @@ begin
            end
            else
              begin
-              LctoContabil := ControllerLcto.ConsultarPorId(strtoint(editidlcto.Text));
-              LctoContabil := EditsToObjectLcto(LctoContabil);
-              ControllerLcto.Alterar(LctoContabil);
-              Result := true;
+              try
+                 ContaCorrente := TDAO.Consultar<TContaCorrenteVO>(' idlcto = ' + QuotedStr(editidlcto.Text),  '',0,true);
+                 if ContaCorrente.Count > 0  then
+                 begin
+                    result := false;
+                    ShowMessage('Para alterar lançamento, excluir Titulo gerado!');
+                 end
+                 else
+                 begin
+                    LctoContabil := ControllerLcto.ConsultarPorId(strtoint(editidlcto.Text));
+                    LctoContabil := EditsToObjectLcto(LctoContabil);
+                    ControllerLcto.Alterar(LctoContabil);
+                    Result := true;
+                 end;
+              Except
+              end;
             end
         end;
       except
@@ -763,7 +788,7 @@ begin
   begin
     if (editBusca.Text <> '') then
     begin
-      Result := '( UPPER(NRLOTE) LIKE ' +
+      Result := Result + ' and ( UPPER(NRLOTE) LIKE ' +
         QuotedStr('%' + UpperCase(editBusca.Text) + '%') + ' ) ';
     end;
   end
@@ -771,7 +796,7 @@ begin
   begin
       if (editBusca.Text <> '') then
       begin
-        Result := '( UPPER(DSLOTE) LIKE ' +
+        Result := Result + ' and ( UPPER(DSLOTE) LIKE ' +
         QuotedStr('%' + UpperCase(editBusca.Text) + '%') + ' ) ';
       end;
   end;
@@ -786,7 +811,7 @@ begin
    begin
     Lote := ControllerLote.ConsultarPorId
       (CDSGrid.FieldByName('IDLOTE').AsInteger);
-       PopulaGridLcto;
+    PopulaGridLcto;
     PanelEdits.Enabled:=true;
     self.VerificaBotoesLote(TStatusTela.stNavegandoGrid);
     self.VerificaBotoesLcto(TStatusTela.stNavegandoGrid);

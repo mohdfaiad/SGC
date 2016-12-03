@@ -14,6 +14,7 @@ type
     FidContaCorrente : Integer;
     FidContasReceber : Integer;
     FidLcto : Integer;
+    FdtComp : TDateTime;
 
   public
 
@@ -26,6 +27,9 @@ type
 
     [TColumn('idLcto','IdLcto',0,[ldLookup,ldComboBox], False)]
     property idLcto: integer  read FidLcto write FidLcto;
+
+    [TColumn('DTCOMPETENCIA','DATA',0,[], True, 'contasReceber', 'idcontasReceber', 'idcontasReceber')]
+    property dtComp: TDateTime  read FdtComp write FdtComp;
 
     procedure ValidarCamposObrigatorios;
 
